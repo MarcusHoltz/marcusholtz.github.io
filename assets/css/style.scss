@@ -4,5 +4,17 @@
 @import "{{ site.theme }}";
 html[data-mode=dark] #sidebar #avatar img { transition: transform 1.5s ease-out, -webkit-transform 1.5s ease-out !important; } 
 html[data-mode=dark] #sidebar #avatar img:hover { transform: scale(4) translate(3px, -3px) !important; } 
-
+html[data-mode=dark] #sidebar #avatar > a {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: linear-gradient(45deg,#270052, #6200a9, #6544a9 , #4044a9, #410096, #260055);
+    background-size: 600% 100%;
+    animation: avatargradient 16s linear infinite;
+    animation-direction: alternate;
+}
+@keyframes avatargradient {
+    0% {background-position: 0%}
+    100% {background-position: 100%}
+}
 
