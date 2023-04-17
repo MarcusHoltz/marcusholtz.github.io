@@ -9,6 +9,8 @@ html[data-mode=dark] #sidebar #avatar > a {
     background-size: 600% 100%;
     animation: avatargradient 16s linear infinite;
     animation-direction: alternate;
+    width: 50%;
+    height: auto;
 }
 @keyframes avatargradient {
     0% {background-position: 0%}
@@ -16,5 +18,5 @@ html[data-mode=dark] #sidebar #avatar > a {
 }
 
 html[data-mode=dark] #sidebar .site-title a { color: #77AD53 !important; } 
-html[data-mode=dark] #sidebar .site-subtitle { color: #5c8665 !important; } 
+html[data-mode="dark"] #sidebar .site-subtitle, html[data-mode=dark] #sidebar .site-subtitle { color: #5c8665 !important; } 
 html[data-mode=dark] #sidebar .site-title a:hover { color: #77cc53 !important; } 
