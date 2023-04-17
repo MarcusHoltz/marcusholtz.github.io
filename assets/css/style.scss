@@ -3,9 +3,9 @@
 
 @import "{{ site.theme }}";
 
-
-
-#sidebar { background-color: red !important; } 
-#sidebar .sidebar-bottom .mode-toggle, #sidebar a{ color: red !important; }
-
-
+html[data-mode=dark] #sidebar #avatar img:hover { transform: scale(5) translate(3px, -3px) !important; } 
+  
+#sidebar #avatar img:hover {
+  transform: scale(5) translate(3px, -3px);                 
+  transform: scale(5) translate(3px, -3px) !important;
+}
