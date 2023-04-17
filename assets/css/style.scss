@@ -2,21 +2,21 @@
 ---
 
 @import "{{ site.theme }}";
-html[data-mode=dark] #sidebar #avatar img { transition: transform 1.5s, -webkit-transform 1.5s !important; } 
-html[data-mode=dark] #sidebar #avatar img:hover { transform: scale(4) translate(3px, -3px) !important; } 
-html[data-mode=dark] #sidebar #avatar > a {
+
+html[data-mode="dark"] #sidebar #avatar > a {     width: 50% !important;    height: auto !important; } 
+html[data-mode="dark"] #sidebar #avatar img { transition: transform 1.5s, -webkit-transform 1.5s !important; } 
+html[data-mode="dark"] #sidebar #avatar img:hover { transform: scale(4) translate(3px, -3px) !important; } 
+html[data-mode="dark"] #sidebar #avatar > a {
     background: linear-gradient(45deg,#270052, #6200a9, #6544a9 , #4044a9, #410096, #260055);
     background-size: 600% 100%;
     animation: avatargradient 16s linear infinite;
     animation-direction: alternate;
-    width: 50%;
-    height: auto;
 }
 @keyframes avatargradient {
     0% {background-position: 0%}
     100% {background-position: 100%}
 }
 
-html[data-mode=dark] #sidebar .site-title a { color: #77AD53 !important; } 
+html[data-mode="dark"] #sidebar .site-title a { color: #77AD53 !important; } 
 html[data-mode="dark"] #sidebar .site-subtitle, html[data-mode=dark] #sidebar .site-subtitle { color: #5c8665 !important; } 
-html[data-mode=dark] #sidebar .site-title a:hover { color: #77cc53 !important; text-shadow: 0px 1px 2px #121212; } 
+html[data-mode="dark"] #sidebar .site-title a:hover { color: #77cc53 !important; text-shadow: 0px 1px 2px #121212; } 
