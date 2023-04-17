@@ -2,12 +2,7 @@
 ---
 
 @import "{{ site.theme }}";
-
-html[data-mode=dark] #sidebar #avatar img:hover { transform: scale(5) translate(3px, -3px) !important; } 
-  
-#sidebar #avatar img:hover {
-  transform: scale(4) translate(3px, -3px);                 
-  transform: scale(4) translate(3px, -3px) !important;
-}
-
 html[data-mode=dark] #sidebar #avatar img { transition: transform 1.5s ease-out, -webkit-transform 1.5s ease-out !important; } 
+html[data-mode=dark] #sidebar #avatar img:hover { transform: scale(4) translate(3px, -3px) !important; } 
+
+
