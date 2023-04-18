@@ -6,13 +6,4 @@ excerpt_separator: <!--continue for more proxmox-->
 ---
 # Proxmox
 
-<ul>
-  {% for post in site.posts %}
-    {% for proxmox in site.tags %}
-    <li>
-      <a href="{{ post.url }}">{{ post.title }}</a>
-    </li>
-  {% endfor %}
-{% endfor %}
-</ul>
-
+Table of Contents for Proxmox Tutorial
