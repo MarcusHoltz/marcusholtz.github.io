@@ -17,7 +17,7 @@ html[data-mode="dark"] #sidebar #avatar > a {
     100% {background-position: 100%}
 }
 
-html[data-mode="dark"] #sidebar .site-title a { color: #77AD53 !important; text-shadow: -1px 1px 7px #121212!important; } 
+html[data-mode="dark"] #sidebar .site-title a { color: #77AD53 !important; text-shadow: -1px 1px 7px #121212!important; transition: transform .75s, -webkit-transform .75s !important; } 
 html[data-mode="dark"] #sidebar .site-subtitle, html[data-mode=dark] #sidebar .site-subtitle { color: #5c8665 !important; } 
 html[data-mode="dark"] #sidebar .site-title a:hover { color: #77cc53 !important; text-shadow: -1px 1px 7px #1B3720!important;} 
 
