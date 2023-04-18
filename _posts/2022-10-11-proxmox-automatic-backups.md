@@ -8,7 +8,7 @@ image:
 ---
 
 # Automating storage backups with Proxmox
-Proxmox offers many solutions for backups. This write-up specifically addresses ZFS based storage systems. 
+Proxmox offers many solutions for backups. This write-up specifically addresses ZFS based storage systems.
 
 Using Sanoid, cv4pve, and PBS2 we're able to take snapshots of both the Virtual Machines as well as the data on our ZFS Pools. Allowing a complete backup of the whole system, not just a VM and some QCOW2 disks.
 
