@@ -6,12 +6,9 @@ order: 4
 
 ![Marcus Holtz](/assets/img/resume/holtzweb-banner-frames.gif)
 
-<center>
+![living](/assets/img/resume/Living-Denver.svg)   ![age](/assets/img/resume/Age-40.svg)   ![distro](/assets/img/resume/Platform-Debian.Kde.Firefox.svg)   ![skill](/assets/img/resume/Focus-Administration.svg)
 
-![living](/assets/img/resume/Living-Denver.svg) ![age](/assets/img/resume/Age-40.svg) ![distro](/assets/img/resume/Platform-Debian.Kde.Firefox.svg) ![skill](/assets/img/resume/Focus-Administration.svg)
 
-</center>
-  
 <pre>
 
 ┌──┤ WHOAMI ├─────────▰▰▰
