@@ -69,7 +69,7 @@ Each one has a script for backups, based on how often they're executed. These ar
 
 
 * * * 
-### Using Sanoid to snapshot ZFS
+## Using Sanoid to snapshot ZFS
 [Sanoid](https://github.com/jimsalterjrs/sanoid) works great for snaphotting ZFS automatically, it also handles snapshot sync. 
 
 `/etc/sanoid/sanoid.conf` is the file required to get the thing to work. 
@@ -85,7 +85,7 @@ There is a starting template you can use, or find the zip in Joplin below. To co
 
 
 * * *
-#### Then, let's talk about how Sanoid starts. 
+### Then, let's talk about how Sanoid starts. 
 We want to disable the installed cron, and let the systemd service manage it. 
 
 `nano /etc/cron.d/sanoid` and put a `#` infront of the line.
@@ -116,7 +116,7 @@ to change the timezone:
 
 
 * * *
-#### Sanoid uses systemd instead of cron
+### Sanoid uses systemd instead of cron
 Also, if you want to run Sanoid like the cron job above, every min -- you will need to change the timeings for the systemd service:
 
 `nano /usr/lib/systemd/system/sanoid.timer`
@@ -148,7 +148,7 @@ It is divided into 3 parts -
 
 
 
-#### Post Sanoid install test
+### Post Sanoid install test
 Then, after install, it's almost required to run it once and make sure it works.
 
 `TZ=/usr/share/zoneinfo/America/Denver /usr/sbin/sanoid --take-snapshots --verbose`
@@ -190,7 +190,7 @@ To find and browse through all the files deleted, recursivly:
 
 
 * * *
-### Proxmox suggested  Retention Settings Example
+## Proxmox suggested retention settings Example
 
 The backup frequency and retention of old backups may depend on how often data changes, and how important an older state may be, in a specific work load. When backups act as a company’s document archive, there may also be legal requirements for how long backups must be kept.
 
