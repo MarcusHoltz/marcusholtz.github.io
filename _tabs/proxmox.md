@@ -9,8 +9,8 @@ excerpt_separator: <!--continue for more proxmox-->
 Table of Contents for Proxmox Tutorial
 
 
-IV. Storage
-  i. [Automating Backups](https://blog.holtzweb.com/posts/proxmox-automatic-backups/)
+2. Storage
+ * [Automating Backups](https://blog.holtzweb.com/posts/proxmox-automatic-backups/)
 
 
 
