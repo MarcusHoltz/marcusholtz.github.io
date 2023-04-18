@@ -19,7 +19,7 @@ Practice updating your github repository with the use of github actions.
 * * *
 ### First, create a new repository
 
-Use the "+" icon to create a new directory, name it anything you like. 
+Use the "+" icon to create a new directory, name it anything you like.
 
 With the new directory created, you must head to settings. This will let us change Workflow Permissions.
 
