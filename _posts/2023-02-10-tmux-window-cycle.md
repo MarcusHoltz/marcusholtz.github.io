@@ -9,7 +9,7 @@ image:
 ---
 # Cool Tmux and Terminal Dashboards
 
-![tmux window rotate](assets/img/posts/tmux--window-rotate.gif)
+![tmux window rotate](/assets/img/posts/tmux--window-rotate.gif)
 
 These scripts present examples of dashboards and how to make a rotating Tmux windows. A TTY0 screen can be used (or over SSH) to visualize data and rotate through these Tmux windows.
 
