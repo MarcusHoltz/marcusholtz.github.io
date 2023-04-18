@@ -1,0 +1,20 @@
+<svg width="115.5" height="25" viewBox="0 0 924 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Living: Denver"><script xmlns="" id="__gaOptOutExtension"/>
+  <title>Living: Denver</title>
+  <linearGradient id="a" x2="0" y2="100%">
+    <stop offset="0" stop-opacity=".1" stop-color="#EEE"/>
+    <stop offset="1" stop-opacity=".1"/>
+  </linearGradient>
+  <mask id="m"><rect width="924" height="200" rx="30" fill="#FFF"/></mask>
+  <g mask="url(#m)">
+    <rect width="425" height="200" fill="#555"/>
+    <rect width="499" height="200" fill="#002D62" x="425"/>
+    <rect width="924" height="200" fill="url(#a)"/>
+  </g>
+  <g aria-hidden="true" fill="#fff" text-anchor="start" font-family="Verdana,DejaVu Sans,sans-serif" font-size="110">
+    <text x="60" y="148" textLength="325" fill="#000" opacity="0.25">Living</text>
+    <text x="50" y="138" textLength="325">Living</text>
+    <text x="480" y="148" textLength="399" fill="#000" opacity="0.25">Denver</text>
+    <text x="470" y="138" textLength="399">Denver</text>
+  </g>
+  
+</svg>

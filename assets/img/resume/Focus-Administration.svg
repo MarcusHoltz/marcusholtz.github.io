@@ -1,0 +1,20 @@
+<svg width="165.125" height="25" viewBox="0 0 1321 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Focus: Administration"><script xmlns="" id="__gaOptOutExtension"/>
+  <title>Focus: Administration</title>
+  <linearGradient id="a" x2="0" y2="100%">
+    <stop offset="0" stop-opacity=".1" stop-color="#EEE"/>
+    <stop offset="1" stop-opacity=".1"/>
+  </linearGradient>
+  <mask id="m"><rect width="1321" height="200" rx="30" fill="#FFF"/></mask>
+  <g mask="url(#m)">
+    <rect width="414" height="200" fill="#555"/>
+    <rect width="907" height="200" fill="#333" x="414"/>
+    <rect width="1321" height="200" fill="url(#a)"/>
+  </g>
+  <g aria-hidden="true" fill="#fff" text-anchor="start" font-family="Verdana,DejaVu Sans,sans-serif" font-size="110">
+    <text x="60" y="148" textLength="314" fill="#000" opacity="0.25">Focus</text>
+    <text x="50" y="138" textLength="314">Focus</text>
+    <text x="469" y="148" textLength="807" fill="#000" opacity="0.25">Administration</text>
+    <text x="459" y="138" textLength="807">Administration</text>
+  </g>
+  
+</svg>
