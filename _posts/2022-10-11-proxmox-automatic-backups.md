@@ -14,9 +14,9 @@ Proxmox offers many solutions for backups. This write-up specifically addresses 
 Using Sanoid, cv4pve, and PBS2 we're able to take snapshots of both the Virtual Machines as well as the data on our ZFS Pools. Allowing a complete backup of the whole system, not just a VM and some QCOW2 disks.
 
 
-> - **cv4pve-autosnap** - [Proxmox VM automatic backup and retention](autosnap-stuff/)
-> - **PBS2 Client** - [Proxmox Backup Server 2 automated backups](backup-stuff/)
-> - **Sanoid** - [Sanoid logging and configuration file](sanoid-stuff/)
+> - **cv4pve-autosnap** - [Proxmox VM automatic backup and retention](https://github.com/MarcusHoltz/proxmox-automatic-backups/blob/main/autosnap-stuff)
+> - **PBS2 Client** - [Proxmox Backup Server 2 automated backups](https://github.com/MarcusHoltz/proxmox-automatic-backups/blob/main/backup-stuff)
+> - **Sanoid** - [Sanoid logging and configuration file](https://github.com/MarcusHoltz/proxmox-automatic-backups/blob/main/sanoid-stuff)
 
 
 
@@ -37,7 +37,7 @@ This is intended for say, tag = daily; keep = 7   /or/    tag = weekly; keep 4
 * * *
 **The config to set everything up with archiving logs and chronjobs are below:**
 
-[Proxmox VM automatic backup and retention](autosnap-stuff/)
+[Proxmox VM automatic backup and retention](https://github.com/MarcusHoltz/proxmox-automatic-backups/blob/main/autosnap-stuff)
 * * *
 
 
@@ -64,7 +64,7 @@ Each one has a script for backups, based on how often they're executed. These ar
 * * *
 **The config to set Proxmox Backup Server 2's Client up with archiving logs and chronjobs are below:**
 
-[Proxmox Backup Server 2 automated backups](backup-stuff/)
+[Proxmox Backup Server 2 automated backups](https://github.com/MarcusHoltz/proxmox-automatic-backups/blob/main/backup-stuff)
 * * *
 
 
@@ -162,7 +162,7 @@ and then
 * * *
 **The config to set Sanoid up with archiving logs and chronjobs are below:**
 
-[Sanoid logging and configuration file](sanoid-stuff/)
+[Sanoid logging and configuration file](https://github.com/MarcusHoltz/proxmox-automatic-backups/blob/main/sanoid-stuff)
 * * *
 
 
