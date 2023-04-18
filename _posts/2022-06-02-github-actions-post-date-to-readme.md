@@ -9,7 +9,7 @@ image:
 ---
 
 * * *
-## DEMO: Update readme.md with the date command
+## Update readme.md with the date command
 
 [GitHub Repository Scheduled Update Using GitHub Actions](https://leimao.github.io/blog/GitHub-Repo-Scheduled-Update-GitHub-Actions/)
 
@@ -48,7 +48,8 @@ To create the file `.github/workflows/update-todays-date.yml`
 ### Create the workflow example file
 
 Create [the following](https://github.com/leimao/What-Is-The-Date-Today/blob/main/.github/workflows/update-date.yml) yaml file and placed it in the .github/workflows directory:
-```
+
+```yaml
 name: Update README.md with date
 
 on:
