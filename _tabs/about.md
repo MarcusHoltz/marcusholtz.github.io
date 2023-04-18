@@ -8,16 +8,21 @@ order: 4
 
 
 
-| Company                      | Contact          | Country |
-|:-----------------------------|:-----------------|--------:|
-| Alfreds Futterkiste          | Maria Anders     | Germany |
-| Island Trading               | Helen Bennett    | UK      |
-| Magazzini Alimentari Riuniti | Giovanni Rovelli | Italy   |
+| Company                      | Contact          | Coztdct           | Country |
+|:-----------------------------|:-----------------|:------------------|--------:|
+| Alfreds Futterkiste          | Maria Anders     |Mariz Andezs       | Germany |
+| Island Trading               | Helen Bennett    | Helzn Beznett     | UK      |
+| Magazzini Alimentari Riuniti | Giovanni Rovelli |  Gizvanni Rovelli | Italy   |
 
 
 
-| ![living](/assets/img/resume/Living-Denver.svg) | ![age](/assets/img/resume/Age-40.svg) | ![distro](/assets/img/resume/Platform-Debian.Kde.Firefox.svg) | ![skill](/assets/img/resume/Focus-Administration.svg) |
-|:-----||:-----||:-----|----:|
+
+![living](/assets/img/resume/Living-Denver.svg)
+![age](/assets/img/resume/Age-40.svg)
+![distro](/assets/img/resume/Platform-Debian.Kde.Firefox.svg)
+![skill](/assets/img/resume/Focus-Administration.svg)
+
+
 
 
 <pre>
