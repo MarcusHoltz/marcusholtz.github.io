@@ -1,6 +1,6 @@
 ---
 # the default layout is 'page'
-icon: fas fa-info-circle
+icon: fas fa-cloud
 order: 5
 excerpt_separator: <!--continue for more proxmox-->
 ---
