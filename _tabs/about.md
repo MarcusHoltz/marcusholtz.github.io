@@ -8,8 +8,12 @@ order: 4
 
 
 
-
+| Company                      | Contact          | Country |
 |:-----------------------------|:-----------------|--------:|
+| Alfreds Futterkiste          | Maria Anders     | Germany |
+| Island Trading               | Helen Bennett    | UK      |
+| Magazzini Alimentari Riuniti | Giovanni Rovelli | Italy   |
+
 
 
 | ![living](/assets/img/resume/Living-Denver.svg) | ![age](/assets/img/resume/Age-40.svg) | ![distro](/assets/img/resume/Platform-Debian.Kde.Firefox.svg) | ![skill](/assets/img/resume/Focus-Administration.svg) |
