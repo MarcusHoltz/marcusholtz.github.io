@@ -133,7 +133,9 @@ Now, make the file executable:
 ###  Tmux autostart
 This is the file that triggers the whole script shabang. 
 
-PLEASE REPLACE: username_for_docker_server@192.168.8.31
+> PLEASE REPLACE: username_for_docker_server@192.168.8.31
+{: .prompt-info }
+
 The way I have this setup is without SSH keys. So if you have them installed, forget needing `sshpass` ... but if you dont, Let's install: `sudo apt install -y sshpass`
 
 Open a text editor with the filename tmuxautostart: 
