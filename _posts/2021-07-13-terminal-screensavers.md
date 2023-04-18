@@ -8,7 +8,7 @@ image:
   path: /assets/img/header/header--terminal-screensaver-asciiquarium.jpg
 ---
 
-![Asciiquarium]/assets/img/posts/terminal-screensaver--asciiquarium.gif
+![Asciiquarium](/assets/img/posts/terminal-screensaver--asciiquarium.gif)
 
 
 # Single Line / Copy & Paste Screensavers
