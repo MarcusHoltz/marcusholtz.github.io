@@ -9,7 +9,7 @@ order: 4
 
 | ![living](/assets/img/resume/Living-Denver.svg) | ![age](/assets/img/resume/Age-40.svg) | ![distro](/assets/img/resume/Platform-Debian.Kde.Firefox.svg)      | ![skill](/assets/img/resume/Focus-Administration.svg) |
 |:-----------------------------|:-----------------|:------------------|--------:|
-
+|  asd  |  fgh  |  jkl  |  123   |
 
 <pre>
 
@@ -17,7 +17,7 @@ order: 4
 │
 ├─▣ Systems Engineer
 ├─▣ Generally Fun Guy
-├─▣ <a href="https://marcusholtz.github.io/">My technical projects blog</a>
+├─▣ <a href="https://marcusholtz.github.io/">Technical projects blog</a>
 ├─▣ More info available at <a href="https://holtzweb.com/">Holtzweb</a>
 │
 └───────────────────────────────▰▰▰
