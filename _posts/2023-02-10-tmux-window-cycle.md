@@ -300,3 +300,8 @@ We first changed the install directory, to allow lazydocker to be accessable by 
 - - Sampler works with shell commands execution, visualization and alerting. Configured with a simple YAML file.
 
 
+* * *
+* * *
+## Bonus Points:
+> [Create some new Tmux windows to rotate through, add some screensavers, and an aquarium.](https://blog.holtzweb.com/posts/terminal-screensavers/)
+{: .prompt-info }
