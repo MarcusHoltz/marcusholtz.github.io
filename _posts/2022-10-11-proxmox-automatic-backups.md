@@ -5,7 +5,7 @@ date: 2022-10-11 11:33:00 -0700
 categories: [Proxmox, ProxmoxStorage]
 tags: [virtualization, proxmox, storage, backups, persistance]
 image:
-  path: /assets/img/header/header--terminal-screensaver-asciiquarium.jpg
+  path: /assets/img/header/header--proxmox--automatic-backup-Sanoid.jpg
 ---
 
 # Automating storage backups with Proxmox
