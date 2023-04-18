@@ -37,7 +37,7 @@ order: 4
 │
 ├─◈ <a href="https://github.com/MarcusHoltz/resume-generator">Dockerized Pandoc Resume Generator</a>
 ├─◈ <a href="https://github.com/MarcusHoltz/tmux-screen-rotate">TTY0 Tmux System Info Shuffler</a>
-├─◈ <a href="https://marcusholtz.github.io/Proxmox">New Proxmox Install</a>
+├─◈ <a href="https://marcusholtz.github.io/proxmox">Proxmox Install and Configuration</a>
 ├─◈ <a href="https://nextcloud.sofree.us/index.php/s/6ntcY6iyDSnyLBZ">Browser Security Presentation</a>
 ├─◈ <a href="https://www.holtzweb.com/openwrt-presentation.html">OpenWRT Router Firmware Presenation</a>
 │
