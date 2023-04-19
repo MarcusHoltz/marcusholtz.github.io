@@ -46,8 +46,7 @@ Full terminal color gradient effects. The modulus operations keep the colors cyc
 will output horizontally then scroll your screen down and repeat. 
 
 
-`while [ 1 -lt 2 ]; do i=0; COL=$((RANDOM%$(tput cols)));ROW=$((RANDOM%\
-$(tput cols)));while [ $i -lt $COL ]; do tput cup $i $ROW;echo -e \
+`while [ 1 -lt 2 ]; do i=0; COL=$((RANDOM%$(tput cols)));ROW=$((RANDOM% $(tput cols)));while [ $i -lt $COL ]; do tput cup $i $ROW;echo -e \
 "\033[1;34m" $(cat /dev/urandom | head -1 | cut -c1-1) 2>/dev/null \
 ; i=$(expr $i + 1); done; done`
 
