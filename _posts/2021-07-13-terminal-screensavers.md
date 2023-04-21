@@ -12,6 +12,7 @@ image:
 
 
 # Single Line / Copy & Paste Screensavers
+You can find these, and plenty more at mewbies.com: [Best collection of Terminal Based screensavers](http://mewbies.com/acute_terminal_fun_02_view_ascii_art_ansi_art_and_movies_on_the_terminal.htm)
 
 * * *
 ## Cursor Bounce
