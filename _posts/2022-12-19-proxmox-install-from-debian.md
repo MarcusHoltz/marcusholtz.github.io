@@ -21,16 +21,27 @@ Booted the OS and logged in with the created user during initial install.
 ## New User with admin rights
 
 Install sudo:
+
 `apt install sudo`
+
 Create a normal user with:
+
 `adduser <newusername>`
+
 Then make sure that username is part of Sudoers
+
 `usermod -a -G sudo <username>`
-note - if that doesnt work, PATH isnt set
+
+*note - if that doesnt work, PATH isnt set*
+
 `/usr/sbin/usermod -a -G sudo <username>`
+
 finally, make sure to add username to the sudoers file
+
 `nano /etc/sudoers` or `visudo`
+
 At the end of the file, add your username
+
 `john       ALL=(ALL:ALL) ALL`
 
 note - you have to log out for changes to take effect.
@@ -39,15 +50,23 @@ note - you have to log out for changes to take effect.
 
 * * *
 # SSH
+
 First thing is to get SSH running and get into the shell. 
+
 Step 1 is to install:
+
 `apt install openssh-server`
+
 Step 2 verify it is working:
+
 `systemctl status ssh`
+
 Step 3 is to automate. Ensure it is an enabled service and starts at boot:
+
 `systemctl enable ssh`
 
 If found could not SSH to localhost, ran `apt-cache ssh` and it wouldnt work. Had to invoke `SU` as `user` is not in `sudoers`
+
 `apt install openssh-server`
 
 Run to another pc, and test it, log into the server with `ssh user@ip`
@@ -56,7 +75,9 @@ Run to another pc, and test it, log into the server with `ssh user@ip`
 
 
 ## Backup SSH config
+
 It's always best to have a copy of a working config, in this case your SSH config:
+
 `sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config_BACKUP`
 
 
