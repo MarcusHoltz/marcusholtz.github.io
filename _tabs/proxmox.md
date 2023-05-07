@@ -14,7 +14,7 @@ Table of Contents for Proxmox Tutorial
 
 1. Post-Install
 * [Proxmox User Creation](/posts/proxmox-post-install-user-creation/)
-
+* [Proxmox Backup Server](/posts/proxmox-backup-server/)
 
 2. Storage
  * [Automating Backups](/posts/proxmox-automatic-backups/)
