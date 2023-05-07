@@ -1,5 +1,5 @@
 ---
-title: New PC or New Install - Need to move Proxmox over to a new computer... No Cluster NO PROBLEM!
+title: New PC? New Install? - Need to move Proxmox over to a new computer? No Cluster? NO PROBLEM!
 date: 2022-12-19 11:33:00 -0700
 categories: [Proxmox, ProxmoxInstall]
 tags: [virtualization, proxmox, storage, backups, mirror, install]
