@@ -4,7 +4,7 @@ date: 2023-02-03 11:33:00 -0700
 categories: [Proxmox, ProxmoxInstall]
 tags: [proxmox, linux, usermanagement, install]
 image:
-  path: /assets/img/header/header--proxmox--proxmox-post-install-user-creation.jpg
+  path: /assets/img/header/header--proxmox--proxmox-postinstall-user-creation.jpg
 ---
 
 # Post Install Proxmox 
@@ -18,7 +18,7 @@ Not using LDAP? Let's use PAM (Pluggable Authentication Modules), in its little 
 Connect to the admin web interface (http**s**://youripaddress:8006). If you have a fresh install and didn't add any users yet, you should use the root account with your linux root password, and select "PAM Authentication" to log in.
 
 
-* * *
+* * * 
 ## Commands to create a new Super Administrator for logging in instead of using root
 
 Assuming you added your user from the Proxmox Datacenter web interface, get to a terminal and type:
