@@ -301,3 +301,7 @@ This is optional but it can be helpful:
 #### Enable or Disable Unattended Upgrades:
 `dpkg-reconfigure unattended-upgrades`
 
+
+* * *
+## REBOOT
+Great idea to reboot right about now.
