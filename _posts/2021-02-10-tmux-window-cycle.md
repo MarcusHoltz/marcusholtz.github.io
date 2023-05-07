@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "TTY0 Tmux Window Rotate and Cool Terminal Dashboards"
-date: 2023-02-10 22:00:00 -0600
+date: 2021-02-10 22:00:00 -0600
 categories: Linux
 tags: tools tmux dashboard tutorial
 image:
