@@ -10,10 +10,11 @@ Table of Contents for Proxmox Tutorial
 
 0. Pre-Install
  * [Move a current Proxmox over to a new computer](/posts/installing-proxmox-from-an-old-proxmox/)
-
+ * [Prep Debian for Proxmox Install](/posts/proxmox-install-from-debian/)
+ * 
 
 2. Storage
- * [Automating Backups](https://blog.holtzweb.com/posts/proxmox-automatic-backups/)
+ * [Automating Backups](/posts/proxmox-automatic-backups/)
 
 
 
