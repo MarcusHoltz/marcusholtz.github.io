@@ -12,20 +12,27 @@ Table of Contents for Proxmox Tutorial
  * [Move a current Proxmox over to a new computer](/posts/installing-proxmox-from-an-old-proxmox/)
  * [Prep Debian for Proxmox Install](/posts/proxmox-install-from-debian/)
 
+
+
 1. Post-Install
  * [Proxmox User Creation](/posts/proxmox-post-install-user-creation/)
  * [Proxmox Backup Server](/posts/proxmox-backup-server/)
  * IOMMU for PCI Passthrough
+
+
 
 2. Networking
  * Initial Bridge
  * Host System Firwall
  * NAT and SPAN
 
+
+
 3. Storage
  * zfs setup
  * 9p
  * [Automating Backups](/posts/proxmox-automatic-backups/)
+
 
 
 4. Services 
