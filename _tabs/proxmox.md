@@ -17,7 +17,7 @@ Table of Contents for Proxmox Tutorial
 1. Post-Install
  * [Proxmox User Creation](/posts/proxmox-post-install-user-creation/)
  * [Proxmox Backup Server](/posts/proxmox-backup-server/)
- * IOMMU for PCI Passthrough
+ * [IOMMU for PCI Passthrough](/posts/proxmox-iommu-passthrough/)
 
 
 
