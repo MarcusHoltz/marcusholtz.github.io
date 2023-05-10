@@ -23,8 +23,8 @@ Table of Contents for Proxmox Tutorial
 
 2. Networking
  * [Initial Bridge](/posts/proxmox-initial-bridge-networking/)
- * Host System Firwall
- * NAT and SPAN
+ * [Host System Firewall](/posts/proxmox-host-system-firewall/)
+ * [NAT and SPAN](/posts/proxmox-networking-nat-span/)
 
 
 
