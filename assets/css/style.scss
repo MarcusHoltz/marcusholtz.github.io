@@ -31,6 +31,24 @@ html[data-mode="dark"] .post header h1 { font-size: 3rem; text-shadow: 0px 4px 3
 
 #main .post img { z-index: 9999; } 
 
+
+.post .post-content img {
+     transform: rotateY(-25deg);
+    -o-transform: rotateY(-25deg);
+    -ms-transform: rotateY(-25deg);
+    -webkit-transform: rotateY(-25deg);
+    transition: all 0.4s ease-in-out 0s;
+    box-shadow: 10px 10px 5px #888888;
+}
+.post .post-content img:hover {
+    transform:scale(2,2) translate(-90px, 30px);
+    -o-transform:scale(2,2) translate(-90px, 30px);
+    -ms-transform:scale(2,2) translate(-90px, 30px);
+    -webkit-transform:scale(2,2) translate(-90px, 30px);
+    box-shadow: none;
+}
+
+
 html[data-mode="dark"] header
 {
     position: relative; 
