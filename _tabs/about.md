@@ -1,7 +1,7 @@
 ---
 # the default layout is 'page'
-icon: fas fa-info-circle
-order: 4
+icon: fas fa-face-grin
+order: 1
 ---
 
 ![Marcus Holtz](/assets/img/resume/holtzweb-banner-frames.gif)
