@@ -1,5 +1,5 @@
 ---
 layout: tags
-icon: fas fa-tag
+icon: fas fa-rectangle-list
 order: 4
 ---
