@@ -1,6 +1,6 @@
 ---
 # the default layout is 'page'
-icon: fas fa-face-grin
+icon: fas fa-user
 order: 1
 ---
 
