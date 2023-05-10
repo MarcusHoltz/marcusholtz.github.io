@@ -25,3 +25,9 @@ html[data-mode="dark"] #sidebar .site-title a:hover { color: #77cc53 !important;
 html[data-mode="dark"] footer .footer-right, footer .footer-right { display: none !important; } 
 
 html[data-mode="dark"] #sidebar .sidebar-bottom { padding-top: 2rem !important; }
+
+
+header .post h1 { 
+  font-size: 3rem; 
+  text-shadow: 0px 15px 5px rgba(0, 0, 0, 0.1), 10px 20px 5px rgba(0, 0, 0, 0.05), -10px 20px 5px rgba(0, 0, 0, 0.05);
+}
