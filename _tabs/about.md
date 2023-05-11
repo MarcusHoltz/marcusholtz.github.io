@@ -1,6 +1,7 @@
 ---
 # the default layout is 'page'
 icon: fas fa-user
+style:  no-image-tricks
 order: 1
 ---
 
