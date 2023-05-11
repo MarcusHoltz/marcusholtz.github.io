@@ -91,6 +91,8 @@ nameserver 10.0.0.5
 | ifconfig           | ip address, ip link  | 
 | netstat            | ss                   | 
 | route              | ip route             | 
+
+
 [More information on the substitutions](https://dougvitale.wordpress.com/2011/12/21/deprecated-linux-networking-commands-and-their-replacements/)
 
 
