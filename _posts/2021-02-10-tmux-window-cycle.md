@@ -13,6 +13,8 @@ image:
 
 These scripts present examples of dashboards and how to make a rotating Tmux windows. A TTY0 screen can be used (or over SSH) to visualize data and rotate through these Tmux windows.
 
+![Asciiquarium](/assets/img/posts/terminal-screensaver--asciiquarium.gif){: #cool-image }
+
 
 * * * 
 ## Cool terminal info for your host system
