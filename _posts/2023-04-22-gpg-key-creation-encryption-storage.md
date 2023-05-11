@@ -3,6 +3,7 @@ title: GPG Key Creation, Modification, and Storage
 date: 2023-04-22 11:33:00 -0700
 categories: [Linux]
 tags: [administration, encryption, GPG, cryptography]
+pin: true
 image:
   path: /assets/img/header/header--gpg--encryption-key-creation-storage-and-use.jpg
 ---
