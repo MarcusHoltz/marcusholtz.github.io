@@ -8,11 +8,14 @@ pin: true
 image:
   path: /assets/img/header/header--terminal-screensaver-asciiquarium.jpg
 ---
-
-![Asciiquarium](/assets/img/posts/terminal-screensaver--asciiquarium.gif)
-{: .cool-image}
-
-
+{::options parse_block_html="true" /}
+<div id="pant">
+{::options parse_block_html="false" /}
+![Asciiquarium](/assets/img/posts/terminal-screensaver--asciiquarium.gif){: #cool-image }
+{::options parse_block_html="true" /}
+</div>
+{::options parse_block_html="false" /}
+  
 # Single Line / Copy & Paste Screensavers
 You can find these, and plenty more at mewbies.com: [Best collection of Terminal Based screensavers](http://mewbies.com/acute_terminal_fun_02_view_ascii_art_ansi_art_and_movies_on_the_terminal.htm)
 
