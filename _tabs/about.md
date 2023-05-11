@@ -3,7 +3,7 @@
 icon: fas fa-user
 order: 1
 ---
-
+<div id="about-page">
 ![Marcus Holtz](/assets/img/resume/holtzweb-banner-frames.gif)
 
 
@@ -82,3 +82,4 @@ order: 1
 
 ⭐️ From [Marcus Holtz](https://github.com/MarcusHoltz)
 
+</div>
