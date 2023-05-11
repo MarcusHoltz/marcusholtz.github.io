@@ -111,6 +111,10 @@ html[data-mode="dark"] header
     margin-bottom: 30px;
   }
 
+.main-content {
+  display: grid;
+  width: 100%;
+}
 
 .main-content .item {
   display: grid;
