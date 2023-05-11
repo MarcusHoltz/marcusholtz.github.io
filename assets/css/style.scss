@@ -64,10 +64,7 @@ html[data-mode="dark"] header
 
 
 
-
-
-
-html[data-mode="dark"] .head {
+img.head, .head, html[data-mode="dark"] .head, html[data-mode="dark"] img.head {
   position: fixed;
   animation: 50s headpopping 90s infinite;
   top: 0;
