@@ -66,8 +66,8 @@ html[data-mode="dark"] .post header h1 { font-size: 3rem; text-shadow: 0px 4px 3
     padding: 0;
     width: 8px;
     height: 8px;
-    border-top: 2px solid blue;
-    border-right: 2px solid orange;
+    border-top: 2px solid #66AA4A;
+    border-right: 2px solid #5D9846;
     behavior: url(-ms-transform.htc);
     -moz-transform: rotate(135deg);
     -webkit-transform: rotate(135deg);
@@ -78,7 +78,7 @@ html[data-mode="dark"] .post header h1 { font-size: 3rem; text-shadow: 0px 4px 3
 #scroll-title {
     display: block;
     text-transform: uppercase;
-    color: black;
+    color: #5B5B66;
   font-family: Helvetica Neue, Helvetica, Arial;
   font-size:14px;
   font-weight:bold;
@@ -92,7 +92,7 @@ html[data-mode="dark"] .post header h1 { font-size: 3rem; text-shadow: 0px 4px 3
     margin-left: -1px;
     width: 2px;
     height: 90px;
-    background: teal;
+    background: #5D8246;
     content: ' ';
 }
 
