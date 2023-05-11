@@ -3,7 +3,7 @@ layout: post
 title: "Terminal Screensavers - Screen saver for your shell"
 date: 2022-06-02 22:00:00 -0600
 categories: Linux
-tags: techtip terminal simple oneliner pinned
+tags: techtip terminal simple oneliner
 pin: true
 image:
   path: /assets/img/header/header--terminal-screensaver-asciiquarium.jpg
