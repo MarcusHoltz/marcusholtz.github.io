@@ -18,9 +18,9 @@ timezone: America/Denver
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Holtzweb Blog # the main title
+title: Marcus Holtz # the main title
 
-tagline: Holtzweb technical blog. # it will display as the sub-title
+tagline: Holtzweb documentation & blog. # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
   A blog that features many tutorials and how-tos.
