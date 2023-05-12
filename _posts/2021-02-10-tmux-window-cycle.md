@@ -6,6 +6,7 @@ categories: Linux
 tags: tools tmux dashboard tutorial
 image:
   path: /assets/img/header/header--tmux-dashboard.jpg
+  alt: Cool Tmux and Terminal Dashboards
 ---
 # Cool Tmux and Terminal Dashboards
 
