@@ -6,6 +6,7 @@ categories: DevOps
 tags: github devops simple tutorial
 image:
   path: /assets/img/header/header--github-actions.png
+  alt: Using Github actions to Update a Github repository
 ---
 
 * * *
