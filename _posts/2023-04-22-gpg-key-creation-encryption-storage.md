@@ -6,6 +6,7 @@ tags: [administration, encryption, GPG, cryptography]
 pin: true
 image:
   path: /assets/img/header/header--gpg--encryption-key-creation-storage-and-use.jpg
+  alt: GPG Key Creation and Modification and Storage
 ---
 
 # GPG Key Creation, Modification, and Storage
