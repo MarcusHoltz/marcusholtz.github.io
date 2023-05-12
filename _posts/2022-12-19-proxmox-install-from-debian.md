@@ -5,6 +5,7 @@ categories: [Proxmox, ProxmoxInstall]
 tags: [virtualization, proxmox, storage, backups, debian, scratch, install]
 image:
   path: /assets/img/header/header--proxmox--proxmox-install-from-debian.jpg
+  alt: Installing Proxmox from Debian
 ---
 
 # Debian Fresh Install
