@@ -5,6 +5,7 @@ categories: [Proxmox, ProxmoxNetworking]
 tags: [virtualization, proxmox, networking, bridge, VLAN, DNS, guestVM]
 image:
   path: /assets/img/header/header--proxmox--proxmox-initial-bridge-networking.jpg
+  alt: Proxmox Initial Bridge Networking 
 ---
 
 #  Proxmox Post-Install Networking
