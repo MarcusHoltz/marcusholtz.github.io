@@ -35,15 +35,11 @@ html[data-mode="dark"] #sidebar #avatar > a {
 }
 
 .post-list .post-preview a:hover img {
-
-contrast(60%) brightness(75%) opacity(85%);
-
+filter: contrast(60%) brightness(75%) opacity(85%);
 }
 
 .post-list .post-preview img {
-
-contrast(20%) brightness(35%) opacity(55%);
-
+filter: contrast(20%) brightness(35%) opacity(55%);
 }
 
 html[data-mode="dark"] #sidebar .site-title a { color: #77AD53 !important; text-shadow: -1px 1px 7px #121212!important; transition: transform .75s, -webkit-transform .75s !important; } 
