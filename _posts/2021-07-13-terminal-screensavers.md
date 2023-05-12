@@ -6,6 +6,7 @@ categories: Linux
 tags: techtip terminal simple oneliner
 image:
   path: /assets/img/header/header--terminal-screensaver-asciiquarium.jpg
+  alt: Terminal Screensavers
 ---
 
 ![Asciiquarium](/assets/img/posts/terminal-screensaver--asciiquarium.gif){: #cool-image }
