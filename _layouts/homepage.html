@@ -55,7 +55,8 @@ layout: page
 
 <div id="post-list">
   {% for post in posts %}
-    <div class="card post-preview"> <img src="{{ post.image.path }}" />
+    <div class="card post-preview"> 
+      <img class="special-blog-image-class" src="{{ post.image.path }}" alt="{{ post.image.alt }}" title="{{ post.image.title }}"/>
       <a href="{{ post.url | relative_url }}">
         <div class="card-body">
           <h1 class="card-title">
