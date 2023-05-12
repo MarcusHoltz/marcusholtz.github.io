@@ -3,64 +3,37 @@
 
 @import "{{ site.theme }}";
 
-html[data-mode="dark"] #sidebar #avatar > a {     width: 50% !important;    height: auto !important; } 
+/** Change how profile 'site icon' appears in the top of sidebar **/
+html[data-mode="dark"] #sidebar #avatar > a { width: 50% !important; height: auto !important; } 
 html[data-mode="dark"] #sidebar #avatar img { transition: transform 1.5s, -webkit-transform 1.5s !important; } 
 html[data-mode="dark"] #sidebar #avatar img:hover { transform: scale(4) translate(3px, -3px) !important; } 
-html[data-mode="dark"] #sidebar #avatar > a {
-    background: linear-gradient(45deg,#270052, #6200a9, #6544a9 , #4044a9, #410096, #260055);
-    background-size: 600% 100%;
-    animation: avatargradient 16s linear infinite;
-    animation-direction: alternate;
-}
-@keyframes avatargradient {
-    0% {background-position: 0%}
-    100% {background-position: 100%}
-}
-
+html[data-mode="dark"] #sidebar #avatar > a { background: linear-gradient(45deg,#270052, #6200a9, #6544a9 , #4044a9, #410096, #260055); background-size: 600% 100%; animation: avatargradient 16s linear infinite; animation-direction: alternate;  }
+/** Animation for background behind profile **/
+@keyframes avatargradient { 0% {background-position: 0%} 100% {background-position: 100%} }
 
 /** Homepage post preview modifications **/
-.post-list .post-preview a {
+html[data-mode="dark"].post-list .post-preview a { position: absolute; background-color: rgba(55,55,55,.95); bottom: .5rem; margin-right: 0.5rem; transition: 2s ease; }
+html[data-mode="dark"] .post-list .post-preview a:hover { top: .5rem; }
+html[data-mode="dark"] .post-list .post-preview a:hover img { filter: contrast(60%) brightness(75%) opacity(85%); }
+html[data-mode="dark"] .post-list .post-preview img { filter: contrast(20%) brightness(35%) opacity(55%); }
 
-    position: absolute;
-    background-color: rgba(55,55,55,.95);
-    bottom: .5rem;
-    margin-right: 0.5rem;
-    transition: 2s ease;
-
-}
-
-
-.post-list .post-preview a:hover {
-    top: .5rem;
-}
-
-.post-list .post-preview a:hover img {
-filter: contrast(60%) brightness(75%) opacity(85%);
-}
-
-.post-list .post-preview img {
-filter: contrast(20%) brightness(35%) opacity(55%);
-}
-
+/** Text Under image in sidebar **/
 html[data-mode="dark"] #sidebar .site-title a { color: #77AD53 !important; text-shadow: -1px 1px 7px #121212!important; transition: transform .75s, -webkit-transform .75s !important; } 
 html[data-mode="dark"] #sidebar .site-subtitle, html[data-mode=dark] #sidebar .site-subtitle { color: #5c8665 !important; } 
 html[data-mode="dark"] #sidebar .site-title a:hover { color: #77cc53 !important; text-shadow: -1px 1px 7px #1B3720!important;} 
 
-
-
-
+/** Create a cool image effect for posts **/
 html[data-mode="dark"] .post .post-content a.img-link { text-align: center; margin: -10 auto 0px;  margin-top: -10px; perspective: 150px; transform-style: preserve-3d; }
 html[data-mode="dark"] .post .post-content a.img-link #cool-image { transform: rotateY(-25deg);  transition: all 0.4s ease-in-out 0s;  box-shadow: 7px 7px 2px #000; } 
 html[data-mode="dark"] .post .post-content a.img-link #cool-image:hover {  transform:scale(1, 1) translate(0px, 0px);  box-shadow: none;  }
 
-
-
-
+/** Remove text in footer **/
 html[data-mode="dark"] footer .footer-right, footer .footer-right { display: none !important; } 
 
+/** Add padding to social icons in mobile sidebar **/
 html[data-mode="dark"] #sidebar .sidebar-bottom { padding-top: 2rem !important; }
 
-
+/** Restyle homepage **/
 html[data-mode="dark"] .post header { text-align: center; width: 100%; } 
 html[data-mode="dark"] .post header h1 { font-size: 3rem; text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.4), 0px 8px 13px rgba(0, 0, 0, 0.1), 0px 18px 23px rgba(0, 0, 0, 0.1); }
 html[data-mode="dark"] .post header h2 { margin: 25px 0px -10px 0px !important; color: #747474 !important; }
