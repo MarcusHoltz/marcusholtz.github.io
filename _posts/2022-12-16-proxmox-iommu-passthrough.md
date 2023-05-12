@@ -5,6 +5,7 @@ categories: [Proxmox, ProxmoxInstall]
 tags: [virtualization, proxmox, iommu, passthrough]
 image:
   path: /assets/img/header/header--proxmox--proxmox-iommu-groups.jpg
+  alt: Proxmox IOMMU for PCI Passthrough
 ---
 
 # Edit the host OS
