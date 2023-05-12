@@ -5,6 +5,7 @@ categories: [Proxmox, ProxmoxInstall]
 tags: [virtualization, proxmox, storage, backups, mirror, install]
 image:
   path: /assets/img/header/header--proxmox--install-proxmox-from-backup.jpg
+  alt: Move current Proxmox
 ---
 
 # New PC? New Install? Need to move Proxmox over to a new computer? No Cluster? NO PROBLEM!
