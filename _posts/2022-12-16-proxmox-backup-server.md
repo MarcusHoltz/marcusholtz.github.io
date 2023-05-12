@@ -5,6 +5,7 @@ categories: [Proxmox, ProxmoxBackupServer]
 tags: [virtualization, proxmox, storage, backups, install]
 image:
   path: /assets/img/header/header--proxmox--proxmox-backup-server.jpg
+  alt: Proxmox Backup Server
 ---
 
 # Install Proxmox Backup Server
