@@ -5,6 +5,7 @@ categories: [Proxmox, ProxmoxNetworking]
 tags: [virtualization, proxmox, networking, bridge, firewall, fail2ban]
 image:
   path: /assets/img/header/header--proxmox--proxmox-server-host-firewall.jpg
+  alt:  Host System Firewall
 ---
 
 # Proxmox Networking Security
