@@ -5,6 +5,7 @@ categories: [Proxmox, ProxmoxNetworking]
 tags: [virtualization, proxmox, networking, NAT, SPAN]
 image:
   path: /assets/img/header/header--proxmox--proxmox-nat-and-span.jpg
+  alt: Using NAT and SPAN with Proxmox
 ---
 
 
