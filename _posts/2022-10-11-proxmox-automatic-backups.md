@@ -5,6 +5,7 @@ categories: [Proxmox, ProxmoxStorage]
 tags: [virtualization, proxmox, storage, backups, persistance]
 image:
   path: /assets/img/header/header--proxmox--automatic-backup-Sanoid.jpg
+  alt: Proxmox automatic storage backups
 ---
 
 # Automating storage backups with Proxmox
