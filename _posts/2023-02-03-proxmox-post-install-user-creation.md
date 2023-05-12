@@ -5,6 +5,7 @@ categories: [Proxmox, ProxmoxInstall]
 tags: [proxmox, linux, usermanagement, install]
 image:
   path: /assets/img/header/header--proxmox--proxmox-postinstall-user-creation.jpg
+  alt: Proxmox Post-Install User Creation
 ---
 
 # Post Install Proxmox 
