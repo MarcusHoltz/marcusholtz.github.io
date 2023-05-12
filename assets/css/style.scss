@@ -17,6 +17,35 @@ html[data-mode="dark"] #sidebar #avatar > a {
     100% {background-position: 100%}
 }
 
+
+/** Homepage post preview modifications **/
+.post-list .post-preview a {
+
+    position: absolute;
+    background-color: rgba(55,55,55,.95);
+    bottom: .5rem;
+    margin-right: 0.5rem;
+    transition: 2s ease;
+
+}
+
+
+.post-list .post-preview a:hover {
+    top: .5rem;
+}
+
+.post-list .post-preview a:hover img {
+
+contrast(60%) brightness(75%) opacity(85%)
+
+}
+
+.post-list .post-preview img {
+
+contrast(20%) brightness(35%) opacity(55%)
+
+}
+
 html[data-mode="dark"] #sidebar .site-title a { color: #77AD53 !important; text-shadow: -1px 1px 7px #121212!important; transition: transform .75s, -webkit-transform .75s !important; } 
 html[data-mode="dark"] #sidebar .site-subtitle, html[data-mode=dark] #sidebar .site-subtitle { color: #5c8665 !important; } 
 html[data-mode="dark"] #sidebar .site-title a:hover { color: #77cc53 !important; text-shadow: -1px 1px 7px #1B3720!important;} 
