@@ -15,7 +15,7 @@ html[data-mode="dark"] #sidebar #avatar > a { background: linear-gradient(45deg,
 html[data-mode="dark"] #post-list .post-preview a { position: absolute; background-color: rgba(55,55,55,.95); bottom: .5rem; margin-right: 0.5rem; transition: .75s ease-out; }
 html[data-mode="dark"] #post-list .post-preview:hover a { padding-bottom: 20px; }
 html[data-mode="dark"] #post-list .post-preview img { filter: contrast(20%) brightness(35%) opacity(55%); transition: 2s ease; }
-html[data-mode="dark"] #post-list .post-preview:hover img { filter: contrast(90%) brightness(60%) opacity(92%); }
+html[data-mode="dark"] #post-list .post-preview:hover img { filter: contrast(96%) brightness(60%) opacity(92%); }
 
 /** Text Under image in sidebar **/
 html[data-mode="dark"] #sidebar .site-title a { color: #77AD53 !important; text-shadow: -1px 1px 7px #121212!important; transition: transform .75s, -webkit-transform .75s !important; } 
