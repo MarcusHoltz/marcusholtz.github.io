@@ -3,6 +3,11 @@
 
 @import "{{ site.theme }}";
 
+/** Readability improvements **/
+html[data-mode="dark"] h5, h4, h3, h2 { font-weight: 700; text-decoration: underline; margin-top: 4.5rem; margin-bottom: 2.25rem; } 
+html[data-mode="dark"] p { margin-bottom: 1.35rem; } 
+html[data-mode="dark"] .highlighter-rouge { box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 5px 1px 0px, rgba(0, 0, 0, 0.05) 0px 2px 1px 0px; }
+
 /** Change how profile 'site icon' appears in the top of sidebar **/
 html[data-mode="dark"] #sidebar #avatar > a { width: 50% !important; height: auto !important; } 
 html[data-mode="dark"] #sidebar #avatar img { transition: transform 1.5s, -webkit-transform 1.5s !important; } 
