@@ -28,7 +28,7 @@ excerpt_separator: <!--continue for more proxmox-->
 
 
 3. Storage
- * zfs setup
+ * [ZFS Proxmox Storage](/posts/proxmox-zfs-for-storage/)
  * 9p
  * [Automating Backups](/posts/proxmox-automatic-backups/)
 
