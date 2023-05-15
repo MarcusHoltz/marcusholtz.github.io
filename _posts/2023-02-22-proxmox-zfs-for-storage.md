@@ -5,15 +5,11 @@ categories: [Proxmox, ProxmoxStorage]
 tags: [proxmox, storage, ZFS, server]
 image:
   path: /assets/img/header/header--proxmox--proxmox-storage-zfs.jpg
+  alt: Proxmox storage with ZFS
 ---
 
 
 
+# Using ZFS with Proxmox Storage has never been easier!
 
 
-
-
-
-
-
-# ZFS tips
