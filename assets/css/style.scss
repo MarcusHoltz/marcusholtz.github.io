@@ -24,10 +24,6 @@ html[data-mode="dark"] #sidebar #avatar > a { background: linear-gradient(45deg,
 /** Animation for background behind profile **/
 @keyframes avatargradient { 0% {background-position: 0%} 100% {background-position: 100%} }
 
-/** My wife likes the profile picture better like this **/
-html[data-mode="dark"] #sidebar #avatar > a { border-radius: 30px 30px 10px 0px; border: 1px solid rgba(222,222,222,.7); } 
-@media (min-width: 850px) {     html[data-mode="dark"] .profile-wrapper { margin-top: 6rem; }        }
-
 /** Homepage post preview modifications **/
 html[data-mode="dark"] #post-list .post-preview a { position: absolute; background-color: rgba(55,55,55,.95); bottom: .5rem; margin-right: 0.5rem; transition: .75s ease-out; }
 html[data-mode="dark"] #post-list .post-preview:hover a { padding-bottom: 20px; }
