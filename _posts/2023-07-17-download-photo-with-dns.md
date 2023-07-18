@@ -36,8 +36,6 @@ wget https://raw.githubusercontent.com/MarcusHoltz/DNS-photo-download/main/downl
 
 ## Explaining the process
 
-Let's just see if we can do this, oh... we can. Let's.
-
 * * * 
 
 This repo is for taking an image, stuffing it into a domain's DNS, and then extracting that image again. 
