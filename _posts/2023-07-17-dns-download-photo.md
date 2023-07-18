@@ -14,7 +14,7 @@ image:
 ## Would you like to download a picture of Marcus Holtz? NOW YOU CAN!
 
 
-## Using DNS txt records in Base64 you can download a portrait.
+## Using DNS txt records in Base64 you can download a photo.
 
 If you want to inspect the script before you run it, it's stored in DNS TXT records as well:
 
@@ -26,7 +26,7 @@ dig +short TXT marcusInDNS.holtzweb.com | tr -d '"' | tr -d "\n\r" | tr -d [:bla
 
 ### Download and run the script
 
-If you want to just create MarcusHoltz.jpg and if this even works, use the line below:
+If you want to just create MarcusHoltz.jpg and see if this even works, use the line below:
 
 ```bash
 wget https://raw.githubusercontent.com/MarcusHoltz/DNS-photo-download/main/downloadmarcusholtz.sh && chmod +x downloadmarcusholtz.sh && /bin/bash downloadmarcusholtz.sh
