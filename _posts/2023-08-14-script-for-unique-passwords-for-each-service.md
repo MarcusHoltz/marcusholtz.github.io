@@ -130,7 +130,7 @@ if [ -d "~/Documents/.passwords" ]
 then
     echo "directory exists already"
 else
-    mkdir -p ~/Documents/.passwords
+    mkdir -p ${PASSWORD_FILES_LOCATION}
 fi
 # Done with directory concerns
 echo -e "\n**************************************************************************\nWelcome to password generator, please follow instructions below\n**************************************************************************"
