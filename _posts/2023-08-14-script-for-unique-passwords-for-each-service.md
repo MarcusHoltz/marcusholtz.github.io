@@ -106,3 +106,76 @@ PASSWORD_FILES_LOCATION=~/Documents/.passwords
 
 
 
+# Script
+```
+#!/bin/bash
+########################################################
+#####          What does this script do?           #####
+########################################################
+## Inspired by: https://github.com/pashword/pashword ##
+## This script hopes to create a hashed password     ##
+## that cannot be found in a rainbow table           ##
+#######################################################
+## This script requires 1GB of free RAM              ##
+## Be sure you have installed:                       ##
+##          zip, openssl, scrypt, xxd                ##
+#######################################################
+## What directory do you want to                     ## 
+## store your password files in?                     ##
+#######################################################
+PASSWORD_FILES_LOCATION=~/Documents/.passwords
+#######################################################
+# Make sure that directory exists, or create it
+if [ -d "~/Documents/.passwords" ] 
+then
+    echo "directory exists already"
+else
+    mkdir -p ~/Documents/.passwords
+fi
+# Done with directory concerns
+echo -e "\n**************************************************************************\nWelcome to password generator, please follow instructions below\n**************************************************************************"
+echo -e "Enter password phrase used to identify what group this goes in:\n(Example: seniorclass, mymom, personalstuff)"
+read -s PASWRD1_phrase
+echo -e "Great!\n"; sleep .5; echo -e "Now enter your age:"
+read -s PASWRD1_age
+echo -e "Not too old...\n"; sleep .5; echo -e "Next, with the **first letter capitalized**, \nEnter the name of the **Website or Service** you're creating a password for:"
+read -s PASWRD1_service
+echo -e "\nBe sure that first character was a capital letter!"; sleep 1
+echo -e "This script will insert a colon now     :     \n"
+echo -e "Now enter your username, tied to the service above:"
+read -s PASWRD1_username
+echo -e "Last Step.\n\nEnter a password that you can remember:"
+read -s PASWRD1_password
+echo -e "\nGreat!"; sleep .5; echo -e "We're done entering our information!"
+sleep 3;
+echo -e "\n********************************************************\nLet's combine these into a string to pass into openssl\n********************************************************"; sleep 1;
+PASWRD1_full=${PASWRD1_phrase}${PASWRD1_age}${PASWRD1_service}:${PASWRD1_username}${PASWRD1_password}
+echo -n $PASWRD1_full > ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}-txt
+# Password up that raw text file with the original combination of information we used, for reference.
+zip --junk-paths -P ${PASWRD1_password} ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}-txt.zip ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}-txt > /dev/null 2>&1; rm ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}-txt
+echo -n $PASWRD1_full | openssl dgst -sha3-512 | sed 's/^[^ ]* //' > ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}-sha3
+sleep 1
+echo -e "Initial .password-${PASWRD1_service}-sha3 created!\n"
+echo -n ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}-sha3 | base64 > ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}-sha3-base64
+# Appending some salt to our base64 hash we just made
+cp ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}-sha3-base64 ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}-sha3-base64-salt
+echo -n ${PASWRD1_service}${PASWRD1_username} >> ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}-sha3-base64-salt
+#scrypt only outputs a crazy binary blob. It cannot copy and paste into a password field.
+# The key derivation result (scrypt_key) is converted to a hexadecimal string using xxd -p -c 1000. The -p flag specifies plain hexdump, and -c 1000 ensures that the output doesn't wrap to the next line. This makes the Scrypt key readable and usable in subsequent concatenation and hashing operations.
+export PASWRD1_password
+# Setting "--logN 20 -r 8 -p 1" uses up about 1Gig of temp RAM space.
+# Setting "-M 1G" uses up about 1Gig of temp RAM space. 
+scrypt enc --logN 20 -r 8 -p 1 --passphrase env:PASWRD1_password ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}-sha3-base64-salt ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}-sha3-base64-salt-scryptbinary
+# The xxd command allows you to create a hex dump from a file.
+echo -n ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}-sha3-base64-salt-scryptbinary | xxd -p -c 1000000 > ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}sha3-base64-salt-scryptbinary-hex
+# Take that hex back to a shorter form, sha3-512
+echo -n .password-${PASWRD1_service}sha3-base64-salt-scrypthex | openssl dgst -sha3-512 | sed 's/^[^ ]* //' > ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}sha3-base64-salt-scryptbinary-hex-sha3-512
+echo -e "Finished ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}sha3-base64-salt-scryptbinary-hex-sha3-512 created"
+sleep 5
+echo -e "==========================================="
+cp ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}sha3-base64-salt-scryptbinary-hex-sha3-512 ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}
+echo -e "\nYour password for ${PASWRD1_service} is:"
+cat ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}sha3-base64-salt-scryptbinary-hex-sha3-512
+unset PASWRD1_password
+```
+
