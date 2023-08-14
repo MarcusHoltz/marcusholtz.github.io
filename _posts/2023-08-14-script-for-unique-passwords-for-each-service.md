@@ -179,3 +179,30 @@ cat ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}sha3-base64-salt-scry
 unset PASWRD1_password
 ```
 
+## Beating Password Requirements
+
+If there's a special character requirement, usually just go with the first character in the upper left corner of the keyboard, begining with '1' and '!'.
+
+So a 'number' and 'special character' requirement would look like:
+
+`1!a5i0dj68dhg59458fjhd`
+
+Or if there's a 'two number' and 'one special character (baring !.<>$&())' requrement:
+
+`12@a5i0dj68dhg59458fjhd`
+
+The same goes for capitalization requirements, just capitalizae the first letter in the password -- as required. 
+
+`!1A5i0dj68dhg59458fjhd`
+
+If you have to truncate the password:
+
+The hash is shortened from the left to the right. 
+
+Example:
+
+`abcdefghijklmn` --> `abcdefg`
+
+also, requirements. If there's a 16 char max, make it a 15 char password, (N - 1).  
+
+Thanks! Good Luck!
