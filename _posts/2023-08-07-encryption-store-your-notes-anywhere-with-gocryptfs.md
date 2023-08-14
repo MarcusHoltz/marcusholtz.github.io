@@ -69,7 +69,11 @@ When trying to use `cppcryptfs.exe` on Windows, you need to be sure to set value
 
 Using the command line:
 
-`cppcryptfsctl.exe --init=%userprofile%\Documents\.encrypted-with-gocryptfs --printmasterkey=%userprofile%\Documents\gocryptfs-masterkey.txt.save.bak --volumename=Gocryptfs --longnamemax 63 --deterministicnames`
+```
+cppcryptfsctl.exe --init=%userprofile%\Documents\.encrypted-with-gocryptfs --printmasterkey=%userprofile%\Documents\gocryptfs-masterkey.txt.save.bak --volumename=Gocryptfs --longnamemax 63 --deterministicnames
+```
+
+Should produce:
 
 ```
 Choose a password for protecting your files.
@@ -78,7 +82,7 @@ Repeat:
 The gocryptfs filesystem has been created successfully.
 ```
 
-*Explanation:*
+*Explanation of command:*
 
 - `init` This will create the .conf file specific to your settings. 
 
@@ -107,7 +111,13 @@ The gocryptfs filesystem has been created successfully.
 
 * * * 
 
-`gocryptfs -init ~/Uploads/ -deterministic-names -longnamemax 63`
+Using the command line:
+
+```
+gocryptfs -init ~/Uploads/ -deterministic-names -longnamemax 63
+```
+
+Should produce: 
 
 ```
 Choose a password for protecting your files.
@@ -147,7 +157,9 @@ You can now mount it using: gocryptfs Uploads MOUNTPOINT
 
 * * *
 
-`gocryptfs ~/Documents/.encrypted-with-gocryptfs ~/Documents/UnencryptedMountPoint`
+```
+gocryptfs ~/Documents/.encrypted-with-gocryptfs ~/Documents/UnencryptedMountPoint
+```
 
 
 
@@ -156,7 +168,9 @@ You can now mount it using: gocryptfs Uploads MOUNTPOINT
 
 * * *
 
-`cppcryptfsctl.exe %userprofile%\Documents\.encrypted-with-gocryptfs %userprofile%\Documents\UnencryptedMountPoint`
+```
+cppcryptfsctl.exe %userprofile%\Documents\.encrypted-with-gocryptfs %userprofile%\Documents\UnencryptedMountPoint
+```
 
 
 
@@ -184,11 +198,6 @@ This file should NOT be backed up with your files, unless you have a really stro
 
 
 ### Totally OK to backup `gocryptfs.diriv`
-
-
-
-
-
 
 
 
