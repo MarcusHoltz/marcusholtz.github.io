@@ -10,9 +10,9 @@ image:
 ---
 # Create a new password for a service or website
 
-The creation of different passwords for every service or website you're using can become a pain.
+## The creation of different passwords for every service or website you're using can become a pain.
 
-Using a repeatable method to generate these passwords, while remaining secure, can help speed up password creation and give you a system to finding lost passwords.
+### Using a repeatable method to generate these passwords, while remaining secure, can help speed up password creation and give you a system to finding lost passwords.
 
 > Please keep in mind that hashing is a one way operation. 
 
@@ -57,7 +57,7 @@ PASSWORD_FILES_LOCATION=~/Documents/.passwords
 * * * 
 
 ## Visual representation of each hash step:
-
+```
   ┌────────┐     ┌────────┐      ┌─────────┐
   │        │     │        │      │         │
   │ User   │     │        │      │Password │
@@ -102,7 +102,7 @@ PASSWORD_FILES_LOCATION=~/Documents/.passwords
    │           │        │ Original Text in         │
    │           │        │ .password-service.txt.zip│
    └───────────┘        └──────────────────────────┘
-
+```
 
 
 
