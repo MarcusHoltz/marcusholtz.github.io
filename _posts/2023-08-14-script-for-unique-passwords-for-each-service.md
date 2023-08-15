@@ -24,9 +24,6 @@ image:
 - The original plain text of our hash is stored in a passworded zip (the password used is the one chosen inside the script).
 
 
-![make-password-entropy-not-rules](/assets/img/posts/password-rules-not-entropy.jpg){: #make-password-entropy-not-rules}
-
-
 ```
 ########################################################
 #####          What does this script do?           #####
@@ -185,6 +182,11 @@ unset PASWRD1_password
 ```
 
 ## Beating Password Requirements
+
+
+![make-password-entropy-not-rules](/assets/img/posts/password-rules-not-entropy.jpg){: #make-password-entropy-not-rules}
+
+
 
 If there's a special character requirement, usually just go with the first character in the upper left corner of the keyboard, begining with '1' and '!'.
 
