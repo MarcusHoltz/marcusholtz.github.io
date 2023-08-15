@@ -187,7 +187,7 @@ So a 'number' and 'special character' requirement would look like:
 
 `1!a5i0dj68dhg59458fjhd`
 
-Or if there's a 'two number' and 'one special character (baring !.<>$&())' requirements:
+Or if there's a 'two number' and 'one special character (baring !.<>$&())' requirement:
 
 `12@a5i0dj68dhg59458fjhd`
 
