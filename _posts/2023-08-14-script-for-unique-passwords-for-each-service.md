@@ -10,7 +10,7 @@ image:
 ---
 # Let's hash some information into a password
 
-***<h2 style="text-align: center; text-decoration: none;">The creation of different passwords for every service or website you're using can become a pain.</h2>***
+**The creation of different passwords for every service or website you're using can become a pain.**
 
 > Using a repeatable method to generate these passwords, while remaining secure, can help speed up password creation and give you a system to finding lost passwords.
 {: .prompt-tip }
