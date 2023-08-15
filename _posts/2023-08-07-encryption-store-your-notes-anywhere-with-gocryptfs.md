@@ -10,7 +10,7 @@ image:
 ---
 # Using gocryptfs to store notes
 
-![gocrypt-my-notes-on-taking-notes](/assets/img/posts/gocrypt-my-notes-on-taking-notes.jpg){: #gocrypt-my-notes-on-taking-notes }
+![gocrypt-my-notes-on-taking-notes](/assets/img/posts/gocrypt-my-notes-on-taking-notes.jpg){: #cool-image }
 
 
 ## Would you like to upload files to anywhere and trust their contents will be safe? 
