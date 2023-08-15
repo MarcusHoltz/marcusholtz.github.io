@@ -10,9 +10,7 @@ image:
 ---
 # Let's hash some information into a password
 
-> #### The creation of different passwords for every service or website you're using can become a pain.
-{: .prompt-warning }
-
+***<h2 style="text-align: center; text-decoration: none;">The creation of different passwords for every service or website you're using can become a pain.</h2>***
 
 > Using a repeatable method to generate these passwords, while remaining secure, can help speed up password creation and give you a system to finding lost passwords.
 {: .prompt-tip }
@@ -36,7 +34,7 @@ image:
 #######################################################
 ```
 
-> #### What do you need to do to configure this to get it working?
+> #### Please read script information.
 {: .prompt-info }
 
 ```
