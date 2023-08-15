@@ -24,6 +24,9 @@ image:
 - The original plain text of our hash is stored in a passworded zip (the password used is the one chosen inside the script).
 
 
+![make-password-entropy-not-rules](/assets/img/posts/password-rules-not-entropy.jpg){: #make-password-entropy-not-rules}
+
+
 ```
 ########################################################
 #####          What does this script do?           #####
