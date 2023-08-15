@@ -1,7 +1,7 @@
 ---
 title: Unique passwords for every service or website
 date: 2023-08-14 11:33:00 -0700
-categories: [Linux]
+categories: [Linux, Security]
 tags: [hash, security, cryptography, passwords]
 pin: false
 image:
@@ -18,8 +18,6 @@ image:
 > Please keep in mind that hashing is a one way operation. 
 
 - All of the hashes generated are stored within the .passwords folder
-
-- The only hash that isnt available is the original plain text version.
 
 - The original plain text of our hash is stored in a passworded zip (the password used is the one chosen inside the script).
 
@@ -58,7 +56,7 @@ PASSWORD_FILES_LOCATION=~/Documents/.passwords
 
 * * * 
 
-## Visual representation of each hash step:
+## Visual representation of each step:
 ```
   ┌────────┐     ┌────────┐      ┌─────────┐
   │        │     │        │      │         │
@@ -128,7 +126,7 @@ PASSWORD_FILES_LOCATION=~/Documents/.passwords
 PASSWORD_FILES_LOCATION=~/Documents/.passwords
 #######################################################
 # Make sure that directory exists, or create it
-if [ -d "~/Documents/.passwords" ] 
+if [ -d ${PASSWORD_FILES_LOCATION} ] 
 then
     echo "directory exists already"
 else
