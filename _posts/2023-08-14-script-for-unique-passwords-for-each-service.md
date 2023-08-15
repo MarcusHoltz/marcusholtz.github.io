@@ -8,11 +8,17 @@ image:
   path: /assets/img/header/header--script--unique-password-hashing.jpg
   alt: Create a new password for every service or website you visit
 ---
-# Create a new password for a service or website
+# Let's hash some information into a password
 
-## The creation of different passwords for every service or website you're using can become a pain.
+> #### The creation of different passwords for every service or website you're using can become a pain.
+>
+> - You have to keep them unique and very different.
+> - Access without password manager is a pain.
+>
+>  *What if* there was a better **way?**
 
-### Using a repeatable method to generate these passwords, while remaining secure, can help speed up password creation and give you a system to finding lost passwords.
+Using a repeatable method to generate these passwords, while remaining secure, can help speed up password creation and give you a system to finding lost passwords.
+{: .prompt-tip }
 
 > Please keep in mind that hashing is a one way operation. 
 
@@ -33,7 +39,8 @@ image:
 #######################################################
 ```
 
-## What do you need to do to configure this to get it working?
+#### What do you need to do to configure this to get it working?
+{: .prompt-info }
 
 ```
 #######################################################
