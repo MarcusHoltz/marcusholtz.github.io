@@ -187,7 +187,7 @@ So a 'number' and 'special character' requirement would look like:
 
 `1!a5i0dj68dhg59458fjhd`
 
-Or if there's a 'two number' and 'one special character (baring !.<>$&())' requrement:
+Or if there's a 'two number' and 'one special character (baring !.<>$&())' requirements:
 
 `12@a5i0dj68dhg59458fjhd`
 
@@ -203,6 +203,6 @@ Example:
 
 `abcdefghijklmn` --> `abcdefg`
 
-also, requirements. If there's a 16 char max, make it a 15 char password, (N - 1).  
+also, max character requirements. If there's a 16 char max, make it a 15 char password, (N - 1).  
 
 Thanks! Good Luck!
