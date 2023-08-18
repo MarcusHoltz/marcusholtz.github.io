@@ -159,7 +159,7 @@ Remember when I said we'd need the total number of TXT records you made?
 
 That script is pretty large, it wont meet the 255 character limit that we have for TXT records. But most DNS ZONE files will take something up to 2,048 characters, but it will still split them up.
 
-To fix this you must remove the spaces in these larger 255+ character TXT records. That's why the ```tr -d [:blank:]``` was used [above](https://blog.holtzweb.com/posts/dns-download-photo/#using-dns-txt-records-in-base64-you-can-download-a-photo) to retrieve the script.
+To fix this you must remove the spaces in these larger 255+ character TXT records. That's why the ```tr -d [:blank:]``` was used [above](#using-dns-txt-records-in-base64-you-can-download-a-photo) to retrieve the script.
 
 
 
