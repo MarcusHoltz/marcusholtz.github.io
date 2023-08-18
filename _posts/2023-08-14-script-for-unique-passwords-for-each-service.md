@@ -37,7 +37,7 @@ image:
 
 ```
 #######################################################
-## This script requires 1GB of free RAM              ##
+## This script requires 270MB of free RAM            ##
 ## Be sure you have installed:                       ##
 ##          zip, openssl, argon2                     ##
 #######################################################
@@ -92,6 +92,8 @@ PASSWORD_FILES_LOCATION=~/Documents/.passwords
 
 
 # Script
+
+
 ```#!/bin/bash
 ########################################################
 #####          What does this script do?           #####
@@ -100,7 +102,7 @@ PASSWORD_FILES_LOCATION=~/Documents/.passwords
 ## This script hopes to create a hashed password     ##
 ## that cannot be found in a rainbow table           ##
 #######################################################
-## This script requires 1GB of free RAM              ##
+## This script requires 270MB of free RAM            ##
 ## Be sure you have installed:                       ##
 ##          zip, openssl, argon2                     ##
 #######################################################
@@ -157,6 +159,7 @@ echo -e "${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}.zip\n"
 echo -e "Your final hashed password is:"
 echo -n $PASWRD1_full | openssl dgst -sha3-384 | sed 's/.*[[:space:]]//' | argon2 ${PASWRD1_salt} -id -e -t 16 -m 18 -p 8 -l 32 | sed 's/.*\$//'
 ```
+
 
 # Explaining the script above
 
@@ -273,9 +276,9 @@ Why did I do this?
 
 - [Argon2](https://en.wikipedia.org/wiki/Argon2) is a newer key derivation function and I find it more fun to use.
 
-- [Bitwarden](https://community.bitwarden.com/t/recommended-settings-for-argon2/50901) and [KeePass](https://keepass.info/help/base/security.html) both use this as their encryption mechanism. 
+- [Bitwarden](https://community.bitwarden.com/t/recommended-settings-for-argon2/50901) and [KeePass](https://keepass.info/help/base/security.html) both use Argon2 as their encryption mechanism. 
 
-- [OpenSSL](https://github.com/openssl/openssl/pull/12256) is Argon2 and will reduce the requirements of this script. 
+- [OpenSSL](https://github.com/openssl/openssl/pull/12256) is soon supporting Argon2 and will reduce the requirements of this script. 
 
 
 
