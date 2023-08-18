@@ -21,6 +21,8 @@ image:
 
 - The original plain text of the hash is stored in a passworded zip.
 
+- At no point is anything unecrypted written to disk.
+
 
 ```
 ########################################################
@@ -176,9 +178,29 @@ echo -n $PASWRD1_full | openssl dgst -sha3-384 | sed 's/.*[[:space:]]//' | argon
 ```
 
 
+
+## In memory, never on disk
+
+**Use a fifo (a named pipe), instead of writing to disk.** 
+
+To do this, we'll be piping to stdin directly. 
+
+The only gotcha is when the data is piped to fifo it needs to run in the background. We need this data to remain in memory for as long as the hashing takes -- before it can be encrypted.
+Then just remove the file and it's gone from memory, never on disk.
+
+
+
+## SHA then Argon2
+
+User values are hashed, so one-way-encryption, first using SHA3-384 and then using the Argon2 algorithm the second time. This is to ensure maximum bruteforce and dictionary attack protection.
+
+SHA3-384 was chosen due to Argon2's input size.
+
+
+
 ## Argon2 input size
 
-(128 minus 1) characters are supported in command line utility for Argon2. So this means we have to use something smaller than 512 bits.
+128 minus 1 characters are supported in command line utility for Argon2. *So this means we have to use something smaller than 512 bits.*
 
 - SHA3-384's hash is 384 bits long. 
 
