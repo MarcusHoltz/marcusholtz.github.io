@@ -213,13 +213,13 @@ In this example, we're using 32 bits. This creates a hash like MD5 or any other:
 
 `-l 32`
 
-kB and GB are like the metric system, but this software wants kibibytes. Directly under 1GB is 976562 kibibytes (a whole GB is 976562.5 kibibytes).  1 Gigabyte is equal to (10^9 / 2^10) kibibytes. You can specific this with: `-k 976562`
+kB and GB are like the metric system, but this software wants kibibytes. Directly under 1GB is 976562 kibibytes (a whole GB is 976562.5 kibibytes).  1 Gigabyte is equal to (10^9 / 2^10) kibibytes. You can specify this with: `-k 976562`
 
 To specify memory in KiB use the `-m` flag. This uses 2^N KiB so, `-m 20` would be about one gigabyte (24576 bytes more), and `-m 18` is 268.44 MB.
 
 `-id -e -t 256 -m 20 -p 64 -l 32`
 
-The command above, would take my CPU 10 minuites to generate. 
+The command above, would take my CPU 10 minutes to generate. 
 
 I only have about 30 seconds of patience (8 seconds is average person). So we'll use 16 iterations, 1GiB of memory, and 8 threads. It'll get done pretty fast.
 
@@ -241,7 +241,7 @@ Sometimes the hashed password doesnt work out of the box. We need to modify it t
 
 * * *
 
-If there's a special character requirement, usually just go with the first character in the upper left corner of the keyboard, begining with '1' and '!'.
+If there's a special character requirement, usually just go with the first character in the upper left corner of the keyboard, beginning with '1' and '!'.
 
 So a 'number' and 'special character' requirement would look like:
 
@@ -251,7 +251,7 @@ Or if there's a 'two number' and 'one special character (baring !.<>$&())' requi
 
 `12@a5i0dj68dhg59458fjhd`
 
-The same goes for capitalization requirements, just capitalizae the first letter in the password -- as required. 
+The same goes for capitalization requirements, just capitalize the first letter in the password -- as required. 
 
 `!1A5i0dj68dhg59458fjhd`
 
@@ -274,7 +274,7 @@ Thanks! Good Luck!
 
 * * *
 
-### This script switched from scypt to argon2id ???!!
+### This script switched from scrypt to argon2id ???!!
 
 Why did I do this?
 
