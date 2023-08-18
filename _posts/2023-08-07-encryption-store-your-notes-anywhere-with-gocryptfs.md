@@ -1,7 +1,7 @@
 ---
 title: Encrypt your cloud storage with gocryptfs
 date: 2023-08-07 11:33:00 -0700
-categories: [Linux]
+categories: [Linux, storage]
 tags: [security, cryptography, passwords, storage, cloud]
 pin: false
 image:
