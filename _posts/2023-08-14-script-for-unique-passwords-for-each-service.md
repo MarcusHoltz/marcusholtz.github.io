@@ -207,6 +207,8 @@ A maximum length specified on a password field should be read as a SECURITY WARN
 
 Setting maximum password length less than 128 characters is discouraged by OWASP. Yet, atleast 10% of the time I have to create a password... character limits. This is the reality, not the ideal.
 
+* * *
+
 In this example, we're using 32 bits. This creates a hash like MD5 or any other:
 
 `-l 32`
