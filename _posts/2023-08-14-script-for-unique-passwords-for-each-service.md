@@ -227,6 +227,7 @@ This command above took my CPU (Passmark score of 5500) 7 seconds to generate.
 
 
 
+* * *
 
 ### Beating Password Requirements
 
@@ -271,7 +272,7 @@ Thanks! Good Luck!
 
 * * *
 
-### This script switched from scypt to argon2id
+### This script switched from scypt to argon2id ???!!@
 
 Why did I do this?
 
