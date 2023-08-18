@@ -237,7 +237,7 @@ This command above took my CPU (Passmark score of 5500) 7 seconds to generate.
 ![make-password-entropy-not-rules](/assets/img/posts/password-rules-not-entropy.jpg){: #make-password-entropy-not-rules}
 
 
-Sometimes the hashed password doesnt work out of the box. We need to modify it to be accepted into the password rules for the service or website we're trying to login to. If the hashed password, for some reason, doesnt meet the requirements on the website you're trying to use it with -- here are y suggestions:
+Sometimes the hashed password doesnt work out of the box. We need to modify it to be accepted into the password rules for the service or website we're trying to login to. If the hashed password, for some reason, doesnt meet the requirements on the website you're trying to use it with -- here are my suggestions:
 
 * * *
 
