@@ -94,7 +94,8 @@ PASSWORD_FILES_LOCATION=~/Documents/.passwords
 # Script
 
 
-```#!/bin/bash
+```
+#!/bin/bash
 ########################################################
 #####          What does this script do?           #####
 ########################################################
