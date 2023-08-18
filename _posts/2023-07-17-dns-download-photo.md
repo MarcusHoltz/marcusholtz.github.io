@@ -119,7 +119,22 @@ I probably should have explained this earlier, but we'll be using dig to grab th
 
 
 
-##### Let me explain the shell script we'll be using to recombine the DNS TXT records.
+
+#### Shell Script to recombine the DNS Records
+
+```bash
+for i in {1..N}
+do
+dig +short TXT andsuch$i.domain.com @9.9.9.9 | tr -d '"' >> workingpicture.tmp
+done
+cat workingpicture.tmp | tr -d "\n\r" | base64 -d > MyPhoto.jpg
+echo -e "\nMyPhoto.jpg created\n"
+rm workingpicture.tmp showmethescript.sh showmeportrait.sh >/dev/null 2>&1
+```
+
+
+
+##### Let me explain the shell script above -- using to recombine the DNS TXT records.
 
 Remember when I said we'd need the total number of TXT records you made? 
 
@@ -140,24 +155,11 @@ Remember when I said we'd need the total number of TXT records you made?
 
 
 
-#### Shell Script to recombine the DNS Records
-
-```bash
-for i in {1..N}
-do
-dig +short TXT andsuch$i.domain.com @9.9.9.9 | tr -d '"' >> workingpicture.tmp
-done
-cat workingpicture.tmp | tr -d "\n\r" | base64 -d > MyPhoto.jpg
-echo -e "\nMyPhoto.jpg created\n"
-rm workingpicture.tmp showmethescript.sh showmeportrait.sh >/dev/null 2>&1
-```
-
-
 ### Stuffing your shell script into a DNS TXT record
 
 That script is pretty large, it wont meet the 255 character limit that we have for TXT records. But most DNS ZONE files will take something up to 2,048 characters, but it will still split them up.
 
-To fix this you must remove the spaces in these larger 255+ character TXT records. That's why the ```tr -d [:blank:]``` was used above to retrieve the script.
+To fix this you must remove the spaces in these larger 255+ character TXT records. That's why the ```tr -d [:blank:]``` was used [above](https://blog.holtzweb.com/posts/dns-download-photo/#using-dns-txt-records-in-base64-you-can-download-a-photo) to retrieve the script.
 
 
 
@@ -174,9 +176,9 @@ printf "for i in {1..N}\ndo\ndig +short TXT andsuch\$i.domain.com @9.9.9.9 | tr 
 
 ##### Stuff your double stuffed shell script into base64 format
 
-Now that you have a printf command that will output your script, convert that to base64 to prevent plain text dns records for sitting around, and to save space ;-)
+Now that you have a printf command that will output your script, convert that to base64 to prevent plain text dns records from sitting around, and to save space ;-)
 
-I usually use the subdomain without the number after it. So in our example it would be - ```andsuch.domain.com.  1   IN  TXT   "fEACkQAAEAUXHlHyxj50yW0mjilYLwj8j/b6xnSCB9O1kj8NLjK5rpu28WC3iCs"``` 
+I usually use the subdomain without the number after it. So in our example (for Cloudflare) it would be - ```andsuch.domain.com.  1   IN  TXT   "fEACkQAAEAUXHlHyxj50yW0mjilYLwj8j/b6xnSCB9O1kj8NLjK5rpu28WC3iCs"``` 
 
 And your base64 TXT record will be much much longer than this example, but now you've got your script to bring down and combine all of your DNS TXT records for this subdomain into an image. 
 
@@ -192,6 +194,6 @@ Well, you should now be looking at your photo.
 ### Reviewing the steps taken
 
 
-### Converted from image -> base64 -> dns txt -> shell buffer -> base64 temp text file -> image
+### Converted from image -> base64 -> dns txt -> zone file -> shell buffer -> base64 temp text file -> image
 
 Thanks for looking at this project. Hope you get some practical use out of it ;-)
