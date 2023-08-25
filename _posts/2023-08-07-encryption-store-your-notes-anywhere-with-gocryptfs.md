@@ -190,10 +190,10 @@ cppcryptfsctl.exe %userprofile%\Documents\.encrypted-with-gocryptfs %userprofile
 ![gocrypt-automount-windows](/assets/img/posts/gocrypt-automount-windows.jpg){: #gocrypt-automount-windows }
 
 
-> You **CANNOT** have anything mounted to `R:\` or `Z:\` or you will see weird issues.
+> You **CANNOT** have anything **already mounted** to `R:\` or `Z:\` or you will see *weird issues*.
 {: .prompt-danger }
 
-Best, if you can, to just remount any drives on those letters -- and let cppcryptfs do it's thing.
+Best, if you can, to just move any drives on those letters before mounting with cppcryptfs.
 
 
 ## Auto-mounting on Linux
