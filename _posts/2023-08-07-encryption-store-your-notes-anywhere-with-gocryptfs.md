@@ -34,6 +34,7 @@ image:
 
 - Files are encrypted using a volume key, which is stored either within or outside the encrypted source directory. **A password is used to decrypt this key.**
 
+> Files *CANNOT* be blank to be encrypted and stored with gocrypt. They must have some data in them. {: .prompt-tip }
 
 * * * 
 
