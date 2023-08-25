@@ -65,6 +65,12 @@ If you really need a GUI in Linux, you can use [SiriKali](https://mhogomchungu.g
 
 When trying to use `cppcryptfs.exe` on Windows, you need to be sure to set values under the 'create' tab.
 
+
+
+![cppcryptfs-create-settings](/assets/img/posts/gocrypt-windows-cppcryptfs-create.png){: #cppcryptfs-create-settings }
+
+
+
 * * *
 
 Using the command line:
@@ -184,6 +190,8 @@ cppcryptfsctl.exe %userprofile%\Documents\.encrypted-with-gocryptfs %userprofile
 
 ## Auto-mounting on Linux
 
+Reference: https://wiki.psuter.ch/doku.php?id=encrypted_backups_to_the_cloud
+
 ```
 /tmp/fstab/a /tmp/fstab/b fuse./usr/local/bin/gocryptfs nodev,nosuid,allow_other,quiet,passfile=/tmp/fstab/pass 0 0
 
@@ -199,5 +207,18 @@ This file should NOT be backed up with your files, unless you have a really stro
 
 ### Totally OK to backup `gocryptfs.diriv`
 
+
+
+## Sync files with Nextcloud
+
+### Windows
+
+If you're using Nextcloud on Windows to sync your files. There are a few chnages to make it more ... normal.
+
+- Uncheck: Nextcloud client > Settings > General > Advanced > "Show sync folders in Exploer's Navigation Pane"
+
+- Keep all files local
+
+![nextcloud-sync-keep-local](/assets/img/posts/nextcloud-sync-keep-local-always.png){: #nextcloud-keep-sync-local }
 
 
