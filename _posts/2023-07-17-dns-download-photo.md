@@ -23,6 +23,10 @@ dig +short TXT marcusInDNS.holtzweb.com | tr -d '"' | tr -d "\n\r" | tr -d [:bla
 ```
 
 
+> `dig` is **REQUIRED** for this to work. To install `dig` on a Debian based distro: `sudo apt install dnsutils`
+{: .prompt-tip }
+
+
 
 ### Download and run the script
 
