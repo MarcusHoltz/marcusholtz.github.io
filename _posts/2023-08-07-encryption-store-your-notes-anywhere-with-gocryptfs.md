@@ -201,21 +201,21 @@ Reference: https://wiki.psuter.ch/doku.php?id=encrypted_backups_to_the_cloud
 
 ## You may need a custom location for the gocryptfs.conf
 
-This file should NOT be backed up with your files, unless you have a really strong password.
+`gocryptfs.conf` should NOT be backed up with your files, unless you have a **really strong password**.
+
+But it's totally OK to backup `gocryptfs.diriv`
 
 
-
-### Totally OK to backup `gocryptfs.diriv`
-
-
+* * * 
 
 ## Sync files with Nextcloud
 
 ### Windows
 
-If you're using Nextcloud on Windows to sync your files. There are a few chnages to make it more ... normal.
+If you're using Nextcloud on Windows to sync your files. There are a few changes to make it more ... normal.
 
-- Uncheck: Nextcloud client > Settings > General > Advanced > "Show sync folders in Exploer's Navigation Pane"
+- Uncheck: 
+  * Nextcloud client > Settings > General > Advanced > "Show sync folders in Exploer's Navigation Pane"
 
 - Keep all files local
 
