@@ -215,7 +215,7 @@ But it's totally OK to backup `gocryptfs.diriv`
 If you're using Nextcloud on Windows to sync your files. There are a few changes to make it more ... normal.
 
 - Uncheck: 
-  * Nextcloud client > Settings > General > Advanced > "Show sync folders in Exploer's Navigation Pane"
+  * Nextcloud client > Settings > General > Advanced > "Show sync folders in Explorer's Navigation Pane"
 
 - Keep all files local
 
