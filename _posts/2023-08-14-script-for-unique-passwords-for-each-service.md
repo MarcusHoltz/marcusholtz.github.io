@@ -245,7 +245,7 @@ The command above, would take my CPU 10 minutes to generate!
 
 * * *
 
-I maximum I want is, maybe, 30 seconds of patience. So we'll use 16 iterations, 270mb of memory, and 8 threads. 
+The maximum I want is, maybe, 30 seconds of patience. So we'll use 16 iterations, 270mb of memory, and 8 threads. 
 
 This combination took my CPU (Passmark score of 5500) 7 seconds to generate.
 
