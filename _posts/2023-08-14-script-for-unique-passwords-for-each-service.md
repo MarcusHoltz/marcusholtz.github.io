@@ -241,13 +241,19 @@ To specify memory in KiB use the `-m` flag. This uses 2^N KiB so, `-m 20` would 
 
 `-id -e -t 256 -m 20 -p 64 -l 32`
 
-The command above, would take my CPU 10 minutes to generate. 
+The command above, would take my CPU 10 minutes to generate!
 
-I only have about 30 seconds of patience (8 seconds is average person). So we'll use 16 iterations, 1GiB of memory, and 8 threads. It'll get done pretty fast.
+* * *
 
-`-id -e -t 16 -m 18 -p 8 -l 32`
+I maximum I want is, maybe, 30 seconds of patience. So we'll use 16 iterations, 270mb of memory, and 8 threads. 
 
-This command above took my CPU (Passmark score of 5500) 7 seconds to generate.
+This combination took my CPU (Passmark score of 5500) 7 seconds to generate.
+
+Be sure to use the config below:
+
+```bash
+-id -e -t 16 -m 18 -p 8 -l 32
+```
 
 
 
