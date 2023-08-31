@@ -335,6 +335,13 @@ Append the following line to the `/etc/crypttab` file if you want to use the key
 ENCRYPTED_DATA /dev/sda $UUID_device_and_wikimedia-logo.svg.keyfile luks
 ```
 
+and add this line to `/etc/fstab`:
+
+```bash
+/dev/mapper/ENCRYPTED_DATA / ext4 defaults 1 2
+```
+
+
 * * * 
 
 # Fancy boot screen
