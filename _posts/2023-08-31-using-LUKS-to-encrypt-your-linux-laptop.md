@@ -304,6 +304,37 @@ chmod u=rx,go-rwx /target/etc/luks
 chmod u=r,go-rwx /target/etc/luks/Wikimedia-logo.svg.keyfile
 ```
 
+You could have the file on a flashdrive. Like a key to a car, it's required to turn on. 
+
+
+Find the UUID:  `blkid -t TYPE=vfat -sUUID -ovalue`
+
+* * *
+
+Add the Keyfile to LUKS encryption:
+
+```bash
+cryptsetup luksAddKey /dev/sda4 $UUID_device_and_wikimedia-logo.svg.keyfile
+```
+
+
+To open LUKS with the keyfile: 
+
+```bash
+cryptsetup luksOpen /dev/sda4 ENCRYPTED_DATA --key-file $UUID_device_and_wikimedia-logo.svg.keyfile
+```
+
+For some reason, if your key file destroyed or corrupted, just use the passphrase.
+
+
+## Keep LUKS mounting a keyfile at boot time
+
+Append the following line to the `/etc/crypttab` file if you want to use the keyfile:
+
+```bash
+ENCRYPTED_DATA /dev/sda $UUID_device_and_wikimedia-logo.svg.keyfile luks
+```
+
 * * * 
 
 # Fancy boot screen
