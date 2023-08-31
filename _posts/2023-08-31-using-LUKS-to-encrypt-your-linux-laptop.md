@@ -324,7 +324,7 @@ To open LUKS with the keyfile:
 cryptsetup luksOpen /dev/sda4 ENCRYPTED_DATA --key-file $UUID_device_and_wikimedia-logo.svg.keyfile
 ```
 
-For some reason, if your key file destroyed or corrupted, just use the passphrase.
+For some reason, if your key file destroyed or corrupted, just use the passphrase. And then recreate the USB: `mkfs.vfat -i $VOLUME-UUID-you-originally-used-here`
 
 
 ## Keep LUKS mounting a keyfile at boot time
