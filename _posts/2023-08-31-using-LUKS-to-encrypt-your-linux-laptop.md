@@ -5,7 +5,7 @@ categories: [Linux, Security]
 tags: [luks, bootloader, scripts, security, cryptography, passwords]
 pin: false
 image:
-  path: /assets/img/header/header--script--unique-password-hashing.jpg
+  path: /assets/img/header/header--luks--encrypt-linux-drive.jpg
   alt: Create an encrypted volume to mount for your OS
 ---
 # Use LUKS to encrypt your laptop's data
