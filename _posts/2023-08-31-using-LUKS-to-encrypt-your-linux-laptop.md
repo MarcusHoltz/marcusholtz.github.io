@@ -266,11 +266,30 @@ echo "ENCRYPTED_DATA UUID=$(blkid -s UUID -o value /dev/sda4) none luks,discard"
 The script sets up encryption, partitions, and LVM to prepare the system for installing Ubuntu with encryption enabled. After running this script and performing the Ubuntu installation, you should have an encrypted Ubuntu installation with specific partitioning and configuration settings.
 
 
+## Concerns. 
+
+If you're concerned, feel free to backup your drive before you do anything:
+
+```bash
+#on pc to copy
+dd bs=16M if=/dev/sda|bzip2 -c|nc serverB.example.net 19000
+
+#on remote storage
+nc -l 19000|bzip2 -d|dd bs=16M status=progress | gzip -c > ~/backup_dd_disk.img.gz
+
+#To restore the image back to the disk, the following command can be used:
+gunzip -c /storage/images/sabrent_disk.img.gz | dd of=/dev/sda
+```
+
+
+
 * * * 
 
 # BONUS POINTS
 
- 
+Why use a password at all? Why not use ... a logo as a password? Easy to find, never easy to guess.
+
+``` 
 mkdir /target/etc/luks
 
 cd /target/etc/luks
@@ -283,9 +302,15 @@ wget -P /target/etc/luks/Wikimedia-logo.svg.keyfile https://upload.wikimedia.org
 chmod u=rx,go-rwx /target/etc/luks
 
 chmod u=r,go-rwx /target/etc/luks/Wikimedia-logo.svg.keyfile
+```
 
 * * * 
 
 # Fancy boot screen
 
-https://github.com/MarcusHoltz/Animated-Boot-Screen-Creator-for-Linux/
+Also, your bootloader is not encrypted, so you can use Plymouth to make your bootscreen extra special:
+
+[https://github.com/MarcusHoltz/Animated-Boot-Screen-Creator-for-Linux/](https://github.com/MarcusHoltz/Animated-Boot-Screen-Creator-for-Linux/)
+
+![Plymouth-Animated-Boot-Screen](https://raw.githubusercontent.com/MarcusHoltz/Animated-Boot-Screen-Creator-for-Linux/main/images-for-repo/animated-laptop-bootloader.gif)
+
