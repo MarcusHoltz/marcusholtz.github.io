@@ -32,6 +32,9 @@ Why? Because that's just one more potential attack vector that can be used to br
 
 Well, I'm not Secret Agent 86. No government actor is after my collection of sweet memes.  I just dont want my stuff getting out there if someone grabs my laptop and it ends up at a pawn shop. 
 
+Besides, TPM can be beat by hitting enter every 15ms, and Secure Boot can be beat by Ventoy (uses a Microsoft signed cert that's on basically every motherbord). 
+
+
 
 # New Laptop that needs disk encryption
 
