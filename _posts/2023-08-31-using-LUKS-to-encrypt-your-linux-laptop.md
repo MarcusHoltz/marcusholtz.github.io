@@ -319,19 +319,25 @@ You could have the file on a flashdrive. Like a key to a car, it's required to t
 
 Find the UUID:  `blkid -t TYPE=vfat -sUUID -ovalue`
 
+
+Mount the USB with the Keyfile:
+
+```bash
+mkdir /mnt/myusb; mount --uuid C2B7-F82C /mnt/myusb
+```
+
 * * *
 
 Add the Keyfile to LUKS encryption:
 
 ```bash
-cryptsetup luksAddKey /dev/sda4 $UUID_device_and_wikimedia-logo.svg.keyfile
+cryptsetup luksAddKey /dev/sda4 /mnt/myusb/Wikimedia-logo.svg
 ```
-
 
 To open LUKS with the keyfile: 
 
 ```bash
-cryptsetup luksOpen /dev/sda4 ENCRYPTED_DATA --key-file $UUID_device_and_wikimedia-logo.svg.keyfile
+cryptsetup luksOpen /dev/sda4 ENCRYPTED_DATA --key-file /mnt/myusb/Wikimedia-logo.svg
 ```
 
 For some reason, if your key file destroyed or corrupted, just use the passphrase. And then recreate the USB: `mkfs.vfat -i $VOLUME-UUID-you-originally-used-here`
@@ -339,17 +345,34 @@ For some reason, if your key file destroyed or corrupted, just use the passphras
 
 ## Keep LUKS mounting a keyfile at boot time
 
+Here is the script:
+
+```bash
+while [ ! -d /target/etc/default/grub.d ]; do sleep 1; done; echo "GRUB_ENABLE_CRYPTODISK=y" > /target/etc/default/grub.d/local.cfg
+echo "UUID=$(blkid -s UUID -o value /dev/sda4)  /mnt/myusb      vfat    defaults,errors=remount-ro 0       1" >> /etc/fstab
+echo "ENCRYPTED_DATA /dev/sda /mnt/myusb/Wikimedia-logo.svg luks" > /target/etc/crypttab
+echo "/dev/mapper/ENCRYPTED_DATA / ext4 defaults 1 2" >> /etc/fstab
+```
+
+Explanation: 
+
 Append the following line to the `/etc/crypttab` file if you want to use the keyfile:
 
 ```bash
-ENCRYPTED_DATA /dev/sda $UUID_device_and_wikimedia-logo.svg.keyfile luks
+ENCRYPTED_DATA /dev/sda /mnt/myusb/Wikimedia-logo.svg luks
 ```
 
 and add this line to `/etc/fstab`:
 
 ```bash
-/dev/mapper/ENCRYPTED_DATA / ext4 defaults 1 2
+echo "/dev/mapper/ENCRYPTED_DATA / ext4 defaults 1 2" >> /etc/fstab
 ```
+
+And if you want to mount the USB drive on boot:
+```bash
+echo "UUID=$(blkid -s UUID -o value /dev/sda4)  /mnt/myusb      vfat    defaults,errors=remount-ro 0       1" >> /etc/fstab
+```
+
 
 
 * * * 
