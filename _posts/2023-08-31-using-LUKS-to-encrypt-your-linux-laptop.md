@@ -320,21 +320,21 @@ You could have the file on a flashdrive. Like a key to a car, it's required to t
 Find the UUID:  `blkid -t TYPE=vfat -sUUID -ovalue`
 
 
-Mount the USB with the Keyfile:
+- Mount the USB with the Keyfile:
 
 ```bash
-mkdir /mnt/myusb; mount --uuid C2B7-F82C /mnt/myusb
+mkdir /mnt/myusb; mount --uuid UUID=$(blkid -s UUID -o value /dev/sdb1) /mnt/myusb
 ```
 
 * * *
 
-Add the Keyfile to LUKS encryption:
+- Add the Keyfile to LUKS encryption:
 
 ```bash
 cryptsetup luksAddKey /dev/sda4 /mnt/myusb/Wikimedia-logo.svg
 ```
 
-To open LUKS with the keyfile: 
+- To open LUKS with the keyfile: 
 
 ```bash
 cryptsetup luksOpen /dev/sda4 ENCRYPTED_DATA --key-file /mnt/myusb/Wikimedia-logo.svg
@@ -349,7 +349,7 @@ Here is the script:
 
 ```bash
 while [ ! -d /target/etc/default/grub.d ]; do sleep 1; done; echo "GRUB_ENABLE_CRYPTODISK=y" > /target/etc/default/grub.d/local.cfg
-echo "UUID=$(blkid -s UUID -o value /dev/sda4)  /mnt/myusb      vfat    defaults,errors=remount-ro 0       1" >> /etc/fstab
+echo "UUID=$(blkid -s UUID -o value /dev/sdb1)  /mnt/myusb      vfat    defaults,errors=remount-ro 0       1" >> /etc/fstab
 echo "ENCRYPTED_DATA /dev/sda /mnt/myusb/Wikimedia-logo.svg luks" > /target/etc/crypttab
 echo "/dev/mapper/ENCRYPTED_DATA / ext4 defaults 1 2" >> /etc/fstab
 ```
@@ -370,7 +370,7 @@ echo "/dev/mapper/ENCRYPTED_DATA / ext4 defaults 1 2" >> /etc/fstab
 
 And if you want to mount the USB drive on boot:
 ```bash
-echo "UUID=$(blkid -s UUID -o value /dev/sda4)  /mnt/myusb      vfat    defaults,errors=remount-ro 0       1" >> /etc/fstab
+echo "UUID=$(blkid -s UUID -o value /dev/sdb1)  /mnt/myusb      vfat    defaults,errors=remount-ro 0       1" >> /etc/fstab
 ```
 
 
