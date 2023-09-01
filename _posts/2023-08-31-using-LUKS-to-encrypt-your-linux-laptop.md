@@ -349,9 +349,9 @@ Here is the script:
 
 ```bash
 while [ ! -d /target/etc/default/grub.d ]; do sleep 1; done; echo "GRUB_ENABLE_CRYPTODISK=y" > /target/etc/default/grub.d/local.cfg
-echo "UUID=$(blkid -s UUID -o value /dev/sdb1)  /mnt/myusb      vfat    defaults,errors=remount-ro 0       1" >> /etc/fstab
-echo "ENCRYPTED_DATA /dev/sda /mnt/myusb/Wikimedia-logo.svg luks" > /target/etc/crypttab
-echo "/dev/mapper/ENCRYPTED_DATA / ext4 defaults 1 2" >> /etc/fstab
+echo "UUID=$(blkid -s UUID -o value /dev/sdb1)  /mnt/myusb      vfat    defaults,errors=remount-ro 0       1" >> /target/etc/fstab
+echo "ENCRYPTED_DATA UUID=$(blkid -s UUID -o value /dev/sda4) /mnt/myusb/Wikimedia-logo.svg luks" > /target/etc/crypttab
+echo "/dev/mapper/ENCRYPTED_DATA / ext4 defaults 1 2" >> /target/etc/fstab
 ```
 
 Explanation: 
