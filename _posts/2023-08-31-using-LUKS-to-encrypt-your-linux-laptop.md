@@ -12,7 +12,7 @@ image:
 
 Everyone should have their mobile data encrypted. Your cell phone does this. Why doesnt your laptop?
 
-You must enter your PIN/PASSWORD for using your mobile device, this PIN unlocks the encrypted storage on your mobile device -- allowing you to use it seemlessly. 
+You must enter your PIN/PASSWORD for using your mobile device, this PIN unlocks the encrypted storage on your mobile device -- allowing you to use it seamlessly. 
 
 
 ## There are several offerings by your favorite closed source operating system:
@@ -55,7 +55,7 @@ Well, I'm not Secret Agent 86. No government actor is after my collection of swe
 
 5. Make filesystems.
 
-6. Encypt our data.
+6. Encrypt our data.
 
 7. Create LV inside of encrypted data.
 
@@ -95,7 +95,7 @@ sudo -i
 ```
 
 
-## That password you said youd never forget
+## That password you said you would never forget
 
 - Export the password we want to use for our drive's encryption by setting an Environment Variable:
 
@@ -183,7 +183,7 @@ mkfs.vfat -F 16 -n EFI-SP /dev/sda3
 ```
 
 
-### Taking a look at each parition and filesytem:
+### Taking a look at each partition and filesystem:
 
 - NOTE: These are the unencrypted filesystems. Our encrypted filesystem can only be made after we have encrypted a partition.
 
@@ -215,7 +215,7 @@ echo -n "${SDD_PASS}" | cryptsetup open /dev/sda4 ENCRYPTED_DATA -
 
 - This is the partition you will install your operating system to. As this LVM is inside of a LUKS partition, you will need to locate it through `/dev/mapper`
 
-- The only change needed is for system hybernation. Hybernation stores your RAM as encrypted. No matter what state your computer is in, data is encrypted. 
+- The only change needed is for system hibernation. Hibernation stores your RAM as encrypted. No matter what state your computer is in, data is encrypted. 
 
 > The setting for SWAP is set to 9GB. Please modify to include `the amount of RAM your system has + 1GB`.
 {: .prompt-tip }
