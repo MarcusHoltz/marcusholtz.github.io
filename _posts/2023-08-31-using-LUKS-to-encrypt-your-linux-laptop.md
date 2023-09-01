@@ -288,7 +288,7 @@ dd bs=16M if=/dev/sda|bzip2 -c|nc serverB.example.net 19000
 nc -l 19000|bzip2 -d|dd bs=16M status=progress | gzip -c > ~/backup_dd_disk.img.gz
 
 #To restore the image back to the disk, the following command can be used:
-gunzip -c /storage/images/sabrent_disk.img.gz | dd of=/dev/sda
+gunzip -c /storage/images/backup_dd_disk.img.gz | dd of=/dev/sda
 ```
 
 
