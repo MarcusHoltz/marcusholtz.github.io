@@ -136,8 +136,15 @@ apt update; apt -y install gparted
 - Otherwise, from terminal:
 
 ``` bash
-sudo parted /dev/sda mklabel gpt
+gdisk /dev/sda
 ```
+
+- Now, we will be interacting with gdisk. 
+
+- Here, you can create a new empty GUID partition table (GPT) by typing `o` and then pressing `Enter`. 
+
+- Next, write the changes to disk by typing `w` and pressing `Enter`.
+
 
 
 ## Partitioning the Disk
