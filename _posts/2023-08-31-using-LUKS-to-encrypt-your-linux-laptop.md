@@ -373,7 +373,57 @@ And if you want to mount the USB drive on boot:
 echo "UUID=$(blkid -s UUID -o value /dev/sdb1)  /mnt/myusb      vfat    defaults,errors=remount-ro 0       1" >> /etc/fstab
 ```
 
+What will fix it?
 
+This page:
+
+https://unix.stackexchange.com/questions/206754/difference-between-cryptopts-and-crypttab/447676#447676
+
+https://askubuntu.com/questions/906870/luks-keyscript-being-ignored-asks-for-password
+
+I need a keyscript, example: https://github.com/hilbix/LUKS/blob/master/unlock-root.sh
+
+This is interesting but doesnt work:
+
+https://gitlab.com/ole.tange/tangetools/-/tree/master/decrypt-root-with-usb
+
+
+https://github.com/Ixtalo/SSHUnlockLUKS
+
+SAMPLE:
+`placeholder_for_name UUID=putUUIDhere none luks,keyscript=/lib/cryptsetup/scripts/unlock_by_keyfile.sh`
+
+
+
+
+
+ENCRYPTED_DATA UUID=$(blkid -s UUID -o value /dev/sda4) none luks,keyscript=/lib/cryptsetup/scripts/unlock_by_keyfile.sh
+
+
+unlock_by_keyfile.sh
+```
+#!/bin/bash
+
+# Path to the keyfile
+KEYFILE="/boot/Wikimedia-logo.jpg"
+
+# Check if the keyfile exists
+if [ ! -e "$KEYFILE" ]; then
+    echo "Keyfile not found: $KEYFILE"
+    exit 1
+fi
+
+# Unlock the LUKS-encrypted volume using the keyfile
+cryptsetup luksOpen --key-file "$KEYFILE" "$1" "$2"
+
+# Check the exit status of cryptsetup
+if [ $? -ne 0 ]; then
+    echo "Failed to unlock the LUKS-encrypted volume."
+    exit 1
+fi
+
+exit 0
+```
 
 * * * 
 
