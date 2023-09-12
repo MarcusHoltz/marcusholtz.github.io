@@ -954,11 +954,8 @@ Thus masking your IP address connected to your domains.
 ## Sources:
 
 - TheMaw Tech for the basic pfsense style HAProxy Setup
-  
-  * https://www.youtube.com/watch?v=uACQrhtsgFk
+* https://www.youtube.com/watch?v=uACQrhtsgFk
 
 
 - TheHellSite forum post on OPNsense's forums
-
-  * https://forum.opnsense.org/index.php?topic=23339.0
-
+* https://forum.opnsense.org/index.php?topic=23339.0
