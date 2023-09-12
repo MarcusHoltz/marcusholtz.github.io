@@ -110,8 +110,7 @@ This tells Let's Encrypt we own the **entire** domain and can therefore issue ce
 2. `Challenge Type` should be set to `DNS-01`
 
 3. `DNS Service` is up to your provider. 
-  
-  - I use CloudFlare, as anyone can use them by changing Nameservers. Create a new API Token (with correct credentials).
+- I use CloudFlare, as anyone can use them by changing Nameservers. Create a new API Token (with correct credentials).
 
 4. Save and double check you got the **Account ID, API Token, and all credential's permissions** set correctly. 
 
