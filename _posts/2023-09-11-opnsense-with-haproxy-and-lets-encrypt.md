@@ -9,9 +9,6 @@ image:
   alt: Create a reverse proxy with OPNsense and HAProxy using Let's Encrypt certificates
 ---
 
-Setting_up_HAProxy_and_Let'sEncrypt_on_OPNSense
-========================================
-
 # Setting up HAProxy and Let's Encrypt on OPNsense
 
 ## HAProxy uses ACME Let's Encrypt for SSL authentication
