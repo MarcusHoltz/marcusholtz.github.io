@@ -4,7 +4,7 @@
 @import "{{ site.theme }}";
 
 /** Readability improvements **/
-html[data-mode="dark"] h5, h4, h3, h2 { font-weight: 700; color: #614a94; } /** Removed "text-decoration: underline;" in favor of a lighter version of purple **/
+html[data-mode="dark"] h5, h4, h3, h2 { font-weight: 700; color: #614a94; text-decoration: underline; } 
 html[data-mode="dark"] p { margin-bottom: 1.35rem; } 
 html[data-mode="dark"] .highlighter-rouge { box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 5px 1px 0px, rgba(0, 0, 0, 0.05) 0px 2px 1px 0px; }
 
