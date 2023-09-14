@@ -726,6 +726,26 @@ TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
 19. Apply.
 
 
+
+* * *
+
+##### Update Map file? Restart Service!
+
+Anytime you want to add a new service and subdomain here are the steps:
+
+1. Create a `Real Server` that points to the IP address and PORT of the service that is running (example: I'm running Proxmox and want to verified SSL that service. I'd find the IP address of the machine, and the port number of the service you're trying to connect to. In Proxmox's case this is:  [IP - 192.168.1.12 with a PORT 8006] and, as Proxmox is encrypted by default, we must check the `SSL` checkbox to tell to HAProxy to expect an SSL connection. MAKE SURE to UNCHECK `Verify SSL Certificate`.)
+- That's it! There are a lot of options, but all the `Real Server` needs is IP and PORT and if that port is SSL or not. 
+
+2. Creating a new `Backend Server`. Enter YOURSERVICENAMEHERE_backend for the name of this backend server. Then, select the name of the Real Server created above in the `Servers` section.
+- This is where your pool would live if you had multiple servers doing the same thing.
+
+3. Modifing the `Rules` file. This is why it's important to be consistant with names, we now must enter the subdomain to match with a backend. Naming our backends consistantly helps ensure when we need to add/edit the map file, it's seemless.
+- The map file matches the entered subdomain with the backend service.
+
+4. **Restart HAProxy.**
+- That's right nothing will work unless HAProxy loads the new map file.
+
+
 * * *
 
 #### Life without a map file: part 2
