@@ -72,7 +72,7 @@ echo "OLD_HOSTNAME=$(hostname)" > /root/pve-nodes-to-rename.tmp && echo -e "\nte
 echo "NEW_HOSTNAME=$NEW_HOSTNAME" >> /root/pve-nodes-to-rename.tmp && echo -e "hostnames entered into temp file."
 sleep 1;
 #
-# This line reads the file we created into shell variables
+# This line reads the file we created into shell variables using a Process Substitution. This takes the output of a process, not just the stout, and reads it into the current shell environment.
 . <(cat /root/pve-nodes-to-rename.tmp) && echo -e "shell variables loaded into memory."
 sleep 1;
 #
