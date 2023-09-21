@@ -77,16 +77,16 @@ sleep 1;
 sleep 1;
 #
 # Move the original file to a .bak extension, and replace the current hostname with the entered new node name.
-sed -i.bak "s/$OLD_HOSTNAME/$NEW_HOSTNAME/gi" /etc/hostname && echo -e "/etc/hostname file sucessfully edited."
+sed -i.bak "s/$OLD_HOSTNAME/$NEW_HOSTNAME/g" /etc/hostname && echo -e "/etc/hostname file sucessfully edited."
 #
 # Do the same as the hostname with the hosts
-sed -i.bak "s/$OLD_HOSTNAME/$NEW_HOSTNAME/gi" /etc/hosts && echo -e "/etc/hosts file sucessfully edited."
+sed -i.bak "s/$OLD_HOSTNAME/$NEW_HOSTNAME/g" /etc/hosts && echo -e "/etc/hosts file sucessfully edited."
 #
 # edit mailname if it exists
-[ -e "/etc/mailname" ] && sed -i.bak "s/$OLD_HOSTNAME/$NEW_HOSTNAME/gi" /etc/mailname
+[ -e "/etc/mailname" ] && sed -i.bak "s/$OLD_HOSTNAME/$NEW_HOSTNAME/g" /etc/mailname
 #
 # edit main.cf if it exists
-[ -e "/etc/postfix/main.cf" ] && sed -i.bak "s/$OLD_HOSTNAME/$NEW_HOSTNAME/gi" /etc/postfix/main.cf
+[ -e "/etc/postfix/main.cf" ] && sed -i.bak "s/$OLD_HOSTNAME/$NEW_HOSTNAME/g" /etc/postfix/main.cf
 #
 # copy config files to new node name and dont send errors to console
 cp "/var/lib/rrdcached/db/pve2-node/$OLD_HOSTNAME" "/var/lib/rrdcached/db/pve2-node/$NEW_HOSTNAME" -r  > /dev/null 2>&1;
@@ -113,12 +113,12 @@ fi
 # begin stage 2
 echo -e "\nThank you for starting stage 2.\n"
 sleep 2;
-# read variables from ini
+# read variables into memory
 . <(cat /root/pve-nodes-to-rename.tmp) && echo -e "shell variables from before reboot loaded back into memory."
 sleep 2;
 #
 # update storage config
-sed -i.bak "s/nodes $OLD_HOSTNAME/nodes $NEW_HOSTNAME/gi" /etc/pve/storage.cfg && echo -e "updated storage config"
+sed -i.bak "s/nodes $OLD_HOSTNAME/nodes $NEW_HOSTNAME/g" /etc/pve/storage.cfg && echo -e "updated storage config"
 sleep 1.5;
 #
 # mv vm configs
