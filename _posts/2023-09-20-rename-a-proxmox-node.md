@@ -118,11 +118,11 @@ sleep 2;
 sleep 2;
 #
 # update storage config
-sed -i.bak "s/nodes $OLD_HOSTNAME/nodes $NEW_HOSTNAME/g" /etc/pve/storage.cfg && echo -e "updated storage config"
+sed -i.bak "s/nodes $OLD_HOSTNAME/nodes $NEW_HOSTNAME/g" /etc/pve/storage.cfg && echo -e "updated storage config."
 sleep 1.5;
 #
 # mv vm configs
-mv /etc/pve/nodes/$OLD_HOSTNAME/qemu-server/*.conf /etc/pve/nodes/$NEW_HOSTNAME/qemu-server/ && echo -e "moved VM configs"
+mv /etc/pve/nodes/$OLD_HOSTNAME/qemu-server/*.conf /etc/pve/nodes/$NEW_HOSTNAME/qemu-server/ && echo -e "moved VM configs."
 sleep 1.5;
 #
 # mv ct configs
@@ -150,3 +150,5 @@ rm /root/pve-nodes-to-rename.tmp && echo -e "\nCOMPLETE! Temp/Backup files have 
 ```
 
 Thanks, hope this helps someone.
+
+[Source](https://www.youtube.com/@i12bretro/videos)
