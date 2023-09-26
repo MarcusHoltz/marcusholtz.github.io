@@ -136,17 +136,17 @@ sleep_times["GREAT"]=2
 echo -e "\n**************************************************************************\nWelcome to password generator, please follow instructions below\n**************************************************************************"
 echo -e "(Example: seniorclass, mymom, personalstuff)\nEnter group to use for this password:"
 read -s PASWRD1_phrase
-echo -e "Great!\n"; sleep .5; echo -e "Now enter your age:"
+echo -e "Great!\n"; sleep .25; echo -e "Now enter your age:"
 read -s PASWRD1_age
-echo -e "Is this a marketing survey, or a password generator...\n"; sleep .5; echo -e "Next, with the **first letter capitalized**, \nEnter the name of the **Website or Service** you're creating a password for:"
+echo -e "Is this a marketing survey, or a password generator...\n"; sleep .25; echo -e "Next, with the **first letter capitalized**, \nEnter the name of the **Website or Service** you're creating a password for:"
 read -s PASWRD1_service
-echo -e "\nBe sure that first character was a capital letter!"; sleep 1
+echo -e "\nBe sure that first character was a capital letter!"; sleep .25
 echo -e "This script will insert a colon now     :     \n"
 echo -e "Now enter your username, tied to the service above:"
 read -s PASWRD1_username
 echo -e "Last Step.\n\nEnter a password that you can remember:"
 read -s PASWRD1_password
-echo -e "\nGreat!"; sleep .5; echo -e "We're done entering our information!"
+echo -e "\nGreat!"; sleep .25; echo -e "We're done entering our information!"
 sleep 1;
 echo -e "\n**********************************************************************\n   Let's pass this data into our hash  (may take up to 30 seconds)\n**********************************************************************"; sleep 1;
 # Make sure that directory exists, or create it
