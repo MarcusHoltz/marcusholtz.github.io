@@ -165,7 +165,7 @@ PASWRD1_salt=${PASWRD1_service}${PASWRD1_username}
 mkfifo ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}--${PASWRD1_username}.txt && echo -n $PASWRD1_full > ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}--${PASWRD1_username}.txt &
 sleep 2;
 # the file containing the hash is named without the .txt
-mkfifo ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}--${PASWRD1_username} && echo -n $PASWRD1_full | openssl dgst -sha3-384 | echo -n $(awk '{print $2}') | argon2 ${PASWRD1_salt} -id -t 13 -m 17 -p 4 -l 32 | sed 's/.*\$//' > ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}--${PASWRD1_username} &
+mkfifo ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}--${PASWRD1_username} && echo -n $PASWRD1_full | openssl dgst -sha3-384 | echo -n $(awk '{print $2}') | argon2 ${PASWRD1_salt} -id -e -t 13 -m 17 -p 4 -l 32 | sed 's/.*\$//' > ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}--${PASWRD1_username} &
 # Sleep for as long as the hash takes, to keep our file open in the pipe
 sleep ${sleep_times["$ENCRYPTION_SPEED"]};
 # ZIP up both files, original and hash, with the password that was chosen above.
@@ -180,7 +180,7 @@ echo -e "It is currently only encrypted as a zip,\nwith 'the password that you c
 echo -e "Your hashed and unhashed information is stored in:"
 echo -e "${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}.zip\n"
 echo -e "Your final hashed password is:"
-echo -n $PASWRD1_full | openssl dgst -sha3-384 | echo -n $(awk '{print $2}') | argon2 ${PASWRD1_salt} -id -t 13 -m 17 -p 4 -l 32 | sed 's/.*\$//'
+echo -n $PASWRD1_full | openssl dgst -sha3-384 | echo -n $(awk '{print $2}') | argon2 ${PASWRD1_salt} -id -e -t 13 -m 17 -p 4 -l 32 | sed 's/.*\$//'
 ```
 
 - Script can be found [here](https://raw.githubusercontent.com/MarcusHoltz/password-hash-script/main/generate-password.sh), on my Github account.
