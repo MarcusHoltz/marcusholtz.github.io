@@ -5,8 +5,8 @@ categories: [Linux, Security]
 tags: [hash, scripts, security, cryptography, passwords]
 pin: false
 image:
-  path: /assets/img/header/header--script--unique-password-hashing.jpg
-  alt: Create a new password for every service or website you visit
+  path: /assets/img/header/header--script--unique-password-hashing.jpg
+  alt: Create a new password for every service or website you visit
 ---
 # Let's hash some information into a password
 
@@ -26,11 +26,11 @@ image:
 
 ```
 ########################################################
-#####          What does this script do?           #####
+#####          What does this script do?           #####
 ########################################################
 ## Inspired by: https://github.com/pashword/pashword ##
-## This script hopes to create a hashed password     ##
-## that cannot be found in a pre-generated table     ##
+## This script hopes to create a hashed password     ##
+## that cannot be found in a pre-generated table     ##
 #######################################################
 ```
 
@@ -39,15 +39,15 @@ image:
 
 ```
 #######################################################
-## This script requires 270MB of free RAM            ##
-## Be sure you have installed:                       ##
-##          zip, openssl, argon2                     ##
+## This script requires 270MB of free RAM            ##
+## Be sure you have installed:                       ##
+##          zip, openssl, argon2                     ##
 #######################################################
-## What directory do you want to                     ## 
-## store your password files in?                     ##
+## What directory do you want to                     ## 
+## store your password files in?                     ##
 #######################################################
 This is the only area in the script that would need
-            user input for editing
+            user input for editing
 --------------------------------------------------------
 PASSWORD_FILES_LOCATION=~/Documents/.passwords
 ```
@@ -60,35 +60,35 @@ PASSWORD_FILES_LOCATION=~/Documents/.passwords
 
 ## Visual representation of what the script does:
 ```
-     ┌────────────┐     ┌───────────┐     ┌────────────┐
-     │            │     │           │     │            │
-     │            │     │           │     │ ┌────────┐ │
-     │            │     │           │     │ │  I N   │ │
-     │ U S E R    │     │           │     │ │ memory │ │
-     │            ├────►│ Combined  ├────►│ │Password│ ├─┐
-     │            │     │  U S E R  │     │ └────────┘ │ │
-     │  I N P U T │     │ I N P U T │     │  TXT       │ │
-     │            │     │           │     │  FORMAT    │ │
-     └────────────┘     └───────────┘     └────────────┘ │
-                                                         │
+     ┌────────────┐     ┌───────────┐     ┌────────────┐
+     │            │     │           │     │            │
+     │            │     │           │     │ ┌────────┐ │
+     │            │     │           │     │ │  I N   │ │
+     │ U S E R    │     │           │     │ │ memory │ │
+     │            ├────►│ Combined  ├────►│ │Password│ ├─┐
+     │            │     │  U S E R  │     │ └────────┘ │ │
+     │  I N P U T │     │ I N P U T │     │  TXT       │ │
+     │            │     │           │     │  FORMAT    │ │
+     └────────────┘     └───────────┘     └────────────┘ │
+                                                         │
 ┌────────────────────────────────────────────────────────┘
 │
-│  ┌─────────────┐  ┌────────────┐  ┌─────────────────────────┐
-│  │             │  │            │  │                         │
-│  │ ┌─────────┐ │  │ ┌────────┐ │  │       ┌────────┐        │
-│  │ │  I N    │ │  │ │  I N   │ │  │       │  I N   │        │
-└─►│ │ memory  │ ├─►│ │ memory │ ├─►│       │ memory │        │
-   │ │Password │ │  │ │Password│ │  │       │Password│        │
-   │ └─────────┘ │  │ └────────┘ │  │       └────────┘        │
-   │  SHA3-384   │  │  Argon2    │  │ Encrypted Zip Created   │
-   │   H A S H   │  │  H A S H   │  │ txt & hash files inside │
-   └─────────────┘  └────────────┘  └────────────────────┬────┘
-                                                         │
- ┌───────────────────────────────────────────────────┐   │
- │                                                   │   │
- │ Finished  Argon2  Hash  is  reprinted  on  screen │◄──┘
- │                                                   │
- └───────────────────────────────────────────────────┘
+│  ┌─────────────┐  ┌────────────┐  ┌─────────────────────────┐
+│  │             │  │            │  │                         │
+│  │ ┌─────────┐ │  │ ┌────────┐ │  │       ┌────────┐        │
+│  │ │  I N    │ │  │ │  I N   │ │  │       │  I N   │        │
+└─►│ │ memory  │ ├─►│ │ memory │ ├─►│       │ memory │        │
+   │ │Password │ │  │ │Password│ │  │       │Password│        │
+   │ └─────────┘ │  │ └────────┘ │  │       └────────┘        │
+   │  SHA3-384   │  │  Argon2    │  │ Encrypted Zip Created   │
+   │   H A S H   │  │  H A S H   │  │ txt & hash files inside │
+   └─────────────┘  └────────────┘  └────────────────────┬────┘
+                                                         │
+ ┌───────────────────────────────────────────────────┐   │
+ │                                                   │   │
+ │ Finished  Argon2  Hash  is  reprinted  on  screen │◄──┘
+ │                                                   │
+ └───────────────────────────────────────────────────┘
 ```
 
 
@@ -115,23 +115,23 @@ PASSWORD_FILES_LOCATION=~/Documents/.passwords
 PASSWORD_FILES_LOCATION=~/Documents/.passwords
 #######################################################
 # How fast is this machine?
-COMPOOTER_SPEED=$(lscpu | grep -oP "BogoMIPS:\s+\K\w+")
-# Check if COMPOOTER_SPEED is in one of the specified ranges
-if ((COMPOOTER_SPEED >= 0 && COMPOOTER_SPEED <= 5000)); then
+VAR_MIPS_SPEED=$(lscpu | grep -oP "BogoMIPS:\s+\K\w+")
+# Check if VAR_MIPS_SPEED is in one of the specified ranges
+if ((VAR_MIPS_SPEED >= 0 && VAR_MIPS_SPEED <= 5000)); then
   ENCRYPTION_SPEED=SLOW
-elif ((COMPOOTER_SPEED >= 5001 && COMPOOTER_SPEED <= 7999)); then
+elif ((VAR_MIPS_SPEED >= 5001 && VAR_MIPS_SPEED <= 7999)); then
   ENCRYPTION_SPEED=OK
-elif ((COMPOOTER_SPEED >= 8000 && COMPOOTER_SPEED <= 11000)); then
+elif ((VAR_MIPS_SPEED >= 8000 && VAR_MIPS_SPEED <= 11000)); then
   ENCRYPTION_SPEED=GOOD
 else
   ENCRYPTION_SPEED=GREAT
 fi
 # Define an associative array to map ENCRYPTION_SPEED values to sleep durations
 declare -A sleep_times
-sleep_times["SLOW"]=30
-sleep_times["OK"]=17
-sleep_times["GOOD"]=8
-sleep_times["GREAT"]=5
+sleep_times["SLOW"]=8
+sleep_times["OK"]=4
+sleep_times["GOOD"]=3
+sleep_times["GREAT"]=2
 # Done with benchmark for sleep length assignment
 echo -e "\n**************************************************************************\nWelcome to password generator, please follow instructions below\n**************************************************************************"
 echo -e "(Example: seniorclass, mymom, personalstuff)\nEnter group to use for this password:"
@@ -165,7 +165,7 @@ PASWRD1_salt=${PASWRD1_service}${PASWRD1_username}
 mkfifo ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}--${PASWRD1_username}.txt && echo -n $PASWRD1_full > ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}--${PASWRD1_username}.txt &
 sleep 2;
 # the file containing the hash is named without the .txt
-mkfifo ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}--${PASWRD1_username} && echo -n $PASWRD1_full | openssl dgst -sha3-384 | sed 's/.*[[:space:]]//' | argon2 ${PASWRD1_salt} -id -e -t 16 -m 18 -p 8 -l 32 | sed 's/.*\$//' > ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}--${PASWRD1_username} &
+mkfifo ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}--${PASWRD1_username} && echo -n $PASWRD1_full | openssl dgst -sha3-384 | echo -n $(awk '{print $2}') | argon2 ${PASWRD1_salt} -id -t 13 -m 17 -p 4 -l 32 | sed 's/.*\$//' > ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}--${PASWRD1_username} &
 # Sleep for as long as the hash takes, to keep our file open in the pipe
 sleep ${sleep_times["$ENCRYPTION_SPEED"]};
 # ZIP up both files, original and hash, with the password that was chosen above.
@@ -180,7 +180,7 @@ echo -e "It is currently only encrypted as a zip,\nwith 'the password that you c
 echo -e "Your hashed and unhashed information is stored in:"
 echo -e "${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}.zip\n"
 echo -e "Your final hashed password is:"
-echo -n $PASWRD1_full | openssl dgst -sha3-384 | sed 's/.*[[:space:]]//' | argon2 ${PASWRD1_salt} -id -e -t 16 -m 18 -p 8 -l 32 | sed 's/.*\$//'
+echo -n $PASWRD1_full | openssl dgst -sha3-384 | echo -n $(awk '{print $2}') | argon2 ${PASWRD1_salt} -id -t 13 -m 17 -p 4 -l 32 | sed 's/.*\$//'
 ```
 
 - Script can be found [here](https://raw.githubusercontent.com/MarcusHoltz/password-hash-script/main/generate-password.sh), on my Github account.
@@ -190,16 +190,15 @@ echo -n $PASWRD1_full | openssl dgst -sha3-384 | sed 's/.*[[:space:]]//' | argon
 # Explaining the script above
 
 ```
-###########################################
-###      Why did I pick those values?    ##
-###########################################
+############################################
+###      Why did I pick those values?    ###
+############################################
 # Phrase - helps the user keep these passwords organized in their head. It's repeatable through multiple passwords.
 # Age - random number data, but also, reminds the user to change their password yearly. If you try and hash 23 and it doesnt work, hash 22, and it does -- that reminds you to update the hash to this years age. 
 # Service - Very important. This helps name all the files, is also used in the salt.
 # Username - Should be different for each site. Also used for the salt.
-###########################################
+#################################################
 ```
-
 
 
 ## In memory, never on disk
@@ -209,11 +208,12 @@ echo -n $PASWRD1_full | openssl dgst -sha3-384 | sed 's/.*[[:space:]]//' | argon
 To do this, we'll be piping to stdin directly. 
 
 The only gotcha is when the data is piped to fifo it needs to run in the background. We need this data to remain in memory for as long as the hashing takes -- before it can be encrypted.
+
 Then just remove the file and it's gone from memory, never on disk.
 
 
 
-## SHA then Argon2
+### SHA3-384 --> Argon2
 
 User values are hashed, so one-way-encryption, first using SHA3-384 and then using the Argon2 algorithm the second time. This is to ensure maximum bruteforce and dictionary attack protection.
 
@@ -221,7 +221,7 @@ SHA3-384 was chosen due to Argon2's input size.
 
 
 
-## Argon2 input size
+### Argon2 input size
 
 128 minus 1 characters are supported in command line utility for Argon2. *So this means we have to use something smaller than 512 bits.*
 
@@ -232,48 +232,147 @@ SHA3-384 was chosen due to Argon2's input size.
 Just for reference, maximum input length for bcrypt is 72 characters.
 
 
+
 ## Argon2 settings
 
-You need to keep your iterations higher than 10 to keep entropy in the millions of years:  `Argon2 - t=10, m=512.000, p=4       is      John the Ripper: 1 Password/second `
 
-```
-       -id             Use Argon2id instead of Argon2
-       -t N            Sets the number of iterations to N (default = 3)
-       -m N            Sets the memory usage of 2^N KiB (default 12)
-       -k N            Sets the memory usage of N KiB (default 4096)
-       -p N            Sets parallelism to N threads (default 1)
-       -l N            Sets hash output length to N bytes (default 32)
-       -e              Output only encoded hash
-```
+### A hash that works for our system
 
+You need to make a hash value that works for your system. Are you on 256 cores with 2TB of ram? Or on a Raspbery Pi? 
+
+Best way to set these values is to consider them as parameters affecting computational costs:
+
+- `-p` to decide how many threads you can run without delaying other processes on the CPU
+
+- `-k` or `-m` to set how much memory you can assign to the hashing set
+
+- `-t` number of iterations, set this as high as the other two values will allow
+
+
+#### Example hash values for argon2
 
 * * *
 
-In this example, we're using 32 bits. This creates a hash like MD5 or any other:
+Defaults for `argon2` are:
+- Type:           Argon2i
+- Parallelism:    1
+- Memory:         4096 KiB
+- Iterations:     3
+- Hash length:    32
 
-`-l 32`
+* * *
 
-kB and GB are like the metric system, but this software wants kibibytes. Directly under 1GB is 976562 kibibytes (a whole GB is 976562.5 kibibytes).  1 Gigabyte is equal to (10^9 / 2^10) kibibytes. You can specify this with: `-k 976562`
+`Bitwarden` default parameters are:
+`-p 4 -k 62500 -t 3`
+- Parallelism:    4
+- Memory:         64 MB
+- Iterations:     3
+
+* * *
+
+These example paramaters provided by [OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#argon2id) are equivalent in the defense they provide. 
+The only difference is a trade off between CPU and RAM usage.
+
+```
+    m=47104 (46 MiB), t=1, p=1 (Do not use with Argon2i)
+    m=19456 (19 MiB), t=2, p=1 (Do not use with Argon2i)
+    m=12288 (12 MiB), t=3, p=1
+    m=9216 (9 MiB), t=4, p=1
+    m=7168 (7 MiB), t=5, p=1
+```
+
+* * *
+
+Example paramaters for `this script` are:
+`-id -p 4 -m 17 -t 13 -l 32`
+- Type:           Argon2id
+- Parallelism:    4
+- Memory:         134.218 MB
+- Iterations:     13
+- Hash length:    32
+
+The value chosen above, `-id -p 4 -m 17 -t 13 -l 32` is half the time of: `-id -p 4 -m 18 -t 11 -l 32`
+
+You can use the latter if you need harder encryption.
+
+* * *
+
+#### Explaining Argon2 paramaters in detail
+
+##### Interation count
+
+You need to keep your `iterations` **higher than `10`** to keep entropy in the millions of years.
+
+- `-t` > 10
+
+
+##### Length of Hash
+
+In this example, the last value on our paramaters, we're using 32 bits. This creates a hash like MD5 or any other:
+
+- `-l 32`
+
+
+##### Memory used during the hash
+
+kB and GB are like the metric system, but this software wants kibibytes. Directly under 1GB is 976562 kibibytes (a whole GB is 976562.5 kibibytes).  1 Gigabyte is equal to (10^9 / 2^10) kibibytes. You can specify this with: `-k 976562`
 
 To specify memory in KiB use the `-m` flag. This uses 2^N KiB so, `-m 20` would be about one gigabyte (24576 bytes more), and `-m 18` is 268.44 MB.
 
-`-id -e -t 256 -m 20 -p 64 -l 32`
+* * *
 
-The command above, would take my CPU 10 minutes to generate!
+`-id -p 64 -m 20 -t 256 -l 32`
+
+The command above, would take my CPU **10 minutes** to generate!
 
 * * *
 
-The maximum I want is, maybe, 30 seconds of patience. So we'll use 16 iterations, 270mb of memory, and 8 threads. 
+`-id -p 8 -m 20 -t 16 -l 32`
 
-This combination took my CPU (Passmark score of 5500) 7 seconds to generate.
+Thes paramaters are more reasonable, taking less than **1 minute**.
 
-Be sure to use the config below:
+* * *
+
+But, the maximum I want is, maybe, *3 seconds*.
+
+So we'll use **13 iterations, 134mb of memory, and 4 threads**. 
+
+The example paramaters of `-p 4 -m 17 -t 13` took my CPU (Passmark score of 5500) *3.2 seconds* to generate.
+
+* * *
+
+#### Running an example argon2 hash
+
+Let's make an argon2 hash and demonstrate how this can be used:
+
+On the command line: 
 
 ```bash
--id -e -t 16 -m 18 -p 8 -l 32
+echo -n pants | argon2 somefantasticsalt -e -id -p 4 -m 17 -t 13 -l 32
 ```
 
+This will give you a lot of information printed on the screen, but the actual hash comes after the last dollar sign `$`.
 
+`$argon2id$v=19$m=131072,t=13,p=4$c29tZWZhbnRhc3RpY3NhbHQ$1a1+Pr6dpKGD2QqBSddH77hb4M9/2ro0NcR6e32yWOk`
+
+You can use CyberChef to find this same value, if you're unable to install Argon2:
+
+[https://gchq.github.io/CyberChef/#recipe=Argon2](https://gchq.github.io/CyberChef/#recipe=Argon2(%7B'option':'UTF8','string':'somefantasticsalt'%7D,13,131072,4,32,'Argon2id','Encoded%20hash')&input=cGFudHM)
+
+You can also [combine operations in CyberChef](https://gchq.github.io/CyberChef/#recipe=SHA3('384')Argon2(%7B'option':'UTF8','string':'somefantasticsalt'%7D,13,131072,4,32,'Argon2id','Encoded%20hash')&input=cGFudHM) to re-create the password hash in your webbrowser.
+
+
+For more information, I've included argon2's help below:
+
+```
+       -id             Use Argon2id instead of Argon2
+       -t N            Sets the number of iterations to N (default = 3)
+       -m N            Sets the memory usage of 2^N KiB (default 12)
+       -k N            Sets the memory usage of N KiB (default 4096)
+       -p N            Sets parallelism to N threads (default 1)
+       -l N            Sets hash output length to N bytes (default 32)
+       -e              Output only encoded hash
+```
 
 * * *
 
@@ -313,7 +412,7 @@ Example:
 
 `abcdefghijklmn` --> `abcdefg`
 
-also, max character requirements. If there's a 16 char max, make it a 15 char password, (N - 1).  
+also, max character requirements. If there's a 16 char max, make it a 15 char password, (N - 1).  
 
 Thanks! Good Luck!
 
@@ -337,7 +436,7 @@ Why did I do this?
 
 ```
 #############################################################################################
-##    These are the old scrypt methods I used, I no longer need them with Argon2           ##
+##    These are the old scrypt methods I used, I no longer need them with Argon2           ##
 #############################################################################################
 ## export PASWRD1_password
 ## echo -n $PASWRD1_full > ${PASSWORD_FILES_LOCATION}/.password-${PASWRD1_service}-txt
@@ -369,50 +468,51 @@ Why did I do this?
 #############################################################################################
 ## Visual representation of old scrypt methods:
 ##
-##  ┌────────┐     ┌────────┐      ┌─────────┐
-##  │        │     │        │      │         │
-##  │ User   │     │        │      │Password │
-##  │        ├────►│Combined├─────►│         ├────┐
-##  │ Input  │     │ User   │      │         │    │
-##  │        │     │  Input │      │  TXT    │    │
-##  │        │     │        │      │  FORMAT │    │
-##  └────────┘     └────────┘      └─────────┘    │
-##                                                │
+##  ┌────────┐     ┌────────┐      ┌─────────┐
+##  │        │     │        │      │         │
+##  │ User   │     │        │      │Password │
+##  │        ├────►│Combined├─────►│         ├────┐
+##  │ Input  │     │ User   │      │         │    │
+##  │        │     │  Input │      │  TXT    │    │
+##  │        │     │        │      │  FORMAT │    │
+##  └────────┘     └────────┘      └─────────┘    │
+##                                                │
 ##┌───────────────────────────────────────────────┘
 ##│
-##│  ┌─────────┐     ┌──────────┐      ┌────────────┐
-##│  │         │     │          │      │            │
-##│  │Password │     │Password  ├─────►│ Password   │
-##│  │         ├────►│          │      │            │
-##└─►│         │     │          │      │    +       ├─┐
-##   │SHA3-512 │     │ Base64   │      │            │ │
-##   │         │     │          │      │  S a l t   │ │
-##   │         │     │          │      │            │ │
-##   └─────────┘     └──────────┘      └────────────┘ │
-##                                                    │
+##│  ┌─────────┐     ┌──────────┐      ┌────────────┐
+##│  │         │     │          │      │            │
+##│  │Password │     │Password  ├─────►│ Password   │
+##│  │         ├────►│          │      │            │
+##└─►│         │     │          │      │    +       ├─┐
+##   │SHA3-512 │     │ Base64   │      │            │ │
+##   │         │     │          │      │  S a l t   │ │
+##   │         │     │          │      │            │ │
+##   └─────────┘     └──────────┘      └────────────┘ │
+##                                                    │
 ##┌───────────────────────────────────────────────────┘
 ##│
-##│ ┌──────────┐   ┌─────────┐   ┌──────────┐
-##│ │          │   │         │   │          │
-##│ │Password  │   │ Password│   │ Password │
-##└►│          ├──►│         ├──►│          ├─────┐
-##  │          │   │         │   │          │     │
-##  │ Scrypt   │   │         │   │  H E X   │     │
-##  │  BINARY  │   │   XXD   │   │ format   │     │
-##  │          │   │         │   │          │     │
-##  └──────────┘   └─────────┘   └──────────┘     │
-##                                                │
+##│ ┌──────────┐   ┌─────────┐   ┌──────────┐
+##│ │          │   │         │   │          │
+##│ │Password  │   │ Password│   │ Password │
+##└►│          ├──►│         ├──►│          ├─────┐
+##  │          │   │         │   │          │     │
+##  │ Scrypt   │   │         │   │  H E X   │     │
+##  │  BINARY  │   │   XXD   │   │ format   │     │
+##  │          │   │         │   │          │     │
+##  └──────────┘   └─────────┘   └──────────┘     │
+##                                                │
 ##┌───────────────────────────────────────────────┘
 ##│
-##│  ┌───────────┐        ┌──────────────────────────┐
-##│  │           │        │                          │
-##│  │ Password  │        │    PASSWORD              │
-##│  │           │        │    Finished Hashing      │
-##└─►│           ├───────►│                          │
-##   │ SHA3-512  │        │                          │
-##   │           │        │ Original Text in         │
-##   │           │        │ .password-service.txt.zip│
-##   └───────────┘        └──────────────────────────┘
+##│  ┌───────────┐        ┌──────────────────────────┐
+##│  │           │        │                          │
+##│  │ Password  │        │    PASSWORD              │
+##│  │           │        │    Finished Hashing      │
+##└─►│           ├───────►│                          │
+##   │ SHA3-512  │        │                          │
+##   │           │        │ Original Text in         │
+##   │           │        │ .password-service.txt.zip│
+##   └───────────┘        └──────────────────────────┘
 ##
 #############################################################################################
 ```
+
