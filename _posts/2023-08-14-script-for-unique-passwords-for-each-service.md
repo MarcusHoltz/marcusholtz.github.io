@@ -141,15 +141,12 @@ if [[ $hashOrNot == "Y" || $hashOrNot == "y" ]]; then
 exit;
 fi
 ### Are the directories needed, created?
-if [ ! -d "$ENCRYPTED_PASSWORD_FILES_LOCATION" ]; then
-    mkdir -p "$ENCRYPTED_PASSWORD_FILES_LOCATION"
-fi
-## Check if PASSWORD_FILES_LOCATION exists
+# Check if PASSWORD_FILES_LOCATION exists
 if [ ! -d "$PASSWORD_FILES_LOCATION" ]; then
     mkdir -p "$PASSWORD_FILES_LOCATION"
 fi
 ###
-## Check if ENCRYPTED_PASSWORD_FILES_LOCATION exists
+# Check if ENCRYPTED_PASSWORD_FILES_LOCATION exists
 if [ ! -d "$ENCRYPTED_PASSWORD_FILES_LOCATION" ]; then
     mkdir -p "$ENCRYPTED_PASSWORD_FILES_LOCATION"
 fi
