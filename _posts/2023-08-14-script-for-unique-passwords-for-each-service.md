@@ -3,7 +3,7 @@ title: Unique passwords for every service or website
 date: 2023-08-14 11:33:00 -0700
 categories: [Linux, Security]
 tags: [hash, scripts, security, cryptography, passwords]
-pin: false
+pin: true
 image:
   path: /assets/img/header/header--script--unique-password-hashing.jpg
   alt: Create a new password for every service or website you visit
