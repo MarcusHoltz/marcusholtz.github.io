@@ -34,7 +34,7 @@ image:
 #######################################################
 ```
 
-> #### Please read script information.
+> Please read script information.
 {: .prompt-info }
 
 ```
