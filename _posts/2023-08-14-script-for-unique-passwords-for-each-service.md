@@ -21,7 +21,7 @@ image:
 
 - The original plain text of the hash is stored in a passworded zip.
 
-- At no point is anything unecrypted written to disk.
+- At no point is anything unencrypted written to disk.
 
 
 ```
@@ -334,7 +334,7 @@ Defaults for `argon2` are:
 
 * * *
 
-These example paramaters provided by [OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#argon2id) are equivalent in the defense they provide. 
+These example parameters provided by [OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#argon2id) are equivalent in the defense they provide. 
 The only difference is a trade off between CPU and RAM usage.
 
 ```
@@ -347,7 +347,7 @@ The only difference is a trade off between CPU and RAM usage.
 
 * * *
 
-Example paramaters for `this script` are:
+Example parameters for `this script` are:
 `-id -p 4 -m 17 -t 13 -l 32`
 - Type:           Argon2id
 - Parallelism:    4
@@ -361,9 +361,9 @@ You can use the latter if you need harder encryption.
 
 * * *
 
-#### Explaining Argon2 paramaters in detail
+#### Explaining Argon2 parameters in detail
 
-##### Interation count
+##### Iteration count
 
 You need to keep your `iterations` **higher than `10`** to keep entropy in the millions of years.
 
@@ -372,7 +372,7 @@ You need to keep your `iterations` **higher than `10`** to keep entropy in the m
 
 ##### Length of Hash
 
-In this example, the last value on our paramaters, we're using 32 bits. This creates a hash like MD5 or any other:
+In this example, the last value on our parameters, we're using 32 bits. This creates a hash like MD5 or any other:
 
 - `-l 32`
 
@@ -393,7 +393,7 @@ The command above, would take my CPU **10 minutes** to generate!
 
 `-id -p 8 -m 20 -t 16 -l 32`
 
-Thes paramaters are more reasonable, taking less than **1 minute**.
+These parameters are more reasonable, taking less than **1 minute**.
 
 * * *
 
@@ -401,7 +401,7 @@ But, the maximum I want is, maybe, *3 seconds*.
 
 So we'll use **13 iterations, 134mb of memory, and 4 threads**. 
 
-The example paramaters of `-p 4 -m 17 -t 13` took my CPU (Passmark score of 5500) *3.2 seconds* to generate.
+The example parameters of `-p 4 -m 17 -t 13` took my CPU (Passmark score of 5500) *3.2 seconds* to generate.
 
 * * *
 
