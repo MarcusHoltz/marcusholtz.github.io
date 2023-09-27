@@ -41,7 +41,7 @@ image:
 #######################################################
 ## This script requires 135MB of free RAM            ##
 ## Be sure you have installed:                       ##
-##          zip, openssl, argon2                     ##
+##       zip openssl argon2 gocryptfs fuse           ##
 #######################################################
 ## What directory do you want to                     ## 
 ## store your password files in?                     ##
