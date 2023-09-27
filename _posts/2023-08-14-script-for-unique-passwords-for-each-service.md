@@ -50,6 +50,7 @@ This is the only area in the script that would need
             user input for editing
 --------------------------------------------------------
 PASSWORD_FILES_LOCATION=~/Documents/.passwords
+ENCRYPTED_PASSWORD_FILES_LOCATION=~/Documents/.passencrypted-on-disk
 ```
 
 
