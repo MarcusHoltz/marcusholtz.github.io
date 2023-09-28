@@ -509,7 +509,7 @@ If you must remove any offending characters to the password rules, remove all as
 
 If you have to truncate the password:
 
-The hash is shortened from the left to the right. 
+The hash is shortened keeping the characters from the left and shortening farthest to the right. 
 
 Example:
 
