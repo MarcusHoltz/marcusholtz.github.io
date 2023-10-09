@@ -13,7 +13,6 @@ image:
 
 Detect and physically locate threats using an easy to build and deploy sensor system.
 
-
 ## Script
 
 ```bash
