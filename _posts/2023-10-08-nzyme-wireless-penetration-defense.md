@@ -1,6 +1,6 @@
 ---
 title: nzyme - wireless monitoring system
-date: 2023-10-09 11:33:00 -0700
+date: 2023-10-08 11:33:00 -0700
 categories: [Networking, WiFi]
 tags: [security, wireless, WPA2, telemetry, hack]
 pin: true
