@@ -44,7 +44,7 @@ if [[ "${VERSION[0]}" == "11" || "${VERSION[0]}" == "12" ]]; then
          exit 1
     fi
 else
-  echo -e "Debian is not one of the required versions: 11 (Bullseye) or 12 (Bookworm).\nExiting the script.\n\n"
+  echo -e "Debian is not on one of the required versions: 11 (Bullseye) or 12 (Bookworm).\nExiting the script.\n\n"
   exit 1
 fi
 ###
@@ -60,25 +60,101 @@ export MY_WIFI=$(ip -br l | awk '$1 !~ "lo|vir|eth|ens|enp" { print $1}')
 ### Check if config file exists, possibly previously run -- ask if they need help
 #######################################################
 if [ -f "/etc/nzyme/nzyme.conf" ]; then
-  echo "Is your configuration is not working... the config file exists."
-  read -p "Would you like a last ditch help script? (yes/no): " help_response
-  if [ "$help_response" = "yes" ]; then
-    echo "Please remember, you can access the web interface at: http://$MY_IP"
-    read -p "Do you want to run the nzyme-fix-it-on-reboot script? (yes/no): " fix_response
-    if [ "$fix_response" = "yes" ]; then
-      echo "Running the nzyme-fix-it-on-reboot script..."
-      sudo printf "sleep 20; sudo systemctl stop nzyme; sudo systemctl status nzyme; sudo systemctl daemon-reload; sudo ifconfig $MY_WIFI down; sudo iwconfig $MY_WIFI mode monitor; sudo ifconfig $MY_WIFI up; sudo setcap cap_net_raw,cap_net_admin=eip /usr/lib/jvm/java-1.11.0-openjdk-$MY_SYS_PROC_TYPE/bin/java; sudo systemctl start nzyme; sudo systemctl status nzyme;\n" | sudo tee -a /etc/nzyme/nzyme-reboot.sh
-      sudo chmod 755 /etc/nzyme/nzyme-reboot.sh
-      crontab -l | { cat; echo "@reboot /etc/nzyme/nzyme-reboot.sh"; } | crontab -
-      exit 0
-    else
-      echo "You can re-run this script anytime to reinstall or run the fix-it-on-reboot script."
-      exit 0
-    fi
-  else
-    echo "Please remember, you can access the web interface at: http://$MY_IP"
-  fi
+    echo -e "You've re-run this script.\nWhat do you want to do now that nzyme is installed?"
+    PS3='Please type one of the numbers above and hit enter: '
+    options=("Reinstall nzyme." "Uninstall nzyme." "I am having trouble. Please setup the nzyme-fix-it-on-reboot script." "Display what IP address nzyme is hosted at." "Read the nzyme logs." "Quit this laucher")
+    select opt in "${options[@]}"
+    do
+        case $opt in
+            "Reinstall nzyme.")
+                echo -e -n "\nOk then,\nREINSTALLING NZYME....";
+                    for ((i=1; i<=18; i++)); do
+                        echo -n "."
+                        sleep 0.35
+                    done
+                echo -e "\n\n"
+            break
+                ;;
+            "Uninstall nzyme.")
+                echo -e "#####################################\nUNINSTALLING  NZYME  AND  COMPONENTS\n#####################################"
+                sudo apt remove -y nzyme postgresql libpcap0.8 openjdk-11-jre-headless > /dev/null 2>&1
+                sudo rm -rf /etc/nzyme/* > /dev/null 2>&1
+                sudo rm /etc/apt/preferences.d/openjdk-pin /etc/apt/preferences.d/libpcap > /dev/null 2>&1
+                echo -e "\nUNINSTALL COMPLETE\nYou can re-run this script anytime to reinstall."
+                exit 0
+            break
+                ;;
+            "I am having trouble. Please setup the nzyme-fix-it-on-reboot script.")
+                echo "Setting up the nzyme-fix-it-on-reboot script..."
+                sudo printf "sleep 20; sudo systemctl stop nzyme; sudo systemctl status nzyme; sudo systemctl daemon-reload; sudo ifconfig $MY_WIFI down; sudo iwconfig $MY_WIFI mode monitor; sudo ifconfig $MY_WIFI up; sudo setcap cap_net_raw,cap_net_admin=eip /usr/lib/jvm/java-1.11.0-openjdk-$MY_SYS_PROC_TYPE/bin/java; sudo systemctl start nzyme; sudo systemctl status nzyme;\n" | sudo tee -a /etc/nzyme/nzyme-reboot.sh > /dev/null 2>&1
+                sudo chmod 755 /etc/nzyme/nzyme-reboot.sh
+                crontab -l | { cat; echo "@reboot /etc/nzyme/nzyme-reboot.sh"; } | crontab -
+                echo -e "\nYou will need to add the following REBOOT crontab for the script to take effect on next reboot.\n"
+                echo "Copy and Paste this line:"
+                echo -e "crontab -l | { cat; echo "@reboot /etc/nzyme/nzyme-reboot.sh"; } | crontab -"
+                exit 0
+            break
+                ;;
+            "Display what IP address nzyme is hosted at.")
+                echo -e "\nPlease remember, you can access the web interface at: http://$MY_IP"; sleep 2;
+                exit 0
+            break
+                ;;
+            "Read the nzyme logs.")
+                tail -n 200 /var/log/nzyme/nzyme.log
+                exit 0
+            break
+                ;;
+            "Quit this laucher")
+                exit 0
+            break
+                ;;
+            *) echo "invalid option $REPLY";;
+        esac
+    done
 fi
+###
+###########################################################
+### OLD METHOD
+###########################################################
+#if [ -f "/etc/nzyme/nzyme.conf" ]; then
+#  echo "Is your configuration is not working... the config file exists."
+#  read -p "Would you like to run a last ditch effort help script? (yes/no): " help_response
+#  if [ "$help_response" = "no" ]; then
+#    echo -e -n "\nOk then,\nREINSTALLING NZYME....";
+#      for ((i=1; i<=18; i++)); do
+#        echo -n "."
+#        sleep 0.35
+#      done
+#  fi
+#  if [ "$help_response" = "yes" ]; then
+#    echo "Please remember, you can access the web interface at: http://$MY_IP"
+#    read -p "Do you want to run the nzyme-fix-it-on-reboot script? (yes/no): " fix_response
+#    if [ "$fix_response" = "yes" ]; then
+#      echo "Setting up the nzyme-fix-it-on-reboot script..."
+#      sudo printf "sleep 20; sudo systemctl stop nzyme; sudo systemctl status nzyme; sudo systemctl daemon-reload; sudo ifconfig $MY_WIFI down; sudo iwconfig $MY_WIFI mode monitor; sudo ifconfig $MY_WIFI up; sudo setcap cap_net_raw,cap_net_admin=eip /usr/lib/jvm/java-1.11.0-openjdk-$MY_SYS_PROC_TYPE/bin/java; sudo systemctl start nzyme; sudo systemctl status nzyme;\n" | sudo tee -a /etc/nzyme/nzyme-reboot.sh > /dev/null 2>&1
+#      sudo chmod 755 /etc/nzyme/nzyme-reboot.sh
+#      crontab -l | { cat; echo "@reboot /etc/nzyme/nzyme-reboot.sh"; } | crontab - > /dev/null 2>&1
+#      echo "You will need to REBOOT for the help script to take effect."
+#      exit 0
+#    else
+#      read -p "Would you like to REMOVE nzyme and it's extra dependencies? (yes/no): " uninstall_response
+#      if [ "$uninstall_response" = "yes" ]; then
+#        echo -e "#####################################\nUNINSTALLING  NZYME  AND  COMPONENTS\n#####################################"
+#        sudo apt remove -y nzyme postgresql libpcap0.8 openjdk-11-jre-headless > /dev/null 2>&1
+#        sudo rm -rf /etc/nzyme/* > /dev/null 2>&1
+#        sudo rm /etc/apt/preferences.d/openjdk-pin /etc/apt/preferences.d/libpcap > /dev/null 2>&1
+#        echo -e "\nUNINSTALL COMPLETE\nYou can re-run this script anytime to reinstall."
+#        exit 0
+#      else
+#        echo -e "You can re-run this script anytime to reinstall/uninstall or run the fix-it-on-reboot script."
+#        exit 0
+#      fi
+#    fi
+#  else
+#    echo -e "\nPlease remember, you can access the web interface at: http://$MY_IP"; sleep 2;
+#  fi
+#fi
 ###
 #######################################################
 ### User input for db password / web password
