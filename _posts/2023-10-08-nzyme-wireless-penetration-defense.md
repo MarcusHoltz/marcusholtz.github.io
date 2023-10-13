@@ -13,8 +13,54 @@ image:
 
 Detect and physically locate threats using an easy to build and deploy sensor system.
 
+> The goal of nzyme is to be accessible to as many people as possible by being easy to understand, no matter your level of experience.
 
-## Script
+
+## Install nzyme with the v1 documentation -- and loose
+
+There are a few gotchas in the documentation to get nzyme up and running. 
+
+I would like the install and configuration of nzyme be as easy as it's use. The original goal of nzyme is to be accessible to as many people as possible -- install on a SoC, usb WiFi, and go. The install script below intends to fix that.
+
+
+### How did I get this working?
+
+The saving grace seems to be the [german libpcap version](https://ftp.uni-siegen.de/debian/debian-security/pool/updates/main/libp/libpcap/).
+
+
+There is also the option to build from scratch (I was unable to get this version to work):
+
+- https://github.com/nzymedefense/nzyme/discussions/339#discussioncomment-521229
+
+
+* * *
+
+## Install Wizard for nzyme - script below
+
+### Setting up your system to be able to use nzyme
+
+First you have to make sure to have a working WiFi USB card (read the [requirements](https://v1.nzyme.org/docs/next/installation-configuration/requirements)), and then pick how you're deploying this:
+
+
+#### Install nzyme on a VM for passthrough
+
+This script will install just fine on a Debian VM. 
+
+You can demo the software and check it out.
+
+Then, when you're ready, you can attach and `passthrough a USB WiFi Dongle`. Just be sure to update the 802.11/WiFi **adapter name** in the `nzyme.conf`.
+
+
+#### LePotato
+
+If you're installing this on a SoC, it takes about `7min` to load the card with a debian/raspbian distribution, uncompress the system, reboot, and load the new system.
+
+After the script below runs for an additional `13min+`, it should be a total of about `20min+`
+
+
+* * *
+
+## nzyme v1 install script
 
 ```bash
 #!/bin/bash
@@ -35,7 +81,7 @@ Detect and physically locate threats using an easy to build and deploy sensor sy
 #######################################################
 ######          B E G I N    S C R I P T         ######
 #######################################################
-### Check distro, version, and if ran as root
+### REQUIREMENTS: Check distro, version, and if ran as root
 #######################################################
 read -d . VERSION < /etc/debian_version
 if [[ "${VERSION[0]}" == "11" || "${VERSION[0]}" == "12" ]]; then
@@ -49,7 +95,7 @@ else
 fi
 ###
 #######################################################
-### Architecture, IP, first WiFi device found, if none found assign foo
+### SET SYSTEM VALUES: Architecture, IP, first WiFi device found, if none found assign foo
 #######################################################
 export MY_SYS_PROC_TYPE=$(dpkg --print-architecture)
 export MY_IP=$(ip a | grep 'inet ' | awk '{print $2;}' | tail -n +2 | cut -d/ -f1)
@@ -57,7 +103,7 @@ export MY_WIFI=$(ip -br l | awk '$1 !~ "lo|vir|eth|ens|enp" { print $1}')
 [ -z "$MY_WIFI" ] && export MY_WIFI=wlan-card-not-found
 ###
 #######################################################
-### Check if config file exists, possibly previously run -- ask if they need help
+### HELP SECTION: Check if config file exists, possibly previously run -- ask if they need help
 #######################################################
 if [ -f "/etc/nzyme/nzyme.conf" ]; then
     echo -e "You've re-run this script.\nWhat do you want to do now that nzyme is installed?"
@@ -114,50 +160,8 @@ if [ -f "/etc/nzyme/nzyme.conf" ]; then
     done
 fi
 ###
-###########################################################
-### OLD METHOD
-###########################################################
-#if [ -f "/etc/nzyme/nzyme.conf" ]; then
-#  echo "Is your configuration is not working... the config file exists."
-#  read -p "Would you like to run a last ditch effort help script? (yes/no): " help_response
-#  if [ "$help_response" = "no" ]; then
-#    echo -e -n "\nOk then,\nREINSTALLING NZYME....";
-#      for ((i=1; i<=18; i++)); do
-#        echo -n "."
-#        sleep 0.35
-#      done
-#  fi
-#  if [ "$help_response" = "yes" ]; then
-#    echo "Please remember, you can access the web interface at: http://$MY_IP"
-#    read -p "Do you want to run the nzyme-fix-it-on-reboot script? (yes/no): " fix_response
-#    if [ "$fix_response" = "yes" ]; then
-#      echo "Setting up the nzyme-fix-it-on-reboot script..."
-#      sudo printf "sleep 20; sudo systemctl stop nzyme; sudo systemctl status nzyme; sudo systemctl daemon-reload; sudo ifconfig $MY_WIFI down; sudo iwconfig $MY_WIFI mode monitor; sudo ifconfig $MY_WIFI up; sudo setcap cap_net_raw,cap_net_admin=eip /usr/lib/jvm/java-1.11.0-openjdk-$MY_SYS_PROC_TYPE/bin/java; sudo systemctl start nzyme; sudo systemctl status nzyme;\n" | sudo tee -a /etc/nzyme/nzyme-reboot.sh > /dev/null 2>&1
-#      sudo chmod 755 /etc/nzyme/nzyme-reboot.sh
-#      crontab -l | { cat; echo "@reboot /etc/nzyme/nzyme-reboot.sh"; } | crontab - > /dev/null 2>&1
-#      echo "You will need to REBOOT for the help script to take effect."
-#      exit 0
-#    else
-#      read -p "Would you like to REMOVE nzyme and it's extra dependencies? (yes/no): " uninstall_response
-#      if [ "$uninstall_response" = "yes" ]; then
-#        echo -e "#####################################\nUNINSTALLING  NZYME  AND  COMPONENTS\n#####################################"
-#        sudo apt remove -y nzyme postgresql libpcap0.8 openjdk-11-jre-headless > /dev/null 2>&1
-#        sudo rm -rf /etc/nzyme/* > /dev/null 2>&1
-#        sudo rm /etc/apt/preferences.d/openjdk-pin /etc/apt/preferences.d/libpcap > /dev/null 2>&1
-#        echo -e "\nUNINSTALL COMPLETE\nYou can re-run this script anytime to reinstall."
-#        exit 0
-#      else
-#        echo -e "You can re-run this script anytime to reinstall/uninstall or run the fix-it-on-reboot script."
-#        exit 0
-#      fi
-#    fi
-#  else
-#    echo -e "\nPlease remember, you can access the web interface at: http://$MY_IP"; sleep 2;
-#  fi
-#fi
-###
 #######################################################
-### User input for db password / web password
+### USER INPUT: db password / web password
 #######################################################
 echo -e "**************************************************************************\n     Welcome to nzyme installer, please follow instructions below\n**************************************************************************\nAnswer each prompt to generate the config.\n----------------------------------------------------"
 sleep 1;
@@ -172,7 +176,7 @@ sleep 1;
 echo -e "##################################################\n##  Once install is complete, reboot is needed  ##\n##################################################"
 ###
 #######################################################
-### Wrap this as a function so we can control output later
+### MAIN FUNCTION: Wrap this as a function so we can control output later
 #######################################################
 main_function() {
 ### Update and install requirements
@@ -223,7 +227,7 @@ main_function() {
 }
 ###
 #######################################################
-### Take the function's output and send it somewhere else
+### MANAGE TERMINAL OUTPUT: Take the function's output and send it somewhere else
 #######################################################
 if [ -z $TERM ]; then
   # if not run via terminal, log everything into a log file
@@ -234,7 +238,7 @@ else
 fi
 ###
 #######################################################
-### Congratulations, we're done!
+### FIN: Congratulations, we're done!
 #######################################################
 echo -e "\nTest after reboot with: \ntail -n 200 /var/log/nzyme/nzyme.log"
 echo -e "\n######################################\n## Install complete, reboot needed  ##\n######################################"
