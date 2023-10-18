@@ -85,7 +85,7 @@ wget -O nzyme-install-wizard.sh https://raw.githubusercontent.com/MarcusHoltz/nz
 
 * * *
 
-![nzymeinstallwizard](/assets/img/posts/nzyme-install-wizard-script.gif){: #cool-image }
+![nzymeinstallwizard](/assets/img/posts/nzyme-install-wizard-script.gif)
 
 * * *
 
