@@ -58,6 +58,35 @@ If you're installing this on a SoC, it takes about `7min` to load the card with 
 After the script below runs for an additional `13min+`, it should be a total of about `20min+`
 
 
+* * * 
+
+
+# Nzyme Install Wizard
+
+There are a few gotchas in the nzyme v1 [documentation](https://v1.nzyme.org/docs/intro) to get up and running. 
+
+I would like the install and configuration of nzyme be as easy as it's use. **This install script intends to fix that.**
+
+
+## Install nzyme with this wizard
+
+Use [the install script](https://raw.githubusercontent.com/MarcusHoltz/nzyme-install-wizard/main/nzyme-install-wizard.sh) to help guide you through the nzyme install process on Debian systems.
+
+> The goal of nzyme is to be accessible to as many people as possible by being easy to understand, no matter your level of experience.
+
+
+### Install with this command:
+
+* * *
+
+```bash
+wget -O nzyme-install-wizard.sh https://raw.githubusercontent.com/MarcusHoltz/nzyme-install-wizard/main/nzyme-install-wizard.sh; chmod +x nzyme-install-wizard.sh; sudo bash nzyme-install-wizard.sh
+```
+
+* * *
+
+![nzymeinstallwizard](/assets/img/posts/nzyme-install-wizard-script.gif){: #cool-image }
+
 * * *
 
 ## nzyme v1 install script
