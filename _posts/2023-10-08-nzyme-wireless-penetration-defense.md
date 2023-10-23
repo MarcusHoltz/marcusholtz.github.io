@@ -42,16 +42,7 @@ There is also the option to build from scratch (I was unable to get this version
 First you have to make sure to have a working WiFi USB card (read the [requirements](https://v1.nzyme.org/docs/next/installation-configuration/requirements)), and then pick how you're deploying this:
 
 
-#### Install nzyme on a VM for passthrough
-
-This script will install just fine on a Debian VM. 
-
-You can demo the software and check it out.
-
-Then, when you're ready, you can attach and `passthrough a USB WiFi Dongle`. Just be sure to update the 802.11/WiFi **adapter name** in the `nzyme.conf`.
-
-
-#### LePotato
+#### Raspberry pi, AML-S905X-CC (Le Potato), Old Laptop
 
 If you're installing this on a SoC, it takes about `7min` to load the card with a debian/raspbian distribution, uncompress the system, reboot, and load the new system.
 
