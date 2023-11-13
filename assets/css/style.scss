@@ -70,15 +70,20 @@ html[data-mode="dark"] #post-list .post-preview a { position: initial; }
 
 
 /** Animate pictures **/
-@keyframes enter {
+@keyframes imageenter {
     0% {
-        opacity: var(--tw-enter-opacity,1);
-        transform: translate3d(var(--tw-enter-translate-x,0),var(--tw-enter-translate-y,0),0) scale3d(var(--tw-enter-scale,1),var(--tw-enter-scale,1),var(--tw-enter-scale,1)) rotate(var(--tw-enter-rotate,0))
+        opacity: 0;
+       filter: blur(100px);
     }
+  100% {
+    opacity: 100;
+    filter: blur(0px);
 }
 .animate-in {
-    animation-name: enter;
-    animation-duration: .15s;
+    animation-name: imageenter;
+    animation-duration: 2.15s;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(.4,0,.2,1);
     --tw-enter-opacity: initial;
     --tw-enter-scale: initial;
     --tw-enter-rotate: initial;
