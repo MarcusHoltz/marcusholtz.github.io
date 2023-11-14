@@ -81,7 +81,6 @@ html[data-mode="dark"] #post-list .post-preview a { position: initial; }
   }
 }
 .animate-in {
-    filter: blur(100px);
     animation-name: imageenter;
     animation-duration: 2.15s;
     animation-iteration-count: 1;
