@@ -340,6 +340,11 @@ Just for reference, maximum input length for bcrypt is 72 characters.
 
 ## Argon2 settings
 
+With encryption, understand...  yes, you can get 50x more performance out of tweaking settings. 
+But that's like saying there's a differnce between $500 trillion and $10 trillion. Either would be fine for my needs. 
+
+I dont "NEED" 50x the original $10 trillion. It's almost pointless after your first $10 trillion.
+
 
 ### A hash that works for our system
 
