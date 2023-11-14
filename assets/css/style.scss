@@ -95,7 +95,7 @@ html[data-mode="dark"] #post-list .post-preview a { position: initial; }
 /** Add N:th item, so each subsequent picture is delayed when the animation begins **/
 @for $i from 1 through 10 {
     .animate-in:nth-child(#{$i}n) {
-        animation-delay: #{$i * 0.15}s;
-        animation-duration: #{$i * .5}s;
+        animation-delay: #{$i + 0.15}s;
+        animation-duration: #{$i * .5 + 1}s;
     }
 }
