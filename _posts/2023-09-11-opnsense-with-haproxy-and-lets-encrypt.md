@@ -1047,3 +1047,6 @@ Thus masking your IP address connected to your domains.
 
 - TheHellSite forum post on OPNsense's forums
 * https://forum.opnsense.org/index.php?topic=23339.0
+
+- OPNsense's documentation
+* https://docs.huihoo.com/m0n0wall/opnsense/manual/how-tos/haproxy.html
