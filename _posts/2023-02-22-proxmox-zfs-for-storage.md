@@ -619,7 +619,7 @@ Datacenter > Storage > 'Add' dropdown menu > 'Proxmox Backup Server'
 
 `Server` is THIS server. We're using the host machine for PBS backups. (E.G - `localhost`)
 
-`Username` is here incase you created a new user for PBS above in the post-install section. Enter it here. (E.G - `lockntross@pam`)
+`Username` is here incase you created a new user for PBS above in the post-install section. Enter it here. (E.G - `username@pam`)
 
 `Datastore` is the name you gave the PBS above. Usually reverse whatever the ZFS datastore name is. (E.G - `backup-proxbox`)
 
