@@ -6,13 +6,13 @@ tags: [security, administration, cloud, fedora, server, techtip, mirror, network
 pin: false
 image:
   path: /assets/img/header/header--linux--fedora-local-repo-over-network.jpg
-  alt: Local mirror of Fedora repos on LAN to save bandwith
+  alt: Local mirror of Fedora repos on LAN to save bandwidth
 ---
 
-# Use a cached dnf mirror of Fedora repositories and update systems over the local network to save bandwith
+# Use a cached dnf mirror of Fedora repositories and update systems over the local network to save bandwidth
 
 
->  Limited bandwith, no internet access, just trying to be green? Cache your files! 
+>  Limited bandwidth, no internet access, just trying to be green? Cache your files! 
 {: .prompt-tip }
 
 
@@ -71,7 +71,7 @@ I have done this several ways, and find using the dnf plugin to be the easiest. 
 
 ### Make folder, mount network share, and create local repository
 
->  In this example, I will be storing the locally mirroed Fedora repo in `/srv/fedora-local-repo` and mounting a samba share.
+>  In this example, I will be storing the locally mirrored Fedora repo in `/srv/fedora-local-repo` and mounting a samba share.
 {: .prompt-info }
 
 
@@ -141,7 +141,7 @@ htop-3.3.0-1.fc39.x86_64.rpm  hwloc-libs-2.10.0-1.fc39.x86_64.rpm  repodata
 
 * * *
 
-## Perminantly mount the fedora-local-repo network share
+## Permanently mount the fedora-local-repo network share
 
 With everything working correctly, we can now make sure our network mount attaches at boot.
 
