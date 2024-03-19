@@ -17,7 +17,7 @@ image:
 
 
 
-## Deploying Fedora on all of the computers across a workspace/home/office, updates pile up quickly. 
+### Deploying Fedora on all of the computers across a workspace/home/office, updates pile up quickly. 
 
 > Let's update our systems as efficiently as possible, with a local repository. 
 
@@ -35,7 +35,7 @@ image:
 
 
 
-## Why is this method best?
+### Why is this method best?
 
 - No Squid *SSL bumping*. 
 
@@ -47,14 +47,14 @@ I have done this several ways, and find using the dnf plugin to be the easiest. 
 
 
 
-# Creating the initial local repository
+## Creating the initial local repository
 
 >  You have to create a repository for the local cache to store it's metadata in. The `createrepo_c` package will be installed as a dependency. 
 {: .prompt-tip }
 
 
 
-## Choose a location for your local repository. 
+### Choose a location for your local repository. 
 
 **Choose where you're keeping the data.**
 
@@ -69,7 +69,7 @@ I have done this several ways, and find using the dnf plugin to be the easiest. 
 
 
 
-## Make folder, mount network share, and create local repository
+### Make folder, mount network share, and create local repository
 
 >  In this example, I will be storing the locally mirroed Fedora repo in `/srv/fedora-local-repo` and mounting a samba share.
 {: .prompt-info }
