@@ -1,5 +1,5 @@
 ---
-title: Create local cache of the Fedora mirrors, update over LAN
+title: Create local cache of Fedora mirrors, update systems over LAN
 date: 2024-03-19 11:33:00 -0700
 categories: [Linux, LocalRepository]
 tags: [security, administration, cloud, fedora, server, techtip, mirror, networking, repository]
@@ -9,11 +9,15 @@ image:
   alt: Local mirror of Fedora repos on LAN to save bandwith
 ---
 
-# Use a cached dnf mirror to update Fedora repositories over the local network to save bandwith
+# Use a cached dnf mirror of Fedora repositories and update systems over the local network to save bandwith
 
-Limited bandwith, no internet access, just trying to be green? Cache your files! 
 
-Deploying Fedora on all of the computers across a workspace/home/office, updates pile up quickly. 
+>  Limited bandwith, no internet access, just trying to be green? Cache your files! 
+{: .prompt-tip }
+
+
+
+## Deploying Fedora on all of the computers across a workspace/home/office, updates pile up quickly. 
 
 > Let's update our systems as efficiently as possible, with a local repository. 
 
@@ -31,42 +35,47 @@ Deploying Fedora on all of the computers across a workspace/home/office, updates
 
 
 
-## Has this been done before?
+## Why is this method best?
 
-This is similar to Debian's [AptCacherNG](https://wiki.debian.org/AptCacherNg). AptCacherNG, however, does [not support Fedora](https://www.unix-ag.uni-kl.de/~bloch/acng/html/distinstructions.html#hints-fccore). 
+- No Squid *SSL bumping*. 
 
-No Squid *SSL bumping*. No Nginx *forward proxy*. Just a plugin for dnf. 
+- No Nginx *forward proxy*. 
+
+- Just a plugin for dnf. 
 
 I have done this several ways, and find using the dnf plugin to be the easiest. There's even an [Ansible task](https://github.com/buckaroogeek/ansible-role-fedora-dnf-local-plugin/blob/main/tasks/main.yaml) already for it.
 
 
 
-
 # Creating the initial local repository
 
-You have to create a repository for the local cache to store it's metadata in. The `createrepo_c` package will be installed as a dependency. 
+>  You have to create a repository for the local cache to store it's metadata in. The `createrepo_c` package will be installed as a dependency. 
+{: .prompt-tip }
+
 
 
 ## Choose a location for your local repository. 
 
-Choose where you're keeping the data.
+**Choose where you're keeping the data.**
 
 >  This is possibly the most important step. 
 {: .prompt-info }
 
-1. On the network. 
+1. **On the network.**
   - This can be any network share you can mount, NFS/SMB/SSH/whatever
 
-2. On your system.
+2. **On your system.**
   - You need a location to mount the network share to.
 
 
-### Example location
-
-In this example, I will be storing the locally mirroed Fedora repo in `/srv/fedora-local-repo` and mounting a samba share.
-
 
 ## Make folder, mount network share, and create local repository
+
+>  In this example, I will be storing the locally mirroed Fedora repo in `/srv/fedora-local-repo` and mounting a samba share.
+{: .prompt-info }
+
+
+* * * 
 
 Please update all of these names according to your personal setup. 
 You may need to change the SMB server, share, credentials, and mount point.
@@ -83,6 +92,7 @@ You may need to change the SMB server, share, credentials, and mount point.
 {: .prompt-tip }
 
 
+* * *
 
 ## Installing python3-dnf-plugin-local 
 
@@ -108,6 +118,8 @@ repodir = /srv/fedora-local-repo
 ```
 
 
+* * *
+
 ## Testing the _dnf_local plugin
 
 Remove any caching in dnf so we can run a fresh update against our new local repo:
@@ -127,6 +139,8 @@ htop-3.3.0-1.fc39.x86_64.rpm  hwloc-libs-2.10.0-1.fc39.x86_64.rpm  repodata
 > Great! Our binaries are now cached inside of a local repository we can share across the network.
 
 
+* * *
+
 ## Perminantly mount the fedora-local-repo network share
 
 With everything working correctly, we can now make sure our network mount attaches at boot.
@@ -139,6 +153,7 @@ Edit your `/etc/fstab` file to include a new line:
 
 
 
+* * *
 
 # Using _dnf_local plugin on all the machines
 
@@ -159,10 +174,7 @@ Now you must do this all over again.
 
 
 
-# Adding automatic updates 
-
-
-
+## Adding automatic updates 
 
 The main advantage of automating the updates is that machines are likely to get updated more quickly, more often, and more uniformly than if the updates are done manually. 
 So while you should still be cautious with any automated update solution, in particular on production systems, it is definitely worth considering, at least in some situations. 
@@ -221,7 +233,7 @@ You can then choose to do full update once in a while:
 
 
 
-# Explaining steps taken
+## Explaining steps taken
 
 
 So the best idea is to:
@@ -241,6 +253,12 @@ Once you have a share, install the python script.
 Edit the `/etc/dnf/plugins/local.conf` to set the `repodir` to the unraid share directory.
 
 Try not to run updates in parallel, but serially. 
+
+
+
+## Has this been done before?
+
+This is similar to Debian's [AptCacherNG](https://wiki.debian.org/AptCacherNg). AptCacherNG, however, does [not support Fedora](https://www.unix-ag.uni-kl.de/~bloch/acng/html/distinstructions.html#hints-fccore). 
 
 
 
