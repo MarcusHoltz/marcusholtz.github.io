@@ -246,3 +246,10 @@ Try not to run updates in parallel, but serially.
 
 
 
+# Sources:
+
+- [fedoraforum](https://forums.fedoraforum.org/showthread.php?324608-Creating-a-local-mirror-for-an-internal-network)
+
+- [fedoramagazine](https://fedoramagazine.org/use-the-dnf-local-plugin-to-speed-up-your-home-lab/)
+
+- [dataswamp](https://dataswamp.org/~solene/2023-04-05-lan-cache-flatpak.html)
