@@ -148,7 +148,11 @@ With everything working correctly, we can now make sure our network mount attach
 
 ### Instead of fstab, Systemd
 
-We can start this mount as a service using Systemd. Using automount will also auto-un-mount the share as well. It will only be mounted when in use.
+We can start this mount as a service using Systemd. 
+
+Using automount will also auto-un-mount the share as well. 
+
+It will only be mounted when in use.
 
 > Please note: the unit name should match the mount point. So, if the mount point is `/mnt/foo` the unit name should be `mnt-foo`.mount and `mnt-foo`.automount -- you cannot use-dashes-in-folder-names
 {: .prompt-warning }
@@ -183,10 +187,9 @@ WantedBy=multi-user.target
 ```
 
 
-#### SystemD automount file
-
-
 * * *
+
+#### SystemD automount file
 
 Make sure the mount is automounted:
 
@@ -206,6 +209,8 @@ TimeoutIdleSec=360
 WantedBy=multi-user.target
 ```
 
+
+* * *
 
 ### Enable and start the service
 
