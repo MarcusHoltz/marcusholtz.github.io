@@ -218,7 +218,7 @@ If everything was entered correctly, we can now start the mount and enable to fo
 
 `sudo systemctl daemon-reload`
 
-`sudo systemctl enable home-user-mnt-samba.automount --now`
+`sudo systemctl enable srv-fedoraLocalRepo.automount --now`
 
 
 * * *
