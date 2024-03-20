@@ -71,7 +71,7 @@ I have done this several ways, and find using the dnf plugin to be the easiest. 
 
 ### Make folder, mount network share, and create local repository
 
->  In this example, I will be storing the locally mirrored Fedora repo in `/srv/fedora-local-repo` and mounting a samba share.
+>  In this example, I will be storing the locally mirrored Fedora repo in `/srv/fedoraLocalRepo` and mounting a samba share.
 {: .prompt-info }
 
 
@@ -81,11 +81,11 @@ Please update all of these names according to your personal setup.
 You may need to change the SMB server, share, credentials, and mount point.
 
 
-1. `sudo mkdir -p /srv/fedora-local-repo`
+1. `sudo mkdir -p /srv/fedoraLocalRepo`
 
-2. `sudo mount -t cifs -o guest,dir_mode=0777,file_mode=0777 //172.21.8.12/toshiba_n300/z_Fedora_Updates /srv/fedora-local-repo`
+2. `sudo mount -t cifs -o guest,dir_mode=0777,file_mode=0777 //172.21.8.12/toshiba_n300/z_Fedora_Updates /srv/fedoraLocalRepo`
 
-3. `sudo createrepo /srv/fedora-local-repo`
+3. `sudo createrepo /srv/fedoraLocalRepo`
 
 
 >  The local caching Fedora repository should now be setup and ready for use across the network.
@@ -107,14 +107,14 @@ The configuration for the dnf local plugin is stored in: `/etc/dnf/plugins/local
 
 We must defines where on the local filesystem the plugin will keep the RPM repository. Open and edit `local.conf`, and add the location of your local repository you created. 
 
-Add the line `repodir = /srv/fedora-local-repo`:
+Add the line `repodir = /srv/fedoraLocalRepo`:
 
 ```
 [main]
 enabled = true
 # Path to the local repository.
 # repodir = /var/lib/dnf/plugins/local
-repodir = /srv/fedora-local-repo
+repodir = /srv/fedoraLocalRepo
 ```
 
 
@@ -130,7 +130,7 @@ Install something that is not on your system, `dnf install htop`
 
 You should see the program update, and use _dnf_local as a repository.
 
-Check inside your local repository for the files downloaded: `ls /srv/fedora-local-repo/`
+Check inside your local repository for the files downloaded: `ls /srv/fedoraLocalRepo/`
 
 ```
 htop-3.3.0-1.fc39.x86_64.rpm  hwloc-libs-2.10.0-1.fc39.x86_64.rpm  repodata
@@ -141,25 +141,88 @@ htop-3.3.0-1.fc39.x86_64.rpm  hwloc-libs-2.10.0-1.fc39.x86_64.rpm  repodata
 
 * * *
 
-## Permanently mount the fedora-local-repo network share
+## Permanently mount the fedoraLocalRepo network share
 
 With everything working correctly, we can now make sure our network mount attaches at boot.
 
-Edit your `/etc/fstab` file to include a new line:
 
-```
-//172.21.8.12/toshiba_n300/z_Fedora_Updates /srv/fedora-local-repo cifs guest,dir_mode=0777,file_mode=0777,noauto,nofail 0 0
-```
+### Instead of fstab, Systemd
 
+We can start this mount as a service using Systemd. Using automount will also auto-un-mount the share as well. It will only be mounted when in use.
+
+> Please note: the unit name should match the mount point. So, if the mount point is `/mnt/foo` the unit name should be `mnt-foo`.mount and `mnt-foo`.automount -- you cannot use-dashes-in-folder-names
+{: .prompt-warning }
+
+
+### Create Systemd unit files
 
 
 * * *
 
-# Using _dnf_local plugin on all the machines
+#### SystemD mount file
+
+Open the new Systemd mount file:
+
+`sudo nano /etc/systemd/system/srv-fedoraLocalRepo.mount`
+
+Enter the following (please update any information according to your personal setup. You may need to change the SMB server, share, credentials, and mount point): 
+
+```
+[Unit]
+Description=mount fedora local repo on unraid
+
+[Mount]
+What=//172.21.8.12/toshiba_n300/z_Fedora_Updates
+Where=/srv/fedoraLocalRepo
+Type=cifs
+Options=rw,file_mode=0777,dir_mode=0777,uid=1000,user=guest,password=guest
+DirectoryMode=0777
+
+[Install]
+WantedBy=multi-user.target
+```
+
+
+#### SystemD automount file
+
+
+* * *
+
+Make sure the mount is automounted:
+
+`sudo nano /etc/systemd/system/srv-fedoraLocalRepo.automount`
+
+Enter the following: 
+
+```
+[Unit]
+Description=automount my share
+
+[Automount]
+Where=/srv/fedoraLocalRepo
+TimeoutIdleSec=360
+
+[Install]
+WantedBy=multi-user.target
+```
+
+
+### Enable and start the service
+
+If everything was entered correctly, we can now start the mount and enable to for next reboot:
+
+`sudo systemctl daemon-reload`
+
+`sudo systemctl enable home-user-mnt-samba.automount --now`
+
+
+* * *
+
+## Using _dnf_local plugin on all the machines
 
 Now you must do this all over again.
 
-1. Make the `/srv/fedora-local-repo` folder to mount to.
+1. Make the `/srv/fedoraLocalRepo` folder to mount to.
 
 2. Edit your `/etc/fstab` file to mount a network share to this location.
 
@@ -167,12 +230,12 @@ Now you must do this all over again.
 
 4. Edit the configuration plugin to use this new location: `/etc/dnf/plugins/local.conf`
 
-5. Add the line `repodir = /srv/fedora-local-repo` to `local.conf`
+5. Add the line `repodir = /srv/fedoraLocalRepo` to `local.conf`
 
 > Great! This machine will now also look inside the shared network mirror of our cached local Fedora repository to find any binaries it may need to update. 
 
 
-
+* * *
 
 ## Adding automatic updates 
 
@@ -210,9 +273,15 @@ random_sleep = 1980
 
 
 
-Dnf and Yum in Fedora has the GPG key checking enabled by default. Assuming that you have imported the correct GPG keys, and still have gpgcheck=1 in your /etc/dnf/dnf.conf for dnf or /etc/yum.conf for yum, then we can at least assume that any automatically installed updates were not corrupted or modified from their original state. Using the GPG key checks, there is no known way for an attacker to generate packages that your system will accept as valid (unless they have a copy of the *private* key corresponding to one you installed) and any data corruption during download would be caught. 
+**Dnf and Yum in Fedora has GPG key checking enabled by default.**
+
+Assuming that you have imported the correct GPG keys, and still have gpgcheck=1 in your /etc/dnf/dnf.conf for dnf or /etc/yum.conf for yum, 
+then we can at least assume that any automatically installed updates were not corrupted or modified from their original state. 
+
+Using the GPG key checks, there is no known way for an attacker to generate packages that your system will accept as valid and any data corruption during download will be caught. 
 
 
+## Alternative thing
 
 You could also run this command every day:
 `dnf updateinfo --secseverity Critical` 
