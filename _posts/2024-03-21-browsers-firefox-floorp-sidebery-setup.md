@@ -15,7 +15,7 @@ image:
 I use the Sidebery addon with the Floorp browser as my primary means of browsing. Sidebery brings with it some extra features that need some customization. 
 
 
-![Floorp with Sidebery addon, using vertical tabs](/assets/img/posts/FloorpVerticaltabs1.gif){: #cool-image }
+![Floorp with Sidebery addon, using vertical tabs](/assets/img/posts/FloorpVerticaltabs1.gif)
 
 
 * * * 
@@ -87,21 +87,25 @@ The following images demonstrate some of the customizations done to the default 
 
 
 [![Floorp general settings - part 1](/assets/img/posts/FloorpGeneral1_thumb.png)](/assets/img/posts/FloorpGeneral1.png)
+
 Floorp General Settings - 1/2
 
 * * *
 
 [![Floorp general settings - part 2](/assets/img/posts/FloorpGeneral2_thumb.png)](/assets/img/posts/FloorpGeneral2.png)
+
 Floorp General Settings - 2/2
 
 * * *
 
 [![Floorp design settings - part 1](/assets/img/posts/FloorpDesign1_thumb.png)](/assets/img/posts/FloorpDesign1.png)
+
 Floorp Design Settings - 1/2
 
 * * *
 
 [![Floorp design settings - part 2](/assets/img/posts/FloorpDesign2_thumb.png)](/assets/img/posts/FloorpDesign2.png)
+
 Floorp Design Settings - 2/2
 
 * * *
@@ -201,175 +205,179 @@ Floorp Design Settings - 2/2
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 ###  AD BLOCKER
 ======================
-Blocks ads & obfuscates browsing data by “clicking” blocked and hidden ads, polluting your data profile and injecting noise into the economic system that drives online surveillance. 
 [AdNauseam](https://addons.mozilla.org/en-US/firefox/addon/adnauseam/)
+> Blocks ads & obfuscates browsing data by “clicking” blocked and hidden ads, polluting your data profile and injecting noise into the economic system that drives online surveillance. 
 
-Get rid of cookie warnings from almost all websites!
 [I don't care about cookies](https://addons.mozilla.org/en-US/firefox/addon/i-dont-care-about-cookies/)
+> Get rid of cookie warnings from almost all websites!
 
-Automatically skips annoying link shorteners.
 [Universal Bypass](https://addons.mozilla.org/en-US/firefox/addon/universal-bypass/)
+> Automatically skips annoying link shorteners.
 
-Go to the final url from the intermediary url.
 [Skip Redirect](https://addons.mozilla.org/en-US/firefox/addon/skip-redirect/)
+> Go to the final url from the intermediary url.
 
-An efficient wide-spectrum content blocker.
 [uBlock Origin](https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/)
+> An efficient wide-spectrum content blocker.
 
-Automatically learns to block invisible trackers.
 [Privacy Badger](https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/)
+> Automatically learns to block invisible trackers.
 
-Reducing and falsifying the data gathered by tracking companies.
 [Privacy Possum](https://addons.mozilla.org/en-US/firefox/addon/privacy-possum/)
+> Reducing and falsifying the data gathered by tracking companies.
 
 
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 ###  CLEAN TEXT
 ======================
-Copy Plain Text without any formatting.
 [Copy PlainText](https://addons.mozilla.org/en-US/firefox/addon/copy-plaintext/)
+> Copy Plain Text without any formatting.
 
-Removes all garbage from URLs. 
 [Pure URL](https://addons.mozilla.org/en-US/firefox/addon/pure-url/)
+> Removes all garbage from URLs. 
 
-Remove garbage from URLs.
 [Neat URL](https://addons.mozilla.org/en-US/firefox/addon/neat-url/)
+> Remove garbage from URLs.
 
-Removes tracking elements from URLs.
 [ClearURLS](https://addons.mozilla.org/en-US/firefox/addon/clearurls/)
+> Removes tracking elements from URLs.
 
-Create, edit and delete a cookie for the current tab
 [Cookie-Editor](https://addons.mozilla.org/en-US/firefox/addon/cookie-editor/)
+> Create, edit and delete a cookie for the current tab
+
 
 
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 ###  ISOLATION
 ======================
-Isolating your Google identity into a separate browser profile.
 [Google Container](https://addons.mozilla.org/en-US/firefox/addon/google-container/)
+> Isolating your Google identity into a separate browser profile.
 
-Isolating your Facebook identity into a separate browser profile.
 [Facebook Container](https://addons.mozilla.org/en-US/firefox/addon/facebook-container/)
+> Isolating your Facebook identity into a separate browser profile.
 
-Carve out a separate box for each of your online lives.
 [Firefox Multi-Account Containers](https://addons.mozilla.org/en-US/firefox/addon/multi-account-containers/)
+> Carve out a separate box for each of your online lives.
 
-FPI works by separating cookies on a per-domain basis.
 [First Party Isolation](https://addons.mozilla.org/en-US/firefox/addon/first-party-isolation/)
+> FPI works by separating cookies on a per-domain basis.
 
 
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 ###  PRIVACY
 ======================
-Bypass paywalls for selected sites.
 [Bypass Paywalls](https://github.com/iamadamdev/bypass-paywalls-chrome/blob/master/README.md)
+> Bypass paywalls for selected sites.
 
-Guard your browser against CSS Exfil attacks.
 [CSS Exfil Protection](https://addons.mozilla.org/en-US/firefox/addon/css-exfil-protection/)
+> Guard your browser against CSS Exfil attacks.
 
-Emulates Content Delivery Networks.
 [LocalCDN](https://addons.mozilla.org/en-US/firefox/addon/localcdn-fork-of-decentraleyes/)
+> Emulates Content Delivery Networks.
 
-Removes Google's link-conversion/tracking feature. 
 [Don't track me Google](https://addons.mozilla.org/en-US/firefox/addon/dont-track-me-google1/)
+> Removes Google's link-conversion/tracking feature. 
 
-Search anonymously on Google while staying logged in.
 [Searchonymous2](https://addons.mozilla.org/en-US/firefox/addon/searchonymous2/)
+> Search anonymously on Google while staying logged in.
 
-Reports a random fake value for fonts installed. 
 [Font Fingerprint Defender](https://addons.mozilla.org/en-US/firefox/addon/font-fingerprint-defender/)
+> Reports a random fake value for fonts installed. 
 
-Defending against WebGL fingerprinting by reporting a fake value.
 [WebGL Fingerprint Defender](https://addons.mozilla.org/en-US/firefox/addon/webgl-fingerprint-defender/)
+> Defending against WebGL fingerprinting by reporting a fake value.
 
-An email Tracker Blocker.
 [Trocker](https://addons.mozilla.org/en-US/firefox/addon/trockerapp/)
+> An email Tracker Blocker.
 
-Enables a password-protected bookmark folder.
 [Private Bookmarks](https://addons.mozilla.org/en-US/firefox/addon/webext-private-bookmarks/)
+> Enables a password-protected bookmark folder.
 
-Changes HTTP protocol to HTTPS, and if loading encounters error, reverts it back to HTTP.
 [Smart HTTPS](https://addons.mozilla.org/en-US/firefox/addon/smart-https-revived/)
+> Changes HTTP protocol to HTTPS, and if loading encounters error, reverts it back to HTTP.
+
+
 
 
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 ###  BETTERMENT
 ======================
-Define custom search engines and use it from address bar of the browser. 
 [Custom Search Engine](https://addons.mozilla.org/en-US/firefox/addon/custom-search-engine/)
+> Define custom search engines and use it from address bar of the browser. 
 
-Press F12 to open hackbar. Ctrl + Enter to execute.
 [HackBar V2](https://addons.mozilla.org/en-US/firefox/addon/hackbar-free/)
+> Press F12 to open hackbar. Ctrl + Enter to execute.
 
-Capture and save web pages and screenshots from your browser to Joplin. 
 [Joplin Web Clipper](https://addons.mozilla.org/en-US/firefox/addon/joplin-web-clipper/)
+> Capture and save web pages and screenshots from your browser to Joplin. 
 
-Suite of tools to enhance your Reddit browsing experience.
 [Reddit Enhancement Suite](https://addons.mozilla.org/en-US/firefox/addon/reddit-enhancement-suite/)
+> Suite of tools to enhance your Reddit browsing experience.
 
-Fixes Facebook annoyances.
 [Social Fixer](https://addons.mozilla.org/en-US/firefox/addon/socialfixer/)
+> Fixes Facebook annoyances.
 
-Adds missing encryption and decryption features to the user interface of common webmail providers. 
 [Mailvelope](https://addons.mozilla.org/en-US/firefox/addon/mailvelope/)
+> Adds missing encryption and decryption features to the user interface of common webmail providers. 
 
-Displays the viewport dimensions when a browser window is resized.
 [PX: Viewport Dimensions](https://addons.mozilla.org/en-US/firefox/addon/px-viewport-dimensions/)
+> Displays the viewport dimensions when a browser window is resized.
 
 
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 ###  SESSION
 ======================
-Auto-save sessions at any cost. 
 [MySessions](https://addons.mozilla.org/en-US/firefox/addon/my-sessions/)
+> Auto-save sessions at any cost. 
 
-Automatically reduces the memory load of open—but inactive—tabs.
 [Auto Tab Discard](https://addons.mozilla.org/en-US/firefox/addon/auto-tab-discard/)
+> Automatically reduces the memory load of open—but inactive—tabs.
 
-Convert tabs to a list and reduce browser memory.
 [OneTab](https://addons.mozilla.org/en-US/firefox/addon/onetab/)
+> Convert tabs to a list and reduce browser memory.
 
 
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 ###  STREAM/VIDEO
 ======================
-YouTube Video blocker.
 [BlockTube](https://addons.mozilla.org/en-US/firefox/addon/blocktube/)
+> YouTube Video blocker.
 
-Adds stuff to YouTube.
 [Improve YouTube!](https://addons.mozilla.org/en-US/firefox/addon/youtube-addon/)
+> Adds stuff to YouTube.
 
-Skip over sponsors, intros, outros, subscription reminders.
 [SponsorBlock](https://addons.mozilla.org/en-US/firefox/addon/sponsorblock/)
+> Skip over sponsors, intros, outros, subscription reminders.
 
-Makes YouTube stream H.264 videos instead of VP8/VP9 videos.
 [h264ify](https://addons.mozilla.org/en-US/firefox/addon/h264ify/)
+> Makes YouTube stream H.264 videos instead of VP8/VP9 videos.
 
-Alternate player of live broadcasts for Twitch.tv website.
 [Alternate Player for Twitch.tv](https://addons.mozilla.org/en-US/firefox/addon/twitch_5/)
+> Alternate player of live broadcasts for Twitch.tv website.
 
-Enhances Twitch with new features, emotes, and more.
 [BetterTTV](https://addons.mozilla.org/en-US/firefox/addon/betterttv/)
+> Enhances Twitch with new features, emotes, and more.
+
 
 
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 ###  BEAUTIFICATION
 ======================
-Creating dark themes for websites on the fly. 
 [Dark Reader](https://addons.mozilla.org/en-US/firefox/addon/darkreader/)
+> Creating dark themes for websites on the fly. 
 
-New tab page accented with a chosen colour.
 [nightTab](https://addons.mozilla.org/en-US/firefox/addon/nighttab/)
+> New tab page accented with a chosen colour.
 
-A modern dark / Matte Black theme with a purple accent color.
 [Matte Black (Purple)](https://addons.mozilla.org/en-US/firefox/addon/matte-black-purple/)
+> A modern dark / Matte Black theme with a purple accent color.
 
 
 
@@ -384,26 +392,26 @@ A modern dark / Matte Black theme with a purple accent color.
 You have to download a zip from their website and then extract it to where you'd like the application 'installed' to. 
 
 #### Addons for Basilisk Install
-Port of the Firefox (Quantum) default theme, "Photon", to Pale Moon.
 [Photonic/](https://addons.basilisk-browser.org/addon/photonic/)
+> Port of the Firefox (Quantum) default theme, "Photon", to Pale Moon.
 
-Localizes large third parties used for content delivery. 
 [Decentraleyes/](https://addons.basilisk-browser.org/addon/decentraleyes/)
+> Localizes large third parties used for content delivery. 
 
-Removes annoying cookie warnings.
 [I don't care about cookies](https://addons.basilisk-browser.org/addon/i-dont-care-about-cookies/)
+> Removes annoying cookie warnings.
 
-Automatically strips garbage URL tracking parameters.
 [Pure URL](https://addons.basilisk-browser.org/addon/pureurl4pm/)
+> Automatically strips garbage URL tracking parameters.
 
-Modifies web pages to use a dark color scheme.
 [Swarth](https://addons.basilisk-browser.org/addon/swarth/)
+> Modifies web pages to use a dark color scheme.
 
-Efficient ad blocker add-on.
 [uBlock Origin (Legacy)](https://github.com/gorhill/uBlock-for-firefox-legacy/releases)
+> Efficient ad blocker add-on.
 
-ηMatrix will break the majority of the websites you visit.
 [ηMatrix](https://addons.basilisk-browser.org/addon/ematrix/)
+> ηMatrix will break the majority of the websites you visit.
 
 
 * * *
@@ -413,27 +421,28 @@ Efficient ad blocker add-on.
 
 
 #### Addons
-Simply turn your New Tab page into a clean space to take notes. 
 [New Tab Draft](https://chrome.google.com/webstore/detail/new-tab-draft/nmfjkeiebceinkbggliapgfdjphocpdh)
+> Simply turn your New Tab page into a clean space to take notes. 
 
-PixelBlock is a Gmail extension that blocks people from tracking when you open their emails.
 [PixelBlock](https://chrome.google.com/webstore/detail/pixelblock/jmpmfcjnflbcoidlgapblgpgbilinlem)
+> PixelBlock is a Gmail extension that blocks people from tracking when you open their emails.
 
-Prevent the RAM consumption of unused pages. 
 [The Marvellous Suspender](https://chrome.google.com/webstore/detail/the-marvellous-suspender/noogafoofpebimajpfpamcfhoaifemoa)
+> Prevent the RAM consumption of unused pages. 
 
-Fusion of tabs manager with a tree like personal information organizer.
 [Tabs Outliner](https://chrome.google.com/webstore/detail/tabs-outliner/eggkanocgddhmamlbiijnphhppkpkmkl)
+> Fusion of tabs manager with a tree like personal information organizer.
 
-You can add, delete, edit, search, protect and block cookies!
 [EditThisCookie](https://chrome.google.com/webstore/detail/editthiscookie/fngmhnnpilhplaeedifhccceomclgfbg)
+> You can add, delete, edit, search, protect and block cookies!
 
-Global hotkeys for online music players including support for media keys.
 [streamkeys](https://chrome.google.com/webstore/detail/streamkeys/ekpipjofdicppbepocohdlgenahaneen)
+> Global hotkeys for online music players including support for media keys.
 
-Displays the inner width and innner height of the screen.
 [Width and Height Display](https://chrome.google.com/webstore/detail/width-and-height-display/hhcddohiohbojnfdmfpbbhiaompeiemo)
+> Displays the inner width and innner height of the screen.
 
-Easily undo closed tabs via your browser's toolbar popup!
 [Undo Closed Tabs Button](https://chrome.google.com/webstore/detail/undo-closed-tabs-button/ieehkmoiljghfkejgahoheemdjpdinml)
+> Easily undo closed tabs via your browser's toolbar popup!
+
 
