@@ -87,142 +87,98 @@ The following images demonstrate some of the customizations done to the default 
 
 
 [![Floorp general settings - part 1](/assets/img/posts/FloorpGeneral1_thumb.png)](/assets/img/posts/FloorpGeneral1.png)
+Floorp General Settings - 1/2
 
 * * *
 
 [![Floorp general settings - part 2](/assets/img/posts/FloorpGeneral2_thumb.png)](/assets/img/posts/FloorpGeneral2.png)
+Floorp General Settings - 2/2
 
 * * *
 
 [![Floorp design settings - part 1](/assets/img/posts/FloorpDesign1_thumb.png)](/assets/img/posts/FloorpDesign1.png)
+Floorp Design Settings - 1/2
 
 * * *
 
 [![Floorp design settings - part 2](/assets/img/posts/FloorpDesign2_thumb.png)](/assets/img/posts/FloorpDesign2.png)
+Floorp Design Settings - 2/2
 
 * * *
-
-
 
 ## Firefox Addons Installed
 
 - [AdNauseam](https://addons.mozilla.org/en-US/firefox/addon/adnauseam/)
 > Blocks ads & obfuscates browsing data by “clicking” blocked and hidden ads, polluting your data profile and injecting noise into the economic system that drives online surveillance. 
 
-
-Creating dark themes for websites on the fly. 
-
 - [Dark Reader](https://addons.mozilla.org/en-US/firefox/addon/darkreader/)
-
-
-Vertical tabs tree and bookmarks in sidebar.
+> Creating dark themes for websites on the fly. 
 
 - [Sidebery](https://addons.mozilla.org/en-US/firefox/addon/sidebery/)
-
-
-Open tabs, websites, and links in automatically managed disposable containers which isolate the data websites store.
+> Vertical tabs tree and bookmarks in sidebar.
 
 - [Temporary Containers](https://addons.mozilla.org/en-US/firefox/addon/temporary-containers/)
-
-
-Isolating your Facebook identity into a separate browser profile.
+> Open tabs, websites, and links in automatically managed disposable containers which isolate the data websites store.
 
 - [Facebook Container](https://addons.mozilla.org/en-US/firefox/addon/facebook-container/)
-
-
-Carve out a separate box for each of your online lives.
+> Isolating your Facebook identity into a separate browser profile.
 
 - [Firefox Multi-Account Containers](https://addons.mozilla.org/en-US/firefox/addon/multi-account-containers/)
-
-
-Provides container searching, deleting, modifying, duplicating, and URLs used -- on a per-container or bulk basis. 
+> Carve out a separate box for each of your online lives.
 
 - [Containers Helper](https://addons.mozilla.org/en-US/firefox/addon/containers-helper/)
-
-
-Use FastForward to skip annoying URL "shorteners".
+> Provides container searching, deleting, modifying, duplicating, and URLs used -- on a per-container or bulk basis. 
 
 - [FastForward](https://addons.mozilla.org/en-US/firefox/addon/fastforwardteam/)
-
-
-Sync your bookmarks across browsers via Nextcloud, WebDAV or Google Drive.
+> Use FastForward to skip annoying URL "shorteners".
 
 - [floccus](https://addons.mozilla.org/en-US/firefox/addon/floccus/)
-
-
-Get rid of cookie warnings from almost all websites!
+> Sync your bookmarks across browsers via Nextcloud, WebDAV or Google Drive.
 
 - [I still don't care about cookies](https://addons.mozilla.org/en-US/firefox/addon/istilldontcareaboutcookies/)
-
-
-New tab page accented with a chosen colour.
+> Get rid of cookie warnings from almost all websites!
 
 - [nightTab](https://addons.mozilla.org/en-US/firefox/addon/nighttab/)
-
-
-Convert tabs to a list and reduce browser memory.
+> New tab page accented with a chosen colour.
 
 - [OneTab](https://addons.mozilla.org/en-US/firefox/addon/onetab/)
-
-
-Alters some JS APIs to prevent fingerprinting.
+> Convert tabs to a list and reduce browser memory.
 
 - [CanvasBlocker](https://addons.mozilla.org/en-US/firefox/addon/canvasblocker/)
-
-
-Defending against AudioContext fingerprinting by reporting a fake value.
+> Alters some JS APIs to prevent fingerprinting.
 
 - [AudioContext Fingerprint Defender](https://addons.mozilla.org/en-US/firefox/addon/audioctx-fingerprint-defender/)
-
-
-Automatically learns to block invisible trackers.
+> Defending against AudioContext fingerprinting by reporting a fake value.
 
 - [Privacy Badger](https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/)
-
-
-Reducing and falsifying the data gathered by tracking companies.
+> Automatically learns to block invisible trackers.
 
 - [Privacy Possum](https://addons.mozilla.org/en-US/firefox/addon/privacy-possum/)
-
-
-Enables a password-protected bookmark folder.
+> Reducing and falsifying the data gathered by tracking companies.
 
 - [Private Bookmarks](https://addons.mozilla.org/en-US/firefox/addon/webext-private-bookmarks/)
-
-
-Automatically redirects to user-defined urls on certain pages
+> Enables a password-protected bookmark folder.
 
 - [Redirector](https://addons.mozilla.org/en-US/firefox/addon/redirector/)
-
-
-Improves YouTube playback performance by using your desired codecs.
+> Automatically redirects to user-defined urls on certain pages
 
 - [refined-h264ify](https://addons.mozilla.org/en-US/firefox/addon/refined-h264ify/)
-
-
-An extension for controlling requests.
+> Improves YouTube playback performance by using your desired codecs.
 
 - [Request Control](https://addons.mozilla.org/en-US/firefox/addon/requestcontrol/)
-
-
-Text to Speech on Firefox. It use OS build-in TTS engines, you can use it even when offline.
+> An extension for controlling requests.
 
 - [TTSFox](https://addons.mozilla.org/en-US/firefox/addon/ttsfox/)
-
-
-Adds Ecosia.org as the default search engine to your browser.
+> Text to Speech on Firefox. It use OS build-in TTS engines, you can use it even when offline.
 
 - [Ecosia](https://addons.mozilla.org/en-US/firefox/addon/ecosia-the-green-search/)
-
-
-Adds DuckDuckGo Lite as a search engine for a more lean web-search experience.
+> Adds Ecosia.org as the default search engine to your browser.
 
 - [DuckDuckGo Lite Search](https://addons.mozilla.org/en-US/firefox/addon/ddg-lite-search-provider/)
-
-
-Simple Black and Purple theme, dark and moody just the way I like it.
+> Adds DuckDuckGo Lite as a search engine for a more lean web-search experience.
 
 - [Black & Purple mood](https://addons.mozilla.org/en-US/firefox/addon/black-purple-mood/)
+> Simple Black and Purple theme, dark and moody just the way I like it.
 
 
 
@@ -230,12 +186,11 @@ Simple Black and Purple theme, dark and moody just the way I like it.
 
 ### Firefox Addons Disabled, but installed
 
+- [JShelter](https://addons.mozilla.org/en-US/firefox/addon/javascript-restrictor/)
+> JShelter controls the APIs provided by the browser. 
 
-JShelter controls the APIs provided by the browser. 
-[JShelter](https://addons.mozilla.org/en-US/firefox/addon/javascript-restrictor/)
-
-A tool to measure your 3rd-party exposure score for web sites you visit.
-[uBO-Scope](https://addons.mozilla.org/en-US/firefox/addon/ubo-scope/)
+- [uBO-Scope](https://addons.mozilla.org/en-US/firefox/addon/ubo-scope/)
+> A tool to measure your 3rd-party exposure score for web sites you visit.
 
 
 
