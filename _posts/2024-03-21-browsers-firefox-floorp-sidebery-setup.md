@@ -202,9 +202,17 @@ Floorp Design Settings - 2/2
 
 ## Other Firefox Addons Organized by Category:
 
+* * *
+
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
+
 ###  AD BLOCKER
+
 ======================
+
+* * *
+
+
 [AdNauseam](https://addons.mozilla.org/en-US/firefox/addon/adnauseam/)
 > Blocks ads & obfuscates browsing data by “clicking” blocked and hidden ads, polluting your data profile and injecting noise into the economic system that drives online surveillance. 
 
@@ -227,10 +235,17 @@ Floorp Design Settings - 2/2
 > Reducing and falsifying the data gathered by tracking companies.
 
 
+* * *
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
+
 ###  CLEAN TEXT
+
 ======================
+
+* * *
+
+
 [Copy PlainText](https://addons.mozilla.org/en-US/firefox/addon/copy-plaintext/)
 > Copy Plain Text without any formatting.
 
@@ -247,11 +262,17 @@ Floorp Design Settings - 2/2
 > Create, edit and delete a cookie for the current tab
 
 
-
+* * *
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
+
 ###  ISOLATION
+
 ======================
+
+* * *
+
+
 [Google Container](https://addons.mozilla.org/en-US/firefox/addon/google-container/)
 > Isolating your Google identity into a separate browser profile.
 
@@ -265,10 +286,17 @@ Floorp Design Settings - 2/2
 > FPI works by separating cookies on a per-domain basis.
 
 
+* * *
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
+
 ###  PRIVACY
+
 ======================
+
+* * *
+
+
 [Bypass Paywalls](https://github.com/iamadamdev/bypass-paywalls-chrome/blob/master/README.md)
 > Bypass paywalls for selected sites.
 
@@ -301,11 +329,17 @@ Floorp Design Settings - 2/2
 
 
 
-
+* * *
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
+
 ###  BETTERMENT
+
 ======================
+
+* * *
+
+
 [Custom Search Engine](https://addons.mozilla.org/en-US/firefox/addon/custom-search-engine/)
 > Define custom search engines and use it from address bar of the browser. 
 
@@ -328,10 +362,17 @@ Floorp Design Settings - 2/2
 > Displays the viewport dimensions when a browser window is resized.
 
 
+* * *
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
+
 ###  SESSION
+
 ======================
+
+* * *
+
+
 [MySessions](https://addons.mozilla.org/en-US/firefox/addon/my-sessions/)
 > Auto-save sessions at any cost. 
 
@@ -342,10 +383,17 @@ Floorp Design Settings - 2/2
 > Convert tabs to a list and reduce browser memory.
 
 
+* * *
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
+
 ###  STREAM/VIDEO
+
 ======================
+
+* * *
+
+
 [BlockTube](https://addons.mozilla.org/en-US/firefox/addon/blocktube/)
 > YouTube Video blocker.
 
@@ -365,11 +413,17 @@ Floorp Design Settings - 2/2
 > Enhances Twitch with new features, emotes, and more.
 
 
-
+* * *
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
+
 ###  BEAUTIFICATION
+
 ======================
+
+* * *
+
+
 [Dark Reader](https://addons.mozilla.org/en-US/firefox/addon/darkreader/)
 > Creating dark themes for websites on the fly. 
 
@@ -383,15 +437,22 @@ Floorp Design Settings - 2/2
 
 * * *
 
+* * *
+
 ## Additional Web Browsers and Addons:
 
 
 ## Basilisk
+
 ------------------------------------------------
+
 ### Install
+
 You have to download a zip from their website and then extract it to where you'd like the application 'installed' to. 
 
-#### Addons for Basilisk Install
+
+#### Addons for Basilisk
+
 [Photonic/](https://addons.basilisk-browser.org/addon/photonic/)
 > Port of the Firefox (Quantum) default theme, "Photon", to Pale Moon.
 
@@ -417,10 +478,17 @@ You have to download a zip from their website and then extract it to where you'd
 * * *
 
 ## Chromium
+
+------------------------------------------------
+
 ### Install De-Googled Chromium
 
+[https://github.com/ungoogled-software/ungoogled-chromium](https://github.com/ungoogled-software/ungoogled-chromium)
 
-#### Addons
+
+
+#### Addons for Chromium
+
 [New Tab Draft](https://chrome.google.com/webstore/detail/new-tab-draft/nmfjkeiebceinkbggliapgfdjphocpdh)
 > Simply turn your New Tab page into a clean space to take notes. 
 
@@ -444,5 +512,6 @@ You have to download a zip from their website and then extract it to where you'd
 
 [Undo Closed Tabs Button](https://chrome.google.com/webstore/detail/undo-closed-tabs-button/ieehkmoiljghfkejgahoheemdjpdinml)
 > Easily undo closed tabs via your browser's toolbar popup!
+
 
 
