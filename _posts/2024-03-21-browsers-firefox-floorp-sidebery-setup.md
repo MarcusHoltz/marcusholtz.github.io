@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Browser Addons, Sidebery, and Floorp settings
+title: Browser addons, Sidebery, and Floorp settings
 date: 2024-03-21 11:33:00 -0700
 categories: [Browsers, Sidebery]
 tags: [desktop, workstation, browsers, addons, customization, floorp, firefox, sidebery, techtip]
@@ -20,36 +20,64 @@ I use the Sidebery addon with the Floorp browser as my primary means of browsing
 
 * * * 
 
-## File and folder convention
+## Setting up Sidebery Snapshots
 
-Sidebery wants to use the `~/Downloads` folder for it's use. Stick with the default folder.
+* * * 
 
-When making the selection to use the default `~/Downloads/Sidebery` folder.
+### File and folders location
 
-The change is to include the hostname of the client machine along with the profile name.
+To setup Sidebery's Snapshots: 
+
+1. Open the `Sidebery Settings` page.
+
+2. Scroll to the `Snapshots` section.
+
+3. Under, `Auto export (on every snapshot)` select `on`.
+
+4. Find the text box in the area labeled `Path with file name`.
+
+5. Edit the `text box` for the Path with file name to match the Example naming below.
 
 
 * * * 
 
-### Example naming convention
+### Example naming
 
-1. **Path with filename**: 
+To provide uniqueness to each browser being synced - include the `hostname` of the client machine along with the `profile name`.
 
-`~/Downloads/Sidebery/BuddyPC.default/buddypc.default-2024.03.21-19.14.json`
+You will need to edit the `text box` using the method for syncing above.
 
-`~/Downloads/Sidebery/Thunktop.default-release/thunktop.default-release-2023.11.31-08.15.json`
+Sidebery wants to use the `~/Downloads` folder for it's use. Stick with this default folder.
 
-> (Seconds were excluded from the filename.)
+1. Edit `Path with filename` using the examples below: 
 
+`~/Downloads/Sidebery/BuddyPC.default/buddypc.default--%Y.%M.%D-%h.%m`
+
+`~/Downloads/Sidebery/Thunktop.default-release/thunktop.default-release--%Y.%M.%D-%h.%m`
+
+> Include the `hostname` of the client machine along with the `profile name` (seconds were excluded from the filename).
 
 * * * 
 
 ## Saving increments
 
+How big did you want your directory for each browser to get before you started to rotate out the files? 
+
+How many files until syncthing starts to get clogged up by this share, or the inodes fill up on the NAS?
+
+8 days of storage  
+       @    
+10 min intervals
+       =    
+1152 files per browser
+
+* * *
+
+### To achieve this setting
+
 1. **Auto-snapshots interval**: `10 minutes`
 
 2. **Snapshots limit**: `8 days`
-
 
 
 * * * 
