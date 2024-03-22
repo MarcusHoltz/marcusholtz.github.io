@@ -235,7 +235,6 @@ Floorp Design Settings - 2/2
 > Reducing and falsifying the data gathered by tracking companies.
 
 
-* * *
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
@@ -262,7 +261,6 @@ Floorp Design Settings - 2/2
 > Create, edit and delete a cookie for the current tab
 
 
-* * *
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
@@ -286,7 +284,6 @@ Floorp Design Settings - 2/2
 > FPI works by separating cookies on a per-domain basis.
 
 
-* * *
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
@@ -329,8 +326,6 @@ Floorp Design Settings - 2/2
 
 
 
-* * *
-
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
 ###  BETTERMENT
@@ -362,7 +357,6 @@ Floorp Design Settings - 2/2
 > Displays the viewport dimensions when a browser window is resized.
 
 
-* * *
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
@@ -383,7 +377,6 @@ Floorp Design Settings - 2/2
 > Convert tabs to a list and reduce browser memory.
 
 
-* * *
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
@@ -413,7 +406,6 @@ Floorp Design Settings - 2/2
 > Enhances Twitch with new features, emotes, and more.
 
 
-* * *
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
@@ -453,10 +445,10 @@ You have to download a zip from their website and then extract it to where you'd
 
 #### Addons for Basilisk
 
-[Photonic/](https://addons.basilisk-browser.org/addon/photonic/)
+[Photonic](https://addons.basilisk-browser.org/addon/photonic/)
 > Port of the Firefox (Quantum) default theme, "Photon", to Pale Moon.
 
-[Decentraleyes/](https://addons.basilisk-browser.org/addon/decentraleyes/)
+[Decentraleyes](https://addons.basilisk-browser.org/addon/decentraleyes/)
 > Localizes large third parties used for content delivery. 
 
 [I don't care about cookies](https://addons.basilisk-browser.org/addon/i-dont-care-about-cookies/)
@@ -483,7 +475,7 @@ You have to download a zip from their website and then extract it to where you'd
 
 ### Install De-Googled Chromium
 
-[https://github.com/ungoogled-software/ungoogled-chromium](https://github.com/ungoogled-software/ungoogled-chromium)
+Please review and follow any install instructions here: [https://github.com/ungoogled-software/ungoogled-chromium](https://github.com/ungoogled-software/ungoogled-chromium)
 
 
 
