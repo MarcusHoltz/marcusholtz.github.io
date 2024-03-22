@@ -106,10 +106,8 @@ The following images demonstrate some of the customizations done to the default 
 
 ## Firefox Addons Installed
 
-
-Blocks ads & obfuscates browsing data by “clicking” blocked and hidden ads, polluting your data profile and injecting noise into the economic system that drives online surveillance. 
-
 - [AdNauseam](https://addons.mozilla.org/en-US/firefox/addon/adnauseam/)
+> Blocks ads & obfuscates browsing data by “clicking” blocked and hidden ads, polluting your data profile and injecting noise into the economic system that drives online surveillance. 
 
 
 Creating dark themes for websites on the fly. 
