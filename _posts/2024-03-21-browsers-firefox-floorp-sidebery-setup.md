@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Browser Addons, Sidebery, and Floorp settings
-date: 2024-03-22 11:33:00 -0700
+date: 2024-03-21 11:33:00 -0700
 categories: [Browsers, Sidebery]
 tags: [desktop, workstation, browsers, addons, customization, floorp, firefox, sidebery, techtip]
 pin: false
