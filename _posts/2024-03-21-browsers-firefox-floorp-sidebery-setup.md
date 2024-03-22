@@ -43,19 +43,24 @@ To setup Sidebery's Snapshots:
 
 ### Example naming
 
-To provide uniqueness to each browser being synced - include the `hostname` of the client machine along with the `profile name`.
+To provide uniqueness to each browser being synced: 
 
-You will need to edit the `text box` using the method for syncing above.
+- Include the `hostname` of the client machine along with the `profile name`.
 
-Sidebery wants to use the `~/Downloads` folder for it's use. Stick with this default folder.
+1. You will need to edit the `text box` using the method for syncing above.
 
-1. Edit `Path with filename` using the examples below: 
+2. Sidebery wants to use the `~/Downloads` folder for it's use. Stick with this default folder.
+
+3. Be sure to add a `sub-folder` inside the default `Sidebery` folder representing your `hostname`.
+
+4. When ready, edit `Path with filename` using the examples below: 
 
 `~/Downloads/Sidebery/BuddyPC.default/buddypc.default--%Y.%M.%D-%h.%m`
 
 `~/Downloads/Sidebery/Thunktop.default-release/thunktop.default-release--%Y.%M.%D-%h.%m`
 
 > Include the `hostname` of the client machine along with the `profile name` (seconds were excluded from the filename).
+
 
 * * * 
 
@@ -71,13 +76,20 @@ How many files until syncthing starts to get clogged up by this share, or the in
        =    
 1152 files per browser
 
+
 * * *
 
-### To achieve this setting
+### Setting auto-snapshots saving interval and limit
 
-1. **Auto-snapshots interval**: `10 minutes`
+1. In the settings, under Snapshots, find `Auto-snapshot interval`. 
+> This will determine how often a file is generated with all the tabs in the browser.
 
-2. **Snapshots limit**: `8 days`
+2. Set the `Auto-snapshots interval` to `10 minutes`.
+
+3. Down, at the end, set the `Snapshot limit` to `days`.
+
+4. And set the `Snapshots limit` to `8 days`.
+> This will determine how many snapshots are kept around before they are removed and replaced by newer snapshots.
 
 
 * * * 
