@@ -58,7 +58,7 @@ The change is to include the hostname of the client machine along with the profi
 
 Once the snapshots are saved to a location on disk, they can be synced across devices. 
 
-Syncing my tabs allows me to take a look back at what I was doing and import that to another browser, or profile in a different workstation. 
+Syncing my tabs allows me to take a look back at what I was doing and import that to another browser or profile in a different workstation. 
 
 
 
@@ -84,6 +84,10 @@ Syncthing keeps all of the tabs for each workstation and browser profile the sam
 
 
 The following images demonstrate some of the customizations done to the default Floorp install.
+
+(click thumbnails below for full, larger image)
+
+* * * 
 
 
 [![Floorp general settings - part 1](/assets/img/posts/FloorpGeneral1_thumb.png)](/assets/img/posts/FloorpGeneral1.png)
@@ -208,10 +212,6 @@ Floorp Design Settings - 2/2
 
 ###  AD BLOCKER
 
-======================
-
-* * *
-
 
 [AdNauseam](https://addons.mozilla.org/en-US/firefox/addon/adnauseam/)
 > Blocks ads & obfuscates browsing data by “clicking” blocked and hidden ads, polluting your data profile and injecting noise into the economic system that drives online surveillance. 
@@ -238,11 +238,9 @@ Floorp Design Settings - 2/2
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
-###  CLEAN TEXT
-
-======================
-
 * * *
+
+###  CLEAN TEXT
 
 
 [Copy PlainText](https://addons.mozilla.org/en-US/firefox/addon/copy-plaintext/)
@@ -264,11 +262,9 @@ Floorp Design Settings - 2/2
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
-###  ISOLATION
-
-======================
-
 * * *
+
+###  ISOLATION
 
 
 [Google Container](https://addons.mozilla.org/en-US/firefox/addon/google-container/)
@@ -287,11 +283,9 @@ Floorp Design Settings - 2/2
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
-###  PRIVACY
-
-======================
-
 * * *
+
+###  PRIVACY
 
 
 [Bypass Paywalls](https://github.com/iamadamdev/bypass-paywalls-chrome/blob/master/README.md)
@@ -328,11 +322,9 @@ Floorp Design Settings - 2/2
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
-###  BETTERMENT
-
-======================
-
 * * *
+
+###  BETTERMENT
 
 
 [Custom Search Engine](https://addons.mozilla.org/en-US/firefox/addon/custom-search-engine/)
@@ -360,11 +352,9 @@ Floorp Design Settings - 2/2
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
-###  SESSION
-
-======================
-
 * * *
+
+###  SESSION
 
 
 [MySessions](https://addons.mozilla.org/en-US/firefox/addon/my-sessions/)
@@ -380,11 +370,9 @@ Floorp Design Settings - 2/2
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
-###  STREAM/VIDEO
-
-======================
-
 * * *
+
+###  STREAM/VIDEO
 
 
 [BlockTube](https://addons.mozilla.org/en-US/firefox/addon/blocktube/)
@@ -409,11 +397,9 @@ Floorp Design Settings - 2/2
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
-###  BEAUTIFICATION
-
-======================
-
 * * *
+
+###  BEAUTIFICATION
 
 
 [Dark Reader](https://addons.mozilla.org/en-US/firefox/addon/darkreader/)
