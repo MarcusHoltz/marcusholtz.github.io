@@ -246,14 +246,14 @@ What are Containers and how can they help?
 > Containers are a tab/process isolation mechanism in order to separate each new tab/window from each other.
 > This means each Tab gets it’s own resources.
 
-The **real power** is when you use `[Multi-Account-Containers](https://addons.mozilla.org/en-GB/firefox/addon/multi-account-containers)` for websites you frequent and `[Temporary Containers](https://addons.mozilla.org/en-US/firefox/addon/temporary-containers/)` for everything else.
+The **real power** is when you use [`Multi-Account-Containers`](https://addons.mozilla.org/en-GB/firefox/addon/multi-account-containers) for websites you frequent and [`Temporary Containers`](https://addons.mozilla.org/en-US/firefox/addon/temporary-containers/) for everything else.
 
 
 * * * 
 
 ## Temporary Containers addon
 
-**Unlimited Containers** are now at our disposal with [Temporary Containers](https://addons.mozilla.org/en-US/firefox/addon/temporary-containers/)
+**Unlimited Containers** are now at our disposal with [Temporary Containers](https://addons.mozilla.org/en-US/firefox/addon/temporary-containers/).
 
 
 
@@ -289,15 +289,15 @@ In the `Isolation` section, look for `Per Domain`:
 
 * * *
 
-> For more information visit the [Firefox Container Guide](https://chefkochblog.wordpress.com/2018/04/03/firefox-container-guide/).
+> For more information about [`Multi-Account-Containers`](https://addons.mozilla.org/en-GB/firefox/addon/multi-account-containers) and [`Temporary Containers`](https://addons.mozilla.org/en-US/firefox/addon/temporary-containers/) visit the [Firefox Container Guide](https://chefkochblog.wordpress.com/2018/04/03/firefox-container-guide/).
 
 
 * * *
 
-## Firefox Addons Installed
+## Firefox Addons I Keep Installed
 
 - [AdNauseam](https://addons.mozilla.org/en-US/firefox/addon/adnauseam/)
-> Blocks ads & obfuscates browsing data by “clicking” blocked and hidden ads, polluting your data profile and injecting noise into the economic system that drives online surveillance. 
+> Blocks ads & obfuscates browsing data by “clicking” blocked and hidden ads, polluting your data profile and injecting noise into the economic system that drives online surveillance (comes packaged with uBlock Origin). 
 
 - [Dark Reader](https://addons.mozilla.org/en-US/firefox/addon/darkreader/)
 > Creating dark themes for websites on the fly. 
@@ -403,7 +403,7 @@ In the `Isolation` section, look for `Per Domain`:
 > Go to the final url from the intermediary url.
 
 [uBlock Origin](https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/)
-> An efficient wide-spectrum content blocker.
+> An efficient wide-spectrum content blocker (comes packaged with AdNauseam).
 
 [Privacy Badger](https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/)
 > Automatically learns to block invisible trackers.
