@@ -42,6 +42,8 @@ Sidebery also lets you save your current tabs to disk in JSON and MD format, at 
 > These files can then be synced between devices for a self-hosted cloud history/tab sync between devices.
 
 
+* * * 
+
 ### File and folders location
 
 To setup Sidebery's Snapshots: 
