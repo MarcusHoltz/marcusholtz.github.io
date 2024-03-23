@@ -194,7 +194,7 @@ The lists I use are specific for Ublock Origin.
 
 #### uBlock Origin with Betterfox's Recommended Filter lists
 
-There is no better guide than [`yokoffing`'s `Betterfox` wiki for filterlists](https://github.com/yokoffing/filterlists).
+There is **no better guide** than [`yokoffing`'s `Betterfox` wiki for filterlists](https://github.com/yokoffing/filterlists).
 
 
 * * *
@@ -207,12 +207,14 @@ There is no better guide than [`yokoffing`'s `Betterfox` wiki for filterlists](h
 
 3) Implement the [minimum](https://reddit.com/r/uBlockOrigin/wiki/index#wiki_which_filter_lists_should_i_select.3F) number of useful lists (avoid redundancy and bloat when possible).
 
->> [Subscribe uBlock Origin to Yokoffing's lists](https://github.com/yokoffing/filterlists?tab=readme-ov-file#privacy) (use the 'subscribe' link for each list) <<
+> [Subscribe uBlock Origin to Yokoffing's lists](https://github.com/yokoffing/filterlists?tab=readme-ov-file#privacy) (use the 'subscribe' link for each list) 
 
 
 #### My personal block lists
 
-My block lists imported into uBlock Origin are below:
+My block lists imported into uBlock Origin are below - but
+
+Be **sure** you have **read** and **understand** [`yokoffing`'s `Betterfox` wiki for filterlists](https://github.com/yokoffing/filterlists) first!
 
 ```
 https://cdn.statically.io/gh/dhowe/AdNauseam/master/filters/adnauseam.txt
