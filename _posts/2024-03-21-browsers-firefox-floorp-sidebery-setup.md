@@ -18,11 +18,29 @@ I use the Sidebery addon with the Floorp browser as my primary means of browsing
 ![Floorp with Sidebery addon, using vertical tabs](/assets/img/posts/FloorpVerticaltabs1.gif)
 
 
+* * *
+
+## Using Sidebery tabs as bookmarks
+
+Sidebery can go from `tabs --> bookmarks --> tabs`.
+
+> You can use your [bookmark sync](https://floccus.org/) to sync Sidebery tabs between devices as well.
+
+
+![Floorp with Sidebery addon, saving current tabs as bookmarks and then back again](/assets/img/posts/FloorpSideberyTabs2Bookmarks.gif)
+
+
+
 * * * 
 
 ## Setting up Sidebery Snapshots
 
 * * * 
+
+Sidebery also lets you save your current tabs to disk in JSON and MD format, at a specific time interval or with manual creation. 
+
+> These files can then be synced between devices for a self-hosted cloud history/tab sync between devices.
+
 
 ### File and folders location
 
@@ -200,9 +218,6 @@ Floorp Design Settings - 2/2
 
 - [Privacy Badger](https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/)
 > Automatically learns to block invisible trackers.
-
-- [Privacy Possum](https://addons.mozilla.org/en-US/firefox/addon/privacy-possum/)
-> Reducing and falsifying the data gathered by tracking companies.
 
 - [Private Bookmarks](https://addons.mozilla.org/en-US/firefox/addon/webext-private-bookmarks/)
 > Enables a password-protected bookmark folder.
