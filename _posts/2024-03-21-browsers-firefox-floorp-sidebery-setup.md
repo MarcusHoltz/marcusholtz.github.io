@@ -174,6 +174,69 @@ Floorp Design Settings - 2/2
 
 * * *
 
+
+
+## uBlock Origin addon
+
+[uBlock Origin](https://ublockorigin.com/) is an open-source, cross-platform browser extension for content filtering — primarily aimed at neutralizing privacy invasion in an efficient, user-friendly method.
+
+> uBlock Origin requires lists to operate.
+
+
+* * *
+
+### uBlock Origin lists
+
+There are different types of filter lists that people use across the internet.
+
+The lists I use are specific for Ublock Origin.
+
+
+#### uBlock Origin with Betterfox's Recommended Filter lists
+
+There is no better guide than [`yokoffing`'s `Betterfox` wiki for filterlists](https://github.com/yokoffing/filterlists).
+
+
+* * *
+
+##### Yokoffing's Guidelines
+
+1) Prevent overblocking by applying the law of [diminishing returns](https://pmctraining.com/site/wp-content/uploads/2018/04/Law-of-Diminishing-Returns-CHART.png) (always blocking more ≠ better blocking experience).
+
+2) Aim for [efficiency](https://brave.com/the-mounting-cost-of-stale-ad-blocking-rules/) without sacrificing quality (use sane, quality resources).
+
+3) Implement the [minimum](https://reddit.com/r/uBlockOrigin/wiki/index#wiki_which_filter_lists_should_i_select.3F) number of useful lists (avoid redundancy and bloat when possible).
+
+>> [Subscribe uBlock Origin to Yokoffing's lists](https://github.com/yokoffing/filterlists?tab=readme-ov-file#privacy) (use the 'subscribe' link for each list) <<
+
+
+#### My personal block lists
+
+My block lists imported into uBlock Origin are below:
+
+```
+https://cdn.statically.io/gh/dhowe/AdNauseam/master/filters/adnauseam.txt
+https://easylist.to/easylist/easyprivacy.txt
+https://secure.fanboy.co.nz/fanboy-annoyance.txt
+https://easylist.to/easylist/easylist.txt
+https://secure.fanboy.co.nz/fanboy-cookiemonster.txt
+https://easylist.to/easylist/fanboy-social.txt
+https://filters.adtidy.org/extension/ublock/filters/3.txt
+https://filters.adtidy.org/extension/ublock/filters/17.txt
+https://malware-filter.gitlab.io/malware-filter/urlhaus-filter.txt
+https://raw.githubusercontent.com/yourduskquibbles/webannoyances/master/ultralist.txt
+https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+https://big.oisd.nl/
+https://winhelp2002.mvps.org/hosts.txt
+https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt
+https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext
+https://adaway.org/hosts.txt
+https://raw.githubusercontent.com/DandelionSprout/adfilt/master/AnnoyancesList
+```
+
+
+* * *
+
 ## Firefox Addons Installed
 
 - [AdNauseam](https://addons.mozilla.org/en-US/firefox/addon/adnauseam/)
