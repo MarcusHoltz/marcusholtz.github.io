@@ -201,7 +201,7 @@ There is **no better guide** than [`yokoffing`'s `Betterfox` wiki for filterlist
 
 ##### Yokoffing's Guidelines
 
-1) Prevent overblocking by applying the law of [diminishing returns](https://pmctraining.com/site/wp-content/uploads/2018/04/Law-of-Diminishing-Returns-CHART.png) (always blocking more ≠ better blocking experience).
+1) Prevent overblocking by applying the law of [diminishing returns](https://web.archive.org/web/20230719033252/https://pmctraining.com/site/wp-content/uploads/2018/04/Law-of-Diminishing-Returns-CHART.png) (always blocking more ≠ better blocking experience).
 
 2) Aim for [efficiency](https://brave.com/the-mounting-cost-of-stale-ad-blocking-rules/) without sacrificing quality (use sane, quality resources).
 
@@ -235,6 +235,61 @@ https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimet
 https://adaway.org/hosts.txt
 https://raw.githubusercontent.com/DandelionSprout/adfilt/master/AnnoyancesList
 ```
+
+
+* * *
+
+## Multi-Account-Containers addon
+
+What are Containers and how can they help?
+
+> Containers are a tab/process isolation mechanism in order to separate each new tab/window from each other.
+> This means each Tab gets it’s own resources.
+
+The **real power** is when you use `[Multi-Account-Containers](https://addons.mozilla.org/en-GB/firefox/addon/multi-account-containers)` for websites you frequent and `[Temporary Containers](https://addons.mozilla.org/en-US/firefox/addon/temporary-containers/)` for everything else.
+
+
+* * * 
+
+## Temporary Containers addon
+
+**Unlimited Containers** are now at our disposal with [Temporary Containers](https://addons.mozilla.org/en-US/firefox/addon/temporary-containers/)
+
+
+
+### Settings for Temporary Containers
+
+To make the Temporary Containers addon more useful, try and change the defaults to the following:
+
+* * *
+
+In the `General` section:
+
+- Automatic Mode: `On`
+
+- Notifications when Temporary Containers are deleted: `Off`
+
+- Container Number: `Reuse available numbers`
+
+- Delete no longer needed Temporary Containers: `After the last tab in it closes`
+
+* * *
+
+Under the `Isolation` tab, find `Global`:
+
+- All settings on this page should be set to: `“Different from Tab Domain & Subdomains”`
+
+* * *
+
+In the `Isolation` section, look for `Per Domain`:
+
+- Always open in new Temporary Container: `Disabled`
+
+- All other settings on this page should be set to `“Use Global”`
+
+* * *
+
+> For more information visit the [Firefox Container Guide](https://chefkochblog.wordpress.com/2018/04/03/firefox-container-guide/).
 
 
 * * *
