@@ -490,19 +490,21 @@ The following example covers an IPv4 Site to Site WireGuard Tunnel between two O
 
 ### Table of all addresses and interfaces used 
 
-There are a lot of confusing segments in this tutorial. I have adapted this table to the information being entered, for quick reference. 
+There are a lot of confusing segments in this tutorial. I have adapted this table to the information being used. 
 
-` T A B L E   O F   A D D R E S S E S`
+```
+ T A B L E   O F   A D D R E S S E S
+```
 
-|      Address      |     IP         |
-|-------------------|----------------|
-| WireGuard Network |  10.2.2.0/24   |
-| Site A WireGuard  |  10.2.2.1/24   |
-| Site B WireGuard  | 10.2.2.2/24    |
-| Site A LAN        | 172.16.0.0/24  |
-| Site B LAN        | 192.168.0.0/24 |
-| Site A Public IP  | 203.0.113.1    |
-| Site B Public IP  | 203.0.113.2    |
+|      Address        |     IP         |
+|---------------------|----------------|
+| WireGuard Network   |  10.2.2.0/24   |
+| Site A - WireGuard  |  10.2.2.1/24   |
+| Site B - WireGuard  | 10.2.2.2/24    |
+| Site A - LAN        | 172.16.0.0/24  |
+| Site B - LAN        | 192.168.0.0/24 |
+| Site A - Public WAN | 203.0.113.1    |
+| Site B - Public WAN | 203.0.113.2    |
 
 
 * * *
@@ -1057,152 +1059,41 @@ You should see Send and Received traffic and Handshake should be populated by a 
 * * * 
 
 
+## Routing different subnets across WireGuard
 
-## Router explain diffrent subnets connect
+Different subnets seperate networks from communicating with each other. The firewall also stops these networks.
 
-Talk about how subnets exist, what they are for - give examples.
+Currently, your two LANs cannot see each other. 
 
-Talk about how we're going to connect these two different subnets. Like a VPS and a home LAN
+We're going to add firewall rules to allow these two sites to communicate like they were in the same room.
 
-or your mom's house and your house. 
-
-Also this number and the other number are different because of CLASS routing. Subnets.
-
+You can use this method to connect your home to a VPS in the cloud, or you mom's house to your house.
 
 > For reference, [link to the table](https://blog.holtzweb.com/posts/opnsense-wireguard-vpn/#setting-up-wireguard-on-each-instance-of-opnsense-for-site-to-site) of Site A and Site B LAN addresses used in this writeup.
 
 
+* * * 
 
+## Site A - Router Pass Traffic - Bunker HQ
 
-### Add a LAN gateway
-
-OPNSense makes it easy to add the LAN gateway. You want the Gateway IP to be the IP of whatever device is Site B.
-
-- Name
-
-- Interface
-
-- Gateway
-
-
-
-
-### Adding Routes
-
-Head to `System ‣ Routes ‣ Configuration`.
-
-You want the wireguard subnet to be routed in its entirety to and from that gateway so that access can be established and mapped by your router without the need to add firewall rules. 
-With OPNsense there is one more step I had to take....
-
-`Firewall ‣ Settings ‣ Advanced ‣ Static route filtering` you will need to check the `Bypass firewall rules for traffic on the same interface` checkbox.
-
-
-
-
-
-
-
-
-
-## Allow traffic between Site A LAN Net and Site B LAN Net
-
-
-1. Go to OPNsense Site A Firewall ‣ Rules ‣ LAN A add a new rule.
-
-2. Action - Pass
-
-3. Interface - LAN A
-
-4. Direction - In
-
-5. TCP/IP Version - IPv4
-
-6. Protocol - Any
-
-7. Source - 172.16.0.0/24
-
-8. Source port - Any
-
-9. Destination - 192.168.0.0/24
-
-10. Destination port - Any
-
-11. Description - Allow LAN Site A to LAN Site B
-
-12. Press Save and Apply.
-
+> Please make sure you do not have overlapping subnets.
 
 
 * * * 
 
+### Allow traffic between Site A LAN Net and Site B LAN Net
 
-1. Go to OPNsense Site A Firewall ‣ Rules ‣ WireGuard (Group) add a new rule.
+The first firewall rule will make sure our Bunker HQ (172.16.0.0/24) can reach Sarah (192.168.0.0/24).
 
-2. Action - Pass
+1. Go to OPNsense Site A
 
-3. Interface - WireGuard (Group)
+2. Open `Firewall ‣ Rules ‣ LAN` and `add` a new rule.
 
-4. Direction - In
-
-5. TCP/IP Version - IPv4
-
-6. Protocol - Any
-
-7. Source - 192.168.0.0/24
-
-8. Source port - Any
-
-9. Destination - 172.16.0.0/24
-
-10. Destination port - Any
-
-11. Description - Allow LAN Site B to LAN Site A
-
-12. Press Save and Apply.
-
-
-
-* * *
-
-
-## Allow traffic between Site B LAN Net and Site A LAN Net
-
-1. Go to OPNsense Site B Firewall ‣ Rules ‣ LAN A add a new rule.
-
-2. Action - Pass
-
-3. Interface - LAN B
-
-4. Direction - In
-
-5. TCP/IP Version - IPv4
-
-6. Protocol - Any
-
-7. Source - 192.168.0.0/24
-
-8. Source port - Any
-
-9. Destination - 172.16.0.0/24
-
-10. Destination port - Any
-
-11. Description - Allow LAN Site B to LAN Site A
-
-12. Press Save and Apply.
-
-
-
-* * *
-
-
-1. Go to OPNsense Site B Firewall ‣ Rules ‣ WireGuard (Group) 
-
-2. add a new rule.
+   1. Note: `Change for preference`. The network you want to share with WireGuard may be different than `LAN`, please modify the name of the Interface to match your network.
 
 3. Action - Pass
 
-4. Interface - WireGuard (Group)
+4. Interface - `LAN`
 
 5. Direction - In
 
@@ -1210,33 +1101,157 @@ With OPNsense there is one more step I had to take....
 
 7. Protocol - Any
 
-8. Source - 172.16.0.0/24
+8. Source - `172.16.0.0/24`
 
 9. Source port - Any
 
-10. Destination - 192.168.0.0/24
+10. Destination - `192.168.0.0/24`
 
 11. Destination port - Any
 
-12. Description - Allow LAN Site A to LAN Site B
+12. Description - `Allow LAN on Site A to remote LAN Site B`
 
 13. Press Save and Apply.
+
+
+* * * 
+
+### Allow traffic from WireGuard Site B LAN Net to Site A LAN Net
+
+The second firewall rule is through the WireGuard tunnel. It allows Sarah's LAN to reach the Bunker HQ's LAN.
+
+1. Go to OPNsense Site A 
+
+2. Open `Firewall ‣ Rules ‣ WireGuard (Group)` and `add` a new rule.
+
+3. Action - Pass
+
+4. Interface - `WireGuard (Group)`
+
+5. Direction - In
+
+6. TCP/IP Version - IPv4
+
+7. Protocol - Any
+
+8. Source - `192.168.0.0/24`
+
+9. Source port - Any
+
+10. Destination - `172.16.0.0/24`
+
+11. Destination port - Any
+
+12. Description - `Allow LAN on remote Site B to LAN on Site A`
+
+13. Press Save and Apply.
+
+
+
+* * * 
+
+## Site B - Router Pass Traffic - Sarah's Shop
+
+> Please make sure you do not have overlapping subnets.
+
+
+* * * 
+
+### Allow traffic between Sarah's Site B LAN Net and Site A LAN Net
+
+1. Go to OPNsense Site B 
+
+2. Open `Firewall ‣ Rules ‣ LAN` and `add` a new rule.
+
+   1. Note: `Change for preference`. The network you want to share with WireGuard may be different than `LAN`, please modify the name of the Interface to match your network.
+
+3. Action - Pass
+
+4. Interface - `LAN`
+
+5. Direction - In
+
+6. TCP/IP Version - IPv4
+
+7. Protocol - Any
+
+8. Source - `192.168.0.0/24`
+
+9.  Source port - Any
+
+10. Destination - `172.16.0.0/24`
+
+11. Destination port - Any
+
+12. Description - `Allow LAN on Site B to remote LAN Site A`
+
+13. Press Save and Apply.
+
+
+
+* * *
+
+### Allow traffic from WireGuard Site A LAN Net to Sarah's Site B LAN Net
+
+1. Go to OPNsense Site B 
+
+2. Open `Firewall ‣ Rules ‣ WireGuard (Group)` and add a new rule.
+
+3. Action - Pass
+
+5. Interface - `WireGuard (Group)`
+
+6. Direction - In
+
+7. TCP/IP Version - IPv4
+
+8. Protocol - Any
+
+9. Source - `172.16.0.0/24`
+
+10. Source port - Any
+
+11. Destination - `192.168.0.0/24`
+
+12. Destination port - Any
+
+13. Description - `Allow LAN on remote Site A to LAN on Site B`
+
+14. Press Save and Apply.
 
 > Now both sites have full access to the LAN of the other Site through the WireGuard Tunnel. For additional networks just add more Allowed IPs to the WireGuard Endpoints and adjust the firewall rules to allow the traffic.
 {: .prompt-info }
 
 
+* * *
 
+* * *
 
+## Alt route - no firewall route
 
+You can try and route without any rules. You want the wireguard subnet to be routed in its entirety to and from that gateway so that access can be established and mapped by your router without the need to add firewall rules. 
 
+1. Go to `System ‣ Gateways ‣ Configuration`
 
+2. Create a new gateway.
 
+3. Assign the interface.
 
+4. Make sure you have set the IP of your remote wireguard's gateway's IP, the tunnel address, in our example above it was Site B to remote Site A: `10.2.2.1/24`.
 
+5. With a new gateway up we can point a route there.
 
+6. Head to `System ‣ Routes ‣ Configuration`.
 
+7. Create a new route.
 
+8. Make the network address your WireGuard subnet.
+
+9. Set the gateway dropdown to the one you defined earlier.
+
+10. Open `Firewall ‣ Settings ‣ Advanced ‣ Static route filtering`.
+
+11. Check the `Bypass firewall rules for traffic on the same interface` checkbox.
 
 
 
@@ -1257,15 +1272,13 @@ With OPNsense there is one more step I had to take....
 > Firewall -> Rules -> WireGuard, you should see -- under `Source` the IP Address of the Internal subnet you're using for you're WireGuard network you made under VPN -> WireGuard -> Local.
 
 
+* * *
 
+* * *
 
+### Finish - by reseting services
 
-
-
-
-
-
-
+The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings ‣ General` or go to the `Dashboard` and `reset services` from there. 
 
 
 
@@ -1277,6 +1290,17 @@ With OPNsense there is one more step I had to take....
 
 
 ## Setting up the client software
+
+**So the client needs:**
+
+- Their Client Config
+
+- Endpoint config of the "server"
+  - Public IP of the Endpoint "server"
+  - Public Key of the Endpoint "server"
+
+
+* * *
 
 ### Example: Official Windows WireGuard client
 
@@ -1303,7 +1327,7 @@ Endpoint = edge.sub.domain.com:51820
 
 4. Moving over to the web interface, under `VPN ‣ WireGuard ‣ Settings ‣ Local`
 
-5. Edit the `Local Profile's Configuration` that we created earlier, named `HomeWireGuard` and copy the `Public Key` making sure to get **THE ENTIRE THING** including the `=`
+5. Edit the `Local Profile's Configuration` that we created earlier, named `wgopn1-memestor` and copy the `Public Key` making sure to get **THE ENTIRE THING** including the `=`
 
 6. Paste this into the config section of the client, under `[peer]`
 
@@ -1312,96 +1336,10 @@ Endpoint = edge.sub.domain.com:51820
 
 
 
-
-## Finish - by reseting services
-
-The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings ‣ General` or go to the `Dashboard` and `reset services` from there. 
-
-
-
-
-
-
-
-In addition to AllowedIPs, you may also need to specify Endpoints in the client config as well:
-
-`Endpoint = 192.95.5.69:51820`
-
-So the client needs:
-
-- Their Client Config
-
-- Endpoint config of the "server"
-  - Public IP of the Endpoint "server"
-  - Public Key of the Endpoint "server"
-
-
-
-* * *
-
-So the last step using the WireGuard settings is to specifiy our clients that will be connecting to the different WireGuard services listening for connections. In this case we've only created one, `HomeWireGuard`
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-************************
-************************
-Now you have to go back to the front end thing and use the drop down to select whatever you named your endpoint
-************************
-************************
-
-edg0lxc+f5Vq+XKp/qPkfbkTBURfPYAjJat6zmKrJEw=
-
+### Example: commented wg0.conf
 
 `THERE ARE A BUNCH OF STEPS FOR CREATING CONFIGS.` 
 `THERE ARE SEVERAL AUTO GENERATING ONES ONLINE`
-`BUT I SHOULD HAND WRITE THE STEPS HERE`
-
-```
-[Interface]
-PrivateKey = MEwQUyAhO2HayVt6P6VId6i3tFwVydZGNKE8e5xxr3o=
-Address = 172.23.55.69/32
-DNS = 172.23.1.254
-
-[Peer]
-PublicKey = 0CP43e6zkyxJk61ZJmt2DIaj8Arq6cYESuXTX55aBng=
-AllowedIPs = 172.23.1.0/24
-Endpoint = edge.sub.domain.com:38365
-
-```
-
-
-Dude's LAN address:
-10.122.2.178
-
-I'm missing: Peer 1 created
-
-Sending Handshake initirion to peer one.
-
-
-
-RKMiB4La6jFHYG2pjn3TsCI02zPfVVlN6vQYeJDUqHc=
-
-
-
-## Example wg0.conf 2024
-
 
 ```
 [Interface]
@@ -1421,55 +1359,8 @@ Endpoint = <Public IP of the OPNsense firewall>:<WireGuard Port>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Future Updates - please help
+## Future Updates - help
 
 If any of this is out of date, send me a pull request. I would love the chance to update this if there's a change. 
 
 At the time of writing **OPNsense is at version 24.1.4**
-
-
-
-
-* * *
-
-
-
-2024-03-24-opnsense-wireguard-vpn.md
----
-
-Goals:
-
-Wireguard setup:
-
-- Road Warrior: this means client to network. Some machine, at some location wants onto your network. Could be a cell phone, laptop, or workstation -- it wants to remote in.
-	- Screen shots of client device setup, on Linux, Windows, MacOS, and Android
-- Site to Site: connecting two computer networks together. This requires knowing routing on the other end, and letting your system know the new gateway to route through. 
-	- Screen shot second OPNsense setup at SFS headquarters.
-https://forum.level1techs.com/t/infrastructure-series-wireguard-site-to-site-tunnel/168766
-
-- Setup a VPS to wireguard to and from:
-https://forum.level1techs.com/t/self-hosted-vpn-with-wireguard/160861
-https://www.thomas-krenn.com/en/wiki/Ubuntu_Desktop_as_WireGuard_VPN_client_configuration
-https://www.youtube.com/watch?v=yDgpBC7c1uY
-- Devices_on_your_network_that_get_tunneled through an external VPN provider like Windscribe based on their network subnet and or IP address - This is also a wireguard config.
-	- Possibly buy a month to make sure this works? Can I try out a new provider to taste that... say, mulvad?
-
-
-
-
