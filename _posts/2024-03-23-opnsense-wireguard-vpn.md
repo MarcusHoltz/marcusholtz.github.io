@@ -28,29 +28,35 @@ Please **hang on** till we're done with WireGuard.
 
 ### Tutorial Steps
 
-1. This Intro
+1. [This Intro](#wireguard-then-opnsense)
 
-2. Client Device Setup
+2. [Client Device Setup](#wireguard-on-the-peers-client-machine)
 
 3. WireGuard
 
-   1. WireGuard Configuration
+   1. [WireGuard Configuration](#wireguard-tunnel-subnet-interface)
 
-   2. WireGuard Site-to-Site VPN
+   2. [WireGuard Site-to-Site VPN](#setting-up-wireguard-on-each-instance-of-opnsense-for-site-to-site)
 
 4. OPNsense
 
-   1. WireGuard Interface
+   1. [WireGuard Interface](#configure-a-wireguard-interface-on-opnsense)
    
-   2. OPNsense rules for WireGuard
+   2. [OPNsense rules for WireGuard](#create-a-wireguard-outbound-nat-rule)
+      
+      1. [Outbound NAT](#create-a-wireguard-outbound-nat-rule)
+      
+      2. [Inbound WAN](#create-firewall-rules-on-wan)
+      
+      3. [WireGuard Group](#create-firewall-rules-on-wireguard)
 
 5. Site-to-Site VPN Router/Firewall
 
-   1. OPNsense Firewall configuration
+   1. [OPNsense Firewall configuration](#site-a---meme-storage-bunker-hqs-server---firewall-setup)
 
-   2. OPNsense Router configuration
+   2. [OPNsense Router configuration](#allow-traffic-between-site-a-lan-net-and-site-b-lan-net)
 
-6. Getting the Peer Client's Device Connected
+6. [Getting the Peer Client's Device Connected](#setting-up-the-client-software)
 
 
 * * *
@@ -713,13 +719,13 @@ The save and apply are meaningless, as WireGuard never resets the service to loa
 
 * * * 
 
-# PART V - OPNsense rules for WireGuard
+# PART VI - OPNsense rules for WireGuard
 
 * * * 
 
 This area is where the networking configuration begins. 
 
-> This may be a good time to go make a tea and grab a snack.
+> This may be a good time to go make a tea ☕ and grab a snack 🥐.
 
 
 We are starting to shape where our traffic can and cannot go. 
@@ -805,9 +811,13 @@ This will involve two steps.
 
 * * *
 
-### Create firewall rules on WAN
+### Create firewall rules on - WAN
 
-Let in your port you made for WireGuard. Adding this rule opens your firewall up. You now have a hole in your network, on the port you choose. Be aware of this fact, as [UDP hole-punching](https://en.wikipedia.org/wiki/UDP_hole_punching) VPNs like Tailscale, Zerotier, Netbird all work without this requirement.
+Letting in your port you made for WireGuard opens your firewall up. You now have a hole in your network, on the port you choose. 
+
+Be aware of this fact, as [UDP hole-punching](https://en.wikipedia.org/wiki/UDP_hole_punching) VPNs like Tailscale, Zerotier, Netbird all work without this requirement.
+
+Now that you're aware of the risks and alternatives, let's begin:
 
 1. Go to `Firewall ‣ Rules ‣ WAN`
 
@@ -842,11 +852,13 @@ Let in your port you made for WireGuard. Adding this rule opens your firewall up
 
 * * *
 
-### Create firewall rules on WireGuard
+### Create firewall rules on - WireGuard
 
 The firewall rule outlined below will need to be configured on the automatically created WireGuard group that appears once the Instance configuration is enabled and WireGuard is started. 
 
-You will also need to manually `specify` the source IPs/`subnet`(s) for the `tunnel`. It’s probably easiest to define an `alias` (via `Firewall ‣ Aliases`) for those IPs/`subnet`(s) and use that. 
+You will also need to manually specify the subnet for the `tunnel`. 
+
+Note: You can define an `alias` (via `Firewall ‣ Aliases`) for any IPs/`subnet` that you want to use. 
 
 
 1. Go to `Firewall ‣ Rules ‣ WireGuard (Group)`
@@ -857,7 +869,7 @@ You will also need to manually `specify` the source IPs/`subnet`(s) for the `tun
 
 4. Quick - Checked
 
-5. Interface - `WireGuard (Group)` or an Aliases
+5. Interface - `WireGuard (Group)` or an alias
 
 6. Direction - in
 
@@ -867,11 +879,11 @@ You will also need to manually `specify` the source IPs/`subnet`(s) for the `tun
 
 9. Source / Invert - Unchecked
 
-10. Source - `WireGuard (Group) net` or an Aliases
+10. Source - `WireGuard (Group) net` or an alias
 
 11. Destination / Invert - Unchecked
 
-12. Destination - `Specify` the IPs that client peers `should` be able to `access`, eg “any” or specific IPs/subnets. You can use an `Alias` here too.
+12. Destination - Specify the IPs or subnet that client peers `should` be able to `access`. You can use an alias here too.
 
 13. Destination port range - any
 
@@ -884,7 +896,7 @@ You will also need to manually `specify` the source IPs/`subnet`(s) for the `tun
 
 * * *
 
-### Make normalization rules for WireGuard
+### Normalization rules for WireGuard
 
 By creating normalization rules, you ensure that IPv4 TCP can pass through the WireGuard tunnel without being fragmented. Otherwise you could get working ICMP and UDP, but some encrypted TCP sessions **will refuse to work**.
 
@@ -916,7 +928,7 @@ By creating normalization rules, you ensure that IPv4 TCP can pass through the W
 
 * * * 
 
-# PART VI - Site-to-Site VPN - OPNsense firewall configuration
+# PART VII - Site-to-Site VPN - OPNsense firewall configuration
 
 * * * 
 
@@ -1082,7 +1094,7 @@ With OPNsense there is one more step I had to take....
 
 * * * 
 
-# PART VII - Site-to-Site VPN - OPNsense router configuration
+# PART VIII - Site-to-Site VPN - OPNsense router configuration
 
 * * * 
 
@@ -1254,7 +1266,7 @@ With OPNsense there is one more step I had to take....
 
 * * * 
 
-# PART VI - The peer client
+# PART IX - The peer client
 
 * * * 
 
