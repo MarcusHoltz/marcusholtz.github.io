@@ -117,9 +117,9 @@ At the heart of WireGuard is a concept called `Cryptokey Routing`, which works b
 
 * * *
 
-### WireGuard recieving a packet
+### WireGuard receiving a packet
 
-1. When an interface for `WireGuard` `recieves` a packet, this could be from port forwarding or an open interface, it attempts to identify it.
+1. When an interface for `WireGuard` `receives` a packet, this could be from port forwarding or an open interface, it attempts to identify it.
 
 2. The WireGuard interface checks the source IP address and port to determine `which` `peer` the packet is from.
 
@@ -180,7 +180,7 @@ This is the WireGuard `peer client`'s software `connecting` back to `OPNsense`. 
 
 #### iOS
 
-- [The official WireGuard iOS App Store app](https://apps.apple.com/us/app/wireguard/id1441195209) - iOS's official WireGuard app for iOS 15.0 or later. Mostly feature pairity with Android.
+- [The official WireGuard iOS App Store app](https://apps.apple.com/us/app/wireguard/id1441195209) - iOS's official WireGuard app for iOS 15.0 or later. Mostly feature parity with Android.
 
 
 * * * 
@@ -330,7 +330,7 @@ This is the configuration for the tunnel address of the OPNsense endpoint, the *
 
 `VPN ‣ WireGuard ‣ Settings ‣ Peers ‣ Allowed IPs` - These are what IP addresses are going to be permitted over the tunnel.
 
-You can send and the server will recieve it, but it will do nothing and send nothing back... UNLESS you have the IP of the Endpoint (in it's `[Interface]` `Address = ` section) on the Allowed IPs list for the endpoint.
+You can send and the server will receive it, but it will do nothing and send nothing back... UNLESS you have the IP of the Endpoint (in it's `[Interface]` `Address = ` section) on the Allowed IPs list for the endpoint.
 
 This is why you have to configure every client that wants to connect to this firewall/WireGuardserver. (Unless they're sharing certificates.)
 
@@ -375,7 +375,7 @@ This page is where you setup each individual key connecting to WireGuard, and is
 
 * * * 
 
-### Finish WireGuard inital config - reseting services
+### Finish WireGuard initial config - resetting services
 
 The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. 
 
@@ -399,7 +399,7 @@ Reviewing what should be completed at this point.
 
 * * * 
 
-## Caveates
+## Caveats
 
 * * *
 
@@ -412,7 +412,7 @@ But if your public IP roams (xfinity, comcast) you will need:
 
 `AllowedIPs = 0.0.0.0/0`
 
-This will ensure any Source IP can connect to that interface if it can autheticate correctly. 
+This will ensure any Source IP can connect to that interface if it can authenticate correctly. 
 
 
 #### Allowed IP Explained
@@ -431,7 +431,7 @@ In other words, when sending packets, the list of Allowed IPs behaves as a sort 
 > If you use **hostnames** in the Endpoint Address, WireGuard will only resolve them once when you start the tunnel. If both sites have dynamic Endpoint Addresses set, the tunnel will stop working if a site receive a new WAN IP lease from the ISP. 
 {: .prompt-info }
 
-> To mitiage this you'd need to check DNS resolve the IP addresses for the system, then restart WireGuard if there was a new IP.
+> To mitigate this you'd need to check DNS resolve the IP addresses for the system, then restart WireGuard if there was a new IP.
 {: .prompt-warning }
 
 
@@ -639,7 +639,7 @@ Again, setup the key, IPs, and Instance connecting to MSB HQ's WireGuard.
 
 ### WireGuard site-to-site setup review
 
-A lot of this was the same as the inital Roadwarrior setup in the begining. The difference with site-to-site it's between two OPNsense servers and not a peer client.
+A lot of this was the same as the inital Roadwarrior setup in the beginning. The difference with site-to-site it's between two OPNsense servers and not a peer client.
 
 
 1. You should have an `Instance` setup on both OPNsense servers.
@@ -652,7 +652,7 @@ A lot of this was the same as the inital Roadwarrior setup in the begining. The 
 
 5. On the same `Peer`, the `Endpoint Address` needs to point to the other server's connectable IP.
 
-6. `Peers` and `Instances` must also `belong` to eachother with the `drop down` selecting each, respectivly.
+6. `Peers` and `Instances` must also `belong` to each other with the `drop down` selecting each, respectively.
 
 
 
@@ -722,7 +722,7 @@ Please note, if you have not enabled the WireGuard service the interface creatio
 
 * * * 
 
-### Finish WireGuard interface by reseting WireGuard services
+### Finish WireGuard interface by resetting WireGuard services
 
 The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings ‣ General` or go to the `Dashboard` and `reset services` from there. 
 
@@ -748,7 +748,7 @@ This area is where the networking configuration begins.
 
 We are starting to shape where our traffic can and cannot go. 
 
-Please note, much of this can be changed for preference and is not ridgid. 
+Please note, much of this can be changed for preference and is not ridged. 
 
 
 * * *
@@ -1060,7 +1060,7 @@ You should see Send and Received traffic and Handshake should be populated by a 
 
 ## Routing different subnets across WireGuard
 
-Different subnets seperate networks from communicating with each other. The firewall also stops these networks.
+Different subnets separate networks from communicating with each other. The firewall also stops these networks.
 
 Currently, your two LANs cannot see each other. 
 
@@ -1254,7 +1254,7 @@ You can try and route without any rules. You want the wireguard subnet to be rou
 
 
 
-### The rest of the Firewall stuff you knoe
+### The rest of the Firewall stuff you know
 
 1. Click on Firewall -> Rules -> WireGuard
 
@@ -1275,7 +1275,7 @@ You can try and route without any rules. You want the wireguard subnet to be rou
 
 * * *
 
-### Finish - by reseting services
+### Finish - by resetting services
 
 The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings ‣ General` or go to the `Dashboard` and `reset services` from there. 
 
@@ -1346,7 +1346,7 @@ HERE IS ANOTHER EXAMPLE:
 
 ```ini
 [Interface]
-Address = <Configured client IP>/<Netmask> // For exaple the IP "10.11.0.20/32"
+Address = <Configured client IP>/<Netmask> // For example the IP "10.11.0.20/32"
 PrivateKey = <Private Key of the client>
 
 [Peer]
