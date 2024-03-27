@@ -485,7 +485,24 @@ Tunnel Address  >   Allowed IPs      >   OPNsense [Interface] address
 
 ## Setting up WireGuard on each Instance of OPNsense for Site-to-Site
 
-The following example covers an IPv4 Site to Site WireGuard Tunnel between two OPNsense Firewalls with public IPv4 addresses on their WAN interfaces. You will connect the (*Site A LAN*) `172.16.0.0/24` to the (*Site B LAN*) `192.168.0.0/24` using the (*WireGuard Transfer Network*) `10.2.2.0/24`. (*Site A Public IP*) is `203.0.113.1` and (*Site B Public IP*) is `203.0.113.2`.
+The following example covers an IPv4 Site to Site WireGuard Tunnel between two OPNsense Firewalls with public IPv4 addresses on their WAN interfaces. You will connect the (*Site A LAN*) `172.16.0.0/24` to the (*Site B LAN*) `192.168.0.0/24` using the (*WireGuard Transfer Network*) `10.2.2.0/24`. (*Site A Public IP*) is `203.0.113.1` and (*Site B Public IP*) is `203.0.113.2`. On the (*WireGuard Tunnel Network*) the tunnel address for (*Site A WireGuard*) is `10.2.2.1/24` and the tunnel address for (*Site B WireGuard*) is `10.2.2.2/24`.
+
+
+### Table of all addresses and interfaces used 
+
+There are a lot of confusing segments in this tutorial. I have adapted this table to the information being entered, for quick reference. 
+
+` T A B L E   O F   A D D R E S S E S`
+
+|      Address      |     IP         |
+|-------------------|----------------|
+| WireGuard Network |  10.2.2.0/24   |
+| Site A WireGuard  |  10.2.2.1/24   |
+| Site B WireGuard  | 10.2.2.2/24    |
+| Site A LAN        | 172.16.0.0/24  |
+| Site B LAN        | 192.168.0.0/24 |
+| Site A Public IP  | 203.0.113.1    |
+| Site B Public IP  | 203.0.113.2    |
 
 
 * * *
@@ -725,7 +742,7 @@ The save and apply are meaningless, as WireGuard never resets the service to loa
 
 This area is where the networking configuration begins. 
 
-> This may be a good time to go make a tea ☕ and grab a snack 🥐.
+> This may be a good time to go make a tea ☕ and grab a snack.
 
 
 We are starting to shape where our traffic can and cannot go. 
@@ -815,7 +832,7 @@ This will involve two steps.
 
 Letting in your port you made for WireGuard opens your firewall up. You now have a hole in your network, on the port you choose. 
 
-Be aware of this fact, as [UDP hole-punching](https://en.wikipedia.org/wiki/UDP_hole_punching) VPNs like Tailscale, Zerotier, Netbird all work without this requirement.
+> Be aware, [UDP hole-punching](https://en.wikipedia.org/wiki/UDP_hole_punching) VPNs like Tailscale, Zerotier, Netbird all work without this requirement.
 
 Now that you're aware of the risks and alternatives, let's begin:
 
@@ -854,11 +871,11 @@ Now that you're aware of the risks and alternatives, let's begin:
 
 ### Create firewall rules on - WireGuard
 
-The firewall rule outlined below will need to be configured on the automatically created WireGuard group that appears once the Instance configuration is enabled and WireGuard is started. 
+The firewall rule outlined below will need to be configured on the automatically created `WireGuard group` that appears once the Instance configuration is enabled and WireGuard is started. 
 
 You will also need to manually specify the subnet for the `tunnel`. 
 
-Note: You can define an `alias` (via `Firewall ‣ Aliases`) for any IPs/`subnet` that you want to use. 
+> You can also define an `alias` (via `Firewall ‣ Aliases`) for any IPs/`subnet` that you want to use. 
 
 
 1. Go to `Firewall ‣ Rules ‣ WireGuard (Group)`
@@ -898,7 +915,7 @@ Note: You can define an `alias` (via `Firewall ‣ Aliases`) for any IPs/`subnet
 
 ### Normalization rules for WireGuard
 
-By creating normalization rules, you ensure that IPv4 TCP can pass through the WireGuard tunnel without being fragmented. Otherwise you could get working ICMP and UDP, but some encrypted TCP sessions **will refuse to work**.
+By creating normalization rules, you ensure that IPv4 TCP can pass through the WireGuard tunnel without fragmentation of traffic. Otherwise you could get working ICMP and UDP, but some encrypted TCP sessions **will refuse to work**.
 
 1. Go to `Firewall ‣ Settings ‣ Normalization`
 
@@ -938,18 +955,55 @@ By creating normalization rules, you ensure that IPv4 TCP can pass through the W
 
 * * *
 
-## Firewall rule go explain good now
+## Site-to-Site WireGuard WAN connection
 
-Many explain good now words.
+Think of this section like `two peers` connecting to each other.
+
+You will be editing the firewall settings for the `WAN connection` between the two WireGuard clients. 
+
+> For reference, [link to table](https://blog.holtzweb.com/posts/opnsense-wireguard-vpn/#setting-up-wireguard-on-each-instance-of-opnsense-for-site-to-site) of all addresses used in this writeup.
 
 
+* * *
 
-### Site A - Meme Storage Bunker HQ's Server - Firewall setup
+### Site A - WAN Firewall setup - Meme Storage Bunker HQ's Server
+
+Back at the bunker, we need to add a new rule to allow incoming WireGuard traffic from Site B (Sarah's Flower Shop).
 
 
-1. Go to Firewall ‣ Rules ‣ WAN 
+1. Go to `Firewall ‣ Rules ‣ WAN` 
 
-2. add a new rule to allow incoming WireGuard traffic from Site B.
+2. Click `Add` (Click on the + symbol) to add a new rule.
+
+3. Action - Pass
+
+4. Interface - WAN
+
+5. Direction - In
+
+6. TCP/IP Version - IPv4
+
+7. Protocol - `UDP`
+
+8. Source - `Single host or Network` and set this to the remote site's WAN address: `203.0.113.2`
+
+9. Destination - `WAN address` set this to the WAN address to allow on WAN from our remote source.
+
+10. Destination port - `51820`
+
+11. Description - `Allow WireGuard from remote Site B to this Site A`
+
+
+* * *
+
+### Site B - WAN Firewall setup - Sarah's Flower Shop Server
+
+The same step needs to be taken, but with the WAN addresses reversed - allow incoming WireGuard traffic from Site A (Meme Storage Bunker HQ).
+
+
+1. Go to `Firewall ‣ Rules ‣ WAN`
+
+2. Click `Add` (Click on the + symbol) to add a new rule.
 
 3. Action - Pass
 
@@ -961,153 +1015,38 @@ Many explain good now words.
 
 7. Protocol - UDP
 
-8. Source - 203.0.113.2
+8. Source - `Single host or Network` and set this to the remote site's WAN address: `203.0.113.1`
 
-9. Destination - 203.0.113.1
+9. Destination - `WAN address` set this to the WAN address to allow a WAN connection from our remote source.
 
-10. Destination port - 51820
+10. Destination port - `51820`
 
-11. Description - Allow WireGuard from Site B to Site A
-
-
-### Normalization rules for Site A's WireGuard
-
-By creating the normalization rules, you ensure that IPv4 TCP can pass through the WireGuard tunnel without being fragmented. Otherwise you could get working ICMP and UDP, but some encrypted TCP sessions will refuse to work. 
-
-1. Go to Firewall ‣ Settings -> Normalization 
-
-2. Press + to create one new normalization rule.
-
-3. Interface - WireGuard (Group)
-
-4. Direction - Any
-
-5. Protocol - any
-
-6. Source - any
-
-7. Destination - any
-
-8. Destination port - any
-
-9. Description - WireGuard MSS Clamping Site A
-
-10. Max mss - 1380 (default); it’s 40 bytes less than your WireGuard MTU
-
-11. Save the rule
-
-
-
-
-
-
-* * *
-
-## Firewall B rule go explain good now
-
-Many explain good now words.
-
-
-
-* * *
-
-### Site B - Sarah's Flower Shop Server - Firewall setup
-
-
-1. Go to Firewall ‣ Rules ‣ WAN 
-
-2. add a new rule to allow incoming WireGuard traffic from Site A.
-
-3. Action - Pass
-
-4. Interface - WAN
-
-5. Direction - In
-
-6. TCP/IP Version - IPv4
-
-7. Protocol - UDP
-
-8. Source - 203.0.113.1
-
-9. Destination - 203.0.113.2
-
-10. Destination port - 51820
-
-11. Description - Allow WireGuard from Site A to Site B
+11. Description - `Allow WireGuard from remote Site A to this Site B`
 
 12. Press Save and Apply.
 
 
 
-
-### Normalization rules for Site B's WireGuard
-
-By creating the normalization rules, you ensure that IPv4 TCP can pass through the WireGuard tunnel without being fragmented. Otherwise you could get working ICMP and UDP, but some encrypted TCP sessions will refuse to work. 
-
-1. Go to Firewall ‣ Settings -> Normalization 
-
-2. Press + to create one new normalization rule.
-
-3. Interface - WireGuard (Group)
-
-4. Direction - Any
-
-5. Protocol - any
-
-6. Source - any
-
-7. Destination - any
-
-8. Destination port - any
-
-9. Description - WireGuard MSS Clamping Site B
-
-10. Max mss - 1380 (default); it’s 40 bytes less than your WireGuard MTU
-
-11. Save the rule
-
-
-
 * * *
 
-## Firewall rulez go explain good now a 2 b
+## Verify WireGuard connection on Site A and Site B
 
-Many explain good now words. and many more information is it all fit here i know not
+### Load new WireGuard configuration
 
+Ensure you are able to reset the WireGuard service to load the **new configuration**. 
 
-* * *
+- Go to `VPN ‣ WireGuard ‣ Settings` on both sites and `check` and `uncheck` the `Enable WireGuard` and press `Apply`.
 
-### Enable WireGuard on Site A and Site B
-
-Go to VPN ‣ WireGuard ‣ Settings on both sites and Enable WireGuard
-
-Press Apply and check VPN ‣ WireGuard ‣ Diagnostics. You should see Send and Received traffic and Handshake should be populated by a number. This happens as soon as the first traffic flows between the sites.
-
-Your tunnel is now up and running.
+- Go to the `Dashboard` on both sites and `reset services` from there. 
 
 
+### Check WireGuard Logs
 
-### Add a LAN gateway
+To verify any of this is working correctly, go to `VPN ‣ WireGuard ‣ Diagnostics`. 
 
-OPNSense makes it easy to add the LAN gateway. You want the Gateway IP to be the IP of whatever device is Site B.
+You should see Send and Received traffic and Handshake should be populated by a number. This happens as soon as the first traffic flows between the sites.
 
-- Name
-
-- Interface
-
-- Gateway
-
-
-### Adding Routes
-
-Head to `System ‣ Routes ‣ Configuration`.
-
-You want the wireguard subnet to be routed in its entirety to and from that gateway so that access can be established and mapped by your router without the need to add firewall rules. 
-With OPNsense there is one more step I had to take....
-
-`Firewall ‣ Settings ‣ Advanced ‣ Static route filtering` you will need to check the `Bypass firewall rules for traffic on the same interface` checkbox.
-
+> If you see this, your tunnel is now up and running.
 
 
 
@@ -1128,6 +1067,40 @@ Talk about how we're going to connect these two different subnets. Like a VPS an
 or your mom's house and your house. 
 
 Also this number and the other number are different because of CLASS routing. Subnets.
+
+
+> For reference, [link to the table](https://blog.holtzweb.com/posts/opnsense-wireguard-vpn/#setting-up-wireguard-on-each-instance-of-opnsense-for-site-to-site) of Site A and Site B LAN addresses used in this writeup.
+
+
+
+
+### Add a LAN gateway
+
+OPNSense makes it easy to add the LAN gateway. You want the Gateway IP to be the IP of whatever device is Site B.
+
+- Name
+
+- Interface
+
+- Gateway
+
+
+
+
+### Adding Routes
+
+Head to `System ‣ Routes ‣ Configuration`.
+
+You want the wireguard subnet to be routed in its entirety to and from that gateway so that access can be established and mapped by your router without the need to add firewall rules. 
+With OPNsense there is one more step I had to take....
+
+`Firewall ‣ Settings ‣ Advanced ‣ Static route filtering` you will need to check the `Bypass firewall rules for traffic on the same interface` checkbox.
+
+
+
+
+
+
 
 
 
@@ -1464,46 +1437,11 @@ Endpoint = <Public IP of the OPNsense firewall>:<WireGuard Port>
 
 
 
+## Future Updates - please help
 
+If any of this is out of date, send me a pull request. I would love the chance to update this if there's a change. 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+At the time of writing **OPNsense is at version 24.1.4**
 
 
 
