@@ -1,9 +1,8 @@
 ---
-layout: post
 title: OPNsense as a Wireguard VPN
 date: 2024-03-24 11:33:00 -0700
 categories: [Networking, VPN]
-tags: [opnsense, workstation, split-dns, VPN, wireguard, remote]
+tags: [opnsense, workstation, splitdns, VPN, wireguard, remote]
 pin: false
 image:
   path: /assets/img/header/header--opnsense--wireguard-VPN.jpg
