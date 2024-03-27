@@ -6,8 +6,8 @@ categories: [Networking, VPN]
 tags: [opnsense, workstation, splitdns, vpn, wireguard, remote]
 pin: false
 image:
-  path: /assets/img/header/header--opnsense--wireguard-VPN.jpg
-  alt: Setting up OPNsense router as a WireGuard VPN
+  path: /assets/img/header/header--opnsense--wireguard-VPN.jpg
+  alt: Setting up OPNsense router as a WireGuard VPN
 ---
 
 # WireGuard on OPNsense 
@@ -34,27 +34,27 @@ Please **hang on** till we're done with WireGuard.
 
 3. WireGuard
 
-   1. [WireGuard Configuration](#wireguard-tunnel-subnet-interface)
+   1. [WireGuard Configuration](#wireguard-tunnel-subnet-interface)
 
-   2. [WireGuard Site-to-Site VPN](#setting-up-wireguard-on-each-instance-of-opnsense-for-site-to-site)
+   2. [WireGuard Site-to-Site VPN](#setting-up-wireguard-on-each-instance-of-opnsense-for-site-to-site)
 
 4. OPNsense
 
-   1. [WireGuard Interface](#configure-a-wireguard-interface-on-opnsense)
-   
-   2. [OPNsense rules for WireGuard](#create-a-wireguard-outbound-nat-rule)
-      
-      1. [Outbound NAT](#create-a-wireguard-outbound-nat-rule)
-      
-      2. [Inbound WAN](#create-firewall-rules-on-wan)
-      
-      3. [WireGuard Group](#create-firewall-rules-on-wireguard)
+   1. [WireGuard Interface](#configure-a-wireguard-interface-on-opnsense)
+   
+   2. [OPNsense rules for WireGuard](#create-a-wireguard-outbound-nat-rule)
+      
+      1. [Outbound NAT](#create-a-wireguard-outbound-nat-rule)
+      
+      2. [Inbound WAN](#create-firewall-rules-on-wan)
+      
+      3. [WireGuard Group](#create-firewall-rules-on-wireguard)
 
 5. Site-to-Site VPN Router/Firewall
 
-   1. [OPNsense Firewall configuration](#site-a---meme-storage-bunker-hqs-server---firewall-setup)
+   1. [OPNsense Firewall configuration](#site-a---meme-storage-bunker-hqs-server---firewall-setup)
 
-   2. [OPNsense Router configuration](#allow-traffic-between-site-a-lan-net-and-site-b-lan-net)
+   2. [OPNsense Router configuration](#allow-traffic-between-site-a-lan-net-and-site-b-lan-net)
 
 6. [Getting the Peer Client's Device Connected](#setting-up-the-client-software)
 
@@ -71,7 +71,7 @@ To setup WireGuard first, you must understand it's conceptual overview.
 2. **Both sides are a peer.** 
 
 3. So, in essence - you need to setup private and public keys for each side. 
-    (*Technically you will derive the public key from the private key.*)
+    (*Technically you will derive the public key from the private key.*)
 
 4. No dynamic IP assignment (or very little), each client has a fixed IP.
 
@@ -308,7 +308,7 @@ This is the configuration for the tunnel address of the OPNsense endpoint, the *
 > These names wont be seen anywhere outside of this config screen. BUT, you will see the interface name when you go to assign an interface. 
 
 5. Public Key - Hit the cog. You will see a series of characters with an equals sign that will always appear at the end.
- 
+ 
 7. Keep hitting the cog until a public key with a series of numbers and letters appears without any special characters.
 
 8. Listen Port - `51820`
@@ -418,10 +418,10 @@ This will ensure any Source IP can connect to that interface if it can authetica
 #### Allowed IP Explained
 
 In other words, when sending packets, the list of Allowed IPs behaves as a sort of routing table, and when receiving packets, the list of Allowed IPs behaves as a sort of access control list.
-   
-   - In sending direction this list behaves like a routing table.
+   
+   - In sending direction this list behaves like a routing table.
 
-   - In receiving direction it serves as Access Control List.
+   - In receiving direction it serves as Access Control List.
 
 
 * * * 
@@ -454,16 +454,16 @@ In other words, when sending packets, the list of Allowed IPs behaves as a sort 
 #### OPNsense's subnetting example:
 
 ```
-Tunnel Address  >   Allowed IPs      >   OPNsense [Interface] address
+Tunnel Address  >   Allowed IPs      >   OPNsense [Interface] address
 ```
 
 #### WireGuard subnetting example:
 
 ```
-   Instances    >     Peers          >   Address on the Client's Interface
-       ^                ^                           ^
-     Entire       Any Subnet to           Single IP that resides on both
-     Subnet       connect between         the Peer's and Instance's subnet
+   Instances    >     Peers          >   Address on the Client's Interface
+       ^                ^                           ^
+     Entire       Any Subnet to           Single IP that resides on both
+     Subnet       connect between         the Peer's and Instance's subnet
 ```
 
 **Each WireGuard network `interface` has a `private key` and a `list of peers`.**
@@ -938,6 +938,12 @@ By creating normalization rules, you ensure that IPv4 TCP can pass through the W
 
 * * *
 
+## Firewall rule go explain good now
+
+Many explain good now words.
+
+
+
 ### Site A - Meme Storage Bunker HQ's Server - Firewall setup
 
 
@@ -994,6 +1000,12 @@ By creating the normalization rules, you ensure that IPv4 TCP can pass through t
 
 
 
+
+* * *
+
+## Firewall B rule go explain good now
+
+Many explain good now words.
 
 
 
@@ -1057,7 +1069,14 @@ By creating the normalization rules, you ensure that IPv4 TCP can pass through t
 
 
 
+* * *
 
+## Firewall rulez go explain good now a 2 b
+
+Many explain good now words. and many more information is it all fit here i know not
+
+
+* * *
 
 ### Enable WireGuard on Site A and Site B
 
@@ -1097,6 +1116,19 @@ With OPNsense there is one more step I had to take....
 # PART VIII - Site-to-Site VPN - OPNsense router configuration
 
 * * * 
+
+
+
+## Router explain diffrent subnets connect
+
+Talk about how subnets exist, what they are for - give examples.
+
+Talk about how we're going to connect these two different subnets. Like a VPS and a home LAN
+
+or your mom's house and your house. 
+
+Also this number and the other number are different because of CLASS routing. Subnets.
+
 
 
 ## Allow traffic between Site A LAN Net and Site B LAN Net
@@ -1327,8 +1359,8 @@ So the client needs:
 - Their Client Config
 
 - Endpoint config of the "server"
-  - Public IP of the Endpoint "server"
-  - Public Key of the Endpoint "server"
+  - Public IP of the Endpoint "server"
+  - Public Key of the Endpoint "server"
 
 
 
@@ -1406,11 +1438,11 @@ PrivateKey = <Private Key of the client>
 [Peer]
 PublicKey = <Public Key of the OPNsense WireGuard instance>
 AllowedIPs = <Networks to which this client should have access>/<Netmask>
-             // For example "10.11.0.0/24, 192.168.1.0/24"
-             //               |             |
-             //               +--> The network area of the OPNsense WireGuard VPNs
-             //                             |
-             //                             +--> Network behind the firewall
+             // For example "10.11.0.0/24, 192.168.1.0/24"
+             //               |             |
+             //               +--> The network area of the OPNsense WireGuard VPNs
+             //                             |
+             //                             +--> Network behind the firewall
 Endpoint = <Public IP of the OPNsense firewall>:<WireGuard Port>
 ```
 
@@ -1488,9 +1520,9 @@ Goals:
 Wireguard setup:
 
 - Road Warrior: this means client to network. Some machine, at some location wants onto your network. Could be a cell phone, laptop, or workstation -- it wants to remote in.
-	- Screen shots of client device setup, on Linux, Windows, MacOS, and Android
+  - Screen shots of client device setup, on Linux, Windows, MacOS, and Android
 - Site to Site: connecting two computer networks together. This requires knowing routing on the other end, and letting your system know the new gateway to route through. 
-	- Screen shot second OPNsense setup at SFS headquarters.
+  - Screen shot second OPNsense setup at SFS headquarters.
 https://forum.level1techs.com/t/infrastructure-series-wireguard-site-to-site-tunnel/168766
 
 - Setup a VPS to wireguard to and from:
@@ -1498,7 +1530,9 @@ https://forum.level1techs.com/t/self-hosted-vpn-with-wireguard/160861
 https://www.thomas-krenn.com/en/wiki/Ubuntu_Desktop_as_WireGuard_VPN_client_configuration
 https://www.youtube.com/watch?v=yDgpBC7c1uY
 - Devices_on_your_network_that_get_tunneled through an external VPN provider like Windscribe based on their network subnet and or IP address - This is also a wireguard config.
-	- Possibly buy a month to make sure this works? Can I try out a new provider to taste that... say, mulvad?
+  - Possibly buy a month to make sure this works? Can I try out a new provider to taste that... say, mulvad?
+
+
 
 
 
