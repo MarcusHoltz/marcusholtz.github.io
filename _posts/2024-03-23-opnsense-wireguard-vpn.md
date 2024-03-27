@@ -1,6 +1,6 @@
 ---
 layout: post
-title: OPNsense as a WireGuard Client with Site-to-Site VPN
+title: OPNsense as a WireGuard Server with Site-to-Site VPN
 date: 2024-03-23 11:33:00 -0700
 categories: [Networking, VPN]
 tags: [opnsense, workstation, splitdns, vpn, wireguard, remote]
@@ -38,15 +38,19 @@ Please **hang on** till we're done with WireGuard.
 
    2. WireGuard Site-to-Site VPN
 
-   3. WireGuard on OPNsense
+4. OPNsense
 
-4. Router/Firewall
+   1. WireGuard Interface
+   
+   2. OPNsense rules for WireGuard
 
-   1. OPNsense Router Configuration for Site-to-Site VPNs
+5. Site-to-Site VPN Router/Firewall
 
-   2. OPNsense Firewall Configuration for Site-to-Site VPNs
+   1. OPNsense Firewall configuration
 
-5. The Peer Client
+   2. OPNsense Router configuration
+
+6. Getting the Peer Client's Device Connected
 
 
 * * *
@@ -219,7 +223,7 @@ There are many different clients listed above. The concept below remains the sam
 
 You can use any of the GUI clients to hit a button to generate a `Private Key` and a `Public Key`. 
 
-Copy the Public Key.
+*Copy the Public Key.*
 
 
 ##### Windows - Example
@@ -288,7 +292,7 @@ This is the configuration for the tunnel address of the OPNsense endpoint, the *
 `Instance` is the WireGuard interface's subnet.
 
 
-1. `VPN > WireGuard > Settings > Instances`
+1. `VPN ‣ WireGuard ‣ Settings ‣ Instances`
 
 2. New (Click on the + symbol)
 
@@ -318,13 +322,11 @@ This is the configuration for the tunnel address of the OPNsense endpoint, the *
 
 #### WireGuard peer info
 
-`VPN > WireGuard > Settings > Peers > Allowed IPs` - These are what IP addresses are going to be permitted over the tunnel.
+`VPN ‣ WireGuard ‣ Settings ‣ Peers ‣ Allowed IPs` - These are what IP addresses are going to be permitted over the tunnel.
 
 You can send and the server will recieve it, but it will do nothing and send nothing back... UNLESS you have the IP of the Endpoint (in it's `[Interface]` `Address = ` section) on the Allowed IPs list for the endpoint.
 
 This is why you have to configure every client that wants to connect to this firewall/WireGuardserver. (Unless they're sharing certificates.)
-
-And, to finish this, you must import the key from the Client you're using to connect with.
 
 That client should have created the private/public key pair, and you will paste the public key.
 
@@ -335,7 +337,7 @@ That client should have created the private/public key pair, and you will paste 
 
 This page is where you setup each individual key connecting to WireGuard, and is why we were required to setup the client, for the key generation earlier.
 
-1. `VPN > WireGuard > Settings > Peers`
+1. `VPN ‣ WireGuard ‣ Settings ‣ Peers`
 
 2. New (Click on the + symbol)
 
@@ -367,11 +369,11 @@ This page is where you setup each individual key connecting to WireGuard, and is
 
 * * * 
 
-### Finish WireGuard inital config - by reseting services
+### Finish WireGuard inital config - reseting services
 
 The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. 
 
-You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings > General` or go to the `Dashboard` and `reset services` from there. 
+You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings ‣ General` or go to the `Dashboard` and `reset services` from there. 
 
 
 
@@ -487,7 +489,7 @@ The following example covers an IPv4 Site to Site WireGuard Tunnel between two O
 This is, presumably, the OPNsense router you've already been configuring from above - as this is the meme bunker. 
 We can ignore these steps if you've already got the first `Instance` from above already setup, as these steps are primarily the same.
 
-1. `VPN > WireGuard > Settings > Instances`
+1. `VPN ‣ WireGuard ‣ Settings ‣ Instances`
 
 2. New (Click on the + symbol)
 
@@ -518,7 +520,7 @@ Back in another Instance of OPNsense, we are going to follow mostly the same ste
 
 3. Arrive at Flower Shop, and login to OPNsense server.
 
-4. Visit: `VPN > WireGuard > Settings > Instances`
+4. Visit: `VPN ‣ WireGuard ‣ Settings ‣ Instances`
 
 5. New (Click on the + symbol)
 
@@ -550,7 +552,7 @@ Site A Instance with Tunnel Address of `10.2.2.1/24`.
 This part is where you will setup each individual key connecting to WireGuard, and is why the `public key` of each site's Instance was copied somewhere handy.
 
 
-1. `VPN > WireGuard > Settings > Peers`
+1. `VPN ‣ WireGuard ‣ Settings ‣ Peers`
 
 2. New (Click on the + symbol)
 
@@ -585,7 +587,7 @@ The Site B Instance with Tunnel Address of `10.2.2.2/24`.
 Again, setup the key, IPs, and Instance connecting to MSB HQ's WireGuard.
 
 
-1. `VPN > WireGuard > Settings > Peers`
+1. `VPN ‣ WireGuard ‣ Settings ‣ Peers`
 
 2. New (Click on the + symbol)
 
@@ -626,7 +628,7 @@ A lot of this was the same as the inital Roadwarrior setup in the begining. The 
 
 5. On the same `Peer`, the `Endpoint Address` needs to point to the other server's connectable IP.
 
-6. `Peers` and `Instances` must also be `belong` to eachother with the `drop down` selecting each.
+6. `Peers` and `Instances` must also `belong` to eachother with the `drop down` selecting each, respectivly.
 
 
 
@@ -634,21 +636,21 @@ A lot of this was the same as the inital Roadwarrior setup in the begining. The 
 
 ### Finish - by restarting services
 
-The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings > General` or go to the `Dashboard` and `reset services` from there. 
+The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings ‣ General` or go to the `Dashboard` and `reset services` from there. 
 
 
 
 
 * * * 
 
-# PART V - WireGuard on OPNsense
+# PART V - WireGuard Interface
 
 * * * 
 
 
 ## Configure a WireGuard Interface on OPNsense
 
-This allows separation of the firewall rules of each WireGuard instance (each `wgX` device). 
+This allows separation of the firewall rules for each WireGuard instance (`wgX` device). 
 
 
 * * * 
@@ -657,29 +659,31 @@ This allows separation of the firewall rules of each WireGuard instance (each `w
 
 Please note, if you have not enabled the WireGuard service the interface creation will fail.
 
-1. Go to Interfaces ‣ Assignments
+1. Go to `Interfaces ‣ Assignments`
 
-2. In the dropdown next to “New interface:”, select the WireGuard device (wg1 if this is your first one)
+2. At the bottom is the `Assign a new interface` section. 
 
-3. Add a description (eg wgopn1-memestor)
+3. In the dropdown next to `Device`, select the WireGuard device you created.
+
+4. Add a description (eg wgopn1memestor)
 > This is what will be visible under Interfaces on the menu.
 
-4. Click the `add` button, then click Save
+1. Click the `Add` button, then click `Save`.
 
 
 * * * 
 
 ### Enable new WireGuard interface
 
-Select your new interface under the Interfaces menu.
+1. Click on your `new interface`'s description under the `Interfaces menu`.
 
-Configure it as follows (if an option is not mentioned below, leave it as the default):
+2. Once on this new screen, we need to Enable the interface.
 
-1. Enable - Checked
+1. Enable - `Checked`
 
-2. Lock - Checked
+2. Lock - `Checked`
 
-3. IPv4 Configuration Type - None
+3. IPv4 Configuration Type - `None`
 > There is no need to configure IPs on the interface. The tunnel address(es) specified in the Instance configuration for your server will be automatically assigned to the interface once WireGuard is restarted
 
 4. Save
@@ -691,50 +695,16 @@ Configure it as follows (if an option is not mentioned below, leave it as the de
 {: .prompt-info }
 
 
-* * *
 
-### Create a WireGuard outbound NAT rule
+* * * 
 
-This step is only necessary (if at all) to allow client peers to access IPs outside of the local IPs/subnets behind OPNsense.
+### Finish WireGuard interface by reseting WireGuard services
 
-1. Go to Firewall ‣ NAT ‣ Outbound
+The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings ‣ General` or go to the `Dashboard` and `reset services` from there. 
 
-2. Select “Hybrid outbound NAT rule generation” if it is not already selected, and click Save and then Apply changes
-
-3. Click Add to add a new rule
-
-4. Interface - WAN
-
-5. TCP/IP Version - IPv4 or IPv6 (as applicable)
-
-6. Protocol - any
-
-7. Source invert - Unchecked
-
-8. Source address - Select the assigned an interface or an alias (eg wgopn1-memestor net )
-
-9. Source port - any
-
-10. Destination invert - Unchecked
-
-11. Destination address - any
-
-12. Destination port - any
-
-13. Translation / target - Interface address
-
-14. Description - Add one if you wish to
+`Unbound DNS` requires a `reload` of Unbound DNS's services to get the new WireGuard interface added. 
 
 
-
-#### Edit the OPNSense firewall 
-
-Add the normal open ports that you normally would. 
-Also be sure
-WireGuard subnets that you want to have internet acess need their subnets in: Firewall:NAT:Outbound
-
-`Interface`: WAN
-`Source`: whatever the `Local Tunnel` subnet is set to.
 
 
 
@@ -743,11 +713,82 @@ WireGuard subnets that you want to have internet acess need their subnets in: Fi
 
 * * * 
 
-### Finish WireGuard interface by reseting WireGuard services
+# PART V - OPNsense rules for WireGuard
 
-The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings > General` or go to the `Dashboard` and `reset services` from there. 
+* * * 
 
-`Unbound DNS` requires a `reload` of Unbound DNS's services to get the new WireGuard interface added. 
+This area is where the networking configuration begins. 
+
+> This may be a good time to go make a tea and grab a snack.
+
+
+We are starting to shape where our traffic can and cannot go. 
+
+Please note, much of this can be changed for preference and is not ridgid. 
+
+
+* * *
+
+## Create a WireGuard outbound NAT rule
+
+### Detailing outbound NAT changes
+
+This step is only necessary if you intend to `allow` client peers to `access` IPs `outside` of the local IPs/subnets behind `OPNsense`.
+
+Think `VPN provider`, do you want to allow `wgopn1memestor` clients to forward their Internet traffic over your network?
+
+WireGuard subnets that you want to have internet access need their subnets in `Firewall ‣ NAT ‣ Outbound`.
+
+
+#### Edits made to NAT in brief:
+
+- `Interface`: WAN
+
+- `Source`: whatever the `Local Tunnel` subnet is set to.
+
+
+* * *
+
+### Details of outbound NAT rule
+
+> Note: Changes made to the rule are highlighted as `code blocks`, areas that were not modified are written as standard text. 
+{: .prompt-info }
+
+
+1. Go to `Firewall ‣ NAT ‣ Outbound`
+
+2. Select `Hybrid outbound NAT rule generation` at the top, if it is not already selected.
+
+3. `Save` and then `Apply` changes
+
+4. Click `Add` to add a new rule (Click on the + symbol)
+
+5. Interface - `WAN`
+
+6. TCP/IP Version - `IPv4` or IPv6 (as applicable)
+
+7. Protocol - any
+
+8. Source invert - Unchecked
+
+9. Source address - Select the network of our new interface: `wgopn1memestor net`
+
+10. Source port - any
+
+11. Destination invert - Unchecked
+
+12. Destination address - any
+
+13. Destination port - any
+
+14. Translation / target - Interface address
+
+15. Description - `Allow traffic from wgopn1memestor to outbound LAN/Internet`
+
+16. Save
+
+17. Apply
+
 
 
 
@@ -755,15 +796,22 @@ The save and apply are meaningless, as WireGuard never resets the service to loa
 
 ## Setup firewall rules on OPNsense for WireGuard
 
-This will involve two steps - first creating a firewall rule on the WAN interface to allow clients to connect to the OPNsense WireGuard server, and then creating a firewall rule to allow access by the clients to whatever IPs they are intended to have access to.
+This will involve two steps.
 
+1. Creating a firewall rule on the WAN interface to allow clients to connect to the OPNsense WireGuard server.
+
+2. Creating a firewall rule to allow access by the clients to whatever IPs on the local network they are intended to have access to.
+
+
+* * *
 
 ### Create firewall rules on WAN
 
+Let in your port you made for WireGuard. Adding this rule opens your firewall up. You now have a hole in your network, on the port you choose. Be aware of this fact, as [UDP hole-punching](https://en.wikipedia.org/wiki/UDP_hole_punching) VPNs like Tailscale, Zerotier, Netbird all work without this requirement.
 
-1. Go to Firewall ‣ Rules ‣ WAN
+1. Go to `Firewall ‣ Rules ‣ WAN`
 
-2. Click Add to add a new rule
+4. Click `Add` to add a new rule (Click on the + symbol)
 
 3. Action - Pass
 
@@ -773,7 +821,7 @@ This will involve two steps - first creating a firewall rule on the WAN interfac
 
 6. Direction - in
 
-7. Protocol - UDP
+7. Protocol - `UDP`
 
 8. Source / Invert - Unchecked
 
@@ -781,71 +829,72 @@ This will involve two steps - first creating a firewall rule on the WAN interfac
 
 10. Destination / Invert - Unchecked
 
-11. Destination - WAN address
+11. Destination - `WAN address`
 
-12. Destination port range - The WireGuard port specified in the Instance configuration in Step 2
+12. Destination port range - Select `(other)`. The number to enter is probably the default, `51820`, but check the WireGuard port you set in the Instance configuration on an earlier step.
 
-13. Description - Add one if you wish to
+13. Description - `WireGuard in WAN allow`
 
 14. Save
 
 15. Apply
 
 
+* * *
 
 ### Create firewall rules on WireGuard
 
 The firewall rule outlined below will need to be configured on the automatically created WireGuard group that appears once the Instance configuration is enabled and WireGuard is started. 
 
-You will also need to manually specify the source IPs/subnet(s) for the tunnel. It’s probably easiest to define an alias (via Firewall ‣ Aliases) for those IPs/subnet(s) and use that. 
-
-Although this is generally not recommended.
+You will also need to manually `specify` the source IPs/`subnet`(s) for the `tunnel`. It’s probably easiest to define an `alias` (via `Firewall ‣ Aliases`) for those IPs/`subnet`(s) and use that. 
 
 
-1. Go to Firewall > Rules > WireGuard (Group)
+1. Go to `Firewall ‣ Rules ‣ WireGuard (Group)`
 
-2. Click Add (Click on the + symbol) to add a new rule.
+2. Click `Add` (Click on the + symbol) to add a new rule.
 
 3. Action - Pass
 
 4. Quick - Checked
 
-5. Interface - Whatever interface you are configuring the rule on (eg wgopn1-memestor ) - see note below
+5. Interface - `WireGuard (Group)` or an Aliases
 
 6. Direction - in
 
-7. TCP/IP Version - IPv4 or IPv4+IPv6 (as applicable)
+7. TCP/IP Version - `IPv4` or IPv4+IPv6 (as applicable)
 
 8. Protocol - any
 
 9. Source / Invert - Unchecked
 
-10. Source - Select the assigned an interface or an alias (eg wgopn1-memestor net )
+10. Source - `WireGuard (Group) net` or an Aliases
 
 11. Destination / Invert - Unchecked
 
-12. Destination - Specify the IPs that client peers should be able to access, eg “any” or specific IPs/subnets
+12. Destination - `Specify` the IPs that client peers `should` be able to `access`, eg “any” or specific IPs/subnets. You can use an `Alias` here too.
 
 13. Destination port range - any
 
-14. Description - Add one if you wish to
+14. Description - `Any WireGuard interface can access these networks`
 
 15. Save
 
 16. Apply
 
 
+* * *
+
 ### Make normalization rules for WireGuard
 
-By creating normalization rules, you ensure that IPv4 TCP can pass through the WireGuard tunnel without being fragmented. Otherwise you could get working ICMP and UDP, but some encrypted TCP sessions will refuse to work.
+By creating normalization rules, you ensure that IPv4 TCP can pass through the WireGuard tunnel without being fragmented. Otherwise you could get working ICMP and UDP, but some encrypted TCP sessions **will refuse to work**.
 
-1. Go to Firewall ‣ Settings -> Normalization 
+1. Go to `Firewall ‣ Settings ‣ Normalization`
 
-2. Press + to create one new normalization rule.
+2. Click `Add` (Click on the + symbol) to add a new rule.
 
-3. Interface - WireGuard (Group)
+3. Interface - `WireGuard (Group)`
 
-4. Direction - Any
+4. Direction - `Any`
 
 5. Protocol - any
 
@@ -855,24 +904,24 @@ By creating normalization rules, you ensure that IPv4 TCP can pass through the W
 
 8. Destination port - any
 
-9. Description - WireGuard MSS Clamping IPv4
+9. Description - `WireGuard MSS Clamping IPv4`
 
-10. Max mss - 1380 (default) or 1372 if you use PPPoE; it’s 40 bytes less than your WireGuard MTU
+10. Max mss - `1380` (default); it’s 40 bytes less than your WireGuard MTU
 
 11. Save the rule
 
-
+12. Apply
 
 
 
 * * * 
 
-# PART VI - OPNsense router configuration for Site-to-Site VPNs
+# PART VI - Site-to-Site VPN - OPNsense firewall configuration
 
 * * * 
 
 
-
+**You may skip this section** if you do not require a site-to-site WireGuard VPN, and you are strictly `using` this as a way to `remote devices` into your OPNsense router.
 
 
 * * *
@@ -1021,19 +1070,19 @@ OPNSense makes it easy to add the LAN gateway. You want the Gateway IP to be the
 
 ### Adding Routes
 
-Head to `System > Routes > Configuration`.
+Head to `System ‣ Routes ‣ Configuration`.
 
 You want the wireguard subnet to be routed in its entirety to and from that gateway so that access can be established and mapped by your router without the need to add firewall rules. 
 With OPNsense there is one more step I had to take....
 
-`Firewall > Settings > Advanced > Static route filtering` you will need to check the `Bypass firewall rules for traffic on the same interface` checkbox.
+`Firewall ‣ Settings ‣ Advanced ‣ Static route filtering` you will need to check the `Bypass firewall rules for traffic on the same interface` checkbox.
 
 
 
 
 * * * 
 
-# PART VII - OPNsense firewall configuration for Site-to-Site VPNs
+# PART VII - Site-to-Site VPN - OPNsense router configuration
 
 * * * 
 
@@ -1174,48 +1223,6 @@ With OPNsense there is one more step I had to take....
 
 
 
-
-
-
-
-### OPNsense interface assignment
-
-`Interfaces > Assignments`
-
-1. Use the drop down and the `Description` box to name your new WireGuard instance, example `WG1_home`
-
-2. `Add (Plus symbol)`
-
-3. `Save`
-
-* * *
-
-You should now see your interface on the `Interfaces` list (left menu).
-
-1. Click on the interface you named.
-
-2. Once on the new page, `Enable Interface`.
-
-3. `Save`
-
-4. `Apply`
-
-
-
-
-### OPNsense Firewall Rules
-
-Let in your port you made for WireGuard.
-
-1. Source is `WAN Address`
-
-2. Dest is that port 
-
-rest you knoe
-
-
-
-
 ### The rest of the Firewall stuff you knoe
 
 1. Click on Firewall -> Rules -> WireGuard
@@ -1277,7 +1284,7 @@ Endpoint = edge.sub.domain.com:51820
 
 3. That's right! We still have to get the `Public Key` of our other confidant, the Server we're connecting to.
 
-4. Moving over to the web interface, under `VPN > WireGuard > Settings > Local`
+4. Moving over to the web interface, under `VPN ‣ WireGuard ‣ Settings ‣ Local`
 
 5. Edit the `Local Profile's Configuration` that we created earlier, named `HomeWireGuard` and copy the `Public Key` making sure to get **THE ENTIRE THING** including the `=`
 
@@ -1291,7 +1298,7 @@ Endpoint = edge.sub.domain.com:51820
 
 ## Finish - by reseting services
 
-The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings > General` or go to the `Dashboard` and `reset services` from there. 
+The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings ‣ General` or go to the `Dashboard` and `reset services` from there. 
 
 
 
@@ -1358,7 +1365,7 @@ DNS = 172.23.1.254
 [Peer]
 PublicKey = 0CP43e6zkyxJk61ZJmt2DIaj8Arq6cYESuXTX55aBng=
 AllowedIPs = 172.23.1.0/24
-Endpoint = opnsense.nocix.holtzweb.com:38365
+Endpoint = edge.sub.domain.com:38365
 
 ```
 
