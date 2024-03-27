@@ -492,9 +492,8 @@ The following example covers an IPv4 Site to Site WireGuard Tunnel between two O
 
 There are a lot of confusing segments in this tutorial. I have adapted this table to the information being used. 
 
-```
- T A B L E   O F   A D D R E S S E S
-```
+
+` T A B L E ___  O F ___  A D D R E S S E S`
 
 |      Address        |     IP         |
 |---------------------|----------------|
@@ -1336,12 +1335,16 @@ Endpoint = edge.sub.domain.com:51820
 
 
 
-### Example: commented wg0.conf
+### Example commented wg0.conf
 
-`THERE ARE A BUNCH OF STEPS FOR CREATING CONFIGS.` 
-`THERE ARE SEVERAL AUTO GENERATING ONES ONLINE`
+THERE ARE A BUNCH OF STEPS FOR CREATING CONFIGS.
 
-```
+THERE ARE SEVERAL AUTO GENERATING ONES ONLINE
+
+HERE IS ANOTHER EXAMPLE:
+
+
+```ini
 [Interface]
 Address = <Configured client IP>/<Netmask> // For exaple the IP "10.11.0.20/32"
 PrivateKey = <Private Key of the client>
