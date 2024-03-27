@@ -1,6 +1,6 @@
 ---
 layout: post
-title: OPNsense as a WireGuard VPN
+title: OPNsense as a WireGuard Client with Site-to-Site VPN
 date: 2024-03-23 11:33:00 -0700
 categories: [Networking, VPN]
 tags: [opnsense, workstation, splitdns, vpn, wireguard, remote]
@@ -23,16 +23,30 @@ This tutorial discusses the setup of WireGuard first.
 
 Please **hang on** till we're done with WireGuard.
 
-**None of this will work** without also changing the **OPNsense firewall** settings. 
+**None of this will work** without the client, peer setup, and also changing the **OPNsense router and firewall**. 
 
 
 ### Tutorial Steps
 
-1. Client
+1. This Intro
 
-2. WireGuard
+2. Client Device Setup
 
-3. Firewall
+3. WireGuard
+
+   1. WireGuard Configuration
+
+   2. WireGuard Site-to-Site VPN
+
+   3. WireGuard on OPNsense
+
+4. Router/Firewall
+
+   1. OPNsense Router Configuration for Site-to-Site VPNs
+
+   2. OPNsense Firewall Configuration for Site-to-Site VPNs
+
+5. The Peer Client
 
 
 * * *
@@ -80,15 +94,15 @@ At the heart of WireGuard is a concept called `Cryptokey Routing`, which works b
 4. Okay, it's for peer `ABCDEFGH`. 
 (Or if it's not for any configured peer, drop the packet.)
 
-5. `Encrypt` entire IP packet using peer ABCDEFGH's `public key`.
+5. `Encrypt` entire IP packet using peer **ABCDEFGH**'s `public key`.
 
-6. Now where do I `send` peer ABCDEFGH's encrypted packet?
+6. Now where do I `send` peer **ABCDEFGH**'s encrypted packet?
 
-7. What remote `endpoint` was listed for peer ABCDEFGH?
+7. What remote `endpoint` was listed for peer **ABCDEFGH**?
 
-8. The endpoint is `listed` as 216.58.211.110 port 53133.
+8. The endpoint is `listed` as *216.58.211.110* port *53133*.
 
-9. Send encrypted data over the `Internet` to 216.58.211.110:53133.
+9. Send encrypted data over the `Internet` to *216.58.211.110:53133*.
 
 
 * * *
@@ -103,15 +117,15 @@ At the heart of WireGuard is a concept called `Cryptokey Routing`, which works b
 
 4. It then begins to `decrypt` the information that was sent.
 
-5. WireGuard then uses ABCDEFGH's key to verify the `authenticity` of the packet. 
+5. WireGuard then uses **ABCDEFGH**'s key to verify the `authenticity` of the packet. 
 
 6. With the accepted, `verified` packet - WireGuard will now remember that peer's most recent Internet `endpoint`.
 
 7. Once all that has been completed, WireGuard will `look` at the packet.
 
-8. It can see the `plain-text` packet from someone on the 192.168.30.X subnet.
+8. It can see the `plain-text` packet from someone on the *192.168.30.X* subnet.
 
-9. A final verification takes place as WireGuard looks at the packet from 192.168.30.X to verify that `IP` is even `allowed` to be sending us packets.
+9. A final verification takes place as WireGuard looks at the packet from *192.168.30.X* to verify that `IP` is even `allowed` to be sending us packets.
 
 10. If the `association` is successful, the packets are `allowed` to pass through the VPN tunnel.
 
@@ -235,7 +249,7 @@ You can also use any terminal client to do basically the same with `wg genkey`.
 
 ##### Linux Terminal - Example
 
-This quick `script` will `generate` the `keys` needed to your `/etc/wireguard` directory, and print them to the screen:
+This quick `script` will `generate` the `keys` needed to `/etc/wireguard`, and print them to the screen:
 
 ```bash
 if [ "$EUID" -ne 0 ]; then echo "Please re-run as root." && sleep 2 && echo "Application Exiting..." && sleep 30 && exit 1; fi && echo -e "\n\nSetting up public & private key in /etc/wireguard\n" && wg genkey | tee /etc/wireguard/$HOSTNAME.private.key | wg pubkey > /etc/wireguard/$HOSTNAME.public.key && chmod 600 /etc/wireguard/$HOSTNAME.private.key /etc/wireguard/$HOSTNAME.public.key && echo "Private Key:" && cat /etc/wireguard/$HOSTNAME.private.key && echo -e "\nPublic Key (copy this):" && cat /etc/wireguard/$HOSTNAME.public.key;
@@ -634,7 +648,7 @@ The save and apply are meaningless, as WireGuard never resets the service to loa
 
 ## Configure a WireGuard Interface on OPNsense
 
-This allows separation of the firewall rules of each WireGuard instance (each wgX device). 
+This allows separation of the firewall rules of each WireGuard instance (each `wgX` device). 
 
 
 * * * 
@@ -647,7 +661,7 @@ Please note, if you have not enabled the WireGuard service the interface creatio
 
 2. In the dropdown next to “New interface:”, select the WireGuard device (wg1 if this is your first one)
 
-3. Add a description (eg HomeWireGuard)
+3. Add a description (eg wgopn1-memestor)
 > This is what will be visible under Interfaces on the menu.
 
 4. Click the `add` button, then click Save
@@ -697,7 +711,7 @@ This step is only necessary (if at all) to allow client peers to access IPs outs
 
 7. Source invert - Unchecked
 
-8. Source address - Select the assigned an interface or an alias (eg HomeWireGuard net )
+8. Source address - Select the assigned an interface or an alias (eg wgopn1-memestor net )
 
 9. Source port - any
 
@@ -796,7 +810,7 @@ Although this is generally not recommended.
 
 4. Quick - Checked
 
-5. Interface - Whatever interface you are configuring the rule on (eg HomeWireGuard ) - see note below
+5. Interface - Whatever interface you are configuring the rule on (eg wgopn1-memestor ) - see note below
 
 6. Direction - in
 
@@ -806,7 +820,7 @@ Although this is generally not recommended.
 
 9. Source / Invert - Unchecked
 
-10. Source - Select the assigned an interface or an alias (eg HomeWireGuard net )
+10. Source - Select the assigned an interface or an alias (eg wgopn1-memestor net )
 
 11. Destination / Invert - Unchecked
 
