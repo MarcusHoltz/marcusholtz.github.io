@@ -46,15 +46,15 @@ Please **hang on** till we're done with WireGuard.
       
       1. [Outbound NAT](#create-a-wireguard-outbound-nat-rule)
       
-      2. [Inbound WAN](#create-firewall-rules-on-wan)
-      
-      3. [WireGuard Group](#create-firewall-rules-on-wireguard)
+      2. [Inbound WAN](#create-firewall-rules-on---wan)
+
+      3. [WireGuard Group](#create-firewall-rules-on---wireguard)
 
 5. Site-to-Site VPN Router/Firewall
 
-   1. [OPNsense Firewall configuration](#site-a---meme-storage-bunker-hqs-server---firewall-setup)
+   1. [OPNsense Firewall configuration](#site-to-site-wireguard-wan-connection)
 
-   2. [OPNsense Router configuration](#allow-traffic-between-site-a-lan-net-and-site-b-lan-net)
+   2. [OPNsense Router configuration](#routing-different-subnets-across-wireguard)
 
 6. [Getting the Peer Client's Device Connected](#setting-up-the-client-software)
 
