@@ -115,7 +115,7 @@ I know, it sounds like a film in theaters, but it's actually a Linux Bond Mode.
 A `bond` allows you take multiple interface and pretend it's one network interface.
 
 * * *
-
+```
 Bonding Mode: 0-6
 
 0 - round robin
@@ -125,7 +125,7 @@ Bonding Mode: 0-6
 4 - IEEE 802.3ad
 5- adaptive transmit load balancing
 6 - adaptive load balancing
-
+```
 * * * 
 
 
