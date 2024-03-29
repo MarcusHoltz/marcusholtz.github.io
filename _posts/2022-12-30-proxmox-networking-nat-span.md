@@ -102,3 +102,59 @@ echo "##############################" >> $SECONIONLOG
 
 ```
 
+
+* * * 
+
+# Bond Mode 3
+
+I know, it sounds like a film in theaters, but it's actually a Linux Bond Mode.
+
+
+## Linux Bonds
+
+A `bond` allows you take multiple interface and pretend it's one network interface.
+
+* * *
+
+Bonding Mode: 0-6
+
+0 - round robin
+1 - active backup
+2 - xor (uses same source and dest pair for an interface)
+3 - broadcast (sent through all interfaces at once)
+4 - IEEE 802.3ad
+5- adaptive transmit load balancing
+6 - adaptive load balancing
+
+* * * 
+
+
+
+## Broadcast Bond
+
+Linux Bond Mode 3, the broadcast bond. This can work functionally the same as a SPAN port, but it is not considered a full copy of the port, as it's `not a Layer 1` connection.
+
+In terms of the OSI network model, both Linux Bond Mode 3 and SPAN ports operate at different layers:
+
+1. **Linux Bond Mode 3 (Broadcast Mode)**:
+
+   - **Layer**: Bond Mode 3 primarily operates at the **Data Link Layer (Layer 2)** of the OSI model.
+   
+   - **Explanation**: The Data Link Layer is responsible for the transfer of data between adjacent network nodes in a wide area network or between nodes on the same local area network segment. Linux Bond Mode 3, being a feature of the Linux bonding driver, operates at this layer by managing the transmission of data frames between network interfaces.
+
+2. **SPAN Ports (Switched Port Analyzer)**:
+
+   - **Layer**: SPAN ports operate primarily at the **Physical Layer (Layer 1)** and **Data Link Layer (Layer 2)** of the OSI model.
+   
+   - **Explanation**:
+     - **Physical Layer (Layer 1)**: SPAN ports involve physical connections within the network switch or router, where traffic is mirrored or copied from source ports to a designated monitoring port.
+     - **Data Link Layer (Layer 2)**: At this layer, SPAN ports deal with the transmission of data frames and the duplication of traffic from specific source ports to a monitoring port for analysis.
+
+**Summary**:
+
+- Linux Bond Mode 3 operates primarily at the Data Link Layer (Layer 2), handling the transmission of data frames between bonded network interfaces.
+  
+- SPAN ports operate at both the Physical Layer (Layer 1) and the Data Link Layer (Layer 2). They involve physical connections within the network switch or router (Layer 1) and duplicate traffic from specified source ports to a monitoring port for analysis (Layer 2).
+
+While both features serve different purposes, their positioning within the OSI model reflects the layers at which they primarily function in the network architecture.
+
