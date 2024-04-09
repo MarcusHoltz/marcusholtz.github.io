@@ -338,9 +338,6 @@ In the `Isolation` section, look for `Per Domain`:
 - [AudioContext Fingerprint Defender](https://addons.mozilla.org/en-US/firefox/addon/audioctx-fingerprint-defender/)
 > Defending against AudioContext fingerprinting by reporting a fake value.
 
-- [Privacy Badger](https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/)
-> Automatically learns to block invisible trackers.
-
 - [Private Bookmarks](https://addons.mozilla.org/en-US/firefox/addon/webext-private-bookmarks/)
 > Enables a password-protected bookmark folder.
 
@@ -377,6 +374,107 @@ In the `Isolation` section, look for `Per Domain`:
 - [uBO-Scope](https://addons.mozilla.org/en-US/firefox/addon/ubo-scope/)
 > A tool to measure your 3rd-party exposure score for web sites you visit.
 
+
+* * *
+
+## Script to Install Vertical Tabs, Betterfox, and Addons
+
+The script below will turn a vanilla Firefox profile into one that resembles my Floorp setup.
+
+All the `plugins` mentioned above will be installed along with the `user.js` and `userChrome.css` changes.
+
+> You will still need to configure `uBlock Origin` and all `Multi-Account` and `Temporary Containers`, as [mentioned above](https://blog.holtzweb.com/posts/browsers-firefox-floorp-sidebery-setup/#ublock-origin-addon).
+
+
+* * *
+
+```bash
+#!/bin/sh
+
+echo -n "Please describe this Firefox Profile with a name: " && read ffProfileName
+addonlist="adnauseam,
+bitwarden-password-manager,
+switchyomega,
+darkreader,
+sidebery,
+floccus,
+nighttab,
+multi-account-containers,
+temporary-containers,
+facebook-container,
+containers-helper,
+fastforwardteam,
+redirector,
+clearurls,
+istilldontcareaboutcookies,
+onetab,
+downthemall,
+external-application,
+canvasblocker,
+checkmarks-web-ext,
+audioctx-fingerprint-defender,
+webext-private-bookmarks,
+refined-h264ify,
+requestcontrol,
+ttsfox,
+ecosia-the-green-search,
+ddg-lite-search-provider"
+
+echo "Creating Profile"
+firefox -CreateProfile $ffProfileName
+# sed will search for `Path=` it will then try and find the line with the name of the firefox profile specified above. Then remove all text to the left of the `=` sign.
+folder=$(sed -n "/Path=.*.$ffProfileName$/ s/.*=//p" ~/.mozilla/firefox/profiles.ini)
+# sed -n 's/Path=//p' ~/.mozilla/firefox/profiles.ini | grep $ffProfileName
+path="/home/$(whoami)/.mozilla/firefox/$folder"
+cd $path
+echo "Profile Creation Finished"
+
+mkdir chrome sidebery 2> /dev/null
+
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/black7375/Firefox-UI-Fix/master/install.sh)"
+
+cd $path
+
+curl -sS https://raw.githubusercontent.com/christorange/VerticalFox/main/windows/userChrome.css >> ./chrome/userChrome.css
+curl -sS https://raw.githubusercontent.com/christorange/VerticalFox/main/sidebery/dark_sidebery_styles.css > ./sidebery/dark_sidebery_styles.css
+echo -e "\nYou will need to paste in the styling for Sidebery.\nThe styles are located at $path/sidebery\n" && sleep 2
+echo -e "\nA reminder will be displayed again at the end of the script." && sleep 5;
+
+curl -sS https://raw.githubusercontent.com/yokoffing/Betterfox/main/user.js >> user.js && clear;
+curl -sS https://raw.githubusercontent.com/yokoffing/Betterfox/main/Securefox.js >> user.js && clear;
+curl -sS https://raw.githubusercontent.com/yokoffing/Betterfox/main/Fastfox.js >> user.js && clear;
+curl -sS https://raw.githubusercontent.com/yokoffing/Betterfox/main/Peskyfox.js >> user.js && clear;
+curl -sS https://raw.githubusercontent.com/yokoffing/Betterfox/main/Smoothfox.js >> user.js && clear;
+
+echo "Downloading Addons"
+addontmp="$(mktemp -d)"
+# trap will run when there is an exit command, or this script is terminated
+trap "rm -fr $addontmp" HUP INT QUIT TERM PWR EXIT
+mozillaurl="https://addons.mozilla.org"
+IFS=$'\n,'
+mkdir -p "$path/extensions/"
+for addon in $addonlist; do
+	echo "Installing $addon"
+	# grep will match anything that is not a double quote ("). When encountering a double quote, it will act as a terminating character for the grep operation. 
+	addonurl="$(curl --silent "$mozillaurl/en-US/firefox/addon/${addon}/" | grep -o "$mozillaurl/firefox/downloads/file/[^\"]*")"
+	# You can directly manipulate a string without assigning it to a variable, you can use command substitution:
+	# echo "Filename: $(basename 'https://example.com/downloads/file.zip')"
+	# Or this script uses parameter expansion:
+	file="${addonurl##*/}"
+	curl -LOs "$addonurl" >"$addontmp/$file"
+	# You can use command substitution instead of parameter expansion and use the following command:
+	# unzip -p sidebery-5.2.0.xpi manifest.json | grep "\"id\"" | sed 's/"//' | awk -F '"' '{print $3}'
+	id="$(unzip -p "$file" manifest.json | grep "\"id\"")"
+	id="${id%\"*}"
+	id="${id##*\"}"
+	mv "$file" "$path/extensions/$id.xpi"
+done
+
+echo "Addons Installed"
+if [ -f $path/sidebery/dark_sidebery_styles.css ]; then
+    echo -e "\n==========================================================\n== You will need to paste in the styling for Sidebery. ==\n== Open Sidebery settings, Styles editor. And paste in ==\n== any of the new styles. You may find them in:        ==\n$path/sidebery/dark_sidebery_styles.css\n==========================================================" && sleep 2
+fi
+```
 
 
 * * *
