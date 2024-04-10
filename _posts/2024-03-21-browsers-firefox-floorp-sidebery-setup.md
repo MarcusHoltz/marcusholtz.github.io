@@ -305,6 +305,9 @@ In the `Isolation` section, look for `Per Domain`:
 - [Sidebery](https://addons.mozilla.org/en-US/firefox/addon/sidebery/)
 > Vertical tabs tree and bookmarks in sidebar.
 
+- [Auto Tab Discard](https://addons.mozilla.org/en-US/firefox/addon/auto-tab-discard/)
+> Automatically discard inactive tabs to free up resources
+
 - [Temporary Containers](https://addons.mozilla.org/en-US/firefox/addon/temporary-containers/)
 > Open tabs, websites, and links in automatically managed disposable containers which isolate the data websites store.
 
