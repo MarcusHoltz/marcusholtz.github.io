@@ -362,9 +362,6 @@ In the `Isolation` section, look for `Per Domain`:
 - [DuckDuckGo Lite Search](https://addons.mozilla.org/en-US/firefox/addon/ddg-lite-search-provider/)
 > Adds DuckDuckGo Lite as a search engine for a more lean web-search experience.
 
-- [Black & Purple mood](https://addons.mozilla.org/en-US/firefox/addon/black-purple-mood/)
-> Simple Black and Purple theme, dark and moody just the way I like it.
-
 
 
 * * * 
@@ -557,6 +554,10 @@ fi
 [First Party Isolation](https://addons.mozilla.org/en-US/firefox/addon/first-party-isolation/)
 > FPI works by separating cookies on a per-domain basis.
 
+[Proxy SwitchyOmega](https://addons.mozilla.org/en-US/firefox/addon/switchyomega/)
+> Manage and switch between multiple proxies quickly & easily.
+
+
 
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
@@ -596,6 +597,10 @@ fi
 [Smart HTTPS](https://addons.mozilla.org/en-US/firefox/addon/smart-https-revived/)
 > Changes HTTP protocol to HTTPS, and if loading encounters error, reverts it back to HTTP.
 
+[History AutoDelete](https://addons.mozilla.org/en-US/firefox/addon/history-autodelete/)
+> Control your history! Auto delete history by date, use, and domain.
+
+
 
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
@@ -620,11 +625,24 @@ fi
 [Social Fixer](https://addons.mozilla.org/en-US/firefox/addon/socialfixer/)
 > Fixes Facebook annoyances.
 
+[Refined GitHub](https://addons.mozilla.org/en-US/firefox/addon/refined-github-/)
+> Simplifies the GitHub interface and adds many useful features.
+
 [Mailvelope](https://addons.mozilla.org/en-US/firefox/addon/mailvelope/)
 > Adds missing encryption and decryption features to the user interface of common webmail providers. 
 
 [PX: Viewport Dimensions](https://addons.mozilla.org/en-US/firefox/addon/px-viewport-dimensions/)
 > Displays the viewport dimensions when a browser window is resized.
+
+[PiHole Browser Extension](https://addons.mozilla.org/en-US/firefox/addon/pihole-browser-extension/)
+> Browser extension to quickly control your PiHole.
+
+[DownThemAll!](https://addons.mozilla.org/en-US/firefox/addon/downthemall/)
+> Select, queue, sort, rename and run your downloads faster.
+
+[External Application Button](https://addons.mozilla.org/en-US/firefox/addon/external-application/)
+> A highly customizable external application button and context-menu items
+
 
 
 
@@ -643,6 +661,13 @@ fi
 
 [OneTab](https://addons.mozilla.org/en-US/firefox/addon/onetab/)
 > Convert tabs to a list and reduce browser memory.
+
+[Sidebery](https://addons.mozilla.org/en-US/firefox/addon/sidebery/)
+> Vertical tabs tree and bookmarks in sidebar.
+
+[Wallabagger](https://addons.mozilla.org/en-US/firefox/addon/wallabagger/)
+> Add pages to wallabag, a self-hosted Pocket.
+
 
 
 
@@ -688,6 +713,11 @@ fi
 
 [Matte Black (Purple)](https://addons.mozilla.org/en-US/firefox/addon/matte-black-purple/)
 > A modern dark / Matte Black theme with a purple accent color.
+
+[Black & Purple mood](https://addons.mozilla.org/en-US/firefox/addon/black-purple-mood/)
+> Simple Black and Purple theme, dark and moody just the way I like it.
+
+
 
 
 
