@@ -390,7 +390,7 @@ All the `plugins` mentioned above will be installed along with the `user.js` and
 
 ```bash
 #!/bin/sh
-
+clear;
 echo -n "Please describe this Firefox Profile with a name: " && read ffProfileName
 addonlist="adnauseam,
 bitwarden-password-manager,
@@ -431,12 +431,14 @@ echo "Profile Creation Finished"
 
 mkdir chrome sidebery 2> /dev/null
 
+echo "Install Theme and Select New Profile -- My favorite style is 1) Original"
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/black7375/Firefox-UI-Fix/master/install.sh)"
 
 cd $path
 
 curl -sS https://raw.githubusercontent.com/christorange/VerticalFox/main/windows/userChrome.css >> ./chrome/userChrome.css
 curl -sS https://raw.githubusercontent.com/christorange/VerticalFox/main/sidebery/dark_sidebery_styles.css > ./sidebery/dark_sidebery_styles.css
+clear;
 echo -e "\nYou will need to paste in the styling for Sidebery.\nThe styles are located at $path/sidebery\n" && sleep 2
 echo -e "\nA reminder will be displayed again at the end of the script." && sleep 5;
 
@@ -446,7 +448,39 @@ curl -sS https://raw.githubusercontent.com/yokoffing/Betterfox/main/Fastfox.js >
 curl -sS https://raw.githubusercontent.com/yokoffing/Betterfox/main/Peskyfox.js >> user.js && clear;
 curl -sS https://raw.githubusercontent.com/yokoffing/Betterfox/main/Smoothfox.js >> user.js && clear;
 
-echo "Downloading Addons"
+echo -e "Preference persistantance file for edits :\nuser-overrides.js\n" && sleep 2;
+
+cat <<EOF > user-overrides.js
+// 2811: set/enforce what items to clear on shutdown
+user_pref("privacy.sanitize.sanitizeOnShutdown", true);                         // false will allow everything in browser to stay upon shutdown
+user_pref("privacy.clearOnShutdown.cache", false);                              // [DEFAULT: true]
+user_pref("privacy.clearOnShutdown.downloads", true);                           // [DEFAULT: true]
+user_pref("privacy.clearOnShutdown.formdata", true);                            // [DEFAULT: true]
+user_pref("privacy.clearOnShutdown.history", false);                            // [DEFAULT: true]
+user_pref("privacy.clearOnShutdown.sessions", false);                           // [DEFAULT: true]
+
+// Privacy-Focused
+user_pref("browser.startup.page", 3);                                           // 0=blank, 1=home, 2=last visited page, 3=resume previous session
+user_pref("privacy.resistFingerprinting", false);                               // Disable RFP to use localtimezone and Canvas API
+user_pref("privacy.resistFingerprinting.letterboxing", false);                  // Disable letterboxing, basically if you disable above - disable this
+user_pref("webgl.disabled", false);                                             // Enable WebGL (Web Graphics Library) for Canvas API
+
+// Customisation
+user_pref("browser.display.use_system_colors", false);                          // Do not use default dark mode or light mode
+user_pref("extensions.pocket.enabled", false);                                  // Disable Pocket
+user_pref("browser.tabs.firefox-view", false);                                  // Disable Firefox View
+user_pref("general.autoScroll", true);                                          // Enable AutoScrolling
+user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);         // Enable userchrome.css
+user_pref("signon.rememberSignons", false);                                     // Disable saving passwords
+user_pref("browser.urlbar.update2.engineAliasRefresh", true);                   // Add button to add custom search engines
+user_pref("ui.systemUsesDarkTheme", 1);                                         // Dark Mode
+//user_pref("extensions.activeThemeID", "firefox-compact-dark@mozilla.org");
+EOF
+
+cat user-overrides.js >> user.js
+echo "user-overrides.js merged into user.js" && sleep 2;
+
+echo "...Now Downloading Addons..."
 addontmp="$(mktemp -d)"
 # trap will run when there is an exit command, or this script is terminated
 trap "rm -fr $addontmp" HUP INT QUIT TERM PWR EXIT
@@ -469,8 +503,8 @@ for addon in $addonlist; do
 	id="${id##*\"}"
 	mv "$file" "$path/extensions/$id.xpi"
 done
-
 echo "Addons Installed"
+
 if [ -f $path/sidebery/dark_sidebery_styles.css ]; then
     echo -e "\n==========================================================\n== You will need to paste in the styling for Sidebery. ==\n== Open Sidebery settings, Styles editor. And paste in ==\n== any of the new styles. You may find them in:        ==\n$path/sidebery/dark_sidebery_styles.css\n==========================================================" && sleep 2
 fi
