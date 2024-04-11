@@ -462,6 +462,7 @@ You can find the [Firefox New Profile Creation Script](https://raw.githubusercon
 
 
 
+
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
 * * *
@@ -478,14 +479,20 @@ You can find the [Firefox New Profile Creation Script](https://raw.githubusercon
 [Firefox Multi-Account Containers](https://addons.mozilla.org/en-US/firefox/addon/multi-account-containers/)
 > Carve out a separate box for each of your online lives.
 
+[Containerise](https://addons.mozilla.org/en-US/firefox/addon/containerise/)
+> Simple and easy way to add rules for a domain or subdomain in a dedicated container.
+
+[Containers Helper](https://addons.mozilla.org/en-US/firefox/addon/containers-helper/)
+> Power user container searching, deleting, modifying, duplicating, on a per-container or bulk basis. 
+
 [First Party Isolation](https://addons.mozilla.org/en-US/firefox/addon/first-party-isolation/)
 > FPI works by separating cookies on a per-domain basis.
 
 [Proxy SwitchyOmega](https://addons.mozilla.org/en-US/firefox/addon/switchyomega/)
 > Manage and switch between multiple proxies quickly & easily.
 
-
-
+[Profile Switcher for Firefox](https://addons.mozilla.org/en-US/firefox/addon/profile-switcher/)
+> Create, manage and switch between browser profiles seamlessly. NOTE: As of writing, this is addon is broken and fixes are in github. Also, additional software is required upon install for this extension to function. After addon is installed, it will prompt you based on your OS and Firefox install path.
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
