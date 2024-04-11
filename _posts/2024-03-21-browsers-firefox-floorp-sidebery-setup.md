@@ -492,7 +492,9 @@ You can find the [Firefox New Profile Creation Script](https://raw.githubusercon
 > Manage and switch between multiple proxies quickly & easily.
 
 [Profile Switcher for Firefox](https://addons.mozilla.org/en-US/firefox/addon/profile-switcher/)
-> Create, manage and switch between browser profiles seamlessly. NOTE: As of writing, this is addon is broken and fixes are in github. Also, additional software is required upon install for this extension to function. After addon is installed, it will prompt you based on your OS and Firefox install path.
+> Create, manage and switch between browser profiles seamlessly.
+> NOTE: !!! As of writing, [this is addon is broken](https://addons.mozilla.org/en-CA/firefox/addon/profile-switcher/reviews/?score=1) but [fixes are posted in Github](https://github.com/null-dev/firefox-profile-switcher/issues/106#issuecomment-2008582801) !!!
+> Also, [additional software](https://github.com/null-dev/firefox-profile-switcher-connector/releases) is required upon install for this extension to function. After addon is installed, it will prompt you based on your OS and Firefox install path.
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
