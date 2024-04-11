@@ -495,7 +495,7 @@ You can find the [Firefox New Profile Creation Script](https://raw.githubusercon
 > Create, manage and switch between browser profiles seamlessly.
 
 > NOTE: !!! As of writing, [Profile Switcher is broken](https://addons.mozilla.org/en-CA/firefox/addon/profile-switcher/reviews/?score=1) but [fixes are posted in Github](https://github.com/null-dev/firefox-profile-switcher/issues/106#issuecomment-2008582801).
-> {: .prompt-warning }
+{: .prompt-warning }
 
 > Also, Profile Switcher needs [additional software](https://github.com/null-dev/firefox-profile-switcher-connector/releases) to function. After installation, it will prompt you based on your OS and Firefox install path.
 {: .prompt-info }
