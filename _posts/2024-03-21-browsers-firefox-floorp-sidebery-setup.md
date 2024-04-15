@@ -161,7 +161,7 @@ If you require a 64-bit version of all 9's, 99.9999999999999999 (that's 10 billi
   - Self-hosting is not a requirement. Mozilla's own syncing service is free. 
 
 
-- If you're using Firefox's Sync Client you can also use [a commandline-utility](https://github.com/Mikescher/firefox-sync-client) to list/view/edit/delete entries in a firefox-sync account.
+- If you're using Firefox's Sync Client you can also use the [ffsclient](https://github.com/Mikescher/firefox-sync-client) commandline-utility to list/view/edit/delete entries in a firefox-sync account.
 
   - [ffsclient](https://github.com/Mikescher/firefox-sync-client) can be used to access bookmarks, passwords, forms, tabs, history or custom data.
 
@@ -625,7 +625,7 @@ You can find the [Firefox New Profile Creation Script](https://raw.githubusercon
 ###  SESSION
 
 
-[MySessions](https://addons.mozilla.org/en-US/firefox/addon/my-sessions/)
+[Tab Session Manager](https://addons.mozilla.org/en-US/firefox/addon/tab-session-manager/)
 > Auto-save sessions at any cost. 
 
 [Auto Tab Discard](https://addons.mozilla.org/en-US/firefox/addon/auto-tab-discard/)
