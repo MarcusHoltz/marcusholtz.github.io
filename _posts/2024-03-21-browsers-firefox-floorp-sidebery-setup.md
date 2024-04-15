@@ -158,7 +158,7 @@ If you require a 64-bit version of all 9's, 99.9999999999999999 (that's 10 billi
 
 - But if you want to use Firefox's native syncing, you can do that too and [host your own sync server](https://github.com/mozilla-services/syncserver).
 
-  - Self-hosting is not a requirement. Mozilla's own syncing service is free. 
+  - Self-hosting is not a requirement. Mozilla's own syncing service is free. But It is NOT recommended to use if you have if you have more than 30-100 containers. Mozilla enforces limits on the [amount of data](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/sync#storage_quotas_for_sync_data) each extension is allowed to store in the sync area.
 
 
 - If you're using Firefox's Sync Client you can also use the [ffsclient](https://github.com/Mikescher/firefox-sync-client) commandline-utility to list/view/edit/delete entries in a firefox-sync account.
