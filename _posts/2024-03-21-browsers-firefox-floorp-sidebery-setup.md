@@ -138,6 +138,35 @@ Syncing my tabs allows me to take a look back at what I was doing and import tha
 Syncthing keeps all of the tabs for each workstation and browser profile the same across all my devices. 
 
 
+* * *
+
+## Save tabs, multiple ways
+
+If you require a 64-bit version of all 9's, 99.9999999999999999 (that's 10 billion years)...
+
+
+### Tab Session Manager Addon
+
+- You can also use [Tab Session Manager](https://addons.mozilla.org/en-US/firefox/addon/tab-session-manager/) to backup your browsing history and tab sessions in the Downloads folder.
+
+- And you can have these [sync](https://syncthing.net/) to your VPS, NAS, FTP, as well. 
+
+
+* * *
+
+### Firefox Sync
+
+- But if you want to use Firefox's native syncing, you can do that too and [host your own sync server](https://github.com/mozilla-services/syncserver).
+
+  - Self-hosting is not a requirement. Mozilla's own syncing service is free. 
+
+
+- If you're using Firefox's Sync Client you can also use [a commandline-utility](https://github.com/Mikescher/firefox-sync-client) to list/view/edit/delete entries in a firefox-sync account.
+
+  - [ffsclient](https://github.com/Mikescher/firefox-sync-client) can be used to access bookmarks, passwords, forms, tabs, history or custom data.
+
+
+
 * * * 
 
 ## Floorp custom changes
