@@ -336,6 +336,46 @@ This is similar to Debian's [AptCacherNG](https://wiki.debian.org/AptCacherNg). 
 
 
 
+## What can I do about Flatpak updates as well?
+
+So, Flatpak has no automatic method of caching downloads across a network and sharing them. 
+
+
+* * *
+
+Flatpak does support [installing from sideload repos](https://docs.flatpak.org/en/latest/flatpak-command-reference.html).
+
+> This is, again, not automatic. You will need to create an offline version of each Flatpak, and then install that Flatpak through a sideloaded repo. 
+
+
+* * *
+
+An example command from [the documentation for using USB Drives](https://docs.flatpak.org/en/latest/usb-drives.html) for sneakerwear is:
+
+- Load the Flatpak onto the NAS:
+
+`flatpak create-usb /media/user/FLATPAKS org.gnome.gedit`
+
+- Install the Flatpak onto NAS connected machines requiring updates:
+
+`flatpak update --sideload-repo=/media/user/FLATPAKS/.ostree/repo flathub org.gnome.gedit`
+
+
+* * *
+
+This can be accomplished by seeing what Flatpacks need updates:
+
+`sudo flatpak remote-ls --updates`
+
+1. On the initial update machine:
+> You will need a script to copy the **Application ID** and go through each Application ID after it has been updated, package it for USB,
+
+2. On the secondary update machines:
+> You need to check what updates are needed, and iterate through them checking to see if the **--sideload-repo** has the file available. If not, just install normally:
+
+`flatpak install --sideload-repo=/media/user/FLATPAKS/.ostree/repo flathub org.gnome.gedit`
+
+
 
 
 # Sources:
