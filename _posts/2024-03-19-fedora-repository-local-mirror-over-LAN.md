@@ -377,6 +377,42 @@ This can be accomplished by seeing what Flatpacks need updates:
 
 
 
+### Flatpak custom installation
+
+If all of your machines are on the same server, storage, or network -- and they never move. You could just install Flatpak apps in one location, no need for updating.
+
+- [Using a custom installation](https://docs.flatpak.org/en/latest/flatpak-command-reference.html#flatpak-installation)
+
+Also, **System-wide remotes** can be statically preconfigured by dropping flatpakrepo files into `/etc/flatpak/remotes.d/`.
+
+- [More information about Flatpak remotes](https://man7.org/linux/man-pages/man5/flatpak-remote.5.html)
+
+- [How Flatpak install/updates are processed](https://github.com/flatpak/flatpak/issues/5365)
+
+- [Example adding Flathub repos](https://superuser.com/questions/1747288/why-cant-i-add-flatpak-repos)
+
+- [Even more information about Flatpak repos](https://github.com/flatpak/flatpak/blob/main/doc/flatpak-repo.xml)
+
+- [Even more information about Flatpak remotes](https://github.com/flatpak/flatpak/blob/main/doc/flatpak-remote.xml)
+
+
+* * *
+
+Flatpakrepo files can also be placed in `/usr/share/flatpak/remotes.d/` and `/etc/flatpak/remotes.d/` to statically preconfigure system-wide remotes. 
+
+Such files must use the `.flatpakrepo` extension. If a file with the same name exists in both, the file under `/etc</` will take precedence.
+
+```ini
+[Installation "extra"]
+Path=/location/of/sdcard
+DisplayName=Extra Installation
+StorageType=network
+```
+
+Possible `StorageType`: network, mmc, sdcard, harddisk.
+
+
+
 
 # Sources:
 
