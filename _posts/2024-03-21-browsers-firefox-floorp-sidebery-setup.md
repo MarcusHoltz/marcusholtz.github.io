@@ -572,6 +572,9 @@ You can find the [Firefox New Profile Creation Script](https://raw.githubusercon
 [History AutoDelete](https://addons.mozilla.org/en-US/firefox/addon/history-autodelete/)
 > Control your history! Auto delete history by date, use, and domain.
 
+[FoxyProxy Standard](https://addons.mozilla.org/en-US/firefox/addon/foxyproxy-standard/)
+> Advanced proxy management tool that completely replaces Firefox's limited proxying capabilities.
+
 
 
 
@@ -634,11 +637,26 @@ You can find the [Firefox New Profile Creation Script](https://raw.githubusercon
 [OneTab](https://addons.mozilla.org/en-US/firefox/addon/onetab/)
 > Convert tabs to a list and reduce browser memory.
 
+[Copy/Paste and Save tabs list](https://addons.mozilla.org/en-US/firefox/addon/paste-site-list)
+> Copy every tab opened, save, and paste a list of urls to open in new tabs (alternative to OneTab).
+
 [Sidebery](https://addons.mozilla.org/en-US/firefox/addon/sidebery/)
 > Vertical tabs tree and bookmarks in sidebar.
 
 [Wallabagger](https://addons.mozilla.org/en-US/firefox/addon/wallabagger/)
-> Add pages to wallabag, a self-hosted Pocket.
+> Add pages to wallabag, a self-hosted web archive you can read later.
+
+[Readeck](https://addons.mozilla.org/en-US/firefox/addon/readeck/)
+> Save the readable content of web pages. See it as a bookmark manager and a read later tool.
+
+[Shiori](https://addons.mozilla.org/en-US/firefox/addon/shiori_ext/)
+> Hosted bookmark manager intended as a simple clone of Pocket. 
+
+[Bookmark search plus 2](https://addons.mozilla.org/en-US/firefox/addon/bookmark-search-plus-2/)
+> Know what folder that bookmark is in. Search for both bookmarks and folder and find the exact location.
+
+[Save my tabs!](https://addons.mozilla.org/en-US/firefox/addon/save-all-my-tabs/)
+> Save only current open tabs as bookmarks in a folder at a designated interval.
 
 
 
@@ -667,6 +685,7 @@ You can find the [Firefox New Profile Creation Script](https://raw.githubusercon
 
 [BetterTTV](https://addons.mozilla.org/en-US/firefox/addon/betterttv/)
 > Enhances Twitch with new features, emotes, and more.
+
 
 
 
