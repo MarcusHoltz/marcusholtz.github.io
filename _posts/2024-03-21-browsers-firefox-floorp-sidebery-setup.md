@@ -517,6 +517,9 @@ You can find the [Firefox New Profile Creation Script](https://raw.githubusercon
 [First Party Isolation](https://addons.mozilla.org/en-US/firefox/addon/first-party-isolation/)
 > FPI works by separating cookies on a per-domain basis.
 
+[FoxyProxy Standard](https://addons.mozilla.org/en-US/firefox/addon/foxyproxy-standard/)
+> Advanced proxy management tool that completely replaces Firefox's limited proxying capabilities.
+
 [Proxy SwitchyOmega](https://addons.mozilla.org/en-US/firefox/addon/switchyomega/)
 > Manage and switch between multiple proxies quickly & easily.
 
@@ -571,9 +574,6 @@ You can find the [Firefox New Profile Creation Script](https://raw.githubusercon
 
 [History AutoDelete](https://addons.mozilla.org/en-US/firefox/addon/history-autodelete/)
 > Control your history! Auto delete history by date, use, and domain.
-
-[FoxyProxy Standard](https://addons.mozilla.org/en-US/firefox/addon/foxyproxy-standard/)
-> Advanced proxy management tool that completely replaces Firefox's limited proxying capabilities.
 
 
 
