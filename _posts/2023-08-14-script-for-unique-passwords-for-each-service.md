@@ -623,3 +623,12 @@ Why did I do this?
 ##
 #############################################################################################
 ```
+
+
+* * *
+
+### List of other sites that do the same thing
+
+- [Spectre](https://spectre.app/)
+
+
