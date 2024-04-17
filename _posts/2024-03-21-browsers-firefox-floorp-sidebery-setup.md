@@ -618,8 +618,8 @@ You can find the [Firefox New Profile Creation Script](https://raw.githubusercon
 [External Application Button](https://addons.mozilla.org/en-US/firefox/addon/external-application/)
 > A highly customizable external application button and context-menu items
 
-
-
+[Checkmarks](https://addons.mozilla.org/en-US/firefox/addon/checkmarks-web-ext/)
+> Importing a new profile? Checkmarks sorts, formats, and loads bookmarks favicons.
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
