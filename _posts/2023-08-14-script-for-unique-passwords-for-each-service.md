@@ -631,4 +631,5 @@ Why did I do this?
 
 - [Spectre](https://spectre.app/)
 
+- [LessPass](https://www.lesspass.com/)
 
