@@ -323,6 +323,44 @@ In the `Isolation` section, look for `Per Domain`:
 
 * * *
 
+## Auto Tab Discard: Options
+
+In the Auto Tab Discard plugin, I find these options to work the best for me:
+
+- Discard inactive tabs after `137` minutes (zero to disable) when the number of inactive tabs exceeds `8`
+
+- `checkbox` Change favicon of discarded tabs
+
+- `checkbox` Do not discard a tab if it can display desktop notifications
+
+- Tabs with the following hostnames or regular expression rules are not being discarded:
+  - `pastebin.com, galeapps.gale.com, gale.udemy.com, dash.cloudflare.com, one.dash.cloudflare.com, mattermost.sofree.us, jsfiddle.net, my.nocix.net`
+
+- `checkbox` Store YouTube's timestamp before discarding
+
+- `uncheck` Open FAQs page on updates
+
+
+* * *
+
+## CanvasBlocker: 	Settings
+
+CanvasBlocker is a great plugin, but it can quickly ruin your browsing experience. I would recomend avoiding `Stealth settings` or `Maximum protection`. 
+
+- To run the auto-configure wizard: 
+  - `Settings > Presets > Open`
+
+- If you run the Wizard, choose:
+  - `Convenient settings` and `reCAPTCHA exception`
+
+- Adding, `Stealth settings` or `Maximum protection` will slow down the browser. 
+  - Choose the presets based on your needs. 
+
+
+
+
+* * *
+
 ## Firefox Addons I Keep Installed
 
 - [AdNauseam](https://addons.mozilla.org/en-US/firefox/addon/adnauseam/)
