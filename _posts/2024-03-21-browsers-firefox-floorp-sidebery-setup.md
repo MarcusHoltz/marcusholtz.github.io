@@ -166,10 +166,18 @@ If you require a 64-bit version of all 9's, 99.9999999999999999 (that's 10 billi
   - [ffsclient](https://github.com/Mikescher/firefox-sync-client) can be used to access bookmarks, passwords, forms, tabs, history or custom data.
 
 
+* * *
+
+## Vertical Tabs from scratch 
+
+If you want the slow-motion self-bake version of vertical tabs, check out [Sidetabs](https://addons.mozilla.org/en-US/firefox/addon/sidetabs/) by Jeb Nicholson.
+
+Otherwise, you can continue to the Floorp customization below to enable vertical tabs:
+
 
 * * * 
 
-## Floorp custom changes
+## Floorp vertical tabs custom changes
 
 
 The following images demonstrate some of the customizations done to the default Floorp install.
