@@ -204,6 +204,17 @@ Floorp Design Settings - 2/2
 * * *
 
 
+## Sidebery CSS changes
+
+Here are the color styles I use for my Sidebery:
+
+```css
+#root.root {--toolbar-bg: #161923     ;}
+#root.root {--frame-bg: #1A1B26 ;}
+```
+
+
+* * *
 
 ## uBlock Origin addon
 
