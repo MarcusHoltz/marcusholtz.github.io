@@ -664,11 +664,20 @@ You can find the [Firefox New Profile Creation Script](https://raw.githubusercon
 [DownThemAll!](https://addons.mozilla.org/en-US/firefox/addon/downthemall/)
 > Select, queue, sort, rename and run your downloads faster.
 
+[Checkmarks](https://addons.mozilla.org/en-US/firefox/addon/checkmarks-web-ext/)
+> Importing a new profile? Checkmarks sorts, formats, and loads bookmarks favicons.
+
 [External Application Button](https://addons.mozilla.org/en-US/firefox/addon/external-application/)
 > A highly customizable external application button and context-menu items
 
-[Checkmarks](https://addons.mozilla.org/en-US/firefox/addon/checkmarks-web-ext/)
-> Importing a new profile? Checkmarks sorts, formats, and loads bookmarks favicons.
+> Also, External Application Button needs [additional software](https://github.com/andy-portmen/native-client) to function. After installation, it will prompt you based on your OS, and you will need to extract the files to an install path then run the `install` file.
+{: .prompt-info }
+
+> This will install NodeJS, and on Windows, change some registry entries. `../node/x64/node install.js`
+{: .prompt-warning }
+
+
+
 
 =--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
 
