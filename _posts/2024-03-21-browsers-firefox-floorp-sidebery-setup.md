@@ -768,6 +768,9 @@ You can find the [Firefox New Profile Creation Script](https://raw.githubusercon
 [nightTab](https://addons.mozilla.org/en-US/firefox/addon/nighttab/)
 > New tab page accented with a chosen colour.
 
+[Adaptive Tab Bar Color](https://addons.mozilla.org/en-US/firefox/addon/adaptive-tab-bar-colour/)
+> Changes the color of Firefox tab bar to match the website theme.
+
 [Matte Black (Purple)](https://addons.mozilla.org/en-US/firefox/addon/matte-black-purple/)
 > A modern dark / Matte Black theme with a purple accent color.
 
