@@ -298,7 +298,7 @@ echo -n $PASWRD1_full | openssl dgst -sha3-384 | echo -n $(awk '{print $2}') | a
 ############################################
 ###      Why did I pick those values?    ###
 ############################################
-# Phrase - helps the user keep these passwords organized in their head. It's repeatable through multiple passwords.
+# Group - helps the user keep these passwords organized in their head. It's repeatable through multiple passwords.
 # Age - random number data, but also, reminds the user to change their password yearly. If you try and hash 23 and it doesnt work, hash 22, and it does -- that reminds you to update the hash to this years age. 
 # Service - Very important. This helps name all the files, is also used in the salt.
 # Username - Should be different for each site. Also used for the salt.
