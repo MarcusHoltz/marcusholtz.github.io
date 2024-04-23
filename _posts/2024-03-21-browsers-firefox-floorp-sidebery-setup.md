@@ -424,9 +424,6 @@ CanvasBlocker is a great plugin, but it can quickly ruin your browsing experienc
 - [CanvasBlocker](https://addons.mozilla.org/en-US/firefox/addon/canvasblocker/)
 > Alters some JS APIs to prevent fingerprinting.
 
-- [AudioContext Fingerprint Defender](https://addons.mozilla.org/en-US/firefox/addon/audioctx-fingerprint-defender/)
-> Defending against AudioContext fingerprinting by reporting a fake value.
-
 - [Private Bookmarks](https://addons.mozilla.org/en-US/firefox/addon/webext-private-bookmarks/)
 > Enables a password-protected bookmark folder.
 
