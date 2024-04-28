@@ -1094,13 +1094,14 @@ gpg --output - --export-secret-key SOMEKEYID |\
 ```
 
 
+* * *
 
-## YUIBIKEY (Yubico Yubikey)
-
-
+## Using the Yubico Yubikey
 
 ### Installing YubiKey Tools on Linux
+
 To get the Yubikey software working we need to satisfy dependencies:
+
 `sudo apt -y install wget gnupg2 gnupg-agent dirmngr cryptsetup scdaemon pcscd secure-delete hopenpgp-tools yubikey-personalization libssl-dev swig libpcsclite-dev`
 
 To install and use the `ykman` utility, python crap has to come with it.
@@ -1108,22 +1109,33 @@ To install and use the `ykman` utility, python crap has to come with it.
 `sudo apt -y install python3-pip python3-pyscard`
 
 `pip3 install PyOpenSSL`
+
 `pip3 install yubikey-manager`
 
 `sudo service pcscd start`
+
 `~/.local/bin/ykman openpgp info`
 
 
 [Source for additional Software](https://support.yubico.com/hc/en-us/articles/360016649039-Installing-Yubico-Software-on-Linux)
 
+
+* * * 
+
 `sudo add-apt-repository ppa:yubico/stable && sudo apt-get update`
+
 `sudo apt install yubikey-manager yubikey-personalization-gui libpam-yubico libpam-u2f libfido*`
+
 And then you can download the actual software you need... but not, as it is an appimage it'll install like shit. 
+
 So first, we must install [AppImageLauncher](https://launchpad.net/~appimagelauncher-team/+archive/ubuntu/stable):
+
 `sudo add-apt-repository ppa:appimagelauncher-team/stable`
+
 Then you can: `sudo apt update` and install `sudo apt install appimagelauncher`
 
 With this glorious POS installed, you can download and run the YubiKey appimage, and it will re-arrange it to a better location and add a .desktop icon. 
+
 BUT BUT BUT, you cannot whitelist apps. So when Joplin starts from AppImage, it tries to re-arrange it and break it. So once AppImageLauncher has run the YubiKey AppImage, REMOVE IT. 
 
 `wget https://developers.yubico.com/yubikey-manager-qt/Releases/yubikey-manager-qt-latest-linux.AppImage` 
@@ -1136,18 +1148,28 @@ Now you're safe from the bad man.
 
 
 
+* * * 
+
 #### Using YubiKey
+
 `gpg --card-status`
+
 You should see your card listed.
 
 `gpg --edit-key $KEYID`
+
 Now we are back to where we were before. Able to make changes on the gpg> prompt.
 
 Let's move each of the 3 keys we made to the yubicard. 
+
 `key 1`
+
 You should see an asteresk next to one of the keys. Take a look at the usage: and continue
+
 `keytocard`
+
 Destination slot on the Yubikey:
+
 Appropreate slot on the Yubikey that corresponds to the Key transfering.
 
 You will be prompted to enter a PIN. Default pin is 12345678 for admin changes.
@@ -1155,117 +1177,160 @@ You will be prompted to enter a PIN. Default pin is 12345678 for admin changes.
 Back to the gpg> prompt. Just type  `key 2` and then  `key 1`. You needed to select and then unselect the keys. 
 
 `keytocard`
+
 Destination slot on the Yubikey.
 
 Do this one more time. 
 
 When all 3 are on the Yubikey you can:
+
 `gpg> quit`
+
 Do not SAVE changes: `N`
+
 Quit without saving? `Y`
 
 If you SAVE, you will loose your main private key. Dont do that. 
 
 ##### One Final Backup of the gpg files
+
 `cp -auxf ~/.gnupg/ ~/export/`
 
 
+* * * 
+
 ### Check and Edit YubiKey Settings
+
 `gpg --list-keys`
+
 We should see the information we saved.
 
 Under "General key info..: "
+
 ```
 sec#    4096R/0xFF...
 ssb>    4096R/0xBE...
 ssb>  4096R/0x59
 ```
+
 `sec#` indicates master key is not available (as it should be stored encrypted offline).
 
 
 `gpg --card-edit`
+
 Here it tells you about the content of the Yubikey. 
 
 To change the Admin Password, it doesnt have to be digits:
+
 `gpg/card> admin`
+
 `gpg/card> passwd`
 
 Now you can quit out of that.
 
 
-
-
-
+* * *
 
 ### Using YubiKey to Break your computer
 
 #### SSH with YubiKey (old method)
+
 `nano ~/.gnupg/gpg-agent.conf`
+
 add the following line:
+
 `enable-ssh-support`
 
 Then you optionally can kill then ssh agent. 
 
 Your User ID may vary, this example is 1001
+
 `ls -lah /var/run/user/1001/gnupg/`
 
 With that info, we can edit our `.bashrc`
+
 Add at the bottom:
+
 `export SSH_AUTH_SOCK=/var/run/user/1001/gnupg/S.gpg-agent.ssh`
+
 SAVE. QUIT.
 
 If the agent was quit above you should be able to see it with: 
+
 `ssh-add -L `
 
 If not, possible reboot. 
+
 Also, make sure your PIN works everytime, someone could intercept that socket file we added above. Unless you set Signature PIN forced. 
 
 `gpg/card> admin`
+
 `gpg/card> forcesig`
 
 
 #### Setup Your Computer to LOVE the Yubikey
+
 `sudo apt install libpam-u2f`
 
 `mkdir -p ~/.config/Yubico`
+
 (-p says make the stuff underneath me too, incase .config did not exist) 
 
 `pamu2fcfg >  ~/.config/Yubico/u2f_keys`
-* * *
 
+
+* * *
 
 #### HOW TO MAKE SUDO USELESS UNLESS YOU #1. Have the YubiKey in a USB slot #2. Touch the YubiKey
+
 `sudo nano /etc/pam.d/sudo `
 
-#under @include common-auth   add the following.....
-auth    required    pam_u2f.so
+under @include common-auth   add the following.....
+
+`auth    required    pam_u2f.so`
 
 SAVE, CLOSE
-* * *
 
+
+* * *
 
 #### HOW TO MAKE LOGIN USELESS WITHOUT YUBIKEY.
+
 `sudo nano /etc/pam.d/gdm-password`
+
 OR
+
 `sudo nano /etc/pam.d/lightdm `
+
 GDM is the more modern choice, could be either.
 
+
+
 ONCE OPEN.....
+
 #under @include common-auth   add the following.....
-auth    required    pam_u2f.so
+
+`auth    required    pam_u2f.so`
+
+
 * * *
 
-
 #### TTY LOGIN REQUIRES YUBIKEY  (CTRL + ALT + F2)
+
 `sudo nano /etc/pam.d/login`
 
 ONCE THE FILE IS OPEN......  ctrl+w to look for 'common-auth'
+
+
 #under @include common-auth   add the following.....
-auth    required    pam_u2f.so
+
+`auth    required    pam_u2f.so`
+
+
 * * *
 
-
 #### YubiKey Required for Remote Server SSH Connection (API ACCESS IS REQUIRED FOR THIS SERVICE) 2FA for Remote Server
+
 ```
 sudo add-apt-repository ppa:yubico/stable
 sudo apt update
@@ -1273,53 +1338,74 @@ sudo apt install libpam-yubico
 ```
 
 `sudo nano /etc/ssh/authorized_yubikeys`
+
 IN THIS NEW DOCUMENT, ADD THE USER_NAME YOU WANT TO HAVE ACCESS :COLON: THEN TOUCH THE YUBIKEY AND ADD THE FIRST 12 CHARACTERS
 
 `sudo nano /etc/pam.d/sshd `
+
 ADD THE NEXT LINE. THE FIRST THING IN THE FILE.
+
 `auth required pam_yubico.so ID=<CLIENT ID> key=<SECRET> authfile=/etc/ssh/authorized_yubikeys`
 
+
 https://upgrade.yubico.com/getapikey
+
 EMAIL
+
 *touch YubiKey for the OTP*
 
 Should recieve the CLIENT_ID and KEY once those values were entered for on the website above. 
 
 `sudo nano /etc/ssh/sshd_config`
-FIND ctrl+w Challenge
-ChallengeResponseAuthentication no
-TO
-ChallengeResponseAuthentication yes
 
-FIND ctrl+w UsePam
-UsePam yes
+FIND using ctrl+w `Challenge`
+
+Change:
+
+`ChallengeResponseAuthentication no`
+
+TO
+
+`ChallengeResponseAuthentication yes`
+
+
+FIND using ctrl+w `UsePam`
+
+`UsePam yes`
 
 SAVE. EXIT. RESTART SSH SERVICE.
 
 `sudo nano ~/.ssh/authorized_keys`
+
 COMMENT OUT ANY LINES WITH KEYS THAT HAVE BEEN PUT IN HERE.
 
 **WORKS NOW**
+
 Keep in mind... YubiCloud is the validation server
 
 Yubico provides a validation server with free unlimited access, called YubiCloud. YubiCloud knows the factory configuration of all YubiKeys, and is the "default" validation service used by (for example) `yubico-pam`.  
 
 
-[This method Is better](https://www.youtube.com/watch?v=bQyL0uzrL3k)
-[Or this method](https://gist.github.com/artizirk/d09ce3570021b0f65469cb450bee5e29)
+- [This method Is better](https://www.youtube.com/watch?v=bQyL0uzrL3k)
+
+- [Or this method](https://gist.github.com/artizirk/d09ce3570021b0f65469cb450bee5e29)
 
 
 
 ### Yubikey: requiring touch to authenticate
+
 By default the Yubikey will perform key operations without requiring a touch from the user. To require a touch for every SSH connection, use the Yubikey Manager (you’ll need the Admin PIN):
+
 ```
 sudo apt-get install yubikey-manager
 ykman openpgp keys set-touch aut on
 
 ```
+
 In case you have an error, try removing and reinserting your Yubikey.
 
 To require a touch for the signing and encrypting keys as well:
+
 ```
 ykman openpgp keys set-touch sig on
 ykman openpgp keys set-touch enc on
@@ -1334,17 +1420,28 @@ The Yubikey will blink when it’s waiting for the touch.
 
 
 ## FIX YUBIKEY
+
 ### Program and upload a new Yubico OTP credential
-[Link1](https://www.yubico.com/support/download/yubikey-manager/)
-[Link 2](https://support.yubico.com/hc/en-us/articles/360013647680-Resetting-the-OTP-Applications-on-the-YubiKey)
-[Link 3](https://upload.yubico.com/)
-[Link 4](https://www.esev.com/blog/post/2015-01-pgp-ssh-key-on-yubikey-neo/)
+
+- [Link1](https://www.yubico.com/support/download/yubikey-manager/)
+
+- [Link 2](https://support.yubico.com/hc/en-us/articles/360013647680-Resetting-the-OTP-Applications-on-the-YubiKey)
+
+- [Link 3](https://upload.yubico.com/)
+
+- [Link 4](https://www.esev.com/blog/post/2015-01-pgp-ssh-key-on-yubikey-neo/)
 
 
 
 
 
 
+
+
+* * * 
+
+
+* * * 
 
 
 
