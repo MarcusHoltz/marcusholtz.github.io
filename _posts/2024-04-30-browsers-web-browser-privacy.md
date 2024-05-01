@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Browser privacy presentation
+title: Web Browser Privacy Presentation
 date: 2024-04-30 11:33:00 -0700
 categories: [Browsers, Privacy]
 tags: [desktop, workstation, browsers, addons, customization, privacy, firefox, brave, security, techtip]
@@ -17,26 +17,46 @@ This talk most specifically is about the omnipresent tracking that occurs on the
 
 * * *
 
-Please do keep in mind, this talk is specific to the web browser. 
+## Links to Presentation
 
-Tracking occurs in tandem, outside of the web browser. 
+* * *
+
+Browser Privacy presentation is available in many different formats. 
+
+**My recomendation is to watch the video, it'll play and cycle through the slides at a reasonable pace.**
 
 
 * * *
 
+### Video
 
-[Link to presentation](https://www.holtzweb.com/Browsers.html)
+- [https://is.gd/browserprivacy](https://is.gd/browserprivacy) ⭐
 
 
+* * * 
+
+### Powerpoint Slides
+
+- [https://is.gd/browserprivacyslides](https://is.gd/browserprivacyslides)
 
 
 * * *
 
-[Link to presentation on Github](/assets/html/sample.html)
+### Single HTML document
+
+- [Link to presentation on Github](/assets/html/browsers-presentation.html)
 
 
 * * *
 
+### Quick markdown export with missing content
+
+- [Just below is a poorly exported text only version](https://blog.holtzweb.com/posts/browsers-web-browser-privacy/#who) **(NOT RECOMENDED)**
+
+
+* * *
+
+* * *
 
 
 # BROWSERS
@@ -296,11 +316,11 @@ The more browser add-ons you install and settings you modify, the more likely yo
 
 - uBlock Origin ✔
 
-  - ⭐ Setup your blocking mode
+  - Setup your blocking mode
 
-  - ⭐ Enable AdGuard URL Tracking Protection
+  - Enable AdGuard URL Tracking Protection
 
-  - ⭐ Import Actually Legitimate URL Shortener Tool
+  - Import Actually Legitimate URL Shortener Tool
 
 - Smart Referer ✔
 
