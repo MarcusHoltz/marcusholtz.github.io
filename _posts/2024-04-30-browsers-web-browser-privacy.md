@@ -33,18 +33,19 @@ Browser Privacy presentation is available in many different formats.
 - [https://is.gd/browserprivacy](https://is.gd/browserprivacy) ⭐
 
 
+* * *
+
+### Single HTML document
+
+- [Link to presentation on Github](/assets/html/browsers-presentation.html)
+
+
 * * * 
 
 ### Powerpoint Slides
 
 - [https://is.gd/browserprivacyslides](https://is.gd/browserprivacyslides)
 
-
-* * *
-
-### Single HTML document
-
-- [Link to presentation on Github](/assets/html/browsers-presentation.html)
 
 
 * * *
