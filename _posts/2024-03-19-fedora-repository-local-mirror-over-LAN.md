@@ -141,14 +141,9 @@ htop-3.3.0-1.fc39.x86_64.rpm  hwloc-libs-2.10.0-1.fc39.x86_64.rpm  repodata
 
 * * *
 
-## Permanently mount the fedoraLocalRepo network share
+### Instead of autofs, Systemd
 
-With everything working correctly, we can now make sure our network mount attaches at boot.
-
-
-### Instead of fstab, Systemd
-
-We can start this mount as a service using Systemd. 
+We can start this mount as a service using Systemd. No need to install anything.
 
 Using automount will also auto-un-mount the share as well. 
 
@@ -219,6 +214,102 @@ If everything was entered correctly, we can now start the mount and enable to fo
 `sudo systemctl daemon-reload`
 
 `sudo systemctl enable srv-fedoraLocalRepo.automount --now`
+
+
+* * *
+
+## Permanently mount the fedoraLocalRepo network share
+
+With everything working correctly, we can now make sure our network mount attaches at boot.
+
+
+* * *
+
+### Modify fstab for autofs similar functions
+
+> Please note that systemd's automount feature is separate from the method provided by the autofs package.  The method used by the autofs package does not use entries in `/etc/fstab`.
+{: .prompt-warning }
+
+The most notable difference between the default behaviors of SystemD's `x-systemd.automount` and the `autofs` package is:  
+
+- The `autofs` package defaults to timing out (*umounting*) an automount **after** approximately **10 minutes** of idleness.  
+
+- However, `x-systemd.automount` *defaults* to **never timing out**.
+  - This can introduce potential points of failure.
+
+
+* * *
+
+#### Changing fstab with x-systemd.mount
+
+More information about the updates being made can be found within the [systemd man page](https://www.freedesktop.org/software/systemd/man/latest/systemd.mount.html).
+
+- `sudo nano /etc/fstab` to edit the `fstab` file.
+
+- Example `fstab` file with *no* edit, just network mount:
+  - - `//172.21.8.12/toshiba_n300/z_Fedora_Updates /srv/fedoraLocalRepo cifs guest,dir_mode=0777,file_mode=0777 0 0`
+
+
+* * *
+
+#### Confirming automount
+
+To confirm the default behavior of automounting:
+
+- `x-systemd.automount`
+
+- Example `fstab` file with `automount` edit:
+  - `//172.21.8.12/toshiba_n300/z_Fedora_Updates /srv/fedoraLocalRepo cifs guest,dir_mode=0777,file_mode=0777,x-systemd.automount 0 0`
+
+
+* * *
+
+##### Speedy mount on boot
+
+The default device timeout is 90 seconds, so a disconnected device will make your boot take 90 seconds longer to be mount before giving up. To fix:
+
+- For devices: `x-systemd.device-timeout=7`
+
+- For our mounts: `x-systemd.mount-timeout=7`
+
+- Example `fstab` file with `timeout` edits:
+  - `//172.21.8.12/toshiba_n300/z_Fedora_Updates /srv/fedoraLocalRepo cifs guest,dir_mode=0777,file_mode=0777,x-systemd.automount,nofail,x-systemd.device-timeout=7,x-systemd.mount-timeout=7 0 0`
+
+> The `nofail` option is best combined with the `x-systemd.device-timeout` option.  
+
+> Append a unit to your timeout. You can use: `s`, `min`, `h`.
+{: .prompt-info }
+
+
+* * *
+
+##### Automatic unmount
+
+You may also specify an idle timeout for a mount with the `x-systemd.idle-timeout` flag.  
+
+- `x-systemd.idle-timeout=6min`
+
+- Example `fstab` file with `unmounting` edits:
+  - `//172.21.8.12/toshiba_n300/z_Fedora_Updates /srv/fedoraLocalRepo cifs guest,dir_mode=0777,file_mode=0777,x-systemd.automount,nofail,x-systemd.device-timeout=7s,x-systemd.mount-timeout=7s,x-systemd.idle-timeout=6min 0 0`
+
+This will make systemd `unmount` the mount after it has been idle for `6 minutes`. 
+
+> 6 min is equal the `360 seconds` set in `TimeoutIdleSec` under the `srv-fedoraLocalRepo.automount` file.
+{: .prompt-info }
+
+
+* * *
+
+##### Restart system services for changes
+
+Run `systemctl daemon-reload` after editing your fstab.
+
+and then one, or both, of the following:
+
+```
+sudo systemctl restart remote-fs.target
+sudo systemctl restart local-fs.target
+```
 
 
 * * *
@@ -298,14 +389,9 @@ You can then choose to do full update once in a while:
 `sudo dnf offline-upgrade`
 
 
+* * *
 
-
-
-
-
-
-
-
+* * *
 
 ## Explaining steps taken
 
