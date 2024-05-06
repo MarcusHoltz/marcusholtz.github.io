@@ -5,14 +5,14 @@ categories: [Linux, LocalRepository]
 tags: [security, administration, cloud, fedora, server, techtip, mirror, networking, repository]
 pin: false
 image:
-  path: /assets/img/header/header--linux--fedora-local-repo-over-network.jpg
-  alt: Local mirror of Fedora repos on LAN to save bandwidth
+  path: /assets/img/header/header--linux--fedora-local-repo-over-network.jpg
+  alt: Local mirror of Fedora repos on LAN to save bandwidth
 ---
 
 # Use a cached dnf mirror of Fedora repositories and update systems over the local network to save bandwidth
 
 
->  Limited bandwidth, no internet access, just trying to be green? Cache your files! 
+>  Limited bandwidth, no internet access, just trying to be green? Cache your files! 
 {: .prompt-tip }
 
 
@@ -49,7 +49,7 @@ I have done this several ways, and find using the dnf plugin to be the easiest. 
 
 ## Creating the initial local repository
 
->  You have to create a repository for the local cache to store it's metadata in. The `createrepo_c` package will be installed as a dependency. 
+>  You have to create a repository for the local cache to store it's metadata in. The `createrepo_c` package will be installed as a dependency. 
 {: .prompt-tip }
 
 
@@ -58,20 +58,20 @@ I have done this several ways, and find using the dnf plugin to be the easiest. 
 
 **Choose where you're keeping the data.**
 
->  This is possibly the most important step. 
+>  This is possibly the most important step. 
 {: .prompt-info }
 
 1. **On the network.**
-  - This can be any network share you can mount, NFS/SMB/SSH/whatever
+  - This can be any network share you can mount, NFS/SMB/SSH/whatever
 
 2. **On your system.**
-  - You need a location to mount the network share to.
+  - You need a location to mount the network share to.
 
 
 
 ### Make folder, mount network share, and create local repository
 
->  In this example, I will be storing the locally mirrored Fedora repo in `/srv/fedoraLocalRepo` and mounting a samba share.
+>  In this example, I will be storing the locally mirrored Fedora repo in `/srv/fedoraLocalRepo` and mounting a samba share.
 {: .prompt-info }
 
 
@@ -88,7 +88,7 @@ You may need to change the SMB server, share, credentials, and mount point.
 3. `sudo createrepo /srv/fedoraLocalRepo`
 
 
->  The local caching Fedora repository should now be setup and ready for use across the network.
+>  The local caching Fedora repository should now be setup and ready for use across the network.
 {: .prompt-tip }
 
 
@@ -133,7 +133,7 @@ You should see the program update, and use _dnf_local as a repository.
 Check inside your local repository for the files downloaded: `ls /srv/fedoraLocalRepo/`
 
 ```
-htop-3.3.0-1.fc39.x86_64.rpm  hwloc-libs-2.10.0-1.fc39.x86_64.rpm  repodata
+htop-3.3.0-1.fc39.x86_64.rpm  hwloc-libs-2.10.0-1.fc39.x86_64.rpm  repodata
 ```
 
 > Great! Our binaries are now cached inside of a local repository we can share across the network.
@@ -141,7 +141,7 @@ htop-3.3.0-1.fc39.x86_64.rpm  hwloc-libs-2.10.0-1.fc39.x86_64.rpm  repodata
 
 * * *
 
-### Instead of autofs, Systemd
+### Instead of autofs, Systemd
 
 We can start this mount as a service using Systemd. No need to install anything.
 
@@ -149,7 +149,7 @@ Using automount will also auto-un-mount the share as well.
 
 It will only be mounted when in use.
 
-> Please note: the unit name should match the mount point. So, if the mount point is `/mnt/foo` the unit name should be `mnt-foo`.mount and `mnt-foo`.automount -- you cannot use-dashes-in-folder-names
+> Please note: the unit name should match the mount point. So, if the mount point is `/mnt/foo` the unit name should be `mnt-foo`.mount and `mnt-foo`.automount -- you cannot use-dashes-in-folder-names
 {: .prompt-warning }
 
 
@@ -235,7 +235,7 @@ The most notable difference between the default behaviors of SystemD's `x-system
 - The `autofs` package defaults to timing out (*umounting*) an automount **after** approximately **10 minutes** of idleness.  
 
 - However, `x-systemd.automount` *defaults* to **never timing out**.
-  - This can introduce potential points of failure.
+  - This can introduce potential points of failure.
 
 
 * * *
@@ -247,7 +247,7 @@ More information about the updates being made can be found within the [systemd m
 - `sudo nano /etc/fstab` to edit the `fstab` file.
 
 - Example `fstab` file with *no* edit, just network mount:
-  - - `//172.21.8.12/toshiba_n300/z_Fedora_Updates /srv/fedoraLocalRepo cifs guest,dir_mode=0777,file_mode=0777 0 0`
+  - - `//172.21.8.12/toshiba_n300/z_Fedora_Updates /srv/fedoraLocalRepo cifs guest,dir_mode=0777,file_mode=0777 0 0`
 
 
 * * *
@@ -259,7 +259,7 @@ To confirm the default behavior of automounting:
 - `x-systemd.automount`
 
 - Example `fstab` file with `automount` edit:
-  - `//172.21.8.12/toshiba_n300/z_Fedora_Updates /srv/fedoraLocalRepo cifs guest,dir_mode=0777,file_mode=0777,x-systemd.automount 0 0`
+  - `//172.21.8.12/toshiba_n300/z_Fedora_Updates /srv/fedoraLocalRepo cifs guest,dir_mode=0777,file_mode=0777,x-systemd.automount 0 0`
 
 
 * * *
@@ -273,9 +273,9 @@ The default device timeout is 90 seconds, so a disconnected device will make you
 - For our mounts: `x-systemd.mount-timeout=7`
 
 - Example `fstab` file with `timeout` edits:
-  - `//172.21.8.12/toshiba_n300/z_Fedora_Updates /srv/fedoraLocalRepo cifs guest,dir_mode=0777,file_mode=0777,x-systemd.automount,nofail,x-systemd.device-timeout=7,x-systemd.mount-timeout=7 0 0`
+  - `//172.21.8.12/toshiba_n300/z_Fedora_Updates /srv/fedoraLocalRepo cifs guest,dir_mode=0777,file_mode=0777,x-systemd.automount,nofail,x-systemd.device-timeout=7,x-systemd.mount-timeout=7 0 0`
 
-> The `nofail` option is best combined with the `x-systemd.device-timeout` option.  
+> The `nofail` option is best combined with the `x-systemd.device-timeout` option.  
 
 > Append a unit to your timeout. You can use: `s`, `min`, `h`.
 {: .prompt-info }
@@ -285,12 +285,12 @@ The default device timeout is 90 seconds, so a disconnected device will make you
 
 ##### Automatic unmount
 
-You may also specify an idle timeout for a mount with the `x-systemd.idle-timeout` flag.  
+You may also specify an idle timeout for a mount with the `x-systemd.idle-timeout` flag.  
 
 - `x-systemd.idle-timeout=6min`
 
 - Example `fstab` file with `unmounting` edits:
-  - `//172.21.8.12/toshiba_n300/z_Fedora_Updates /srv/fedoraLocalRepo cifs guest,dir_mode=0777,file_mode=0777,x-systemd.automount,nofail,x-systemd.device-timeout=7s,x-systemd.mount-timeout=7s,x-systemd.idle-timeout=6min 0 0`
+  - `//172.21.8.12/toshiba_n300/z_Fedora_Updates /srv/fedoraLocalRepo cifs guest,dir_mode=0777,file_mode=0777,x-systemd.automount,nofail,x-systemd.device-timeout=7s,x-systemd.mount-timeout=7s,x-systemd.idle-timeout=6min 0 0`
 
 This will make systemd `unmount` the mount after it has been idle for `6 minutes`. 
 
@@ -381,7 +381,7 @@ Using the GPG key checks, there is no known way for an attacker to generate pack
 
 You could also run this command every day:
 `dnf updateinfo --secseverity Critical` 
-This will check for critical security updates.  
+This will check for critical security updates.  
 
 
 
@@ -426,6 +426,92 @@ This is similar to Debian's [AptCacherNG](https://wiki.debian.org/AptCacherNg). 
 
 So, Flatpak has no automatic method of caching downloads across a network and sharing them. 
 
+
+## Adding a Flatpak remote for local storage
+
+Just like with Fedora updates, you can set up Flatpak to utilize a SMB share for storing downloaded binaries. This is a great way to save data usage and streamline updates across multiple machines. 
+
+
+### Mount the SMB share for Flatpak
+
+I would ask you to refer to the section above about creating shares and mounting them. In this example, we're storing Flatpak updates in `/srv/fedoraLocalFlatpak/`
+
+
+Flatpak uses [OSTree](https://ostreedev.github.io/ostree/introduction/) for managing application images. By default, it stores its repositories in `/var/lib/flatpak/`, but you can change this location by setting the `FLATPAK_USER_DIR` environment variable.
+
+
+### Modify Flatpak's system directory
+
+The environment variable `FLATPAK_SYSTEM_DIR` tells Flatpak where to put binaries. 
+
+Run this line, then add it to your system-wide profile configuration file (e.g., /etc/profile) to make it persistent across reboots:
+
+```bash
+export FLATPAK_SYSTEM_DIR=/srv/fedoraLocalFlatpak/
+```
+
+
+### Initialize Flatpak's new repo
+
+The `FLATPAK_SYSTEM_DIR` should be changed, you will need to initialize Flatpak.
+
+
+```bash
+flatpak --system remote-add --no-gpg-verify --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+```
+
+and then begin the update:
+
+```bash
+flatpak --system update
+```
+
+This command updates the Flatpak repositories at the system level, from the configured repositories.
+
+
+
+### Changing default Flatpak repositories
+
+
+1. Add SMB share as a system-wide repository
+
+```bash
+flatpak remote-add --no-gpg-verify --system smb-repo /path/to/mount/flatpak/repo
+```
+
+
+2. Add Flathub as a user repository
+
+```bash
+flatpak remote-add --no-gpg-verify flathub https://flathub.org/repo/flathub.flatpakrepo
+```
+
+3. Prioritize repositories
+
+By default, Flatpak will prioritize the user repository over the system repository. To change this behavior and prioritize the system repository:
+
+```bash
+flatpak config --set --system --default-remotes smb-repo,flathub
+```
+
+
+With this configuration, Flatpak will first look for updates in the system-wide repository (SMB share). If the application is not found or needs updating, Flatpak will then fall back to Flathub to download the updates directly from there.
+
+
+
+
+### Installing Flatpak's from the new repo
+
+```bash
+flatpak --system install flathub org.mozilla.firefox
+```
+
+When you run this command, Flatpak will fetch the Firefox application from the Flathub repository and install it on your system. 
+Since we've configured Flatpak to use the SMB share for storing downloaded binaries (FLATPAK_SYSTEM_DIR), the downloaded files will be stored on the SMB share rather than being downloaded individually on each machine. 
+
+
+
+## Flatpak airgapped sneakerwear updates
 
 * * *
 
@@ -507,3 +593,4 @@ Possible `StorageType`: network, mmc, sdcard, harddisk.
 - [fedoramagazine](https://fedoramagazine.org/use-the-dnf-local-plugin-to-speed-up-your-home-lab/)
 
 - [dataswamp](https://dataswamp.org/~solene/2023-04-05-lan-cache-flatpak.html)
+
