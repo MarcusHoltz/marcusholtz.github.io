@@ -29,7 +29,7 @@ Browser Privacy presentation is available in many different formats.
 
 ### Video
 
-- 🎥 [https://is.gd/browserprivacy](https://is.gd/browserprivacy) ⭐
+- 🎥 [https://is.gd/browserprivacyvideo](https://is.gd/browserprivacyvideo) ⭐
 
 
 * * *
@@ -60,7 +60,7 @@ Browser Privacy presentation is available in many different formats.
 
 Again, preferentially, please use one of the choices above for this presentation: 
 
-- [Video](https://is.gd/browserprivacy)
+- [Video](https://is.gd/browserprivacyvideo)
 
 - [HTML](/assets/html/browsers-presentation.html)
 
