@@ -12,8 +12,7 @@ image:
 
 # Web Browser Privacy 😎
 
-This talk most specifically is about the omnipresent tracking that occurs on the world wide web, with the web being primarily contained to your web browser.
-
+This presentation attempts to help take back control for the average user and make the web a little more bearable.
 
 * * *
 
