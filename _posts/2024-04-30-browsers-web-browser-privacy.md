@@ -10,41 +10,41 @@ image:
   alt: Web Browser Privacy
 ---
 
-# Web Browser Privacy
+# Web Browser Privacy 😎
 
 This talk most specifically is about the omnipresent tracking that occurs on the world wide web, with the web being primarily contained to your web browser.
 
 
 * * *
 
-## Links to Presentation
+## 🔗 Links to Presentation 📄
 
 * * *
 
 Browser Privacy presentation is available in many different formats. 
 
-**My recomendation is to watch the video, it'll play and cycle through the slides at a reasonable pace.**
+👋 **My recomendation is to watch the 📺 video, it'll play and cycle through the slides at a reasonable pace.**
 
 
 * * *
 
 ### Video
 
-- [https://is.gd/browserprivacy](https://is.gd/browserprivacy) ⭐
+- 🎥 [https://is.gd/browserprivacy](https://is.gd/browserprivacy) ⭐
 
 
 * * *
 
 ### Single HTML document
 
-- [Link to presentation on Github](/assets/html/browsers-presentation.html)
+- 🤓 [Link to presentation on Github](/assets/html/browsers-presentation.html)
 
 
 * * * 
 
 ### Powerpoint Slides
 
-- [https://is.gd/browserprivacyslides](https://is.gd/browserprivacyslides)
+- 🖊 [https://is.gd/browserprivacyslides](https://is.gd/browserprivacyslides)
 
 
 
@@ -59,8 +59,31 @@ Browser Privacy presentation is available in many different formats.
 
 * * *
 
+Again, preferentially, please use one of the choices above for this presentation: 
+
+- [Video](https://is.gd/browserprivacy)
+
+- [HTML](/assets/html/browsers-presentation.html)
+
+- [Powerpoint](https://is.gd/browserprivacyslides)
+
+* * *
+
+* * * 
+
+Below is an export of my powerpoint slides as text, just markdown. 
+
+If you want a text based copy -- I would recommend the [HTML](/assets/html/browsers-presentation.html) version of this presentation, as it is text with images. 
+
+
+
+* * * 
+
+⚠ ⚠ ⚠ ⚠ ⚠ 
 
 # BROWSERS
+
+⚠ ⚠ ⚠ ⚠ ⚠ 
 
 Marcus Holtz on Web Browser Privacy
 
