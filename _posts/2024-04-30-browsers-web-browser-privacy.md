@@ -73,7 +73,7 @@ Again, preferentially, please use one of the choices above for this presentation
 
 Below is an export of my powerpoint slides as text, just markdown. 
 
-If you want a text based copy -- I would recommend the [HTML](/assets/html/browsers-presentation.html) version of this presentation, as it is text with images. 
+If you want a mostly plain text based copy -- I would recommend the [HTML](/assets/html/browsers-presentation.html) version of this presentation, as it is text with images. 
 
 
 
