@@ -513,6 +513,14 @@ When you run this command, Flatpak will fetch the Firefox application from the F
 Since we've configured Flatpak to use the SMB share for storing downloaded binaries (FLATPAK_SYSTEM_DIR), the downloaded files will be stored on the SMB share rather than being downloaded individually on each machine. 
 
 
+### Cleaning up Flatpak's updates
+
+Occasionally you will get old runtimes that are not used, you can clean these up -- but be sure all of your other machines have updated to your current version before removing:
+
+```bash
+flatpak uninstall --unused
+```
+
 
 ## Flatpak airgapped sneakerwear updates
 
