@@ -669,6 +669,9 @@ You can find the [Firefox New Profile Creation Script](https://raw.githubusercon
 [DownThemAll!](https://addons.mozilla.org/en-US/firefox/addon/downthemall/)
 > Select, queue, sort, rename and run your downloads faster.
 
+[Bookmark search plus 2](https://addons.mozilla.org/en-US/firefox/addon/bookmark-search-plus-2/)
+> Search for both bookmarks and folders, displaying the exact location in the bookmark tree.
+
 [Checkmarks](https://addons.mozilla.org/en-US/firefox/addon/checkmarks-web-ext/)
 > Importing a new profile? Checkmarks sorts, formats, and loads bookmarks favicons.
 
