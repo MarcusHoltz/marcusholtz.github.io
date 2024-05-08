@@ -1,0 +1,101 @@
+{
+  "version": "1.9.2",
+  "date": 1715195988026,
+  "preferences": {
+    "automaticMode": {
+      "active": true,
+      "newTab": "created"
+    },
+    "notifications": false,
+    "container": {
+      "namePrefix": "tmp",
+      "color": "toolbar",
+      "colorRandom": false,
+      "colorRandomExcluded": [],
+      "icon": "circle",
+      "iconRandom": false,
+      "iconRandomExcluded": [],
+      "numberMode": "reuse",
+      "removal": 300000
+    },
+    "iconColor": "black-simple",
+    "isolation": {
+      "reactivateDelay": 0,
+      "global": {
+        "navigation": {
+          "action": "notsamedomain"
+        },
+        "mouseClick": {
+          "middle": {
+            "action": "never",
+            "container": "default"
+          },
+          "ctrlleft": {
+            "action": "never",
+            "container": "default"
+          },
+          "left": {
+            "action": "never",
+            "container": "default"
+          }
+        },
+        "excluded": {},
+        "excludedContainers": []
+      },
+      "domain": [],
+      "mac": {
+        "action": "disabled"
+      }
+    },
+    "browserActionPopup": true,
+    "pageAction": true,
+    "contextMenu": false,
+    "contextMenuBookmarks": false,
+    "keyboardShortcuts": {
+      "AltC": false,
+      "AltP": true,
+      "AltN": false,
+      "AltShiftC": false,
+      "AltX": false,
+      "AltO": false,
+      "AltI": false
+    },
+    "replaceTabs": true,
+    "closeRedirectorTabs": {
+      "active": true,
+      "delay": 2000,
+      "domains": [
+        "t.co",
+        "outgoing.prod.mozaws.net",
+        "slack-redir.net"
+      ]
+    },
+    "ignoreRequests": [
+      "getpocket.com",
+      "addons.mozilla.org"
+    ],
+    "cookies": {
+      "domain": {}
+    },
+    "scripts": {
+      "active": false,
+      "domain": {}
+    },
+    "deletesHistory": {
+      "active": false,
+      "automaticMode": "never",
+      "contextMenu": false,
+      "contextMenuBookmarks": false,
+      "containerAlwaysPerDomain": "never",
+      "containerIsolation": "never",
+      "containerRemoval": 0,
+      "containerMouseClicks": "never",
+      "statistics": false
+    },
+    "statistics": true,
+    "ui": {
+      "expandPreferences": false,
+      "popupDefaultTab": "statistics"
+    }
+  }
+}
