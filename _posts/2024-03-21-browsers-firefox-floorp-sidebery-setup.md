@@ -284,6 +284,14 @@ https://adaway.org/hosts.txt
 https://raw.githubusercontent.com/DandelionSprout/adfilt/master/AnnoyancesList
 ```
 
+* * *
+
+#### Import all of the mentioned uBlock Origin lists
+
+For quick import, you can use my entire uBlock Origin config - it has been exported and uploaded for your convenience.
+
+- [Download my entire uBlock Origin config](/assets/json/ublock.json) 👍
+
 
 * * *
 
@@ -337,6 +345,16 @@ In the `Isolation` section, look for `Per Domain`:
 
 * * *
 
+
+#### Import the above mentioned Temporary Containers config
+
+For quick import, you can use my Temporary Containers config - it has been exported and uploaded for your convenience.
+
+- [Download the Temporary Containers config](/assets/json/temporary_containers.json) 👍
+
+
+* * *
+
 > For more information about [`Multi-Account-Containers`](https://addons.mozilla.org/en-GB/firefox/addon/multi-account-containers) and [`Temporary Containers`](https://addons.mozilla.org/en-US/firefox/addon/temporary-containers/) visit the [Firefox Container Guide](https://chefkochblog.wordpress.com/2018/04/03/firefox-container-guide/).
 
 
@@ -362,6 +380,15 @@ In the Auto Tab Discard plugin, I find these options to work the best for me:
 
 * * *
 
+### Import the Auto Tab Discard config from above
+
+For quick import, you can use the Auto Tab Discard config below - it has been exported and uploaded for your convenience.
+
+- [Download the Auto Tab Discard config](/assets/json/auto_tab_discard.json) 👍
+
+
+* * *
+
 ## CanvasBlocker: 	Settings
 
 CanvasBlocker is a great plugin, but it can quickly ruin your browsing experience. I would recomend avoiding `Stealth settings` or `Maximum protection`. 
@@ -376,6 +403,14 @@ CanvasBlocker is a great plugin, but it can quickly ruin your browsing experienc
   - Choose the presets based on your needs. 
 
 
+
+* * *
+
+### Import the CanvasBlocker config from above
+
+For quick import, you can use the CanvasBlocker config below - it has been exported and uploaded for your convenience.
+
+- [Download this CanvasBlocker config](/assets/json/canvas_blocker.json) 👍
 
 
 * * *
