@@ -542,6 +542,7 @@ The script below will turn a vanilla Firefox profile into one that resembles my 
 All the `plugins` mentioned above will be installed along with the `user.js` and `userChrome.css` changes.
 
 > You will still need to configure `uBlock Origin` and all `Multi-Account` and `Temporary Containers`, as [mentioned above](https://blog.holtzweb.com/posts/browsers-firefox-floorp-sidebery-setup/#ublock-origin-addon).
+{: .prompt-tip }
 
 
 * * *
