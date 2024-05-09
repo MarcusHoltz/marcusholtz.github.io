@@ -12,10 +12,54 @@ image:
 
 # Sidebery addon setup inside Floorp browser
 
-I use the Sidebery addon with the Floorp browser as my primary means of browsing. Sidebery brings with it some extra features that need some customization. 
+I use the Sidebery addon with the Floorp browser as my primary means of browsing. You can accomplish the same thing in Firefox with my [ffProfile setup script](https://github.com/MarcusHoltz/Firefox/)🦊. 
 
+
+## New profile for Sidebery in Firefox
+
+To create a profile for Sidebery, similar to that of Floorp, in Firefox:
+
+- Visit 👉 [this repository](https://github.com/MarcusHoltz/Firefox/) 👈
+
+- Download [ffNewProfile.sh](https://raw.githubusercontent.com/MarcusHoltz/Firefox/main/ffNewProfile.sh) ⚡
+
+- and then run it. 🚀
+
+
+### Firefox new profile install script
+
+The script will turn a vanilla Firefox profile into one that resembles my Floorp setup.
+
+Below is a demonstration of the `ffNewProfile.sh` script and the changes to the new Firefox profile:
+
+![Firefox Profile Install Script](/assets/img/posts/firefox_profile_install.gif)
+
+
+* * *
+
+## Intoduction to Sidebery vertical tabs
+
+But no matter what browser you use, Sidebery will bring with it vertical tab browsing, and some extra features that need customization. 
+
+See the demonstration below for use of vertical tabs:
 
 ![Floorp with Sidebery addon, using vertical tabs](/assets/img/posts/FloorpVerticaltabs1.gif)
+
+
+
+* * *
+
+
+## Sidebery CSS changes
+
+Found under `Sidebery settings > Styles editor` you can modify some of the visual elements to Sidebery.
+
+Here are the color styles I use for my Sidebery:
+
+```css
+#root.root {--toolbar-bg: #161923 ;}
+#root.root {--frame-bg: #1A1B26 ;}
+```
 
 
 * * *
@@ -147,7 +191,7 @@ If you require a 64-bit version of all 9's, 99.9999999999999999 (that's 10 billi
 
 ### Tab Session Manager Addon
 
-- You can also use [Tab Session Manager](https://addons.mozilla.org/en-US/firefox/addon/tab-session-manager/) to backup your browsing history and tab sessions in the Downloads folder.
+- You can also use [Tab Session Manager](https://addons.mozilla.org/en-US/firefox/addon/tab-session-manager/) to backup your browsing history and tab sessions in the Downloads folder as well.
 
 - And you can have these [sync](https://syncthing.net/) to your VPS, NAS, FTP, as well. 
 
@@ -170,7 +214,8 @@ If you require a 64-bit version of all 9's, 99.9999999999999999 (that's 10 billi
 
 ## Vertical Tabs from scratch 
 
-If you want the slow-motion self-bake version of vertical tabs, check out [Sidetabs](https://addons.mozilla.org/en-US/firefox/addon/sidetabs/) by Jeb Nicholson.
+> If you want the slow-motion self-bake version of vertical tabs, check out [Sidetabs](https://addons.mozilla.org/en-US/firefox/addon/sidetabs/) by Jeb Nicholson.
+{: .prompt-info }
 
 Otherwise, you can continue to the Floorp customization below to enable vertical tabs:
 
@@ -209,18 +254,10 @@ Floorp Design Settings - 1/2
 
 Floorp Design Settings - 2/2
 
+
+
+
 * * *
-
-
-## Sidebery CSS changes
-
-Here are the color styles I use for my Sidebery:
-
-```css
-#root.root {--toolbar-bg: #161923     ;}
-#root.root {--frame-bg: #1A1B26 ;}
-```
-
 
 * * *
 
@@ -389,7 +426,7 @@ For quick import, you can use the Auto Tab Discard config below - it has been ex
 
 * * *
 
-## CanvasBlocker: 	Settings
+## CanvasBlocker: Settings
 
 CanvasBlocker is a great plugin, but it can quickly ruin your browsing experience. I would recomend avoiding `Stealth settings` or `Maximum protection`. 
 
@@ -403,7 +440,6 @@ CanvasBlocker is a great plugin, but it can quickly ruin your browsing experienc
   - Choose the presets based on your needs. 
 
 
-
 * * *
 
 ### Import the CanvasBlocker config from above
@@ -412,6 +448,9 @@ For quick import, you can use the CanvasBlocker config below - it has been expor
 
 - [Download this CanvasBlocker config](/assets/json/canvas_blocker.json) 👍
 
+
+
+* * *
 
 * * *
 
@@ -495,7 +534,7 @@ For quick import, you can use the CanvasBlocker config below - it has been expor
 
 * * *
 
-## Script to Install Vertical Tabs, Betterfox, and Addons
+## Script to install vertical tabs, Betterfox, and addons in Firefox
 
 The script below will turn a vanilla Firefox profile into one that resembles my Floorp setup.
 
@@ -506,12 +545,11 @@ All the `plugins` mentioned above will be installed along with the `user.js` and
 
 * * *
 
-### Firefox New Profile Creation Script
+### Firefox new profile creation script
 
-You can find the [Firefox New Profile Creation Script](https://raw.githubusercontent.com/MarcusHoltz/Firefox/main/ffNewProfile.sh) in 👆 [this repository](https://github.com/MarcusHoltz/Firefox/). 👆
+You can find the [Firefox New Profile Creation Script](https://raw.githubusercontent.com/MarcusHoltz/Firefox/main/ffNewProfile.sh) in 👉 [this repository](https://github.com/MarcusHoltz/Firefox/). 👈
 
-> You will need to download the script and then run it.
-
+> You will need to download the script and then run it. 🚀
 
 ![Firefox Profile Install Script](/assets/img/posts/firefox_profile_install.gif)
 
