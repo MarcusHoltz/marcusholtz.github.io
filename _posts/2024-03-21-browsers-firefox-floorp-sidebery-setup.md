@@ -70,6 +70,7 @@ Sidebery can go from `tabs --> bookmarks --> tabs`.
 
 > You can use your [bookmark sync](https://floccus.org/) to sync Sidebery tabs between devices as well.
 
+View the demonstration below to see how to use Sidebery tabs as bookmarks - and then back again: 
 
 ![Floorp with Sidebery addon, saving current tabs as bookmarks and then back again](/assets/img/posts/FloorpSideberyTabs2Bookmarks.gif)
 
