@@ -152,3 +152,16 @@ rm /root/pve-nodes-to-rename.tmp && echo -e "\nCOMPLETE! Temp/Backup files have 
 Thanks, hope this helps someone.
 
 [Source](https://www.youtube.com/@i12bretro/videos)
+
+
+
+
+* * *
+
+* * *
+
+## Having trouble?
+
+For a one-time donation you can get one-on-one troubleshooting support for any of my guides/projects. I'll help you fix any issue you may have encountered regarding usage/deployment of one of my guides or projects. More info in my [Github Sponsors profile](https://github.com/sponsors/MarcusHoltz).
+
+<iframe src="https://github.com/sponsors/MarcusHoltz/card" title="By sponsoring me, you're supporting my ongoing work and everything you've come to know me by -- cutting-edge and resilient systems with vigilant monitoring practices." height="225" width="600" style="border: 0;"></iframe>
