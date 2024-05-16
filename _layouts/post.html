@@ -4,6 +4,7 @@ refactor: true
 panel_includes:
   - toc
 tail_includes:
+  - sponsor
   - related-posts
   - post-nav
   - comments
@@ -97,6 +98,10 @@ tail_includes:
 
   <div class="content">
     {{ content }}
+  </div>
+
+  <div class="sammitches"> 
+    {% include sponsor.html %}  
   </div>
 
   <div class="post-tail-wrapper text-muted">
