@@ -18,7 +18,6 @@ order: 1
 │
 ├─▣ Systems Engineer
 ├─▣ Generally Fun Guy
-├─▣ <a href="https://marcusholtz.github.io/">Technical projects blog</a>
 ├─▣ More info available at <a href="https://holtzweb.com/">Holtzweb</a>
 │
 └───────────────────────────────▰▰▰
@@ -26,27 +25,51 @@ order: 1
 ┌──┤ SOCIAL ├─────────▰▰▰
 │
 ├─◈ <a href="mailto:marcusaholtz+github@gmail.com">Email</a>
-├─◈ <a href="https://t.me/InvalidDisk">Telegram</a>
+├─◈ <a href="https://linkedin.com/in/marcus-holtz">LinkedIn</a>
+├─◈ <a href="https://github.com/MarcusHoltz/">Github</a>
 ├─◈ <a href="https://mattermost.sofree.us/sfs303/messages/@marcus">Mattermost</a>
-├─◈ <a href="https://www.youtube.com/@vvwvwwvvwvwvvw">YouTube</a>
-├─◈ <a href="https://www.facebook.com/DepartmentofDefense">Facebook</a>
+├─◈ Selfie Photo: `curl -sL holtzweb.com/photo | bash`
 ├─◈ Business Card: `curl -sL holtzweb.com/card`
 │
 └───────────────────────────────▰▰▰
 
-┌──┤ PROJECTS ├───────▰▰▰
-│
-├─◈ <a href="https://github.com/MarcusHoltz/resume-generator">Dockerized Pandoc Resume Generator</a>
-├─◈ <a href="https://github.com/MarcusHoltz/tmux-screen-rotate">TTY0 Tmux System Info Shuffler</a>
-├─◈ <a href="https://marcusholtz.github.io/proxmox">Proxmox Install and Configuration</a>
-├─◈ <a href="https://is.gd/browserprivacy">Browser Security Presentation</a>
-├─◈ <a href="https://www.holtzweb.com/openwrt-presentation.html">OpenWRT Router Firmware Presenation</a>
-│
-└───────────────────────────────▰▰▰
 </pre>
 
 <br/>
 <br/>
+
+
+* * * 
+
+# About Me 😃
+
+* * *
+
+## Overview 🧭
+
+Welcome to my Blog! I'm passionate about open source software, administration, infrastructure, and monitoring/logging systems. With extensive experience in these areas, I have deliverd tailored, robust, impactful solutions that optimize performance and enhance security for businesses and organizations.
+
+If you're interested in collaborating on a custom project or guide tailored to your specific needs, feel free to [reach out to me](https://www.holtzweb.com/).
+
+
+* * *
+
+## Sponsor Me 🎉
+
+I have maintained and developed these projects in an attempt to give back to the community. If you find my work valuable and would like to support my ongoing efforts, please consider becoming a sponsor. Your sponsorship enables me to continue creating useful solutions to the open-source community.
+
+[**Sponsor Now**](https://github.com/sponsors/MarcusHoltz)
+
+
+* * *
+
+## Contact Me ✉
+
+If you're interested in collaborating on a custom project or have any questions, feel free to curl my contact information: `curl -sL holtzweb.com/card`
+
+
+
+* * *
 
 ## Favorite Tech 💻
 
@@ -79,6 +102,3 @@ order: 1
 ### Visitor count
 ![Visitor Count](https://profile-counter.glitch.me/MarcusHoltz/count.svg)
 
-
-
-⭐️ From [Marcus Holtz](https://github.com/MarcusHoltz)
