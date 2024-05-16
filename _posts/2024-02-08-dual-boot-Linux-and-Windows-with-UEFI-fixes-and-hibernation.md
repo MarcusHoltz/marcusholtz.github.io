@@ -13,7 +13,7 @@ image:
 
 # Emergency Fix for Dual Boot 
 
-Presumably anyone reading this has mostlikly already attempted to dual boot and is here for a fix or information. Please skip to [// end dual boot uefi fix](#// end dual boot uefi fix) if you do not need an emergency fix for dual boot.
+Presumably anyone reading this has mostlikly already attempted to dual boot and is here for a fix or information. Please skip to [end dual boot uefi fix](#end dual boot uefi fix) if you do not need an emergency fix for dual boot.
 
 Let's review the most common problem after installing a dual boot linux based OS.... UEFI 
 
@@ -121,7 +121,11 @@ to
 Boot    Microsoft 
 ```
 
-## // end dual boot uefi fix
+* * *
+
+## End of the Dual Boot UEFI fixes
+
+* * *
 
 
 # Windows system preperation
