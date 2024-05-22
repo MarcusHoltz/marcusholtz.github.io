@@ -43,21 +43,22 @@ The script can, optionally, take two arguments:
 
 * * *
 
-## Examples Usage
+# Examples Usage
 
 * * * 
 
 
-### Linux 
+## Download on Linux 
 
 You can download the Bash version of this script here:
 
 ```
-wget https://raw.githubusercontent.com/MarcusHoltz/copy-m3u-playlist-files/main/copy-m3u-playlist-files-to-directory.ps1
+wget https://raw.githubusercontent.com/MarcusHoltz/copy-m3u-playlist-files/main/copy-m3u-playlist-files-to-directory.sh
 ```
 
+* * * 
 
-#### Running on Bash
+### Running on Bash
 
 Using the bash version of this script as an example, run this Bash script with a command like:
 
@@ -68,7 +69,9 @@ bash copy-m3u-playlist-files-to-directory.sh name-of-playlist.m3u /home/user/Mus
 
 * * * 
 
-### Windows
+* * * 
+
+## Download on Windows
 
 You can download the Powershell version of this script to a specified directory with a command like:
 
@@ -77,7 +80,9 @@ Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MarcusHoltz/copy-m3u-p
 ```
 
 
-#### Running on Windows Powershell
+* * * 
+
+### Running on Windows Powershell
 
 Using the Powershell version of this script you just downloaded, run the Powershell script with:
 
@@ -88,7 +93,9 @@ copy-m3u-playlist-files-to-directory.ps1 name-of-your-playlist.m3u C:\path\to\de
 
 * * * 
 
-### Python
+* * * 
+
+## Download using Python
 
 To download the Python version, with more Python...
 
@@ -105,7 +112,9 @@ with open("copy-m3u-playlist-files-to-directory.py", "wb") as file:
 ```
 
 
-#### Running the Python script with Python
+* * * 
+
+### Running the Python script with Python
 
 To run the downloaded Python script:
 
