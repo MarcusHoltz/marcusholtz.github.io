@@ -1,6 +1,6 @@
 ---
 title: Create a copy of your playlist files to a directory
-date: 2024-03-19 11:33:00 -0700
+date: 2024-05-21 11:33:00 -0700
 categories: [Script, Files]
 tags: [administration, techtip, script, rename, files, playlist]
 pin: false
