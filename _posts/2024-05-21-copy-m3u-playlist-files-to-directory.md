@@ -1,5 +1,5 @@
 ---
-title: Create a copy of your playlist files to a directory
+title: Create a copy of your playlist's music files to a directory
 date: 2024-05-21 11:33:00 -0700
 categories: [Script, Files]
 tags: [administration, techtip, script, rename, files, playlist]
@@ -43,7 +43,7 @@ The script can, optionally, take two arguments:
 
 * * *
 
-# Examples Usage
+# Usage Examples
 
 * * * 
 
@@ -60,7 +60,7 @@ wget https://raw.githubusercontent.com/MarcusHoltz/copy-m3u-playlist-files/main/
 
 ### Running on Bash
 
-Using the bash version of this script as an example, run this Bash script with a command like:
+Using the bash version of this script, run the script with:
 
 ```
 bash copy-m3u-playlist-files-to-directory.sh name-of-playlist.m3u /home/user/Music/somefiles
@@ -99,7 +99,7 @@ copy-m3u-playlist-files-to-directory.ps1 name-of-your-playlist.m3u C:\path\to\de
 
 To download the Python version, with more Python...
 
-Create and run this fun python script to download the file:
+Create and run this python script to download the file:
 
 ```
 import urllib.request
@@ -129,4 +129,6 @@ python copy-m3u-playlist-files-to-directory.py example-playlist.m3u /path/to/des
 
 ## Thanks!
 
-You can find this repo at [https://github.com/MarcusHoltz/copy-m3u-playlist-files/](https://github.com/MarcusHoltz/copy-m3u-playlist-files/). 😎
+You can find more information about this repo at:
+
+[https://github.com/MarcusHoltz/copy-m3u-playlist-files/](https://github.com/MarcusHoltz/copy-m3u-playlist-files/).
