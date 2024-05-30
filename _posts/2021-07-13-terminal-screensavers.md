@@ -255,17 +255,20 @@ This github repo has a setup to run a screensaver every XX time alotment. This i
 [Best collection of Terminal Based screensavers](http://mewbies.com/acute_terminal_fun_02_view_ascii_art_ansi_art_and_movies_on_the_terminal.htm)
  
  
- 
+* * *
 * * *
 
 ## Bonus Points:
+
 > Install Unreal Tournament and have BOTS play eachother:
 {: .prompt-info }
+
 [Text Mode Unreal Tournament](http://icculus.org/~chunky/ut/aaut/)
  
+* * *
+* * *
 
-
-# Terminal Text Effects
+## Terminal Text Effects
 
 ![TerminalTextEffects](https://chrisbuilds.github.io/terminaltexteffects/img/application_demos/shadow_title_blackhole.gif)
 
@@ -274,7 +277,9 @@ Another neat terminal effect you can use is: TerminalTextEffects (TTE).
 - TTE can be installed as a system application to produce effects in your terminal, or as a Python library to enable effects within your Python scripts/applications.
 
 
-## View the TTE effects showroom
+* * *
+
+### View the TTE effects showroom
 
 The effects showroom display the built-in library of effects and their default configuration. 
 
