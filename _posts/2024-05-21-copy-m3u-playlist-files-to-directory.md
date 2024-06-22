@@ -131,4 +131,4 @@ python copy-m3u-playlist-files-to-directory.py example-playlist.m3u /path/to/des
 
 You can find more information about this repo at:
 
-[https://github.com/MarcusHoltz/copy-m3u-playlist-files/](https://github.com/MarcusHoltz/copy-m3u-playlist-files/)
+[https://github.com/MarcusHoltz/copy-m3u-playlist-files/](https://github.com/MarcusHoltz/copy-m3u-playlist-files/) - [ 🎶 ](/assets/html/Internet-Radio-Stations.m3u)
