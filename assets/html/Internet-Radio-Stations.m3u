@@ -1,0 +1,99 @@
+#EXTM3U
+#EXTINF:-1,------------------------##********Top-8-ish********##------------------------
+------------------------##********Top-8-ish********##------------------------
+#EXTINF:-1,[Underground Eighties] - UK Synthpop and a bit of New Wave. - (SomaFM)                                                                                                            ~~~ EXAMPLES ==> Human League - Devo - Thompson Twins - Kraftwerk
+http://ice2.somafm.com/u80s-128-mp3
+#EXTINF:-1,[Gem Radio New Wave] - The Irish standard for 80s synthpop and 70s disco radio. - (Gem FM New Wave)                                                                               ~~~ EXAMPLES ==> ABC - The Specials - Howard Jones - Sex Pistols
+http://europa.shoutca.st:8928/stream
+#EXTINF:-1,[OverClocked Remix] - Videogame music arrangements and re-interpretations. - (RainwaveCC)                                                                                         ~~~ EXAMPLES ==> Faxanadoom - Controlled Jazz - Moondust - Eight Magics
+http://allrelays.rainwave.cc/ocremix.mp3
+#EXTINF:-1,[WSIE 88.7] -  St. Louis' home for great Jazz, Smooth Jazz, Blues and Easy R&B. - (SIUE)                                                                                          ~~~ EXAMPLES ==> The Crusaders - Dave Brubeck - Return to Forever
+http://streaming.siue.edu:8000/wsie
+#EXTINF:-1,--------------##**********GAME**********##-------------
+--------------##**********GAME**********##-------------
+#EXTINF:-1,[OverClocked Remix] - Videogame music arrangements and re-interpretations. - (RainwaveCC)                                                                                         ~~~ EXAMPLES ==> Tristram Rock - Rocket Belt - Passing Breeze - Aquatic Ambience
+http://allrelays.rainwave.cc/ocremix.mp3
+#EXTINF:-1,[All Videogame Music] - Every game and remixes from the library. - (RainwaveCC)                                                                                                   ~~~ EXAMPLES ==> Chiptunes, OCRemix, Covers, Game, OST
+http://allrelays.rainwave.cc/all.mp3
+#EXTINF:-1,[Cover Songs] - Videogame covers and remixes, official and fan made. - (RainwaveCC)                                                                                               ~~~ EXAMPLES ==> Mii Channel - Bowser Castle - Chrono Trigger - Commando
+http://allrelays.rainwave.cc/covers.mp3
+#EXTINF:-1,[Videogame OSTs] - Original music straight outta of the game. - (RainwaveCC)                                                                                                      ~~~ EXAMPLES ==> One-Winged Angel - Grabbag - Gravity Man Stage
+http://allrelays.rainwave.cc/game.mp3
+#EXTINF:-1,[CVGM] - CVGM stands for Computer & Video Game Music. It can also stand for Classic Video Game Music. - (cvgm.net)                                                                ~~~ EXAMPLES ==> 1988 Top 40 MEGAMIX, 3 Ninjas Kick Back: Escape, 3-D Ultra Pinball: Creep Night - Castle Main
+http://radio.cvgm.net:8000/cvgm192
+#EXTINF:-1,[SLAY Radio] - Bass, drum, and guitar mixes from C64. Sounds like rock music. Based out of Gothenburg, Sweden. - (slayradio.org)                                                  ~~~ EXAMPLES ==> Golden Axe rmx, Parallax - Loader [SID Remake], Storm Sweet Remix (Synth Guitar), Remix64
+http://relay1.slayradio.org:8000
+#EXTINF:-1,[CGM UK DemoScene Radio] - 8 & 16bit retro tracked, chip & module music - (www.lmp.d2g.com)                                                                                       ~~~ EXAMPLES ==> The songs you will hear on this station were created on various computer platforms
+http://www.lmp.d2g.com:8003/
+#EXTINF:-1,[CGM RasPi UKScene Stream] - Playing the very best in chip and module music - (CGM UKScene DemoScene RasPi MPD Stream)                                                            ~~~ EXAMPLES ==> Electronic, Demoscene, C64, Amiga, Chiptune, Spectrum, PC
+http://cgm-stream.noip.me:8000/mpd
+#EXTINF:-1,[Nectarine Demoscene Radio] - Tribute to the great chiptune, mod, & demoscene artists. No videogame remixes. - (scenestream.net)                                                  ~~~ EXAMPLES ==> 95 house-megamix, Benny Wildstyle, Beverly Hills Funk, Signal Void
+http://necta.burn.net:8000/nectarine
+#EXTINF:-1,[ERICADE Radio Network] - The magic of electronic retro computer-music awaits you, it's called tracked music. - (ericade.net)                                                     ~~~ EXAMPLES ==> Crystalintro, Font show, The final mod, My Little Synth Pony
+https://radio.ericade.net/sc/stream/1/
+#EXTINF:-1,[Chiptunes] - Beeps, blorps, square waves, triangle, sawtooth, and more - (RainwaveCC)                                                                                            ~~~ EXAMPLES ==> Stage 1 - Jungle - Title Theme - End Credits
+http://allrelays.rainwave.cc/chiptune.mp3
+#EXTINF:-1,-------------!##**********JAZZ**********##-------------
+--------------##**********JAZZ**********##-------------
+#EXTINF:-1,[WSIE 88.7] -  St. Louis' home for great Jazz, Smooth Jazz, Blues and Easy R&B. - (SIUE)                                                                                          ~~~ EXAMPLES ==> Dave Brubeck - Bill Evans - Ronnie Laws
+http://streaming.siue.edu:8000/wsie
+#EXTINF:-1,[KUVO 89.3] - Breckenridge/Denver CO's public jazz station. - (kuvo.org)                                                                                                          ~~~ EXAMPLES ==> Local News, Twisted Blues, SamboJazz , Pat Metheny, Tierra
+http://kuvo-ice.streamguys.org/kuvo-mp3-128
+#EXTINF:-1,[TheJazzGroove] - Laid-Back Jazz. Cool. Elegant. - (TheJazzGroove.com)                                                                                                            ~~~ EXAMPLES ==> John Coltrane - Duke Ellington - Wynton Marsalis - Sonny Clark
+http://mp3-128.streamthejazzgroove.com/
+#EXTINF:-1,--------------##*********SOMAFM*********##-------------
+--------------##*********SOMAFM*********##-------------
+#EXTINF:-1,[Underground Eighties] - UK Synthpop style of the early 80s with a bit of new wave splashed in. - (SomaFM)                                                                        ~~~ EXAMPLES ==> Joy Division - Yaz - The Cars - Black - Blancmange
+http://ice2.somafm.com/u80s-128-mp3
+#EXTINF:-1,[Gem Radio New Wave] - The Irish standard for 80s synthpop and 70s disco radio. - (Gem FM New Wave)                                                                               ~~~ EXAMPLES ==> ABC - The Specials - Howard Jones - Sex Pistols
+http://europa.shoutca.st:8928/stream
+#EXTINF:-1,[Secret Agent FM] - The soundtrack for your stylish, mysterious, dangerous life. For Spys and P.I.'s too! - (SomaFM)                                                              ~~~ EXAMPLES ==> Thievery Corporation - Chris Joss - Bobby Trafalgar - James Bond
+http://ice2.somafm.com/secretagent-128-mp3
+#EXTINF:-1,[Sonic Universe] - Nu Jazz with experimental takes on tradition. - (SomaFM)                                                                                                       ~~~ EXAMPLES ==> Pat Metheny - Marilyn Mazur - John Coltrane - Ibrahim Maalouf
+http://ice2.somafm.com/sonicuniverse-128-mp3
+#EXTINF:-1,[Reggae] - Reggae, Ska, Rocksteady classic and deep tracks. - (SomaFM)                                                                                                            ~~~ EXAMPLES ==> The Heptones - Horace Andy - Don Drummond - The Techniques
+http://ice6.somafm.com/reggae-128-mp3
+#EXTINF:-1,[Covers] - Just covers. Songs you know by artists you don't. - (SomaFM)                                                                                                           ~~~ EXAMPLES ==> For You, Anything
+http://ice2.somafm.com/covers-128-mp3
+#EXTINF:-1,[Left Coast 70s] - Drawing influences when the mood was mellow, and the vibe was softer. - (SomaFM)                                                                               ~~~ EXAMPLES ==> Steely Dan - Joe Walsh - Boz Scaggs - Dire Straits
+http://ice4.somafm.com/seventies-128-mp3
+#EXTINF:-1,------------##*********FUNK&HIPHOP*********##----------
+------------##*********FUNK&HIPHOP*********##----------
+#EXTINF:-1,[100 Hip Hop and RNB] - Today's R&B, hip-hop, and throwbacks. - (internet-radio.com & 100HipHopandRNB.FM)                                                                         ~~~ EXAMPLES ==> Sheryl Underwood, J. Anthony Brown, Cayman Kelly, Lorenzo Ice-Tea Thomas, K. Foxx
+http://192.99.41.102:5429/stream
+#EXTINF:-1,[Classic Funk and Groove] - Rare & classic groove, soul, funk, and swing songs. - (internet-radio.com)                                                                            ~~~ EXAMPLES ==> James Brown - Herbie Hancock - Morris Day - Marvin Gaye
+http://94.23.57.5:9063/stream
+#EXTINF:-1,[WEFUNK Radio] - Hip-Hop, funk, soul, classic, and rare grooves. - (wefunkradio.com)                                                                                              ~~~ EXAMPLES ==> broadcasting from Montreal - Deodato - Kendrick Lemar - Marvin Gaye - DJ Smash - DJ Cam
+http://s-10.wefunkradio.com:81/wefunk64.mp3
+#EXTINF:-1,------------##******ElectronicLounge******##-----------
+------------##******ElectronicLounge******##-----------
+#EXTINF:-1,[Lounge-radio.com] - Spinning space traveler tunes swiss made. - (LOUNGE-RADIO.COM)                                                                                               ~~~ EXAMPLES ==> Misc Everything
+http://77.235.42.90:80
+#EXTINF:-1,[Proton Radio] - Streaming electronic music with guest DJ sets. - (Proton LLC)                                                                                                    ~~~ EXAMPLES ==> Breaks, Minimal, Progressive, House, Techno, Electro
+http://shoutcast.protonradio.com:7000/stream
+#EXTINF:-1,[plusfm] - Mixture of Electro, Pop, Trip-Hop, Downtempo, Lounge, acid-jazz and deep-house tracks. - (PLUSFM.NET)                                                                  ~~~ EXAMPLES ==> Electro Pop, TripHop, Deep House, Acid Jazz, Groove, Funk, Germany, France, French
+https://stream.plusfm.net/stream/1/
+#EXTINF:-1,--------------##*********LOCAL*********##--------------
+--------------##*********LOCAL*********##--------------
+#EXTINF:-1,[KGNU 88.5] - Boulder/Denver CO's community AM/FM radio station. - (kgnu.org)                                                                                                     ~~~ EXAMPLES ==> Local News, NPR, Phish, Curtis Mayfield, The Youngbloods
+https://kgnu.streamguys1.com/kgnu
+#EXTINF:-1,[WDBX 91.1] - Carbondale's local community supported LPFM station. - (SIUC)                                                                                                       ~~~ EXAMPLES ==> The Mad Hippie Show, Folk Fiasco, Chuck's Place, The Electric Blues Hours
+https://stream.pacificaservice.org:9000/wdbx
+#EXTINF:-1,[CHEV-FM 94.5] - Exploits Valley Community Radio, Grand Falls-Windsor, NL, Canada. - (evcr.dyndns.org)                                                                            ~~~ EXAMPLES ==> Genesis, Deep Purple, Chicago, The Eagles
+http://janus.shoutca.st:8538/evcr
+#EXTINF:-1,[WXRV 92.5] - An adult alternative radio station covering Massachusetts and Boston. - (The River)                                                                                 ~~~ EXAMPLES ==> Arcade Fire - Tears for Fears - Snow Patrol - Foo Fighters
+http://72.13.83.130:8010
+#EXTINF:-1,[KKFI 90.1] - Independent, volunteer-based, community radio station based in Kansas City, Missouri. - (UMKC)                                                                      ~~~ EXAMPLES ==> blues, jazz, reggae, rock, hip hop, alternative
+http://pacificaservice.org:8000/kkfi_64
+#EXTINF:-1,[Danish Broadcasting Corporation] - P6 Beat is a digital alternative music in Copenhagen, Denmark. - (dr.dk/p6)                                                                   ~~~ EXAMPLES ==> Red Hot Chili Peppers, Miike Snow, Arcade Fire
+http://live-icy.gss.dr.dk:8000/A/A29H.mp3
+#EXTINF:-1,[MMM 105.1] - Triple M is a national radio station in Australia, playing popular classic rock music - (triplem.com.au)                                                            ~~~ EXAMPLES ==> Local Ads, Eagles, Elton John, Billy Joel
+https://wz2liw.scahw.com.au/live/2mmm_128.stream/playlist.m3u8
+#EXTINF:-1,--------------##********PROGROCK********##--------------
+--------------##********PROGROCK********##--------------
+#EXTINF:-1,[ProgRock.com] - Chicago based progressive rock live show. - (PROGROCK.COM)                                                                                                       ~~~ EXAMPLES ==> Soundscape, Prog-Scure, Music Unframed, New At Noon
+http://104.251.122.71:8287/stream
+#EXTINF:-1,[Stellar Attraction] - Playing Progressive Rock and associated sub-genres. - (stellar-attraction.com)                                                                             ~~~ EXAMPLES ==> Yes, Pink Floyd, ELP, Genesis, Jethro Tull
+http://77.68.36.137:8000/stream
+#EXTINF:-1,[House of Prog] - Progressive music archive featuring an all vinyl show. - (houseofprog.com)                                                                                      ~~~ EXAMPLES ==> Metamorphosis, Genesis, Miriodor, Quel Che Disse Il Tuono
+http://canada1.reliastream.com:8888/stream
