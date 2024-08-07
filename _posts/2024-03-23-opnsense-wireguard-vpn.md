@@ -646,7 +646,7 @@ A lot of this was the same as the inital Roadwarrior setup in the beginning. The
 
 2. Each WireGuard Instance should have a unique `tunnel address` on the same subnet.
 
-3. A `Peer` with the `public key` that was generated from each Instance.
+3. A `Peer` was added with the `public key` that was generated from the server we're going to connect to's Instance.
 
 4. The `Peer` needs to have each subnet from the other `Site` listed in the `Allowed IPs`.
 
