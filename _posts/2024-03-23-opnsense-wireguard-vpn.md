@@ -582,7 +582,7 @@ This part is where you will setup each individual key connecting to WireGuard, a
 
 3. Enable the `advanced mode` toggle in the upper corner.
 
-4. Name - `wgopn1-memestor`
+4. Name - `wgopn2-flwrstor`
 
 5. Public Key - Insert the public key of the instance from `wgopn2-flwrstor`.
 > Remember, when you were in Detroit? You setup an OPNsense WireGuard Instance at Sarah's Flower Shop. 
@@ -592,7 +592,7 @@ This part is where you will setup each individual key connecting to WireGuard, a
 
 7. Endpoint Address - This is set to the public IP of the WireGuard Instance we're connecting to, `203.0.113.2`.
 
-8. Instances - Select the `Site B` Instance that was created earlier, `wgopn2-flwrstor`.
+8. Instances - Select the Instance to connect this Peer to, `wgopn1-memestor`.
 
 9. Save
 
@@ -617,7 +617,7 @@ Again, setup the key, IPs, and Instance connecting to MSB HQ's WireGuard.
 
 3. Enable the `advanced mode` toggle in the upper corner.
 
-4. Name - `wgopn2-flwrstor`
+4. Name - `wgopn1-memestor`
 
 5. Public Key - Insert the public key of the instance from `wgopn1-memestor`.
 > Remember, when you were in Detroit? You setup an OPNsense WireGuard Instance at Sarah's Flower Shop. 
@@ -627,7 +627,7 @@ Again, setup the key, IPs, and Instance connecting to MSB HQ's WireGuard.
 
 7. Endpoint Address - This is set to the public IP of the WireGuard Instance we're connecting to, `203.0.113.1`.
 
-8. Instances - Select the `Site A` Instance that was created earlier, `wgopn1-memestor`.
+8. Instances - Select the Instance to connect this Peer to, `wgopn2-flwrstor`.
 
 9. Save
 
