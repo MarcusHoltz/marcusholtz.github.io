@@ -157,9 +157,9 @@ Some App -> WireGuard -> Destination IP in tunnel -> Public key for peer holding
 
 ## WireGuard on the peer's client machine
 
-**WireGuard is an exchange of keys.** Your OPNsense firewall's WireGuard cannot connect with a peer it doesnt have a key for. So, go ahead and skip this step if you're doing a [WireGuard Site-to-Site VPN](#wireguard-tunnel-subnet-interface).
+**WireGuard is an exchange of keys.** Your OPNsense firewall's WireGuard cannot connect with a peer it doesnt have a key for. Go ahead and skip this step if you're not using WireGuard as a Roadwarrior setup. This step is for the client machine's peer setup. If you're doing a WireGuard Site-to-Site VPN you may [proceed to the interface creation](#wireguard-tunnel-subnet-interface).
 
-There are many ways to do this, we'll use **COPY/PASTE**.
+There are many ways to do this, we'll use **COPY/PASTE**. For ease of use, you can copy/paste a generated config from OPNsense in the [WireGuard Peer Generator](#wireguard-peer-creation---peer-generator) instead of using the clients below to generate one.
 
 
 ### What is your machine?
@@ -308,7 +308,7 @@ This is the configuration for the tunnel address of the OPNsense endpoint, the *
 
 5. Public Key - Hit the cog. You will see a series of characters with an equals sign that will always appear at the end.
  
-7. Keep hitting the cog until a public key with a series of numbers and letters appears without any special characters (except the =, it indicates the end of the key).
+7. Keep hitting the cog until a public key with a series of numbers and letters appears without any special characters (except the = indicates the end of the key).
 
 8. Listen Port - `51820`
 
@@ -329,18 +329,18 @@ This is the configuration for the tunnel address of the OPNsense endpoint, the *
 
 `VPN ‣ WireGuard ‣ Settings ‣ Peers ‣ Allowed IPs` - These are what IP addresses are going to be permitted over the tunnel.
 
-You can send and the server will receive it, but it will do nothing and send nothing back... UNLESS you have the IP of the Endpoint (in it's `[Interface]` `Address = ` section) on the Allowed IPs list for the endpoint.
+You can send and the server will receive it, but it will do nothing and send nothing back... UNLESS you have the SUBNET of the Endpoint's routable network (in it's `[Interface]` `Address = ` section) on the Allowed IPs list for that endpoint.
 
 This is why you have to configure every client that wants to connect to this firewall/WireGuardserver. (Unless they're sharing certificates.)
 
-That client should have created the private/public key pair, and you will paste the public key.
+That client should have created the private/public key pair, and you will paste the public key... or, try the new and easy method of The Peer Generator.
 
 
 * * *
 
 #### WireGuard peer creation - Peer Generator
 
-Using the generator, you will not need the public key set earlier, it is defined in the generator. The peer generator will also load in the correct `Address` for you, but the rest needs set. If you're doing a WireGuard Site-to-Site VPN go ahead and [skip this step](#setting-up-wireguard-on-each-instance-of-opnsense-for-site-to-site).
+Using the generator, you will not need the public key set earlier, it is defined in the generator. The peer generator will also load in the correct `Address` for you, but the rest needs set. If you're doing a WireGuard Site-to-Site VPN go ahead and [skip this step, and head to Instance/Peer creation](#setting-up-wireguard-on-each-instance-of-opnsense-for-site-to-site).
 
 1. `VPN ‣ WireGuard ‣ Settings ‣ Peer Generator`
 
@@ -567,11 +567,15 @@ We can ignore these steps if you've already got the first `Instance` from above 
 
 6. Copy (and label) this `public key` somewhere, as we will need it shortly.
 
-7. Tunnel Address - `10.2.2.1/24`
+7. Listen Port - `51820`
 
-8. Save
+8. DNS servers - Give the address of the router, on the Tunnel address' peer's Allowed IPs subnet.
 
-9. Apply
+9. Tunnel Address - `10.2.2.1/24`
+
+10. Save
+
+11. Apply
 
 * * *
 
@@ -602,6 +606,10 @@ Back in another Instance of OPNsense, we are going to follow mostly the same ste
 8. Public Key - `Generate` with “Generate new keypair” cog looking button.
 
 9. Copy this `public key` somewhere, as we will need it shortly.
+
+10. Listen Port - `51820`
+
+8. DNS servers - Give the address of the router, on the Tunnel address' peer's Allowed IPs subnet.
 
 10. Tunnel Address - `10.2.2.2/24`
 
