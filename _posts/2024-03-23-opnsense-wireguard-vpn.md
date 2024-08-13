@@ -639,23 +639,21 @@ This part is where you will setup each individual key connecting to WireGuard, a
 
 2. New (Click on the + symbol)
 
-3. Enable the `advanced mode` toggle in the upper corner.
+3. Name - `wgopn2-flwrstor`
 
-4. Name - `wgopn2-flwrstor`
-
-5. Public Key - Insert the public key of the instance from `wgopn2-flwrstor`.
+4. Public Key - Insert the public key of the instance from `wgopn2-flwrstor`.
 > Remember, when you were in Detroit? You setup an OPNsense WireGuard Instance at Sarah's Flower Shop. 
 
-6. Allowed IPs - `10.2.2.2/32 192.168.0.0/24`
-> You are allowing the static IP of Sarah's Flower Shop Server's WireGuard Instance's tunnel.
+5. Allowed IPs - `10.2.2.2/24 192.168.0.0/24`
+> You are allowing the subnet IPs of Sarah's Flower Shop Server's WireGuard Instance's tunnel (10.2.2.2/24) and the subnet for Site B LAN (Sarah's Flower Shop's Detroit based server's subnet).
 
-7. Endpoint Address - This is set to the public IP of the WireGuard Instance we're connecting to, `203.0.113.2`.
+6. Endpoint Address - This is set to the public IP of the WireGuard Instance we're connecting to, `203.0.113.2`.
 
-8. Instances - Select the Instance to connect this Peer to, `wgopn1-memestor`.
+7. Instances - Select the Instance to connect this Peer to, `wgopn1-memestor`.
 
-9. Save
+8. Save
 
-10. Apply
+9. Apply
 
 * * * 
 
@@ -679,23 +677,21 @@ Again, setup the key, IPs, and Instance connecting to MSB HQ's WireGuard.
 
 2. New (Click on the + symbol)
 
-3. Enable the `advanced mode` toggle in the upper corner.
+3. Name - `wgopn1-memestor`
 
-4. Name - `wgopn1-memestor`
+4. Public Key - Insert the public key of the instance from `wgopn1-memestor`.
+> The public key you have printed and locked in a firesafe back at the Meme Storage Bunker Headquarters.
 
-5. Public Key - Insert the public key of the instance from `wgopn1-memestor`.
-> Remember, when you were in Detroit? You setup an OPNsense WireGuard Instance at Sarah's Flower Shop. 
+5. Allowed IPs - `10.2.2.1/32 172.16.0.0/24`
+> The is for the subnet of IPs for home's MSB WireGuard Instance tunnel (10.2.2.1/24) and the subnet for Site A LAN (Meme Storage Bunker at home server's subnet).
 
-6. Allowed IPs - `10.2.2.1/32 172.16.0.0/24`
-> You are allowing the static IP of Sarah's Flower Shop Server's WireGuard Instance's tunnel.
+6. Endpoint Address - This is set to the public IP of the WireGuard Instance we're connecting to, `203.0.113.1`.
 
-7. Endpoint Address - This is set to the public IP of the WireGuard Instance we're connecting to, `203.0.113.1`.
+7. Instances - Select the Instance to connect this Peer to, `wgopn2-flwrstor`.
 
-8. Instances - Select the Instance to connect this Peer to, `wgopn2-flwrstor`.
+8. Save
 
-9. Save
-
-10. Apply
+9. Apply
 
 * * *
 
@@ -816,7 +812,7 @@ This area is where the networking configuration begins.
 
 We are starting to shape where our traffic can and cannot go. 
 
-Please note, much of this can be changed for preference and is not ridged. 
+Please note this can be changed for preference and is not ridged. 
 
 
 * * *
@@ -1046,7 +1042,9 @@ You should now have a working WireGuard VPN.
 * * * 
 
 
-**You may skip this section** if you do not require firewalling for a site-to-site WireGuard VPN, or you are strictly `using` this as a way to `remote devices` into your OPNsense router's subnet.
+**You may skip this section** if you do not require detailed firewalling for a site-to-site WireGuard VPN. Please note, this is not required, most can be changed for preference, and should not be considered ridged. 
+
+If you are strictly `using` this as a way to `remote devices` into your OPNsense router's subnet, you will not need to concern yourself with the details below.
 
 
 * * *
