@@ -1459,9 +1459,9 @@ Endpoint = <Public IP of the OPNsense firewall>:<WireGuard Port>
 
 If any of this is out of date, send me a pull request. I would love the chance to update this if there's a change. 
 
-At the time of writing **OPNsense is at version 24.1.4**
+At the original time of writing **OPNsense is at version 24.1.4**
 
-
+The updates that appear were done for **OPNsense at version 24.7.1**
 
 
 * * *
