@@ -362,6 +362,8 @@ Using the generator, you will not need the public key set earlier, it is defined
 8. `Config` - Here lies the generated WireGuard config. Copy this text and save it to for your client, 'WireGuard-memestor.conf'
 > You will NOT get a chance to copy the 'Private Key' again, as it will only appear on here this screen, now. Refresh, clears it - Save, clears it. 
 
+* * *
+
 
 ![OPNsense and WireGuard automatic peer generator](/assets/img/posts/OPNsense-and-Wireguard--PEER-Generator.png)
 
@@ -571,6 +573,8 @@ We can ignore these steps if you've already got the first `Instance` from above 
 
 9. Apply
 
+* * *
+
 
 ![WireGuard interface creation on the meme storage bunker's OPNsense firewall](/assets/img/posts/OPNsense-and-Wireguard--HOME--instance-creation.png)
 
@@ -604,6 +608,8 @@ Back in another Instance of OPNsense, we are going to follow mostly the same ste
 11. Save
 
 12. Apply
+
+* * *
 
 
 ![WireGuard interface creation for Sarah's Flower Shop OPNsense Server remote connection](/assets/img/posts/OPNsense-and-Wireguard--REMOTE--instance-creation.png)
@@ -643,6 +649,8 @@ This part is where you will setup each individual key connecting to WireGuard, a
 
 10. Apply
 
+* * * 
+
 
 ![WireGuard peer certificate creation for meme storage bunker](/assets/img/posts/OPNsense-and-Wireguard--HOME--adding-peer.png)
 
@@ -680,6 +688,8 @@ Again, setup the key, IPs, and Instance connecting to MSB HQ's WireGuard.
 9. Save
 
 10. Apply
+
+* * *
 
 
 ![WireGuard peer certificate creation for Sarah's Flower Shop](/assets/img/posts/OPNsense-and-Wireguard--REMOTE--adding-peer.png)
@@ -960,6 +970,8 @@ You will also need to manually specify the subnet for the `tunnel`.
 15. Save
 
 16. Apply
+
+* * *
 
 
 ![WireGuard firewall rules](/assets/img/posts/OPNsense-and-Wireguard--FIREWALL--interface-traffic.png)
