@@ -19,11 +19,11 @@ This writeup should enable a single user (Roadwarrior) and further along the lin
 
 ## WireGuard then OPNsense
 
-This tutorial discusses the setup of WireGuard first. 
+This tutorial discusses the setup of WireGuard first.
 
 Please **hang on** till we're done with WireGuard.
 
-**None of this will work** without the client, peer setup, and also changing the **OPNsense router and firewall**. 
+**None of this will work** without the client, peer setup, and also changing the **OPNsense router and firewall**.
 
 
 ### Tutorial Steps
@@ -157,7 +157,7 @@ Some App -> WireGuard -> Destination IP in tunnel -> Public key for peer holding
 
 ## WireGuard on the peer's client machine
 
-**WireGuard is an exchange of keys.** Your OPNsense firewall's WireGuard cannot connect with a peer it doesnt have a key for.
+**WireGuard is an exchange of keys.** Your OPNsense firewall's WireGuard cannot connect with a peer it doesnt have a key for. So, go ahead and skip this step if you're doing a [WireGuard Site-to-Site VPN](#wireguard-tunnel-subnet-interface).
 
 There are many ways to do this, we'll use **COPY/PASTE**.
 
@@ -297,7 +297,6 @@ This is the configuration for the tunnel address of the OPNsense endpoint, the *
 
 `Instance` is the WireGuard interface's subnet.
 
-
 1. `VPN ‣ WireGuard ‣ Settings ‣ Instances`
 
 2. New (Click on the + symbol)
@@ -305,11 +304,11 @@ This is the configuration for the tunnel address of the OPNsense endpoint, the *
 3. Enabled
 
 4. Name - `wgopn1-memestor`
-> These names wont be seen anywhere outside of this config screen. BUT, you will see the interface name when you go to assign an interface. 
+> These names wont be seen anywhere outside of this config screen. BUT, you will see an interface name when you go to assign an interface. 
 
 5. Public Key - Hit the cog. You will see a series of characters with an equals sign that will always appear at the end.
  
-7. Keep hitting the cog until a public key with a series of numbers and letters appears without any special characters.
+7. Keep hitting the cog until a public key with a series of numbers and letters appears without any special characters (except the =, it indicates the end of the key).
 
 8. Listen Port - `51820`
 
@@ -339,9 +338,39 @@ That client should have created the private/public key pair, and you will paste 
 
 * * *
 
-#### WireGuard peer creation
+#### WireGuard peer creation - Peer Generator
 
-This page is where you setup each individual key connecting to WireGuard, and is why we were required to setup the client, for the key generation earlier.
+Using the generator, you will not need the public key set earlier, it is defined in the generator. The peer generator will also load in the correct `Address` for you, but the rest needs set. If you're doing a WireGuard Site-to-Site VPN go ahead and [skip this step](#setting-up-wireguard-on-each-instance-of-opnsense-for-site-to-site).
+
+1. `VPN ‣ WireGuard ‣ Settings ‣ Peer Generator`
+
+2. Select the `Instance` you would like to use, in this example it was `wgopn1-memestor`.
+
+3. `Endpoint` - Specify how to reach the instance, usually the public address of this firewall. (e.g. my.endpoint.local:51820)
+
+4. `Name` - thinkpad
+
+5. `Public key` - Set by the generator and copied out of this page in the 'config' below.
+
+6. `Address` - Should be automatically set and incremented for each peer in the 'instance' subnet.
+> If you're using the same certificate for multiple clients, then you will need to increase the CIDR subnet for more IP addresses.
+
+7. `Allowed IPs` - List the networks on the other side of WireGuard that we're allowed to pass through. (e.g. - 10.2.2.0/24, 172.23.10.0/24)
+
+7. `DNS Servers` - Give the address of the router, on that network's 'Allowed IPs' subnet.
+
+8. `Config` - Here lies the generated WireGuard config. Copy this text and save it to for your client, 'WireGuard-memestor.conf'
+> You will NOT get a chance to copy the 'Private Key' again, as it will only appear on here this screen, now. Refresh, clears it - Save, clears it. 
+
+
+![OPNsense and WireGuard automatic peer generator](/assets/img/posts/OPNsense-and-Wireguard--PEER-Generator.png)
+
+
+* * *
+
+#### WireGuard peer creation - Manual Creation
+
+If you're using the 'peer generator' instructions above, feel free to skip this section. This page is where you setup each individual key connecting to WireGuard, and is why we were required to setup the client, for the key generation earlier. Again, if you're doing a WireGuard Site-to-Site VPN go ahead and [skip this step and head below](#setting-up-wireguard-on-each-instance-of-opnsense-for-site-to-site).
 
 1. `VPN ‣ WireGuard ‣ Settings ‣ Peers`
 
@@ -349,18 +378,18 @@ This page is where you setup each individual key connecting to WireGuard, and is
 
 3. `Name` - thinkpad
 
-4. Public key - Paste in the `Public Key` from the client machine you generated earlier.
+4. `Public key` - Paste in the `Public Key` from the client machine you generated earlier.
 > If you forgot, you will need to go to the client you're using and copy the Public Key.
 
-5. Pre-shared Key — `Optional`, and may be omitted. This option adds an additional layer of symmetric-key cryptography for post-quantum resistance. You will need to take this key from OPNsense to the client. Write it down or copy it.
+5. `Pre-shared Key` — `Optional`, and may be omitted. This option adds an additional layer of symmetric-key cryptography for post-quantum resistance. You will need to take this key from OPNsense to the client. Write it down or copy it.
 
-6. Allowed IPs - `10.2.2.22/32`
-> If you're using the same certificate for multiple clients, then you will need to increase the CIDR subnet for more IP addresses.
+6. `Allowed IPs` - `10.2.2.0/24, 172.23.10.0/24`
+>  `Allowed IPs` adds a route inside of opnsense to the "allowed IPs" subnet over WireGuard's local profile's `Tunnel Address`.
 
-7. Endpoint address - Leave the endpoint address on this OPNsense **server** `instance` with the `static IP` address `empty`.
-> The *peer client* with the dynamic IP will then be the initiator, and the *peer server* with the static IP will be the responder.
+7. Endpoint address - `coolserver.dyndns.net`
+> How do you reach the server you're connecting to? 
 
-8. Endpoint port - Should also remain `blank`.
+8. Endpoint port - `51820`
 
 9. Instances - Should have the name of the tunnel subnet we made earlier, `wgopn1-memestor`.
 
@@ -370,7 +399,7 @@ This page is where you setup each individual key connecting to WireGuard, and is
 
 12. Apply
 
-`Allowed IPs` adds a route inside of opnsense to the "allowed IPs" subnet over WireGuard's local profile's `Tunnel Address`.
+
 
 
 * * * 
@@ -393,7 +422,7 @@ Reviewing what should be completed at this point.
 
 - There should also be a `Peer` with the `public key` that was generated from your client, client being the remote machine you're using to connect back to OPNsense. 
 
-- On the same `Peer`, you should also have a `static IP` set for your OPNsense's peer within the Instance's subnet.
+- On the same `Peer`, you should also have an `IP` set for your OPNsense's peer within the Instance's `subnet``.
 
 
 
@@ -404,15 +433,15 @@ Reviewing what should be completed at this point.
 * * *
 
 
-### AllowedIPs
+### Allowed IPs
 
 Generally, it is important to keep the subnets small on the endpoints, especially when using multiple endpoints.
 
-But if your public IP roams (xfinity, comcast) you will need:
+- Allowed IPs sets routes for you, using WireGuard. 
+> If you want to talk to that network after you're connected, list the subnet here.
 
-`AllowedIPs = 0.0.0.0/0`
-
-This will ensure any Source IP can connect to that interface if it can authenticate correctly. 
+- Route all traffic over the connection (including the internet):
+> `AllowedIPs = 0.0.0.0/0`
 
 
 #### Allowed IP Explained
@@ -478,10 +507,21 @@ Tunnel Address  >   Allowed IPs      >   OPNsense [Interface] address
 
 * * * 
 
-**You may skip this section** if you do not require a site-to-site WireGuard VPN, and you are strictly `using` this as a way to `remote devices` into your OPNsense router.
+**You may skip this section** if you do not require a site-to-site WireGuard VPN, and you are strictly `using` this as a roadwarrior way to `remote devices` into your OPNsense router.
 
 
-* * *
+* * * 
+
+## Doing an OPNsense Site-to-Site WireGuard VPN
+
+The peer generator didnt help site-to-site WireGuard VPN config generation at all.
+
+- You need a seperate Instance on BOTH locations for a Site-to-Site VPN over WireGuard. 💾👍
+
+- You need to connect those Instances with a respective peer on both sites. 😀-😀
+
+- You need to have a Wireguard firewall rule set, for those interfaces to allow traffic in both directions across their respective interfaces. 🔥🧱
+
 
 ## Setting up WireGuard on each Instance of OPNsense for Site-to-Site
 
@@ -532,6 +572,9 @@ We can ignore these steps if you've already got the first `Instance` from above 
 9. Apply
 
 
+![WireGuard interface creation on the meme storage bunker's OPNsense firewall](/assets/img/posts/OPNsense-and-Wireguard--HOME--instance-creation.png)
+
+
 * * *
 
 ### Site B - Sarah's Flower Shop Server - Instance setup
@@ -562,6 +605,8 @@ Back in another Instance of OPNsense, we are going to follow mostly the same ste
 
 12. Apply
 
+
+![WireGuard interface creation for Sarah's Flower Shop OPNsense Server remote connection](/assets/img/posts/OPNsense-and-Wireguard--REMOTE--instance-creation.png)
 
 
 * * *
@@ -599,6 +644,9 @@ This part is where you will setup each individual key connecting to WireGuard, a
 10. Apply
 
 
+![WireGuard peer certificate creation for meme storage bunker](/assets/img/posts/OPNsense-and-Wireguard--HOME--adding-peer.png)
+
+
 * * *
 
 ### Site B - SFS' Server - Peer server setup
@@ -633,6 +681,8 @@ Again, setup the key, IPs, and Instance connecting to MSB HQ's WireGuard.
 
 10. Apply
 
+
+![WireGuard peer certificate creation for Sarah's Flower Shop](/assets/img/posts/OPNsense-and-Wireguard--REMOTE--adding-peer.png)
 
 
 * * * 
@@ -912,6 +962,9 @@ You will also need to manually specify the subnet for the `tunnel`.
 16. Apply
 
 
+![WireGuard firewall rules](/assets/img/posts/OPNsense-and-Wireguard--FIREWALL--interface-traffic.png)
+
+
 * * *
 
 ### Normalization rules for WireGuard
@@ -943,6 +996,28 @@ By creating normalization rules, you ensure that IPv4 TCP can pass through the W
 12. Apply
 
 
+* * * 
+
+## COMPLETE
+
+* * *
+
+### Working WireGuard Site-to-Site VPN with OPNsense
+
+You should now have a working WireGuard VPN. 
+
+- The `instance` has been made, this created our `interfaces`, and we enabled them. 
+
+- The WireGuard `peer` is connecting to an `Endpoint` addresss and port -- which is an open WAN port set in the firewall.
+
+- The server's instance `Public Key` is set for other machine's connecting 'peer'.
+
+- `Allowed IPs` reflect the traffic that is allowed to pass through the tunnel.
+
+- `Firewall` rules are in place to allow the WireGuard interface onto the router.
+
+> This traffic can come from anywhere and go anywhere. We should further restrict this...
+
 
 * * * 
 
@@ -951,7 +1026,7 @@ By creating normalization rules, you ensure that IPv4 TCP can pass through the W
 * * * 
 
 
-**You may skip this section** if you do not require a site-to-site WireGuard VPN, and you are strictly `using` this as a way to `remote devices` into your OPNsense router.
+**You may skip this section** if you do not require firewalling for a site-to-site WireGuard VPN, or you are strictly `using` this as a way to `remote devices` into your OPNsense router's subnet.
 
 
 * * *
@@ -1314,11 +1389,11 @@ Let's go do something with that client now.
 [Interface]
 PrivateKey = #somenumber#
 Address = 10.10.10.2/32
-DNS = #Internally Routed DNS. This is on the subnet you're VPNing into, example 172.23.1.254#
+DNS = #Internally Routed DNS. This is on the subnet you're VPNing into, example 172.23.55.254#
 
 [Peer]
 PublicKey = #HEYWAIT!---WeDontHaveThisYet---#
-AllowedIPs = 0.0.0.0/0 #This is the subnet youre VPNing into, so this would be, example 172.32.1.0/24#
+AllowedIPs = 0.0.0.0/0 #This is the subnet youre VPNing into, so this would be, example 172.23.55.0/24#
 Endpoint = edge.sub.domain.com:51820
 ```
 
