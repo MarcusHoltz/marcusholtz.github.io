@@ -513,7 +513,7 @@ If you're using Fedora 40+ with the KDE spin, they've removed X11 for Wayland. W
 
 To re-install a working X11 KDE Plasma desktop:
 
-`sudo dnf remove -y sddm-wayland-plasma && sudo dnf install -y plasma-workspace-x11 sddm-x11 sddm-breeze sddm-kcm kde-settings-sddm`
+`sudo dnf install -y plasma-workspace-x11 sddm-breeze sddm-kcm kde-settings-sddm kwin-x11 && sudo dnf install -y sddm-x11 --allowerasing`
 
 You will have to reboot from terminal, as we just removed the SDDM.
 
