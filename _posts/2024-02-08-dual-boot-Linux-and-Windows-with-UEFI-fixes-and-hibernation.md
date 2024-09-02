@@ -529,7 +529,7 @@ If you want to use touchpad gestures inside of X11 on Fedora 40 you will need to
 To install and run `Touchegg` and it's GUI counterpart `Touche`:
 
 ```bash
-sudo yum install touchegg && sudo systemctl enable --now touchegg && sudo flatpak install -y com.github.joseexposito.touche && mkdir -p ~/.config/touchegg && cp -n /usr/share/touchegg/touchegg.conf ~/.config/touchegg/touchegg.conf && read -p "Do you want to edit your Touchpad gestures in terminal with NANO(1) or in the GUI with TOUCHE(2)? (Enter 1 or 2) " user_input; [ "$user_input" == "1" ] && nano ~/.config/touchegg/touchegg.conf || [ "$user_input" == "2" ] && flatpak run com.github.joseexposito.touche || echo "Invalid input. Please enter 1 or 2."
+sudo yum install touchegg && sudo systemctl enable --now touchegg && sudo flatpak install -y com.github.joseexposito.touche && mkdir -p ~/.config/touchegg && cp -n /usr/share/touchegg/touchegg.conf ~/.config/touchegg/touchegg.conf; echo -e "\n----------------"; read -p "Do you want to edit your Touchpad gestures in terminal with NANO(1) or in the GUI with TOUCHE(2)? (Enter 1 or 2) " user_input; [ "$user_input" == "1" ] && nano ~/.config/touchegg/touchegg.conf || { [ "$user_input" == "2" ] && flatpak run com.github.joseexposito.touche || echo "Invalid input. Please enter 1 or 2."; }
 ```
 
 
