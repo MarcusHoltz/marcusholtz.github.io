@@ -533,6 +533,20 @@ sudo yum install touchegg && sudo systemctl enable --now touchegg && sudo flatpa
 ```
 
 
+## Fix Linux Bash History
+
+Sometimes I have multiple terminals open, or sometimes I dont properly powerdown the machine. These are examples of you loosing your history. 
+
+If your terminal history is important to you, you may want to include this in your `.bashrc` to ensure your command is saved after it has been typed:
+
+Edit your `.bashrc` to include the following lines:
+
+```bash
+shopt -s histappend
+PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+```
+
+
 * * *
 
 ## Restore Hibernate on Ubuntu
