@@ -533,6 +533,68 @@ sudo yum install touchegg && sudo systemctl enable --now touchegg && sudo flatpa
 ```
 
 
+
+* * *
+
+### Use Xscreensaver on Wayland
+
+I still like having a screen saver, but with Wayland you can no longer lock your screen with a screensaver - it's purely decoration.
+
+
+#### Xscreensaver startup
+
+- Whatever DE you're using, you will need to make sure xscreensaver starts up:
+
+`nano /home/username/.config/autostart/start-xscreensaver.sh`
+
+- Now add the following to allow xscreensaver to launch at login:
+
+```bash
+#!/bin/bash
+GDK_BACKEND=x11 xscreensaver -nosplash
+```
+
+- Save and close the file.
+
+
+#### Xscreensaver shortcut
+
+If you want to prevent shoulder surfing, or need some eyecandy on your screen - 
+I use a keyboard shortcut as well:
+
+- Binding the following to `Meta+z`:
+
+```bash
+GDK_BACKEND=x11 xscreensaver-command --activate
+```
+
+
+#### Xscreensaver stays on the screen
+
+Where you're putting xscreensaver, you can to get a lot of acciental mouse wiggle.
+
+-To prevent this, edit:
+
+`nano /home/username/.xscreensaver`
+
+- And add the following lines at the bottom:
+
+```bash
+pointerPollTime: 1500
+pointerHysteresis:  10000
+```
+
+
+##### What do those xscreensaver settings do?
+
+- **pointerPollTime** (class Time, default 5 seconds) When server extensions are not in use, this controls how frequently xscreensaver checks to see if the mouse position or buttons have changed.
+
+- **pointerHysteresis** (class Integer, default 10 pixels) If the mouse moves less than this-many pixels in a second, ignore it (do not consider that to be "activity.") This is so that the screen doesn't un-blank (or fail to blank) just because you bumped the desk.
+
+
+
+* * *
+
 ## Fix Linux Bash History
 
 Sometimes I have multiple terminals open, or sometimes I dont properly powerdown the machine. These are examples of you loosing your history. 
