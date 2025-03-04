@@ -395,12 +395,42 @@ If you're using the 'peer generator' instructions above, feel free to skip this 
 
 9. Instances - Should have the name of the tunnel subnet we made earlier, `wgopn1-memestor`.
 
-10. Keepalive interval - 25
+10. Keep Alive interval - `15`
 
 11. Save
 
 12. Apply
 
+> If a site/instance/peer is behind NAT, a Keep Alive has to be set on the site behind the NAT. The Keep Alive should be set above, if you followed the tutorial, to 25 seconds as stated in the official WireGuard docs. It keeps the UDP session open when no traffic flows, preventing the WireGuard tunnel from becoming stale because the outbound port changes. Tailscale, Zerotier, Netbird all do the same thing.
+{: .prompt-info }
+
+
+* * * 
+
+### Behind a NAT? Probably. Set keep Alive!
+
+- Does your server switch IP addresses?
+
+- Is your server restricted to no open ports?
+
+- Dont worry, they make a Diet Soda special for you, it's called `PersistentKeepalive`.
+
+
+#### One side of the Wireguard connection can be hidden
+
+The server with the open port doesn't need to have a PersistentKeepalive, because it's already accessible from the outside.
+
+> The client behind NAT needs to send periodic keepalive packets to maintain the NAT mapping and keep the "hole" open.
+
+
+##### The PersistentKeepalive setting on the client serves two purposes:
+
+1. It keeps the NAT mapping alive on the client's side, allowing incoming packets from the server to reach the client.
+
+2. It ensures that the stateful firewall or NAT mapping remains valid, allowing bi-directional communication.
+
+> A typical configuration would set PersistentKeepalive to a value between 25 seconds and 15 seconds on the client side. This interval is usually sufficient to keep most NAT mappings alive without generating excessive traffic.
+ 
 
 
 
@@ -466,12 +496,6 @@ In other words, when sending packets, the list of Allowed IPs behaves as a sort 
 {: .prompt-warning }
 
 
-* * * 
-
-### Behind a NAT? Probably. Set keepalive!
-
-> If a site/instance/peer is behind NAT, a keepalive has to be set on the site behind the NAT. The keepalive should be set above, if you followed the tutorial, to 25 seconds as stated in the official WireGuard docs. It keeps the UDP session open when no traffic flows, preventing the WireGuard tunnel from becoming stale because the outbound port changes. Tailscale, Zerotier, Netbird all do the same thing.
-{: .prompt-info }
 
 
 
@@ -546,6 +570,16 @@ There are a lot of confusing segments in this tutorial. I have adapted this tabl
 | Site B - LAN        | 192.168.0.0/24 |
 | Site A - Public WAN | 203.0.113.1    |
 | Site B - Public WAN | 203.0.113.2    |
+
+
+> "Future-me" is ashamed to have written `10.2.2.0/24`. We have (2) IP addresses required. We should use Classless Inter-Domain Routing (CIRD) to promote Variable-Length Subnet Masking (VLSM) and minimize the size of our subnets. An improved subnet size would be - `/31`.
+{: .prompt-tip }
+
+
+> Assume the network block is 10.2.2.0, and we are allocating a subnet for point-to-point links:
+- Network: 10.2.2.0/31
+- Usable IPs: 10.2.2.0 and 10.2.2.1
+{: .prompt-info }
 
 
 * * *
@@ -774,15 +808,23 @@ Please note, if you have not enabled the WireGuard service the interface creatio
 3. IPv4 Configuration Type - `None`
 > There is no need to configure IPs on the interface. The tunnel address(es) specified in the Instance configuration for your server will be automatically assigned to the interface once WireGuard is restarted
 
-4. Save
+4. MTU - `1420`
 
-5. Apply
+5. MSS - `1420`
+
+6. Save
+
+7. Apply
 
 
-> When assigning interfaces, gateways can be added to them. This is useful if balancing traffic across multiple tunnels is required or in more complex routing scenarios. To do this, go to `System ‣ Gateways ‣ Configuration` and add a new gateway. Choose the relevant WireGuard interface and set the Gateway to dynamic. 
+> When assigning interfaces, make sure to edit the **MTU** and **MSS**. Setting the correct MTU can help avoid packet fragmentation and improve overall throughput. Otherwise you could get working ICMP and UDP, but some encrypted TCP sessions **will refuse to work**.
 {: .prompt-info }
 
 
+* * *
+
+> The maximum packet size within a WireGuard tunnel is 40 bytes less than the WireGuard MTU. This is because WireGuard adds a 40-byte overhead to each packet for its own headers. Therefore, if your WireGuard MTU is set to 1420 bytes, the maximum packet size that can be transmitted without fragmentation would be 1380 bytes (1420 - 40)
+{: .prompt-tip }
 
 * * * 
 
@@ -897,7 +939,7 @@ This will involve two steps.
 
 Letting in your port you made for WireGuard opens your firewall up. You now have a hole in your network, on the port you choose. 
 
-> Be aware, [UDP hole-punching](https://en.wikipedia.org/wiki/UDP_hole_punching) VPNs like Tailscale, Zerotier, Netbird all work without this requirement.
+> Be aware, [UDP hole-punching](https://en.wikipedia.org/wiki/UDP_hole_punching) is available in Wireguard, but it is one way. See the [PersistentKeepalive section](#wireguard-peer-creation---manual-creation). VPNs like Tailscale, Zerotier, Netbird all work with this method.
 
 Now that you're aware of the risks and alternatives, let's begin:
 
@@ -982,34 +1024,6 @@ You will also need to manually specify the subnet for the `tunnel`.
 
 
 * * *
-
-### Normalization rules for WireGuard
-
-By creating normalization rules, you ensure that IPv4 TCP can pass through the WireGuard tunnel without fragmentation of traffic. Otherwise you could get working ICMP and UDP, but some encrypted TCP sessions **will refuse to work**.
-
-1. Go to `Firewall ‣ Settings ‣ Normalization`
-
-2. Click `Add` (Click on the + symbol) to add a new rule.
-
-3. Interface - `WireGuard (Group)`
-
-4. Direction - `Any`
-
-5. Protocol - any
-
-6. Source - any
-
-7. Destination - any
-
-8. Destination port - any
-
-9. Description - `WireGuard MSS Clamping IPv4`
-
-10. Max mss - `1380` (default); it’s 40 bytes less than your WireGuard MTU
-
-11. Save the rule
-
-12. Apply
 
 
 * * * 
@@ -1454,6 +1468,266 @@ Endpoint = <Public IP of the OPNsense firewall>:<WireGuard Port>
 ```
 
 
+
+* * *
+* * *
+
+
+# Adding DNScrypt to Unbound on OPNsense
+
+DSNCrypt is significantly faster than DoT which is faster than DoH.
+
+DoT is faster than DoH because it works directly at the transport layer, while DoH has additional overhead due to the HTTP layer.
+
+DNSCrypt uses UDP as it's main performance increase.
+
+
+## Install DNSCrypt-Proxy for DNS encryption
+
+Head over to your firmware section of OPNsense and install DNSCrypt-Proxy 
+
+```bash
+New packages to be INSTALLED:
+	dnscrypt-proxy2
+   os-dnscrypt-proxy
+
+Number of packages to be installed: 2
+```
+
+
+### Unbound -> Query forwarding -> DNSCrypt-Proxy
+
+Query forwarding in OPNsense's Unbound DNS can be particularly useful when you want to access an upstream service, and provide both secure and smooth DNS resolution across your network. Here's a detailed explanation and tutorial on how to set it up:
+
+
+## Why Use Query Forwarding?
+
+Using query forwarding in Unbound with DNSCrypt ensures encrypted DNS queries for privacy and security, while still leveraging Unbound's caching and filtering capabilities. It prevents ISPs or third parties from snooping on DNS traffic, supports DNSSEC for authenticity, and allows anonymization through DNSCrypt. This setup is ideal if you prioritize local domain resolution while securely forwarding external queries to DNSCrypt-Proxy for encryption.
+
+> This ensures that local devices can communicate using their hostnames, while external traffic is securely encrypted. 
+
+
+
+* * *
+
+## Keeping Unbound
+
+In this section of the tutorial we need to establish the upstream (DNScrypt) server.
+
+1. Services > Unbound DNS > General
+
+- Ensure Enable Unbound DNS is checked.
+
+- Under Network Interfaces, select LAN/VLANs.
+
+- Enable DNSSEC Support. 
+
+- Optionaly: 
+  
+  - Register ISC DHCP4 Leases.
+  
+  - Register DHCP Static Mappings
+
+
+2. Services > Unbound DNS > Query Forwarding
+
+- Uncheck Use System Nameservers
+
+3. Add Server:
+
+- Server IP: 127.0.0.1
+
+- Server Port: 15353
+
+- Description: Forward DNS to DNS-Crypt
+
+4. Disable/Delete any DNS over TLS records 
+
+- DNS over TLS will be preferred. To use the forwarding server as your primary DNS, you must disable any local DNS resolution.
+
+5. Click Save & Apply
+
+
+
+* * *
+
+## Setting up DNSCrypt-Proxy
+
+1. Services > DNSCrypt-Proxy > Configuration
+
+- Listen Address: 127.0.0.1:15353
+
+- Uncheck: `Allow Privileged Ports`
+
+- Based on your requirements for your DNS server you may check:
+
+  - Require DNSSEC
+  
+  - Require NoLog
+  
+  - Require NoFilter
+  
+  - Block IPv6
+  
+- Set the Server List, these are the servers you're reaching out to for DNS information. They all have different features. Please see this address for a list: https://dnscrypt.info/public-servers
+
+  - Based on your location pick the closest `dnscry.pt-` to you.
+
+- Save
+
+
+
+* * *
+
+### (Optionaly) Enabling Encrypted Client Hello
+
+When using The DNSCrypt setup with DoH you have the option of using ECH. This will loose the Domain name with Encrypted Client Hello (ECH). By loose I mean your SNI wont be seen.
+
+Pretty much this isnt implimented, so your only real option is to use Cloudflare and send all your DNS info to them, just like with a VPN, they are on the other end and can see the requests:
+
+https://github.com/DNSCrypt/dnscrypt-proxy/wiki/Local-DoH
+
+https://tls-ech.dev/
+
+https://defo.ie/ech-check.php
+
+
+
+
+
+
+
+# Multiple Servers on Same Domain
+
+Query forwarding in OPNsense's Unbound DNS can be particularly useful when you have multiple OPNsense instances in your network, especially when one OPNsense router is behind another. This feature helps ensure smooth DNS resolution across your network hierarchy. Here's a detailed explanation and tutorial on how to set it up:
+
+## Why Use Query Forwarding?
+
+Query forwarding allows you to:
+1. Resolve local hostnames behind a secondary OPNsense router
+2. Forward DNS queries upstream to your primary network
+3. Maintain consistent DNS resolution across multiple OPNsense instances
+
+## Tutorial: Setting Up Query Forwarding
+
+1. Log into your OPNsense web interface
+2. Navigate to Services > Unbound DNS > Query Forwarding
+3. Click the "+" button to add a new forwarding rule
+4. Configure the following settings:
+   - Enabled: Check this box
+   - Domain: Leave blank to forward all queries (or specify a domain for selective forwarding)
+   - Server IP: Enter the IP address of your upstream DNS server (e.g., your primary OPNsense router's IP)
+   - Server Port: Use 53 for standard DNS or 853 for DNS over TLS
+   - Forward TCP upstream: Check if you want to use TCP for upstream queries
+
+5. Click "Save"
+6. Click "Apply" to activate the changes
+
+## Example Configuration
+
+For an OPNsense router behind another OPNsense router:
+- Domain: (leave blank)
+- Server IP: 192.168.1.1 (IP of primary OPNsense router)
+- Server Port: 53
+- Forward TCP upstream: Checked
+
+## Additional Tips
+
+1. If using DNS over TLS, ensure the upstream server supports it and use port 853
+2. For specific domain forwarding, enter the domain in the "Domain" field (e.g., "home.arpa")
+3. You can add multiple forwarding rules for different domains or upstream servers
+
+By implementing query forwarding, you ensure that DNS queries from devices behind your secondary OPNsense router are properly resolved, either locally or by forwarding to the primary router. This maintains consistent name resolution across your entire network infrastructure.
+
+
+
+* * *
+* * *
+
+# (Deprecated) Unbound DNS Overrides
+
+Dont do this. Do the method above. This method is now officially deprecated. It is only here for reference. 
+
+## Overview
+
+We'll set up a system where:
+1. Each site has its own OPNsense router with Unbound DNS.
+2. Each site can resolve hostnames for all other sites.
+3. DNS queries for remote sites are forwarded through the VPN.
+
+Let's assume we have three sites:
+- Site 1: 10.1.0.0/24 (VPN IP: 10.0.0.1)
+- Site 2: 10.2.0.0/24 (VPN IP: 10.0.0.2)
+- Site 3: 10.3.0.0/24 (VPN IP: 10.0.0.3)
+
+## Step 1: Configure Unbound DNS on Each OPNsense Router
+
+On each OPNsense router:
+
+1. Navigate to Services > Unbound DNS > General
+2. Check "Enable Unbound"
+3. Set "Network Interfaces" to LAN and VPN interfaces
+4. Enable DNSSEC
+5. Check "Register DHCP leases" and "Register DHCP static mappings"
+6. Click "Apply"
+
+## Step 2: Set Up Domain Overrides
+
+On each OPNsense router, set up domain overrides for the other sites. This tells Unbound to forward queries for specific domains to other DNS servers.
+
+For Site 1 OPNsense:
+1. Go to Services > Unbound DNS > Overrides
+2. Add two overrides:
+   a. For Site 2:
+      - Domain: site2.domain.com
+      - IP Address: 10.0.0.2 (Site 2's VPN IP)
+      - Description: Forward to Site 2 DNS
+   b. For Site 3:
+      - Domain: site3.domain.com
+      - IP Address: 10.0.0.3 (Site 3's VPN IP)
+      - Description: Forward to Site 3 DNS
+
+Repeat this process on Site 2 and Site 3 OPNsense routers, adjusting the domains and IP addresses accordingly.
+
+## Step 3: Configure Host Overrides for Local Applications
+
+On each OPNsense router, add host overrides for local applications.
+
+For Site 1 OPNsense:
+1. Go to Services > Unbound DNS > Overrides
+2. Add a host override:
+   - Host: app
+   - Domain: site1.domain.com
+   - Type: A
+   - IP: 10.1.0.10 (local IP of the app server)
+   - Description: Site 1 App Server
+
+Repeat for Site 2 (anotherapp.site2.domain.com) and Site 3 (someotherapp.site3.domain.com), using their respective local IPs.
+
+## Step 4: Configure Firewall Rules
+
+On each OPNsense router:
+1. Go to Firewall > Rules
+2. On the VPN interface, add a rule:
+   - Action: Pass
+   - Interface: VPN
+   - Protocol: TCP/UDP
+   - Source: VPN net
+   - Destination: This Firewall
+   - Destination port range: DNS (53)
+   - Description: Allow DNS queries over VPN
+
+## Step 5: Configure DHCP to Use Local DNS
+
+On each OPNsense router:
+1. Go to Services > DHCPv4 > [LAN interface]
+2. In "DNS servers", enter the local IP of the OPNsense router (e.g., 10.1.0.1 for Site 1)
+3. Click "Save" and "Apply Changes"
+
+
+
+
+* * *
 
 ## Future Updates - help
 
