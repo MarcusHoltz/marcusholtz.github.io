@@ -58,6 +58,7 @@ Please **hang on** till we're done with WireGuard.
 
 6. [Getting the Peer Client's Device Connected](#setting-up-the-client-software)
 
+7. [Adding DNScrypt to Unbound on OPNsense](#adding-dnscrypt-to-unbound-on-opnsense)
 
 * * *
 
@@ -297,7 +298,7 @@ This is the configuration for the tunnel address of the OPNsense endpoint, the *
 
 `Instance` is the WireGuard interface's subnet.
 
-1. `VPN ‣ WireGuard ‣ Settings ‣ Instances`
+1. `VPN ▸ WireGuard ▸ Settings ▸ Instances`
 
 2. New (Click on the + symbol)
 
@@ -327,7 +328,7 @@ This is the configuration for the tunnel address of the OPNsense endpoint, the *
 
 #### WireGuard peer info
 
-`VPN ‣ WireGuard ‣ Settings ‣ Peers ‣ Allowed IPs` - These are what IP addresses are going to be permitted over the tunnel.
+`VPN ▸ WireGuard ▸ Settings ▸ Peers ▸ Allowed IPs` - These are what IP addresses are going to be permitted over the tunnel.
 
 You can send and the server will receive it, but it will do nothing and send nothing back... UNLESS you have the SUBNET of the Endpoint's routable network (in it's `[Interface]` `Address = ` section) on the Allowed IPs list for that endpoint.
 
@@ -342,7 +343,7 @@ That client should have created the private/public key pair, and you will paste 
 
 Using the generator, you will not need the public key set earlier, it is defined in the generator. The peer generator will also load in the correct `Address` for you, but the rest needs set. If you're doing a WireGuard Site-to-Site VPN go ahead and [skip this step, and head to Instance/Peer creation](#setting-up-wireguard-on-each-instance-of-opnsense-for-site-to-site).
 
-1. `VPN ‣ WireGuard ‣ Settings ‣ Peer Generator`
+1. `VPN ▸ WireGuard ▸ Settings ▸ Peer Generator`
 
 2. Select the `Instance` you would like to use, in this example it was `wgopn1-memestor`.
 
@@ -374,7 +375,7 @@ Using the generator, you will not need the public key set earlier, it is defined
 
 If you're using the 'peer generator' instructions above, feel free to skip this section. This page is where you setup each individual key connecting to WireGuard, and is why we were required to setup the client, for the key generation earlier. Again, if you're doing a WireGuard Site-to-Site VPN go ahead and [skip this step and head below](#setting-up-wireguard-on-each-instance-of-opnsense-for-site-to-site).
 
-1. `VPN ‣ WireGuard ‣ Settings ‣ Peers`
+1. `VPN ▸ WireGuard ▸ Settings ▸ Peers`
 
 2. New (Click on the + symbol)
 
@@ -440,7 +441,7 @@ The server with the open port doesn't need to have a PersistentKeepalive, becaus
 
 The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. 
 
-You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings ‣ General` or go to the `Dashboard` and `reset services` from there. 
+You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings ▸ General` or go to the `Dashboard` and `reset services` from there. 
 
 
 
@@ -589,7 +590,7 @@ There are a lot of confusing segments in this tutorial. I have adapted this tabl
 This is, presumably, the OPNsense router you've already been configuring from above - as this is the meme bunker. 
 We can ignore these steps if you've already got the first `Instance` from above already setup, as these steps are primarily the same.
 
-1. `VPN ‣ WireGuard ‣ Settings ‣ Instances`
+1. `VPN ▸ WireGuard ▸ Settings ▸ Instances`
 
 2. New (Click on the + symbol)
 
@@ -629,7 +630,7 @@ Back in another Instance of OPNsense, we are going to follow mostly the same ste
 
 3. Arrive at Flower Shop, and login to OPNsense server.
 
-4. Visit: `VPN ‣ WireGuard ‣ Settings ‣ Instances`
+4. Visit: `VPN ▸ WireGuard ▸ Settings ▸ Instances`
 
 5. New (Click on the + symbol)
 
@@ -669,7 +670,7 @@ Site A Instance with Tunnel Address of `10.2.2.1/24`.
 This part is where you will setup each individual key connecting to WireGuard, and is why the `public key` of each site's Instance was copied somewhere handy.
 
 
-1. `VPN ‣ WireGuard ‣ Settings ‣ Peers`
+1. `VPN ▸ WireGuard ▸ Settings ▸ Peers`
 
 2. New (Click on the + symbol)
 
@@ -707,7 +708,7 @@ The Site B Instance with Tunnel Address of `10.2.2.2/24`.
 Again, setup the key, IPs, and Instance connecting to MSB HQ's WireGuard.
 
 
-1. `VPN ‣ WireGuard ‣ Settings ‣ Peers`
+1. `VPN ▸ WireGuard ▸ Settings ▸ Peers`
 
 2. New (Click on the + symbol)
 
@@ -758,7 +759,7 @@ A lot of this was the same as the inital Roadwarrior setup in the beginning. The
 
 ### Finish - by restarting services
 
-The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings ‣ General` or go to the `Dashboard` and `reset services` from there. 
+The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings ▸ General` or go to the `Dashboard` and `reset services` from there. 
 
 
 
@@ -781,7 +782,7 @@ This allows separation of the firewall rules for each WireGuard instance (`wgX` 
 
 Please note, if you have not enabled the WireGuard service the interface creation will fail.
 
-1. Go to `Interfaces ‣ Assignments`
+1. Go to `Interfaces ▸ Assignments`
 
 2. At the bottom is the `Assign a new interface` section. 
 
@@ -830,7 +831,7 @@ Please note, if you have not enabled the WireGuard service the interface creatio
 
 ### Finish WireGuard interface by resetting WireGuard services
 
-The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings ‣ General` or go to the `Dashboard` and `reset services` from there. 
+The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings ▸ General` or go to the `Dashboard` and `reset services` from there. 
 
 `Unbound DNS` requires a `reload` of Unbound DNS's services to get the new WireGuard interface added. 
 
@@ -867,7 +868,7 @@ This step is only necessary if you intend to `allow` client peers to `access` IP
 
 Think `VPN provider`, do you want to allow `wgopn1memestor` clients to forward their Internet traffic over your network?
 
-WireGuard subnets that you want to have internet access need their subnets in `Firewall ‣ NAT ‣ Outbound`.
+WireGuard subnets that you want to have internet access need their subnets in `Firewall ▸ NAT ▸ Outbound`.
 
 
 #### Edits made to NAT in brief:
@@ -885,7 +886,7 @@ WireGuard subnets that you want to have internet access need their subnets in `F
 {: .prompt-info }
 
 
-1. Go to `Firewall ‣ NAT ‣ Outbound`
+1. Go to `Firewall ▸ NAT ▸ Outbound`
 
 2. Select `Hybrid outbound NAT rule generation` at the top, if it is not already selected.
 
@@ -943,7 +944,7 @@ Letting in your port you made for WireGuard opens your firewall up. You now have
 
 Now that you're aware of the risks and alternatives, let's begin:
 
-1. Go to `Firewall ‣ Rules ‣ WAN`
+1. Go to `Firewall ▸ Rules ▸ WAN`
 
 4. Click `Add` to add a new rule (Click on the + symbol)
 
@@ -982,10 +983,10 @@ The firewall rule outlined below will need to be configured on the automatically
 
 You will also need to manually specify the subnet for the `tunnel`. 
 
-> You can also define an `alias` (via `Firewall ‣ Aliases`) for any IPs/`subnet` that you want to use. 
+> You can also define an `alias` (via `Firewall ▸ Aliases`) for any IPs/`subnet` that you want to use. 
 
 
-1. Go to `Firewall ‣ Rules ‣ WireGuard (Group)`
+1. Go to `Firewall ▸ Rules ▸ WireGuard (Group)`
 
 2. Click `Add` (Click on the + symbol) to add a new rule.
 
@@ -1079,7 +1080,7 @@ You will be editing the firewall settings for the `WAN connection` between the t
 Back at the bunker, we need to add a new rule to allow incoming WireGuard traffic from Site B (Sarah's Flower Shop).
 
 
-1. Go to `Firewall ‣ Rules ‣ WAN` 
+1. Go to `Firewall ▸ Rules ▸ WAN` 
 
 2. Click `Add` (Click on the + symbol) to add a new rule.
 
@@ -1109,7 +1110,7 @@ Back at the bunker, we need to add a new rule to allow incoming WireGuard traffi
 The same step needs to be taken, but with the WAN addresses reversed - allow incoming WireGuard traffic from Site A (Meme Storage Bunker HQ).
 
 
-1. Go to `Firewall ‣ Rules ‣ WAN`
+1. Go to `Firewall ▸ Rules ▸ WAN`
 
 2. Click `Add` (Click on the + symbol) to add a new rule.
 
@@ -1143,14 +1144,14 @@ The same step needs to be taken, but with the WAN addresses reversed - allow inc
 
 Ensure you are able to reset the WireGuard service to load the **new configuration**. 
 
-- Go to `VPN ‣ WireGuard ‣ Settings` on both sites and `check` and `uncheck` the `Enable WireGuard` and press `Apply`.
+- Go to `VPN ▸ WireGuard ▸ Settings` on both sites and `check` and `uncheck` the `Enable WireGuard` and press `Apply`.
 
 - Go to the `Dashboard` on both sites and `reset services` from there. 
 
 
 ### Check WireGuard Logs
 
-To verify any of this is working correctly, go to `VPN ‣ WireGuard ‣ Diagnostics`. 
+To verify any of this is working correctly, go to `VPN ▸ WireGuard ▸ Diagnostics`. 
 
 You should see Send and Received traffic and Handshake should be populated by a number. This happens as soon as the first traffic flows between the sites.
 
@@ -1193,7 +1194,7 @@ The first firewall rule will make sure our Bunker HQ (172.16.0.0/24) can reach S
 
 1. Go to OPNsense Site A
 
-2. Open `Firewall ‣ Rules ‣ LAN` and `add` a new rule.
+2. Open `Firewall ▸ Rules ▸ LAN` and `add` a new rule.
 
    1. Note: `Change for preference`. The network you want to share with WireGuard may be different than `LAN`, please modify the name of the Interface to match your network.
 
@@ -1228,7 +1229,7 @@ The second firewall rule is through the WireGuard tunnel. It allows Sarah's LAN 
 
 1. Go to OPNsense Site A 
 
-2. Open `Firewall ‣ Rules ‣ WireGuard (Group)` and `add` a new rule.
+2. Open `Firewall ▸ Rules ▸ WireGuard (Group)` and `add` a new rule.
 
 3. Action - Pass
 
@@ -1267,7 +1268,7 @@ The second firewall rule is through the WireGuard tunnel. It allows Sarah's LAN 
 
 1. Go to OPNsense Site B 
 
-2. Open `Firewall ‣ Rules ‣ LAN` and `add` a new rule.
+2. Open `Firewall ▸ Rules ▸ LAN` and `add` a new rule.
 
    1. Note: `Change for preference`. The network you want to share with WireGuard may be different than `LAN`, please modify the name of the Interface to match your network.
 
@@ -1301,7 +1302,7 @@ The second firewall rule is through the WireGuard tunnel. It allows Sarah's LAN 
 
 1. Go to OPNsense Site B 
 
-2. Open `Firewall ‣ Rules ‣ WireGuard (Group)` and add a new rule.
+2. Open `Firewall ▸ Rules ▸ WireGuard (Group)` and add a new rule.
 
 3. Action - Pass
 
@@ -1337,7 +1338,7 @@ The second firewall rule is through the WireGuard tunnel. It allows Sarah's LAN 
 
 You can try and route without any rules. You want the wireguard subnet to be routed in its entirety to and from that gateway so that access can be established and mapped by your router without the need to add firewall rules. 
 
-1. Go to `System ‣ Gateways ‣ Configuration`
+1. Go to `System ▸ Gateways ▸ Configuration`
 
 2. Create a new gateway.
 
@@ -1347,7 +1348,7 @@ You can try and route without any rules. You want the wireguard subnet to be rou
 
 5. With a new gateway up we can point a route there.
 
-6. Head to `System ‣ Routes ‣ Configuration`.
+6. Head to `System ▸ Routes ▸ Configuration`.
 
 7. Create a new route.
 
@@ -1355,7 +1356,7 @@ You can try and route without any rules. You want the wireguard subnet to be rou
 
 9. Set the gateway dropdown to the one you defined earlier.
 
-10. Open `Firewall ‣ Settings ‣ Advanced ‣ Static route filtering`.
+10. Open `Firewall ▸ Settings ▸ Advanced ▸ Static route filtering`.
 
 11. Check the `Bypass firewall rules for traffic on the same interface` checkbox.
 
@@ -1384,7 +1385,7 @@ You can try and route without any rules. You want the wireguard subnet to be rou
 
 ### Finish - by resetting services
 
-The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings ‣ General` or go to the `Dashboard` and `reset services` from there. 
+The save and apply are meaningless, as WireGuard never resets the service to load the new configuration. You must be sure to either `check` and `uncheck` the `Enable WireGuard` button in `Settings ▸ General` or go to the `Dashboard` and `reset services` from there. 
 
 
 
@@ -1431,7 +1432,7 @@ Endpoint = edge.sub.domain.com:51820
 
 3. That's right! We still have to get the `Public Key` of our other confidant, the Server we're connecting to.
 
-4. Moving over to the web interface, under `VPN ‣ WireGuard ‣ Settings ‣ Local`
+4. Moving over to the web interface, under `VPN ▸ WireGuard ▸ Settings ▸ Local`
 
 5. Edit the `Local Profile's Configuration` that we created earlier, named `wgopn1-memestor` and copy the `Public Key` making sure to get **THE ENTIRE THING** including the `=`
 
