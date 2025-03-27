@@ -892,44 +892,44 @@ You only need the bridge on the host if you expect the host to be able to talk t
 
 1. Delete the IP route:
 
-`sudo ip route del 172.21.192.100/30 dev test_macvlan`
+   `sudo ip route del 172.21.192.100/30 dev test_macvlan`
 
 2. Bring the test_macvlan interface down:
 
 
-#### Warning:
+   #### Warning:
 
-Sometimes this will take down your entire network. Watch out if on ssh.
-Most of the time I like to throw a restart command in there, just incase.
-Or you can just reboot the machine
+   Sometimes this will take down your entire network. Watch out if on ssh.
+   Most of the time I like to throw a restart command in there, just incase.
+   Or you can just reboot the machine
 
-- `sudo ip link set test_macvlan down; sleep 2; sudo systemctl restart networking.service`
+   - `sudo ip link set test_macvlan down; sleep 2; sudo systemctl restart networking.service`
 
-- `sudo ip link set test_macvlan down; sudo reboot`
+   - `sudo ip link set test_macvlan down; sudo reboot`
 
 3. Delete the IP address:
 
-`sudo ip addr del 172.21.192.10/32 dev test_macvlan`
+   `sudo ip addr del 172.21.192.10/32 dev test_macvlan`
 
 4. Delete the test_macvlan interface:
 
-`sudo ip link delete test_macvlan`
+   `sudo ip link delete test_macvlan`
 
 5. Remove the docker MacVLAN network:
 
-`docker network rm test_macvlan`
+   `docker network rm test_macvlan`
 
 6. Remove the docker internal bridge network:
 
-`docker network rm traefik_proxy_net`
+   `docker network rm traefik_proxy_net`
 
 7. Verify removal of networking:
 
-`ip route list`
+   `ip route list`
 
 8. Ensure all docker networks are back to original:
 
-`docker network ls`
+   `docker network ls`
 
 > If you are still having any trouble, head over to the [Troubleshooting](#troubleshooting) section.
 
@@ -1526,50 +1526,50 @@ ip link show traefik2docker
 
 1. Create the Docker MacVLAN network using this new bridge interface:
 
-```bash
+   ```bash
 
-docker network create -d macvlan --subnet=172.21.192.0/19 --ip-range=172.21.192.240/28 --gateway=172.21.192.254 -o parent=traefik2docker traefik2host
+   docker network create -d macvlan --subnet=172.21.192.0/19 --ip-range=172.21.192.240/28 --gateway=172.21.192.254 -o parent=traefik2docker traefik2host
 
-```
+   ```
 
 
 2. Create docker internal bridge network:
 
-```bash
+   ```bash
 
-docker network create traefik_proxy_net
+   docker network create traefik_proxy_net
 
-```
+   ```
 
 3. Restart docker to test:
 
-```bash
+   ```bash
 
-sudo systemctl restart docker.service
+   sudo systemctl restart docker.service
 
-```
+   ```
 
 4. (Optional) I dont want this, but you may need Host-Container communication (required for Debian Host to talk directly with Docker MacVLAN), or your could aways change from `private` MacVLAN to a `VEPA` MacVLAN:
 
-```bash
+   ```bash
 
-# I would avoid this if you can at all, it's only here for some person who - we all are praying for you - may need this
-sudo ip addr add 172.21.192.252/32 dev traefik2docker   # avoid doing this
-sudo ip route add 172.21.192.240/28 dev traefik2docker    # avoid doing this
-# Dont use this if you dont have to. Avoid even reading this text and move on.
+   # I would avoid this if you can at all, it's only here for some person who - we all are praying for you - may need this
+   sudo ip addr add 172.21.192.252/32 dev traefik2docker   # avoid doing this
+   sudo ip route add 172.21.192.240/28 dev traefik2docker    # avoid doing this
+   # Dont use this if you dont have to. Avoid even reading this text and move on.
 
-```
+   ```
 
 
 5. Verify Docker network (you will need jq installed):
 
-> This should display, in pretty json -- "parent": traefik2docker"
+   > This should display, in pretty json -- "parent": traefik2docker"
 
-```bash
+   ```bash
 
-docker network inspect traefik2host | jq '.[].Options'
+   docker network inspect traefik2host | jq '.[].Options'
 
-```
+   ```
 
 
 * * *
