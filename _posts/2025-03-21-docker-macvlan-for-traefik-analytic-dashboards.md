@@ -964,15 +964,15 @@ Might be a good time to reboot now.
 
 ## Traefik, Docker-Compose, and a MacVLAN network
 
-If you would like to follow along, this is a manual install of the MacVLAN docker network setup with Traefik.
-
-This is less test more production, anyway, there's a lot more steps.
+This next section is less test more production. Be warned there's a lot more steps.
 
 If you would like, there is an scripted version of this process available. Use the [Github link](https://github.com/MarcusHoltz/Traefik-MacVLAN) to check the repo out.
 
 It will handle all the networking and ip configuration for you. 
 
 I took the directions below, converted them - Now they're in the [traefik_macvlan_setup_script.sh](https://github.com/MarcusHoltz/Traefik-MacVLAN/blob/main/traefik_macvlan_setup_script.sh).
+
+If you would still like to follow along, this section of the tutorial is a step-by-step install of the MacVLAN docker network setup with Traefik.
 
 If you are strong of heart and will of mind, you may proceed.
 
@@ -1009,7 +1009,7 @@ The IP Addresses are changing for this section of the tutorial. Please be aware 
 
 ### Modifications required
 
-Unlike the script, that will do this setup for you, I didnt set these up with environment variables. 
+Unlike [the script](https://github.com/MarcusHoltz/Traefik-MacVLAN/blob/main/traefik_macvlan_setup_script.sh), that will do this setup for you, I didnt set up the following with environment variables. 
 
 You will have to search and replace. 
 
@@ -1028,11 +1028,11 @@ If you would like to know more, I can suggest checking out Oli Zimpasser's Githu
 
 #### Copy my repository from Github
 
-So instead of making this from scratch, I am asking you to copy the reqired materials from [MarcusHoltz Github](https://github.com/MarcusHoltz/Traefik-MacVLAN/).
+Now to begin this section of the tutorial -- instead of making this from scratch, I am asking you to copy the reqired materials from [MarcusHoltz Github](https://github.com/MarcusHoltz/Traefik-MacVLAN/).
 
 
+- Clone the [Traefik-MacVLAN Github Repository](https://github.com/MarcusHoltz/Traefik-MacVLAN/).
 
-#### Copy the repository's files from Github
 
 Be sure you are in a folder you have write access to. This command will download and extract to: `./Traefik-MacVLAN-main`
 
@@ -1077,13 +1077,13 @@ wget -O temp.zip https://github.com/MarcusHoltz/Traefik-MacVLAN/archive/refs/hea
 #### 10 Directories and 10 Files
 
 
-Let's first go over the `./` based of the downloads directory.
+Let's first go over the `./` base of the downloads directory.
 
 
 
 * * *
 
-### Files in the base of the Github repo 📄
+### Files in the base of the Github repo
 
 This repo has a lot to get into, let's first take a look at the files available to us once we enter the repository ( `./Traefik-MacVLAN-main`).
 
@@ -1096,7 +1096,7 @@ This repo has a lot to get into, let's first take a look at the files available 
 0 directories, 3 files
 ```
 
-This section consists of three files. 
+This section consists of three files:
 
 - `README.md`
 
@@ -1116,7 +1116,7 @@ This section consists of three files.
 
 * * *
 
-### Folders you dont need to touch in the Github repo 📂
+### Folders you dont need to touch in the Github repo
 
 This section excludes the `./etc` folder. It is for a special purpose, explained later.
 
@@ -1178,7 +1178,7 @@ Go to https://dev.maxmind.com/geoip/geolite2-free-geolocation-data and download 
 
 * * *
 
-### Modifications needed in the `./etc` folder of the Github repo 📂
+### Modifications needed in the ./etc folder of the Github repo
 
 ```bash
 .
@@ -1199,7 +1199,7 @@ This folder is an example of your `root folder` structure. I have provided a few
 
 * * *
 
-#### Change \etc\systemd\network\20-ens18.network
+#### Change /etc/systemd/network/20-ens18.network
 
 You will need to change the `ens18` interface name to what your interface you're using is. 
 
@@ -1246,7 +1246,9 @@ We need to add changes to the correct area for a persistant network.
 
 * * *
 
-#### Dont do this. This was ok when a 12 oz. glass bottle of Coca-Cola cost about 1.35 U.S. dollars in North America.
+#### Dont do this. 
+
+**This was ok when a 12 oz. glass bottle of Coca-Cola cost about 1.35 U.S. dollars in North America.**
 
 In theory, you can use ifup to create the MacVLAN:
 
@@ -1477,6 +1479,8 @@ Great. You got it enabled, but if you restart systemd-networkd - to use it, it w
 So to avoid the reboot and/or hung SSH connection - instead, just
 
 
+* * *
+
 #### Great time to reboot right about now
 
 ```bash
@@ -1484,6 +1488,9 @@ So to avoid the reboot and/or hung SSH connection - instead, just
 sudo systemctl reboot
 
 ```
+
+
+* * *
 
 ##### DO NOT TRY AND RESTART SYSTEMD-NETWORKD UNLESS YOU'RE CONNECTING IN FROM A DAEMON CONNECTED DIRECTLY TO THIS SERVICE.
 
@@ -1495,6 +1502,8 @@ sudo systemctl restart systemd-networkd && sudo systemctl reboot # STOP - DONT
 # DONT DO THIS DONT DO THIS DONT DO THIS DONT DO THIS DONT DO THIS DONT DO THIS
 ```
 
+
+* * *
 
 #### Step 4: Marvel at your new MacVLAN sub-interface
 
@@ -1524,7 +1533,7 @@ docker network create -d macvlan --subnet=172.21.192.0/19 --ip-range=172.21.192.
 ```
 
 
-4. Create docker internal bridge network:
+2. Create docker internal bridge network:
 
 ```bash
 
@@ -1532,7 +1541,7 @@ docker network create traefik_proxy_net
 
 ```
 
-1. Restart docker to test:
+3. Restart docker to test:
 
 ```bash
 
@@ -1540,7 +1549,7 @@ sudo systemctl restart docker.service
 
 ```
 
-6. (Optional) I dont want this, but you may need Host-Container communication (required for Debian Host to talk directly with Docker MacVLAN), or your could aways change from `private` MacVLAN to a `VEPA` MacVLAN:
+4. (Optional) I dont want this, but you may need Host-Container communication (required for Debian Host to talk directly with Docker MacVLAN), or your could aways change from `private` MacVLAN to a `VEPA` MacVLAN:
 
 ```bash
 
@@ -1552,7 +1561,7 @@ sudo ip route add 172.21.192.240/28 dev traefik2docker    # avoid doing this
 ```
 
 
-7. Verify Docker network (you will need jq installed):
+5. Verify Docker network (you will need jq installed):
 
 > This should display, in pretty json -- "parent": traefik2docker"
 
