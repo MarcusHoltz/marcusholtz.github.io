@@ -1524,32 +1524,50 @@ ip link show traefik2docker
 ### Docker network creation
 
 
-1. Create the Docker MacVLAN network using this new bridge interface:
+* * *
 
-   ```bash
+#### Step 1: Create MacVLAN network
 
-   docker network create -d macvlan --subnet=172.21.192.0/19 --ip-range=172.21.192.240/28 --gateway=172.21.192.254 -o parent=traefik2docker traefik2host
+> Create the Docker MacVLAN network using this new bridge interface:
 
-   ```
+```bash
+
+docker network create -d macvlan --subnet=172.21.192.0/19 --ip-range=172.21.192.240/28 --gateway=172.21.192.254 -o parent=traefik2docker traefik2host
+
+```
 
 
-2. Create docker internal bridge network:
+* * *
 
-   ```bash
+#### Step 2: Create Docker internal bridge network
 
-   docker network create traefik_proxy_net
+> Create docker internal bridge network:
 
-   ```
+```bash
 
-3. Restart docker to test:
+docker network create traefik_proxy_net
 
-   ```bash
+```
 
-   sudo systemctl restart docker.service
 
-   ```
+* * *
 
-4. (Optional) I dont want this, but you may need Host-Container communication (required for Debian Host to talk directly with Docker MacVLAN), or your could aways change from `private` MacVLAN to a `VEPA` MacVLAN:
+#### Step 3: YOLO restart Docker
+
+> Restart docker to test:
+
+```bash
+
+sudo systemctl restart docker.service
+
+```
+
+
+* * *
+
+#### Step 4 (dont do this): Host-Container communication
+
+> (Optional) I dont want this, but you may need Host-Container communication (required for Debian Host to talk directly with Docker MacVLAN), or your could aways change from `private` MacVLAN to a `VEPA` MacVLAN:
 
    ```bash
 
@@ -1561,15 +1579,19 @@ ip link show traefik2docker
    ```
 
 
-5. Verify Docker network (you will need jq installed):
+* * *
 
-   > This should display, in pretty json -- "parent": traefik2docker"
+#### Step 5: Verify Docker network
 
-   ```bash
+To verify the Docker network you will need jq installed: `sudo apt install jq`
 
-   docker network inspect traefik2host | jq '.[].Options'
+> This should display, in pretty json -- "parent": traefik2docker"
 
-   ```
+```bash
+
+docker network inspect traefik2host | jq '.[].Options'
+
+```
 
 
 * * *
