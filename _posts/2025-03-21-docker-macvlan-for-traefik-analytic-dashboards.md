@@ -24,7 +24,7 @@ I am working to pass the source IPs coming in to the containers in docker. I do 
 - Then we want to have Promtail pickup the access logs, forward to Loki, and have Grafana setup a dashboard.
 
 
-## Required Software
+### Required Software
 
 You will need **Debian** 12.
 
@@ -65,7 +65,7 @@ Oh look there, yes, `Debian 12`. You may find a path to do this with other metho
 
 * * *
 
-## Script Features
+### Script Features
 
 - **Automated Traefik + MacVLAN Setup:** Configures Traefik with a MacVLAN Docker network for simplified reverse proxy.
 
@@ -94,7 +94,7 @@ Oh look there, yes, `Debian 12`. You may find a path to do this with other metho
 
 * * *
 
-## MacVLAN WARNING!!
+### MacVLAN WARNING!!
 
 * * *
 
@@ -106,9 +106,9 @@ Oh look there, yes, `Debian 12`. You may find a path to do this with other metho
 
 * * *
 
-# Install
+## Setup with Install Script
 
-To run the script from the command line directly:
+To run a demo setup and see it in action, right now -- run the script:
 
 ```bash
 
@@ -118,7 +118,7 @@ mkdir Traefik-MacVLAN-main && cd ./Traefik-MacVLAN-main && wget https://raw.gith
 
 
 
-## Demo 
+### Demo 
 
 ![Traefik Docker MacVLAN Demo of Script Running](https://raw.githubusercontent.com/MarcusHoltz/marcusholtz.github.io/refs/heads/main/assets/img/posts/traefik_docker_macvlan_demo.gif)
 
@@ -131,7 +131,7 @@ mkdir Traefik-MacVLAN-main && cd ./Traefik-MacVLAN-main && wget https://raw.gith
 
 
 
-### Tutorial Steps
+## Tutorial Index
 
 1. [This Intro](#this-intro)
 
@@ -215,7 +215,7 @@ mkdir Traefik-MacVLAN-main && cd ./Traefik-MacVLAN-main && wget https://raw.gith
 
       2. [You didnt copy enough, you need more to copy](#you-didnt-copy-enough-you-need-more-to-copy)
 
-      3. [Blog's Docker-Compose file](#blog-directorys-docker-compose-file)
+      3. [Docker-Compose file](#blog-directorys-docker-compose-file)
 
       4. [ETC](#etc)
 
@@ -261,14 +261,14 @@ mkdir Traefik-MacVLAN-main && cd ./Traefik-MacVLAN-main && wget https://raw.gith
 
 
 
-# Pre-Setup 
+## Pre-Setup
 
 This is the setup before the setup. This section is here to make sure you're able to get started.
 
 
 * * *
 
-## What is a MacVLAN?
+### What is a MacVLAN?
 
 > A MacVLAN provides a direct connection to the physical interface.
 
@@ -286,14 +286,14 @@ For more advanced setups, VLAN tagging (802.1Q) can be used to further isolate t
 
 * * *
 
-## Install Docker
+#### Tutorial Requirements
 
 The only requirement stated at the begining of this tutorial is Debian 12. The rest of the tutorial covers all materials needed to have a host to docker MacVLAN network for traefik's access log, generating analytics with Promtail/Loki/Grafana.
 
 
 * * *
 
-### System Requirements
+#### System Requirements
 
 Make sure this is a Debian 12 system you're working with. I dont think I have mentioned this at all?
 
@@ -305,7 +305,7 @@ Oh look there, yes, `Debian 12`. You may find a path to do this with other metho
 
 * * *
 
-### Install Docker manually
+### Docker Install Process
 
 This tutorial focuses on installing docker-ce, with a step-by-step install process, and finally creating backwards compatability with older `docker-compose` command.
 
@@ -378,7 +378,7 @@ Great! If you got that done, made it this far, and nothing is on fire - consider
 
 
 
-# Network Assumptions
+## Network Assumptions
 
 There are going to be some changes that need made to the configuration as it is presented in this tutorial. These defaults are subject to change.
 
@@ -387,7 +387,7 @@ There are going to be some changes that need made to the configuration as it is 
 
 * * *
 
-## Subnet size
+### Subnet size
 
 This area will describe how I have my setup, again, yours may differ. 
 
@@ -399,7 +399,7 @@ This area will describe how I have my setup, again, yours may differ.
 
 * * *
 
-## IP Addresses
+### IP Addresses
 
 - Currently the subnet I have set for my DMZ is:
 
@@ -446,14 +446,14 @@ This area will describe how I have my setup, again, yours may differ.
 ### Network Address Reference Table
 
 
-### IP Addresses Used
+#### IP Addresses Used
 
 | Gateway address for the MacVLAN subnet | IP address of the temporary bridge | IP address of the MacVLAN interface for the Docker Host | IP address of the Docker Host |
 |----------------------------------------|------------------------------------|---------------------------------------------------------|-------------------------------|
 | `172.21.192.254`                       | `172.21.192.10`                    | `172.21.192.100`                                        | `172.21.192.5`                |
 
 
-### Subnets Used
+#### Subnets Used
 
 | Full Subnet on Network | MacVLAN Bridged Subnet |
 |------------------------|------------------------|
@@ -464,7 +464,7 @@ This area will describe how I have my setup, again, yours may differ.
 
 * * *
 
-## Domain name
+## Getting the Correct Domain Name DNS Resolved
 
 You will need a domain name for this to work. It doesnt have to be real, but it has to resolve.
 
@@ -482,8 +482,6 @@ Well, you will need to search and replace text - with the domain you may have se
 
 
 * * *
-
-## Getting the Correct DNS Resolved
 
 
 ### Option a: Change your DNS on PiHole
@@ -536,14 +534,14 @@ sudo nano /etc/hosts
 
 
 
-# Test a Docker MacVLAN Network
+## First Test - a Docker MacVLAN Network
 
 Setting up a quick test of the Docker MacVLAN Network.
 
 
 * * *
 
-## Step 1: Check Network Interface
+### Step 1: Check Network Interface
 
 First, identify the network interface you'll use as the parent for the MacVLAN network:
 
@@ -558,7 +556,7 @@ Let's assume your interface is ens18 with IP 172.21.192.5.
 
 * * *
 
-## Step 2: Create MacVLAN Network
+### Step 2: Create MacVLAN Network
 
 Here is the MacVLAN setup from my Debian docker host. It creates me a /24 network range I can use for docker containers on my local DMZ subnet, a /19 network:
 
@@ -571,7 +569,7 @@ docker network create -d macvlan --subnet=172.21.192.0/19 --ip-range=172.21.192.
 
 * * *
 
-## Step 3: Test the New Network
+### Step 3: Test the New Network
 
 Now, let's quickly run a whoami container on this network:
 
@@ -581,7 +579,7 @@ docker run -d --name whoami --network test_macvlan --ip 172.21.192.100 traefik/w
 
 ```
 
-### Step 3a : Test Container Connectivity
+#### Step 3a : Test Container Connectivity
 
 See Test if the container is reachable from another machine on your network, anything other than the docker host:
 
@@ -594,7 +592,7 @@ curl http://172.21.192.100
 
 * * *
 
-## Step 4: Enable Host-to-Container Communication
+### Step 4: Enable Host-to-Container Communication
 
 We have to make ip tables changes to make this work, DONT WORRY. These are temporary and will revert back with any reboot.
 
@@ -612,7 +610,7 @@ sudo ip route add 172.21.192.100/30 dev test_macvlan
 
 * * *
 
-## Step 5: Test the New Network Connection
+### Step 5: Test the New Network Connection
 
 Now you have to test from the docker host, where you just typed in all the commands above:
 
@@ -636,7 +634,7 @@ Mission  Complete
 * * *
 
 
-## Why did this work?
+### Why did this work?
 
 A MacVLAN interface allows you to assign multiple MAC addresses to a single physical network interface, essentially creating isolated virtual network interfaces on top of your host's physical interface. Each container or virtual machine can have its own MAC address and appear as a separate device on the network, even though they share the same physical network interface on the host.
 
@@ -651,14 +649,14 @@ In this case, the MacVLAN interface (e.g., test_macvlan) will act as the bridge 
 
 
 
-# Setting Up Docker-Compose to Test a Docker MacVLAN Network
+## Second Test - Setting Up with Docker-Compose to Test a Docker MacVLAN Network
 
 In this example, we're setting up a docker-compose file for a more complex setup, we're doubling the docker containers.
 
 
 * * *
 
-## Step 1: Docker Compose File
+### Step 1: Docker Compose File
 
 Open a new file and name it: `docker-compose.yml`
 
@@ -691,7 +689,7 @@ Save your file and return to the command line.
 
 * * *
 
-## Step 2: Run docker-compose
+### Step 2: Run docker-compose
 
 ```bash
 
@@ -702,7 +700,7 @@ docker-compose up -d
 
 * * *
 
-## Step 3: Time for Testing the Compose Setup
+### Step 3: Time for Testing the Compose Setup
 
 
 Test both containers, from the docker host or from another machine on the same network:
@@ -718,7 +716,7 @@ curl http://172.21.192.102
 Great! They all work! We included all these IP Adresses when we made our route to test_MacVLAN.
 
 
-## Step 4: Cleanup Running Docker Containers
+### Step 4: Cleanup Running Docker Containers
 
 You may want to remove everything running, this was just to demonstrate starting everything up together:
 
@@ -739,20 +737,20 @@ docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
 
 
 
-# Setting Up Host bridged Docker MacVLAN Network for Traefik
+## Final Test - Setting Up Host bridged Docker MacVLAN Network for Traefik
 
 Building on the previous example, let's integrate Traefik as a reverse proxy for our services using MacVLAN and additional required networks.
 
 
 
-## Assumptions about your setup
+### Assumptions about your setup
 
 I'm going to assume you [removed all the containers](#step-4-cleanup-running-docker-containers), [deleted your docker-container.yml](#step-1-docker-compose-file), [kept the MacVLAN and ip tables rules we made earlier](#step-4-enable-host-to-container-communication). Starting from scratch - but same network.
 
 
 * * *
 
-## Step 1. Create a new internal docker network
+### Step 1. Create a new internal docker network
 
 With this, any containers placed here can access each other without the host:
 
@@ -765,7 +763,7 @@ docker network create traefik_proxy_net
 
 * * *
 
-## Step 2: Create Docker Compose File
+### Step 2: Create Docker Compose File
 
 Create a `docker-compose.yml` file with the following content:
 
@@ -832,7 +830,7 @@ docker-compose up -d
 
 * * *
 
-## Step 4: Test the Setup
+### Step 4: Test the Setup
 
 Remember, this will only work if you have [DNS set up correctly](#domain-name).
 
@@ -865,7 +863,7 @@ This setup uses MacVLAN to give Traefik a real IP on your network, allowing it t
 
 
 
-# Remove all work previous to this section
+## Remove all work previous to this section
 
 That was a good example of a MacVLAN and Docker's bridge. But for the rest of this tutorial we'll be completing a manual version of what that script at the begining did.
 
@@ -874,7 +872,7 @@ If you just want to run the script, and not have to mess with anything else - be
 
 * * *
 
-## Remove hosts file
+### Remove hosts file
 
 Be sure to remove any host file entries you may have made. 
 
@@ -888,7 +886,7 @@ sudo nano /etc/hosts
 
 * * *
 
-## Remove the test bridge and route
+### Remove the test bridge and route
 
 You only need the bridge on the host if you expect the host to be able to talk to the MacVLAN interface, as everything available from the hosts IP 172.21.192.5, will be available to the rest of the network under the bridged address as well, 172.21.192.10.
 
@@ -899,7 +897,7 @@ You only need the bridge on the host if you expect the host to be able to talk t
 2. Bring the test_macvlan interface down:
 
 
-### Warning:
+#### Warning:
 
 Sometimes this will take down your entire network. Watch out if on ssh.
 Most of the time I like to throw a restart command in there, just incase.
@@ -938,7 +936,7 @@ Or you can just reboot the machine
 
 * * *
 
-## New Docker
+### New Docker
 
 You should also start fresh with docker and everything on it.
 
@@ -951,7 +949,7 @@ printf "Stopping all running containers\n"; docker stop $(docker ps -a -q) && pr
 
 * * *
 
-## Reboot
+### Reboot
 
 Might be a good time to reboot now.
 
@@ -964,22 +962,24 @@ Might be a good time to reboot now.
 
 
 
-# Traefik, Docker-Compose, and the Host network
+## Traefik, Docker-Compose, and a MacVLAN network
 
-If you would like to follow along, this is a manual install of the MacVLAN docker network setup with Traefik. 
+If you would like to follow along, this is a manual install of the MacVLAN docker network setup with Traefik.
 
-If you would like, there is an scripted version of this process available. Use the github to check it out.
+This is less test more production, anyway, there's a lot more steps.
+
+If you would like, there is an scripted version of this process available. Use the [Github link](https://github.com/MarcusHoltz/Traefik-MacVLAN) to check the repo out.
 
 It will handle all the networking and ip configuration for you. 
 
-I took the steps below and converted them - Now they're in [the script](#).
+I took the directions below, converted them - Now they're in the [traefik_macvlan_setup_script.sh](https://github.com/MarcusHoltz/Traefik-MacVLAN/blob/main/traefik_macvlan_setup_script.sh).
 
 If you are strong of heart and will of mind, you may proceed.
 
 
 * * *
 
-## A few network related changes
+### A few network related changes
 
 The IP Addresses are changing for this section of the tutorial. Please be aware of the differences so you can make the appropreate changes to your setup.
 
@@ -1007,7 +1007,7 @@ The IP Addresses are changing for this section of the tutorial. Please be aware 
 
 * * *
 
-## Modifications required
+### Modifications required
 
 Unlike the script, that will do this setup for you, I didnt set these up with environment variables. 
 
@@ -1016,7 +1016,7 @@ You will have to search and replace.
 
 * * *
 
-## Docker-Compose
+### Docker-Compose
 
 Most of this tutorial is created from scratch to help you get a better understanding, but, the docker-compose aspect of traefik's access logs is out of scope for this tutorial. 
 
@@ -1026,7 +1026,7 @@ If you would like to know more, I can suggest checking out Oli Zimpasser's Githu
 
 
 
-### Copy my repository from Github
+#### Copy my repository from Github
 
 So instead of making this from scratch, I am asking you to copy the reqired materials from [MarcusHoltz Github](https://github.com/MarcusHoltz/Traefik-MacVLAN/).
 
@@ -1046,7 +1046,7 @@ wget -O temp.zip https://github.com/MarcusHoltz/Traefik-MacVLAN/archive/refs/hea
 
 * * *
 
-## What did you just copy?
+### What did you just copy?
 
 ```bash
 .
@@ -1074,7 +1074,7 @@ wget -O temp.zip https://github.com/MarcusHoltz/Traefik-MacVLAN/archive/refs/hea
 ```
 
 
-### 10 Directories and 10 Files
+#### 10 Directories and 10 Files
 
 
 Let's first go over the `./` based of the downloads directory.
@@ -1083,7 +1083,7 @@ Let's first go over the `./` based of the downloads directory.
 
 * * *
 
-## Files in the base of the Github repo 📄
+### Files in the base of the Github repo 📄
 
 This repo has a lot to get into, let's first take a look at the files available to us once we enter the repository ( `./Traefik-MacVLAN-main`).
 
@@ -1116,7 +1116,7 @@ This section consists of three files.
 
 * * *
 
-## Folders you dont need to touch in the Github repo 📂
+### Folders you dont need to touch in the Github repo 📂
 
 This section excludes the `./etc` folder. It is for a special purpose, explained later.
 
@@ -1165,7 +1165,7 @@ As explained below:
 
 * * *
 
-### Geo location lookup
+#### Geo location lookup
 
 Promtail will throw an error in the config if you dont do exactly as described:
 
@@ -1178,7 +1178,7 @@ Go to https://dev.maxmind.com/geoip/geolite2-free-geolocation-data and download 
 
 * * *
 
-## Modifications needed in the `./etc` folder of the Github repo 📂
+### Modifications needed in the `./etc` folder of the Github repo 📂
 
 ```bash
 .
@@ -1199,7 +1199,7 @@ This folder is an example of your `root folder` structure. I have provided a few
 
 * * *
 
-### Change \etc\systemd\network\20-ens18.network
+#### Change \etc\systemd\network\20-ens18.network
 
 You will need to change the `ens18` interface name to what your interface you're using is. 
 
@@ -1234,7 +1234,7 @@ sudo cp -R ./etc/ /
 
 * * *
 
-## Persistant network configuration
+### Persistant network configuration
 
 Why all the systemd network files? Why can't we just do it like the bridge demo earlier?
 
@@ -1246,7 +1246,7 @@ We need to add changes to the correct area for a persistant network.
 
 * * *
 
-### Dont do this. This was ok when a 12 oz. glass bottle of Coca-Cola cost about 1.35 U.S. dollars in North America.
+#### Dont do this. This was ok when a 12 oz. glass bottle of Coca-Cola cost about 1.35 U.S. dollars in North America.
 
 In theory, you can use ifup to create the MacVLAN:
 
@@ -1307,7 +1307,7 @@ Order of how this works:
 
 
 
-### This method is terrible for the following reasons:
+#### This method above is terrible for the following reasons:
 
 - Uses the legacy networking configuration in /etc/network/interfaces
 
@@ -1322,7 +1322,7 @@ Order of how this works:
 
 * * *
 
-## Persistant networks with systemd
+### Persistant networks with systemd
 
 Systemd-networkd provides a more robust way to create persistent network devices on Debian 12. Here's how to implement it:
 
@@ -1330,7 +1330,7 @@ Systemd-networkd provides a more robust way to create persistent network devices
 
 * * *
 
-### Step 1: Create the MacVLAN device definition
+#### Step 1: Create the MacVLAN device definition
 
 You should already have this file, and you should also have no reason to edit it. This is an example as to why this file is required.
 
@@ -1378,7 +1378,7 @@ Mode=private
   - (other option) `Mode=vepa` Traffic between MacVLAN instances is always sent out to the upstream switch or bridge, even if it's destined for another MacVLAN on the same parent device, this allows port mirroring on the switch or SPAN on the interface, but also allows for inter-docker communication. However, leaving the interface and coming right back (hairpin) can potentially increase latency and network overhead for inter-container communication on the same host.
 
 
-#### Modifications required to /etc/systemd/network/25-traefik2docker.netdev
+##### Modifications required to /etc/systemd/network/25-traefik2docker.netdev
 
 You dont need to change anything in this file, just be sure it finds it's home in: `/etc/systemd/network/`
 
@@ -1387,7 +1387,7 @@ You dont need to change anything in this file, just be sure it finds it's home i
 
 * * *
 
-### Step 2: Put that MacVLAN on a parent Interface
+#### Step 2: Put that MacVLAN on a parent Interface
 
 Create the systemd-networkd configuration file to define our network settings for the interface named in the file, in this example, `ens18`:
 
@@ -1423,7 +1423,7 @@ MACVLAN=traefik2docker
 
 
 
-#### Modifications required to /etc/systemd/network/20-ens18.network
+##### Modifications required to /etc/systemd/network/20-ens18.network
 
 This is the manual setup, I didnt set these up with an .env file. You will need to modify `\etc\systemd\network\20-ens18.network`
 
@@ -1441,7 +1441,7 @@ Name=enp0s18
 
 * * *
 
-### Step 3: Optional BONUS: Rename the parent interface
+#### Step 3: Optional BONUS: Rename the parent interface
 
 If you decide to rename your parent interface, you're kicking `/etc/network/interfaces` to the curb and will also need to turn on DHCP for your re-named interface, and grab a new IP. 
 
@@ -1464,7 +1464,7 @@ EOF" && sed -i '/\[Network\]/a DHCP=yes' /etc/systemd/network/20-ens18.network
 
 * * *
 
-### Step 4: Enable and restart systemd-networkd and the VM
+#### Step 4: Enable and restart systemd-networkd and the VM
 
 ```bash
 
@@ -1485,7 +1485,7 @@ sudo systemctl reboot
 
 ```
 
-#### DO NOT TRY AND RESTART SYSTEMD-NETWORKD UNLESS YOU'RE CONNECTING IN FROM A DAEMON CONNECTED DIRECTLY TO THIS SERVICE.
+##### DO NOT TRY AND RESTART SYSTEMD-NETWORKD UNLESS YOU'RE CONNECTING IN FROM A DAEMON CONNECTED DIRECTLY TO THIS SERVICE.
 
 Dont copy this, hopefully you rebooted.
 
@@ -1496,7 +1496,7 @@ sudo systemctl restart systemd-networkd && sudo systemctl reboot # STOP - DONT
 ```
 
 
-### Step 4: Marvel at your new MacVLAN sub-interface
+#### Step 4: Marvel at your new MacVLAN sub-interface
 
 Look, there it is. Look at it do nothing.
 
@@ -1512,7 +1512,7 @@ ip link show traefik2docker
 
 * * *
 
-## Docker network creation
+### Docker network creation
 
 
 1. Create the Docker MacVLAN network using this new bridge interface:
@@ -1565,14 +1565,14 @@ docker network inspect traefik2host | jq '.[].Options'
 
 * * *
 
-## Reboot
+### Reboot
 
 Might be a good time to reboot now and see what broke.
 
 
 * * *
 
-# What happened? What were all those changes good for?
+### What happened? What were all those changes good for?
 
 
 You can SSH into the Docker Host, and will be able to access any exposed ports by docker:
@@ -1589,15 +1589,14 @@ You will be able to access traefik over the MacVLAN:
 
 * * *
 
-## Docker-Compose file getting to running services
+### Modifications to docker-compose.yml
 
-The docker-compose file, `docker-compose.yml` is in the base of the `blog` directory. 
+The docker-compose file, `docker-compose.yml` is in the base of the repository. 
 
 You will need to edit the `docker-compose.yml` to match your own personal setup.
 
 
-
-### Change docker-compose.yml
+#### Docker-Compose file - editing
 
 1. Change your DNS domain name pointing to services
 
@@ -1645,7 +1644,7 @@ docker-compose up -d
 If all goes well, you will need: 
 
 
-## Links to generate website requests
+### Links to generate website requests
 
 
 Here are several sites to generate website requests to your new Traefik webanalytics dashboard: 
@@ -1692,7 +1691,7 @@ You can view Traefik logs in Grafana:
 
 * * *
 
-## Screen Shots !!!
+### Screen Shots !!!
 
 Screen shots of this project are included below:
 
@@ -1737,26 +1736,23 @@ Screen shots of this project are included below:
 > Here is a more zoomed out version of the Dashboard displaying more of the elements available.
 
 
+* * *
 
-# What happened??
+## What? That was a lot. I just want this to work!!
 
 Why didnt you choose to use the script? Are you not sure about some of the required software that it will install and system state assumptions? 
 
 Dont worry!
 
+I took the steps above and converted them to a graphic, now they're the script breakdown below:
 
 
 
-* * *
-* * *
-
-
-## I took the steps above and converted them 
-
-### Now they're the script breakdown below
 
 
 * * *
+* * *
+
 
 ## Script Breakdown
 
