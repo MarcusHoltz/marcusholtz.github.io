@@ -11,6 +11,13 @@ image:
 
 # Setting up HAProxy and Let's Encrypt on OPNsense
 
+If you're reading this, wondering why my blog came up before the official documentation - they've removed [the original documentation](https://web.archive.org/web/20221109054143/https://docs.opnsense.org/manual/how-tos/haproxy.html) on account of thier enterprise-only Reverse Proxy and Webserver.
+
+You can find a copy of the [original documentation](https://web.archive.org/web/20221109054143/https://docs.opnsense.org/manual/how-tos/haproxy.html) at [archive.org](https://web.archive.org/web/20221109054143/https://docs.opnsense.org/manual/how-tos/haproxy.html)
+
+
+* * *
+
 ## HAProxy uses ACME Let's Encrypt for SSL authentication
 
 OPNSense's HAProxy package can use ACME for certificates. 
