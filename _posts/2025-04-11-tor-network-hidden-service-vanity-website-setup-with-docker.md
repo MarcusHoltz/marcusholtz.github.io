@@ -87,11 +87,11 @@ This script sets up **one** service that will be available through a [Tor .onion
 
 This is intended as a demonstration. I hope you're able to learn and enjoy using.
 
-[Some link to a Github repo that has the script](#)
+- [github.com/marcusholtz/tor-hidden-service](https://github.com/MarcusHoltz/tor-hidden-service/)
 
 ```bash
 
-Totally has the commands you need to quickly spin up this demonstration here
+wget https://github.com/MarcusHoltz/tor-hidden-service/archive/refs/heads/main.zip -O tor-hidden-service-repo.zip && unzip tor-hidden-service-repo.zip && cd tor-hidden-service-main && chmod +x 1-up-tor-onion-address.sh && ./1-up-tor-onion-address.sh
 
 ```
 ![1-up Tor Onion Address Script for a Tor Hidden Service](https://raw.githubusercontent.com/MarcusHoltz/marcusholtz.github.io/refs/heads/main/assets/img/posts/1-up-tor-script-hidden-onion-service.gif)
