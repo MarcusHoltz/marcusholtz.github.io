@@ -171,12 +171,11 @@ You can only pick something, at max, 7 characters.
 
 Let's say you were running this on a Raspberry Pi 2B....
 
-Click to expand and take a look at the approximate generation time per character for a Raspberry Pi 2B below:
+Take a look at the approximate generation time per character for a Raspberry Pi 2B below:
 
-<details>
+####Approximate Generation Time per Character Count Chart
 
-<summary>Approximate Generation Time per Character Count Chart</summary>  
-
+```text
 Vanity Characters : Approximate Generation Time
 1  : <1 second
 2  : <1 second
@@ -190,27 +189,7 @@ Vanity Characters : Approximate Generation Time
 10 : 1,024 years
 11 : 32,768 years
 12 : 1 million years
-13 : 32 million years
-14 : 1 billion years
-15 : 32 billion years
-16 : 1 trillion years
-17 : 32 trillion years
-18 : 1 quadrillion years
-19 : 32 quadrillion years
-20 : 1 quintillion years
-21 : 32 quintillion years
-22 : 1 sextillion years
-23 : 32 sextillion years
-24 : 1 septillion years
-25 : 32 septillion years
-26 : 1 octillion years
-27 : 32 octillion years
-28 : 1 nonillion years
-29 : 32 nonillion years
-30 : 1 decillion years
-31 : 32 decillion years
-32 : 1 undecillion years
-</details>
+```
 
 
 
