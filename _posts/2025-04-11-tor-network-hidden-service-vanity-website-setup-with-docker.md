@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Tor network hidden service with vanity .onion using Docker
+title: Tor network hidden service with vanity .onion address using Docker
 date: 2025-04-11 11:33:00 -0700
 categories: [DevOps, Tor]
 tags: [tor, opensource, devops, tor, reverseproxy, onion, docker, security, networking, script, privacy]
@@ -10,7 +10,7 @@ image:
   alt: Hosting a vanity .onion address on the Tor network using Docker
 ---
 
-# Using 1-up Tor script to export a service to the internet
+# Using Tor script to create a Tor network hidden service with vanity .onion address and export a service to the internet
 
 ## Tor is not hidden
 
