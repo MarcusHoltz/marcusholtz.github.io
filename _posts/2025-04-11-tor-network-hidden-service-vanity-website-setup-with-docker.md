@@ -177,7 +177,6 @@ Click to expand and take a look at the approximate generation time per character
 
 <summary>Approximate Generation Time per Character Count Chart</summary>  
 
-```text
 Vanity Characters : Approximate Generation Time
 1  : <1 second
 2  : <1 second
@@ -211,7 +210,6 @@ Vanity Characters : Approximate Generation Time
 30 : 1 decillion years
 31 : 32 decillion years
 32 : 1 undecillion years
-```
 </details>
 
 
