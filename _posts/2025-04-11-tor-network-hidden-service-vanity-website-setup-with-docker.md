@@ -173,7 +173,7 @@ Let's say you were running this on a Raspberry Pi 2B....
 
 Take a look at the approximate generation time per character for a Raspberry Pi 2B below:
 
-####Approximate Generation Time per Character Count Chart
+#### Approximate Generation Time per Character Count Chart
 
 ```text
 Vanity Characters : Approximate Generation Time
