@@ -41,7 +41,8 @@ The purpose of this repo/post is to give someone a chance to test out hosting an
 
 You can use this to quickly share a service to a friend, client, or even your future self.
 
-
+> A Tor hidden service does not need your server to have open ports or port forwarding - because it does not accept direct inbound connections from the public internet. Instead, both the client and the hidden service connect outbound to the Tor network, establishing circuits to special relays called introduction and rendezvous points. All communication is routed through these Tor relays, so as long as your server can make outbound connections to the Tor network, it can host a hidden service!
+{: .prompt-tip }
 
 * * *
 
@@ -81,7 +82,8 @@ You can use this to quickly share a service to a friend, client, or even your fu
 
 This script sets up **one** service that will be available through a [Tor .onion address](https://en.wikipedia.org/wiki/.onion).
 
-> This service is only available through the Tor network  {: .prompt-info }
+> This service is only available through the Tor network
+> {: .prompt-info }
 
 This is intended as a demonstration. I hope you're able to learn and enjoy using.
 
