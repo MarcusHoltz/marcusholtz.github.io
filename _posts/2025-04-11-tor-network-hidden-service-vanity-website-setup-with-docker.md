@@ -83,7 +83,7 @@ You can use this to quickly share a service to a friend, client, or even your fu
 This script sets up **one** service that will be available through a [Tor .onion address](https://en.wikipedia.org/wiki/.onion).
 
 > This service is only available through the Tor network
-> {: .prompt-info }
+{: .prompt-info }
 
 This is intended as a demonstration. I hope you're able to learn and enjoy using.
 
@@ -923,8 +923,8 @@ How do you stop the Tor network now that you've let it onto your computer? You'v
 
 6. To uninstall, delete the directory you created for this script and demonstration (you may have to use sudo) and run the following to remove the docker container:
 
-```bash
-
-docker stop $(docker ps -a | grep tor-hidden-service | awk '{print $1}') 2>/dev/null && docker rm $(docker ps -a | grep tor-hidden-service | awk '{print $1}') 2>/dev/null
-
-```
+  ```bash
+  
+  docker stop $(docker ps -a | grep tor-hidden-service | awk '{print $1}') 2>/dev/null && docker rm $(docker ps -a | grep tor-hidden-service | awk '{print $1}') 2>/dev/null
+  
+  ```
