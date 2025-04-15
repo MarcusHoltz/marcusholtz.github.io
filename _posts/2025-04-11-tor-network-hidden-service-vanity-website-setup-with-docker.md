@@ -127,7 +127,7 @@ The [1-up-tor-onion-address.sh](https://github.com/MarcusHoltz/tor-hidden-servic
 
 #### Two Directories
 
-You need the sudo for privs for:
+You need sudo privs for:
 
 - tor_config/vanity_keys/
 
@@ -143,7 +143,7 @@ and
 
 The [torrc file](https://support.torproject.org/glossary/torrc/) contains all the settings Tor uses. 
 
-You need the sudo for privs for:
+You need sudo privs for:
 
 - tor_config/torrc
 
