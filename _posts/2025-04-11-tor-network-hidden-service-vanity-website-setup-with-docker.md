@@ -514,8 +514,8 @@ How do you stop the Tor network now that you've let it onto your computer? You'v
 
 6. To uninstall, delete the directory (tor-hidden-service-main) you created for this demonstration (you may have to use sudo) and run the following to remove the docker container:
 
-    ```bash
-    
-    docker stop $(docker ps -a | grep tor-hidden-service | awk '{print $1}') 2>/dev/null && docker rm $(docker ps -a | grep tor-hidden-service | awk '{print $1}') 2>/dev/null
-    
-    ```
+   ```bash
+   
+   docker stop $(docker ps -a | grep tor-hidden-service | awk '{print $1}') 2>/dev/null && docker rm $(docker ps -a | grep tor-hidden-service | awk '{print $1}') 2>/dev/null
+   
+   ```
