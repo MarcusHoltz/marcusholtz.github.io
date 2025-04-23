@@ -7,19 +7,14 @@ tags: [opnsense, splitdns, multisite, reverseproxy, unbound, dnscrypt, security,
 pin: false
 image:
   path: /assets/img/header/header--opnsense--unbound-dns-crypt-proxy-multisite-splitdns.jpg
-  alt: Using OPNSense to server Multi-site Split-DNS on Unbound and DNSCrypt-Proxy
+  alt: Using OPNSense to serve Multi-site Split-DNS on Unbound and DNSCrypt-Proxy
 ---
 
 
 # OPNsense DNS-crypt setup
 
-This post is part of a larger project demonstrating multi-site split DNS using Unbound and HAProxy to route traffic based on SNI headers. 
 
-The really fun part is most of this traffic being routed is doing so using the proxy protocol. So another reverse proxy, Traefik, with proxy protocol setup, is waiting on the other end.
-
-
-## Part 1:
-## Why Set Up DNSCrypt-Proxy on OPNsense
+## Part 1: Why Set Up DNSCrypt-Proxy on OPNsense
 
 You know, you can setup DNS-Crypt on your PiHole too!
 
@@ -33,7 +28,7 @@ Computer > DHCP (from OPNsense) > DNS (Zentyal) > PiHole (container) > OPNsense 
 Zentyal and PiHole have an interface on most of the VLANS and Subnets. Zentyal does all the caching, and handles Active Directory. PiHole is where I keep most of my block lists. Yes, I could use XXYY, but there are so many great apps/plugins/addons for PiHole. A small button that disables PiHole it for 10 seconds. Glorious. Oh, and then, yeah, OPNsense is the final source of truth. If OPNsense can't find it - it's Internet bound. 
 
 
-## Why Use DNSCrypt instead of Doh or DoT?
+### Why Use DNSCrypt instead of Doh or DoT?
 
 There are a lot of reason we're using DNSCrypt instead of Doh or DoT. But the #1 reason:
 
@@ -58,12 +53,10 @@ There are a lot of reason we're using DNSCrypt instead of Doh or DoT. But the #1
 
 
 
-## Part 2:
-### Getting DNSCrypt Functioning
+## Part 2: Getting DNSCrypt Functioning
 
 
-## Step 1:
-### Install DNSCrypt-Proxy on OPNsense
+### Step 1: Install DNSCrypt-Proxy on OPNsense
 
 Installing is as simple as visiting an app store for your firewall:
 
@@ -74,8 +67,7 @@ Installing is as simple as visiting an app store for your firewall:
 3. Wait for the installation to complete - you'll see a success message when finished.
 
 
-## Step 2: 
-### Enable and Configure DNSCrypt-Proxy
+### Step 2: Enable and Configure DNSCrypt-Proxy
 
 1. `Services > DNSCrypt-Proxy > Configuration > General`
 
@@ -84,64 +76,62 @@ Installing is as simple as visiting an app store for your firewall:
 3. Set the Listen Addresses to: `127.0.0.1:15353`
 
 
-## Step 3:
-### Additonal Settings:
+### Step 3: Additonal Settings
 
 These next few are up to you. They will restrict what servers you're allowed to use.
 
-> This setting will let DNSCrypt-Proxy use IPv4 enabled servers:
-
    - ✔️ **"Use IPv4 Servers"**
 
-
-> Basically required for DNSCrypt-Proxy to use servers with DNSCrypt protocol enabled
+> The setting above will let DNSCrypt-Proxy use IPv4 enabled servers
 
    - ✔️ **"Use DNSCrypt Servers"**
 
+> Use DNSCrypt Servers is required for DNSCrypt-Proxy to use servers with DNSCrypt protocol enabled
 
-> Allow DNSCrypt-Proxy to use servers with DNS-over-HTTPS protocol enabled
 
    - ✔️ **"Use DNS-over-HTTPS Servers"**
 
-> This enables Domain Name System Security Extensions for additional authentication - like adding wax seals to verify authenticity
+> Allow DNSCrypt-Proxy to use servers with DNS-over-HTTPS protocol enabled
+
 
    - ✔️ **"Require DNSSEC"**
 
-> Only use servers that don't log your DNS queries - choose relays that don't keep sender records
+> This enables Domain Name System Security Extensions for additional authentication - like adding wax seals to verify authenticity
 
    - ✔️ **"Require NoLog"**
 
-> Only use DNS server without own blacklisting - avoid relays that open your query to remove "junk"
+> Only use servers that don't log your DNS queries - choose relays that don't keep sender records
 
    - ✔️ **"Require NoFilter"**
 
+> Only use DNS server without own blacklisting - avoid relays that open your query to remove "junk"
+
+   - 👇 **"Fallback Resolver"**
+
 > You can set this to whatever you prefer:  `185.222.222.222:53` for DNS.SB, or `9.9.9.9:53` for Quad9
-
-   - 👆 **"Fallback Resolver"**
-
-> Immediately respond to IPv6-related queries with an empty response for faster resolution when no IPv6 connectivity exists
 
    - ✔️ **"Block IPv6"**
 
-> Enable a DNS cache to reduce latency and outgoing traffic
+> Immediately respond to IPv6-related queries with an empty response for faster resolution when no IPv6 connectivity exists
 
    - ✔️ **"Cache"**
 
-> This is useful during the initial setup for troubleshooting purposes   
+> Enable a DNS cache to reduce latency and outgoing traffic
 
    - ✔️ **"Enable query logs"**
 
-> We will go through the process of selecting from the server list below:
+> This is useful during the initial setup for troubleshooting purposes:
 
    - 🦚 **"Server List"** - Try and find a location that [meets your requirements](https://dnscrypt.info/public-servers), and is [geograhically close](https://dnscrypt.info/map/).
+
+> We will go through the process of selecting from the server list below...
 
    - Click Save to apply all settings
 
 
 
 
-## Step 4: 
-### Select the Best Privacy-Focused DNSCrypt Provider
+### Step 4: Select the Best Privacy-Focused DNSCrypt Provider
 
 The [link](https://dnscrypt.info/public-servers/) to find these servers is under the help for `Server List` in Services > DNSCrypt-Proxy > Configuration
 
@@ -170,11 +160,9 @@ Sorry the [https://dnscrypt.info/public-servers/](https://dnscrypt.info/public-s
 
 
 
-## Part 3:
-### Unbound's Upstream DNS Providers
+## Part 3: Unbound's Upstream DNS Providers
 
-## Step 1:
-### Unbound Query Forwarding for remote self-hosted domains and DNSCrypt as the Primary External DNS Server
+### Step 1: Unbound Query Forwarding for remote self-hosted domains and DNSCrypt as the Primary External DNS Server
 
 This section is for setting as many custom domains as you want. Then, you add a "catch-all" for DNSCrypt to grab anything not in that list (e.g. Internet).
 
@@ -190,8 +178,7 @@ Unbound handles local names so your devices can talk to each other, while DNSCry
 4. Under Network Interfaces, select your specific LAN/VLANs and ⛔ **make sure to exclude "WAN"** ⛔
 
 
-## Step 2:
-### Setting your upstream DNS
+### Step 2: Setting your upstream DNS
 
 1. `Services > Unbound DNS > Query Forwarding`
 
@@ -210,8 +197,7 @@ Unbound handles local names so your devices can talk to each other, while DNSCry
 4. Click Save & Apply
 
 
-## Step 3:
-### SET UP UPSTREAM REMOTE DNS HERE TOO!!!!!!!!!!!!
+### Step 3: SET UP UPSTREAM REMOTE DNS HERE TOO!!!!!!!!!!!!
 
 This allows you to have Multisite Split DNS. The internal requests still go through the private servers.
 This is possible by setting query-forwarding to any of the internal domains you want to reach to your friends' subnet's OPNsense IP. Presumably this other friend has configured their OPNsense in the same way.
@@ -225,11 +211,9 @@ I dont need a copy of all of my friends' DNS records. But when I want to connect
 
 
 
-## Part 4:
-## Ensure no conflicting DNS entries are present
+## Part 4: Ensure no conflicting DNS entries are present
 
-## Step 1:
-### Remove old DNS and exclusivly use DNSCrypt-Proxy
+### Step 1: Remove old DNS and exclusivly use DNSCrypt-Proxy
 
 You have many locations in OPNsense to set the DNS. They will almost all take presidence over DNSCrypt-Proxy. So please be sure they're not being used.
 
@@ -261,8 +245,7 @@ Double check to be sure you dont have any Unbound DNS Servers set
 
 
 
-## Step 2:
-## Best Practices for Ongoing Management
+### Step 2: Best Practices for Ongoing Management
 
 Double Check You're Using Redundant, Reliable DNS Resolvers:
 
@@ -275,9 +258,13 @@ Double Check You're Using Redundant, Reliable DNS Resolvers:
 
 ## Source material
 
-YouTube Source: [🛠️ How to Set Up DNSCrypt-Proxy on OPNsense | Secure & Encrypt Your DNS Traffic 🔒](https://youtu.be/aK_-FprANl4)
+YouTube Source: [How to Set Up DNSCrypt-Proxy on OPNsense](https://youtu.be/aK_-FprANl4)
 
-Blog Source: [🔒 How to Set Up DNSCrypt-Proxy on OPNsense](https://sysadmin102.com/2025/03/how-to-set-up-dnscrypt-proxy-on-opnsense-protect-encrypt-your-dns-traffic/)
+Blog Source: [How to Set Up DNSCrypt-Proxy on OPNsense](https://sysadmin102.com/2025/03/how-to-set-up-dnscrypt-proxy-on-opnsense-protect-encrypt-your-dns-traffic/)
 
 
+## More to come
 
+This post is part of a larger project demonstrating multi-site split DNS using Unbound and HAProxy to route traffic based on SNI headers. 
+
+The really fun part is most of this traffic being routed is doing so using the proxy protocol. So another reverse proxy, Traefik, with proxy protocol setup, is waiting on the other end.
