@@ -547,7 +547,7 @@ Tor browser is such a sweetheart that when you paste in the onion address, it'll
 
 ### Onion Service Authorized clients
 
-If you followed [the official documentation for OPNSense os-tor](https://docs.opnsense.org/manual/how-tos/tor.html) above, you will have seen the Onion Service creation, and, possibly, the Authorized clients section.
+If you followed [the official documentation for OPNSense, os-tor,](https://docs.opnsense.org/manual/how-tos/tor.html) above, you will have seen the Onion Service creation, and, possibly the Authorized clients section.
 
 You can enter as many clients as you want, but nothing will happen. You still need to add the appropreate file for the client in the terminal.
 
@@ -575,7 +575,7 @@ Let's go do that now.
 
 8. and paste after, `descriptor:x25519:`, your public key from step 5.
 
-9 Save your .auth file
+9. Save your .auth file
 
 10. Make sure it is in your `/var/db/tor/<name-of-service>/authorized_clients/`
 
@@ -587,7 +587,7 @@ Let's go do that now.
 
 ### Using the private key to access services
 
-That onion address under your `Onion Service Routing` you set when you read [the official documentation for OPNSense, os-tor,](https://docs.opnsense.org/manual/how-tos/tor.html) will only let someone with the private key access it.
+The onion address you can find under `Services > Tor > Information` and that's how you can access the `Onion Service Routing` you set when you read [the official documentation for OPNSense, os-tor,](https://docs.opnsense.org/manual/how-tos/tor.html), again that address will only let someone with the private key access it.
 
 There is no username you need to enter. That's mainly for organizational purposes. Just enter the private key when prompted and you should see the onion service.
 
@@ -596,30 +596,31 @@ There is no username you need to enter. That's mainly for organizational purpose
 
 ## Using Tor on another machine
 
-### Because OPNSense cannot do this.
+### Because OPNSense cannot do client authentication.
 
 ### You will need to do this at the browser level, or with a Tor Proxy supplying the goods below:
 
-.auth_private
+`.auth_private`
 
 This file is different. 
+
 You must put the tor hidden service address first, with the .onion removed.
 
-So 
 
-wisdomhrc3g5en6lcmb7i7jte6nj5rc33ctzgfiq5lozhqo2uoaccvqd.onion
 
-will become
+#### Example
 
-wisdomhrc3g5en6lcmb7i7jte6nj5rc33ctzgfiq5lozhqo2uoaccvqd
+1. Example address: `wisdomhrc3g5en6lcmb7i7jte6nj5rc33ctzgfiq5lozhqo2uoaccvqd.onion`
 
-Now that you have the tor hidden service you want to use in the file, you must include the descriptor and the private key.
+2. Will become: `wisdomhrc3g5en6lcmb7i7jte6nj5rc33ctzgfiq5lozhqo2uoaccvqd`
 
-wisdomhrc3g5en6lcmb7i7jte6nj5rc33ctzgfiq5lozhqo2uoaccvqd:descriptor:x25519:
+3. Now that you have the tor hidden service you want to use in the file, you must include the descriptor and the private key.
 
-Save your .auth_private with the key on the end
+4. The private key should come after, `wisdomhrc3g5en6lcmb7i7jte6nj5rc33ctzgfiq5lozhqo2uoaccvqd:descriptor:x25519:`
 
-Copy it to your ./tor/onion_auth/
+5 Save your .auth_private with the key on the end
+
+6. Copy it to your `/var/lib/tor/onion_auth/`
 
 
 
