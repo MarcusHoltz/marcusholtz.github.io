@@ -547,7 +547,7 @@ Tor browser is such a sweetheart that when you paste in the onion address, it'll
 
 ### Onion Service Authorized clients
 
-If you followed [the official documentation for OPNSense, os-tor,](https://docs.opnsense.org/manual/how-tos/tor.html){:target="_blank"} above, you will have seen the Onion Service creation, and, possibly the Authorized clients section.
+If you followed [the official documentation for OPNSense, os-tor](https://docs.opnsense.org/manual/how-tos/tor.html){:target="_blank"} above, you will have seen the Onion Service creation, and, possibly the Authorized clients section.
 
 You can enter as many clients as you want, but nothing will happen. You still need to add the appropreate file for the client in the terminal.
 
@@ -587,22 +587,20 @@ Let's go do that now.
 
 ### Using the private key to access services
 
-The onion address you can find under `Services > Tor > Information` and that's how you can access the `Onion Service Routing` you set when you read [the official documentation for OPNSense, os-tor,](https://docs.opnsense.org/manual/how-tos/tor.html){:target="_blank"}, again that address will only let someone with the private key access it.
+The onion address you can find under `Services > Tor > Information` and that's how you can access the `Onion Service Routing` you set when you read [the official documentation for OPNSense, os-tor](https://docs.opnsense.org/manual/how-tos/tor.html){:target="_blank"}, again that address will only let someone with the private key access it.
 
-There is no username you need to enter. That's mainly for organizational purposes. Just enter the private key when prompted and you should see the onion service.
+There is no username you need to enter. That's mainly for organizational purposes. Just **enter** `the private key` when prompted and you should see the onion service.
 
 
 * * *
 
-## Using Tor on another machine
+### A Differernt Tor Proxy supplying the example below:
 
-### Because OPNSense cannot do client authentication.
+OPNSense cannot do client authentication. You can, however, run a different tor proxy that will allow client authentication:
 
-### You will need to do this at the browser level, or with a Tor Proxy supplying the goods below:
+This involves: `.auth_private`
 
-`.auth_private`
-
-This file is different. 
+That file is different.
 
 You must put the tor hidden service address first, with the .onion removed.
 
