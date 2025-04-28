@@ -520,8 +520,241 @@ How do you stop the Tor network now that you've let it onto your computer? You'v
    
    ```
 
+
 * * *
 
-## Additional Sources
+## Additional Ways to Use: Tor on OPNSense
 
-OPNsense has [a great tor plugin](https://docs.opnsense.org/manual/how-tos/tor.html), `os-tor`, that can do tor hidden services as well but with the OPNsense GUI.
+OPNsense has [a great tor plugin](https://docs.opnsense.org/manual/how-tos/tor.html), `os-tor`, that can do tor SOCKS proxy, hidden services, and authentication as well but with the OPNsense GUI and Terminal.
+
+You can use it as a proxy for your browsers or setup a hidden onion service here as well, just using the GUI.
+
+But, to get the authentication part working... we need to enter the terminal.
+
+
+* * *
+
+### Tor Hidden Onion Service with Secret Authentication
+
+#### Crypto Passwords
+
+Because, let's be honest - if you can send someone the long string that is an onion address, you could probably give them the private key for that service as well.
+
+Tor browser is such a sweetheart that when you paste in the onion address, it'll immediatly ask you for the private key as well. 
+
+
+* * *
+
+### Onion Service Authorized clients
+
+If you followed [the official documentation for OPNSense os-tor](https://docs.opnsense.org/manual/how-tos/tor.html) above, you will have seen the Onion Service creation, and, possibly, the Authorized clients section.
+
+You can enter as many clients as you want, but nothing will happen. You still need to add the appropreate file for the client in the terminal.
+
+Let's go do that now.
+
+
+
+* * *
+
+### Console in to a terminal
+
+1. SSH, open a console, login with a keyboard, whatever. You need to be looking at a terminal to add files.
+
+2. Navigate to: `/var/db/tor/<name-of-service>/authorized_clients/`
+
+3. We will make the `<authorized_client_name_you_picked_in_Onion_Service_above>.auth` file required for this to work. But first,
+
+4. Run [the script below](#script). Then you will have two keys, a public and a private key.
+
+5. You need to take the public key
+
+6. Make the .auth file referenced above.
+
+7. Paste in: `descriptor:x25519:`
+
+8. and paste after, `descriptor:x25519:`, your public key from step 5.
+
+9 Save your .auth file
+
+10. Make sure it is in your `/var/db/tor/<name-of-service>/authorized_clients/`
+
+11. [Cue up victory hype soundtrack](https://smashcustommusic.net/song/5403), and [play along](https://musescore.com/user/10564571/scores/6818645).
+
+
+
+* * *
+
+### Using the private key to access services
+
+That onion address under your `Onion Service Routing` you set when you read [the official documentation for OPNSense, os-tor,](https://docs.opnsense.org/manual/how-tos/tor.html) will only let someone with the private key access it.
+
+There is no username you need to enter. That's mainly for organizational purposes. Just enter the private key when prompted and you should see the onion service.
+
+
+* * *
+
+## Using Tor on another machine
+
+### Because OPNSense cannot do this.
+
+### You will need to do this at the browser level, or with a Tor Proxy supplying the goods below:
+
+.auth_private
+
+This file is different. 
+You must put the tor hidden service address first, with the .onion removed.
+
+So 
+
+wisdomhrc3g5en6lcmb7i7jte6nj5rc33ctzgfiq5lozhqo2uoaccvqd.onion
+
+will become
+
+wisdomhrc3g5en6lcmb7i7jte6nj5rc33ctzgfiq5lozhqo2uoaccvqd
+
+Now that you have the tor hidden service you want to use in the file, you must include the descriptor and the private key.
+
+wisdomhrc3g5en6lcmb7i7jte6nj5rc33ctzgfiq5lozhqo2uoaccvqd:descriptor:x25519:
+
+Save your .auth_private with the key on the end
+
+Copy it to your ./tor/onion_auth/
+
+
+
+* * *
+
+## Script
+
+### FreeBSD-compatible X25519 key generator with built-in Base32 encoder
+
+Sorry. I found it a big pain to try and generate these auth keys in FreeBSD, because they dont include base32 in packages.
+
+This script takes care of:
+
+- X25519 key generation:  private.key  &  public.key
+
+- Base32 encodes these keys to make them Tor compatible
+
+* * *
+
+```bash
+#!/bin/sh
+# Self-contained FreeBSD-compatible X25519 key generator with Base32 encoder
+
+base32_encode_file() {
+    file="$1"
+    alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
+    pad="="
+    bits=""
+
+    # Read file byte-by-byte and convert to bit string
+    for byte in $(od -An -v -t u1 "$file"); do
+        n=$byte
+        b=""
+        for i in 1 2 3 4 5 6 7 8; do
+            b="$(($n % 2))$b"
+            n=$(($n / 2))
+        done
+        bits="${bits}${b}"
+    done
+
+    # Pad bits to multiple of 5
+    mod=$((${#bits} % 5))
+    if [ "$mod" -ne 0 ]; then
+        padlen=$((5 - mod))
+        while [ "$padlen" -gt 0 ]; do
+            bits="${bits}0"
+            padlen=$((padlen - 1))
+        done
+    fi
+
+    # Encode 5 bits at a time
+    output=""
+    i=0
+    while [ $i -lt ${#bits} ]; do
+        chunk=$(printf "%s" "$bits" | cut -c $(($i + 1))-$(($i + 5)))
+        idx=0
+        for c in $(echo "$chunk" | sed 's/./& /g'); do
+            idx=$((idx * 2 + c))
+        done
+        output="${output}$(printf "%s" "$alphabet" | cut -c $(($idx + 1)))"
+        i=$(($i + 5))
+    done
+
+    # Pad output to multiple of 8
+    mod=$((${#output} % 8))
+    if [ "$mod" -ne 0 ]; then
+        padlen=$((8 - mod))
+        while [ "$padlen" -gt 0 ]; do
+            output="${output}${pad}"
+            padlen=$((padlen - 1))
+        done
+    fi
+
+    echo "$output"
+}
+
+pem_body_to_bin() {
+    # Strips PEM headers/footers and base64-decodes the body
+    sed '/-----BEGIN/,/-----END/!d;/-----BEGIN/d;/-----END/d' "$1" | openssl base64 -d
+}
+
+extract_and_encode_key() {
+    input_pem="$1"
+    output_file="$2"
+
+    # Extract last 32 bytes from decoded PEM and encode
+    pem_body_to_bin "$input_pem" | tail -c 32 > tmp.raw
+    base32_encode_file tmp.raw | sed 's/=//g' > "$output_file"
+    rm -f tmp.raw
+}
+
+generate_keys() {
+    echo "[*] Generating Public & Private Keys"
+
+    openssl genpkey -algorithm x25519 -out key.private.pem
+    extract_and_encode_key key.private.pem private.key
+
+    openssl pkey -in key.private.pem -pubout > key.public.pem
+    extract_and_encode_key key.public.pem public.key
+
+    echo "[*] Successfully Generated Keys"
+    echo -n "Public Key: "
+    cat public.key
+    echo
+    echo -n "Private Key: "
+    cat private.key
+    echo
+}
+
+# Main
+generate_keys
+```
+
+
+
+
+### Sources for OPNsense Onion Hidden Service Tor Clients
+
+
+https://web.archive.org/web/20211101210839/https://matt.traudt.xyz/posts/creating-private-v3-FgbdRTFr/
+
+https://community.torproject.org/onion-services/advanced/client-auth/
+
+https://github.com/torproject/torspec/blob/main/rend-spec-v3.txt#L2569
+
+
+
+
+
+
+
+
+
+
+
+
+
+
