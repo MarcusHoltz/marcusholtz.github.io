@@ -733,10 +733,27 @@ generate_keys
 ```
 
 
+## Tor - share with a button
+
+If this is all just too much, and you need a quick - almost one button press - look into [OnionShare](https://en.wikipedia.org/wiki/OnionShare){:target="_blank"}.
+
+[OnionShare](https://onionshare.org/){:target="_blank"} works great on a phone, and is also available on flathub, MacOS, and Windows.
 
 
-### Sources for OPNsense Onion Hidden Service Tor Clients
+* * *
 
+[OnionShare](https://github.com/onionshare/onionshare){:target="_blank"}'s main features are:
+
+- Sending and receiving large files peer-to-peer over tor network.
+
+- Chat ephemerally.
+
+- Host a website.
+
+
+* * *
+
+## Sources for OPNsense Onion Hidden Service Tor Clients
 
 https://web.archive.org/web/20211101210839/https://matt.traudt.xyz/posts/creating-private-v3-FgbdRTFr/
 
