@@ -519,3 +519,9 @@ How do you stop the Tor network now that you've let it onto your computer? You'v
    docker stop $(docker ps -a | grep tor-hidden-service | awk '{print $1}') 2>/dev/null && docker rm $(docker ps -a | grep tor-hidden-service | awk '{print $1}') 2>/dev/null
    
    ```
+
+* * *
+
+## Additional Sources
+
+OPNsense has [a great tor plugin](https://docs.opnsense.org/manual/how-tos/tor.html), `os-tor`, that can do tor hidden services as well but with the OPNsense GUI.
