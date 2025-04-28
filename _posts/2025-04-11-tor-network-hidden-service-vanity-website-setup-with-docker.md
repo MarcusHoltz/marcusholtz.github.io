@@ -16,9 +16,9 @@ image:
 
 "In our experiments we collected 173667 unique .onion addresses in all using a single Amazon EC2 instances in 1 hour and found 4857 hidden web services online."
 
-- [Out-of-band discovery and evaluation for tor hidden services](https://dl.acm.org/doi/10.1145/2851613.2851798)
+- [Out-of-band discovery and evaluation for tor hidden services](https://dl.acm.org/doi/10.1145/2851613.2851798){:target="_blank"}
 
-- [Tor: Hidden Service Intelligence Extraction](https://rp.os3.nl/2017-2018/p98/report.pdf)
+- [Tor: Hidden Service Intelligence Extraction](https://rp.os3.nl/2017-2018/p98/report.pdf){:target="_blank"}
 
 
 ### Hidden Service Discovery
@@ -87,7 +87,7 @@ You can use this to quickly share a service to a friend, client, or even your fu
 
 This is intended as a demonstration. I hope you're able to learn and enjoy using.
 
-- SOURCE: [github.com/marcusholtz/tor-hidden-service](https://github.com/MarcusHoltz/tor-hidden-service/)
+- SOURCE: [github.com/marcusholtz/tor-hidden-service](https://github.com/MarcusHoltz/tor-hidden-service/){:target="_blank"}
 
 
 * * *
@@ -141,7 +141,7 @@ and
 
 #### A file: torrc
 
-A [torrc file](https://support.torproject.org/glossary/torrc/) contains all the settings Tor uses. 
+A [torrc file](https://support.torproject.org/glossary/torrc/){:target="_blank"} contains all the settings Tor uses. 
 
 You need sudo privs for:
 
@@ -154,7 +154,7 @@ You need sudo privs for:
 
 ## Vanity Name Creation
 
-A [vanity address](https://community.torproject.org/onion-services/advanced/vanity-addresses/) is an onion address that starts with a pre-chosen number of characters, usually a meaningful name related to a specific Onion Service. 
+A [vanity address](https://community.torproject.org/onion-services/advanced/vanity-addresses/){:target="_blank"} is an onion address that starts with a pre-chosen number of characters, usually a meaningful name related to a specific Onion Service. 
 
 For instance, one might try to generate an onion address for the mysitename website and end up with something looking like this:
 
@@ -310,7 +310,7 @@ Click to expand and take a look at the 6 character example vanities below:
 
 ### How is the vanity generated
 
-Thanks to the work on the [cathugger/mkp224o](https://github.com/cathugger/mkp224o) repository, we're able to generate vanity address for tor onion v3 (ed25519) hidden services.
+Thanks to the work on the [cathugger/mkp224o](https://github.com/cathugger/mkp224o){:target="_blank"} repository, we're able to generate vanity address for tor onion v3 (ed25519) hidden services.
 
 - Specifically, the [1-up-tor-onion-address.sh](https://github.com/MarcusHoltz/tor-hidden-service/blob/main/1-up-tor-onion-address.sh) script will run: `docker run ghcr.io/cathugger/mkp224o:master -n 3 <your_vanity_name>`
 
@@ -409,9 +409,9 @@ The Tor user (not root) must own all these files inside the container
 
 ## Browsers that find an onion service
 
-- Use [Brave Browser](https://support.brave.com/hc/en-us/articles/360018121491-What-is-a-Private-Window-with-Tor-Connectivity)
+- Use [Brave Browser](https://support.brave.com/hc/en-us/articles/360018121491-What-is-a-Private-Window-with-Tor-Connectivity){:target="_blank"}
 
-- Use [Tor Browser](https://support.torproject.org/)
+- Use [Tor Browser](https://support.torproject.org/){:target="_blank"}
 
 
 * * *
@@ -525,7 +525,7 @@ How do you stop the Tor network now that you've let it onto your computer? You'v
 
 ## Additional Ways to Use: Tor on OPNSense
 
-OPNsense has [a great tor plugin](https://docs.opnsense.org/manual/how-tos/tor.html), `os-tor`, that can do tor SOCKS proxy, hidden services, and authentication as well but with the OPNsense GUI and Terminal.
+OPNsense has [a great tor plugin](https://docs.opnsense.org/manual/how-tos/tor.html){:target="_blank"}, `os-tor`, that can do tor SOCKS proxy, hidden services, and authentication as well but with the OPNsense GUI and Terminal.
 
 You can use it as a proxy for your browsers or setup a hidden onion service here as well, just using the GUI.
 
@@ -547,7 +547,7 @@ Tor browser is such a sweetheart that when you paste in the onion address, it'll
 
 ### Onion Service Authorized clients
 
-If you followed [the official documentation for OPNSense, os-tor,](https://docs.opnsense.org/manual/how-tos/tor.html) above, you will have seen the Onion Service creation, and, possibly the Authorized clients section.
+If you followed [the official documentation for OPNSense, os-tor,](https://docs.opnsense.org/manual/how-tos/tor.html){:target="_blank"} above, you will have seen the Onion Service creation, and, possibly the Authorized clients section.
 
 You can enter as many clients as you want, but nothing will happen. You still need to add the appropreate file for the client in the terminal.
 
@@ -579,7 +579,7 @@ Let's go do that now.
 
 10. Make sure it is in your `/var/db/tor/<name-of-service>/authorized_clients/`
 
-11. [Cue up victory hype soundtrack](https://smashcustommusic.net/song/5403), and [play along](https://musescore.com/user/10564571/scores/6818645).
+11. [Cue up victory hype soundtrack](https://smashcustommusic.net/song/5403){:target="_blank"}, and [play along](https://musescore.com/user/10564571/scores/6818645){:target="_blank"}.
 
 
 
@@ -587,7 +587,7 @@ Let's go do that now.
 
 ### Using the private key to access services
 
-The onion address you can find under `Services > Tor > Information` and that's how you can access the `Onion Service Routing` you set when you read [the official documentation for OPNSense, os-tor,](https://docs.opnsense.org/manual/how-tos/tor.html), again that address will only let someone with the private key access it.
+The onion address you can find under `Services > Tor > Information` and that's how you can access the `Onion Service Routing` you set when you read [the official documentation for OPNSense, os-tor,](https://docs.opnsense.org/manual/how-tos/tor.html){:target="_blank"}, again that address will only let someone with the private key access it.
 
 There is no username you need to enter. That's mainly for organizational purposes. Just enter the private key when prompted and you should see the onion service.
 
