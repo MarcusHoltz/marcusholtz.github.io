@@ -37,7 +37,7 @@ For the repo that goes along with this guide, visit https://github.com/MarcusHol
 
 ## Demo
 
-<gif>
+![demo](#)
 
 
 
