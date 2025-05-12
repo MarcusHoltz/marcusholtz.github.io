@@ -119,7 +119,7 @@ To run the script from the command line directly:
 
 ```bash
 
-wget -O - https://raw.githubusercontent.com/MarcusHoltz/Authentik-Traefik-MacVLAN/refs/heads/main/traefik_macvlan_bridge.sh | bash
+source <(curl -fsSL https://raw.githubusercontent.com/MarcusHoltz/Authentik-Traefik-MacVLAN/refs/heads/main/traefik_macvlan_bridge.sh)
 
 ```
 
