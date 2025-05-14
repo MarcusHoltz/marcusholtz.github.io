@@ -96,12 +96,12 @@ Turning off wifi can help reduce late-night screen time and encourage better rou
 
 First thing is to update the package list
 
-![Update OpenWRT list of OPKG packages](turnoffservices--openwrt-1.png)
+![Update OpenWRT list of OPKG packages](/assets/img/posts/turnoffservices--openwrt-1.png)
 
 
 Wait as the package manager updates
 
-![OPKG update command is running to ensure a up-to-date list of packages](turnoffservices--openwrt-2.png)
+![OPKG update command is running to ensure a up-to-date list of packages](/assets/img/posts/turnoffservices--openwrt-2.png)
 
 
 ### Step 2: Search OpenWRT software package list
@@ -112,7 +112,7 @@ Install `wifischedule`
 
 Install `luci-app-wifischedule`
 
-![Filter for wifi to find wifischedule](turnoffservices--openwrt-3.png)
+![Filter for wifi to find wifischedule](/assets/img/posts/turnoffservices--openwrt-3.png)
 
 ### Step 3:Using Wifi Schedule on OpenWRT
 
@@ -124,7 +124,7 @@ Make sure that `Enable Wifi Schedule` is checked
 
 Head down to `Schedule events`
 
-![wifischedule on OpenWRT needs enabled](turnoffservices--openwrt-4.png)
+![wifischedule on OpenWRT needs enabled](/assets/img/posts/turnoffservices--openwrt-4.png)
 
 Under `Schedule events`
 
@@ -142,7 +142,7 @@ Select the `Stop WiFi` time
 
 Be sure to `Enable mode` to continue
 
-![Add your wifischedule name, date, and time](turnoffservices--openwrt-5.png)
+![Add your wifischedule name, date, and time](/assets/img/posts/turnoffservices--openwrt-5.png)
 
 
 ### Step 4: View your added schedule in cron
@@ -153,7 +153,7 @@ Head over to `System > Scheduled Tasks`
 
 Here you can see the time, days, and the script being executed for those respective times. Cool.
 
-![Look at OpenWRT crontab to be sure our configuration worked](turnoffservices--openwrt-6.png)
+![Look at OpenWRT crontab to be sure our configuration worked](/assets/img/posts/turnoffservices--openwrt-6.png)
 
 
 
@@ -189,7 +189,7 @@ To create a new schedule:
 - Click on the `orange plus` in the upper right corner
 
 
-![Find firewall schedules under firewall settings](turnoffservices--opnsense-firewall-0.png)
+![Find firewall schedules under firewall settings](/assets/img/posts/turnoffservices--opnsense-firewall-0.png)
 
 
 ### Step 2: Add the new firewall schedule
@@ -209,7 +209,7 @@ To create a new schedule:
 - Hit `Save` at the bottom
 
 
-![Configure your firewall schedule for your needs](turnoffservices--opnsense-firewall-1.png)
+![Configure your firewall schedule for your needs](/assets/img/posts/turnoffservices--opnsense-firewall-1.png)
 
 
 
@@ -225,12 +225,12 @@ To add a new firewall rule, or edit an old rule:
 
 - Additionally, the `Schedule` and `Description` are both `crossed out`, to indicate this rule is not active.
 
-![OPNsense firewall rules page](turnoffservices--opnsense-firewall-2.png)
+![OPNsense firewall rules page](/assets/img/posts/turnoffservices--opnsense-firewall-2.png)
 
 
 - Click on the `orange plus` sign to make a new rule or the `pencil icon` to edit an existing rule.
 
-![Adding or Editing a firewall rule](turnoffservices--opnsense-firewall-3.png)
+![Adding or Editing a firewall rule](/assets/img/posts/turnoffservices--opnsense-firewall-3.png)
 
 
 
@@ -246,7 +246,7 @@ On this new page there is only one section that schedules the rule, but we'll go
 
 - `any` for all. This is a block everything rule, any 2 any.
 
-![Creating a blocking firewall rule any to any](turnoffservices--opnsense-firewall-4.png)
+![Creating a blocking firewall rule any to any](/assets/img/posts/turnoffservices--opnsense-firewall-4.png)
 
 
 Scrolling down the page:
@@ -257,7 +257,7 @@ Scrolling down the page:
 
 - `Save`
 
-![Add the schedule created in step 2 to the firewall rule](turnoffservices--opnsense-firewall-5.png)
+![Add the schedule created in step 2 to the firewall rule](/assets/img/posts/turnoffservices--opnsense-firewall-5.png)
 
 
 
@@ -291,7 +291,7 @@ Looking from a console directly on OPNSense:
 
 - You can also see the output of the file: `actions_wireguard--start.conf`
 
-![OPNSense console viewing actions_wireguard--start.conf](turnoffservices--opnsense-wireguard-6.png)
+![OPNSense console viewing actions_wireguard--start.conf](/assets/img/posts/turnoffservices--opnsense-wireguard-6.png)
 
 
 ### Step 2: SSH in and paste the files required
@@ -328,7 +328,7 @@ message: stop wireguard instance %s
 description:Z Stop on WireGuard
 ```
 
-![OPNSense SSH remote connection viewing actions_wireguard--start.conf](turnoffservices--opnsense-wireguard-7.png)
+![OPNSense SSH remote connection viewing actions_wireguard--start.conf](/assets/img/posts/turnoffservices--opnsense-wireguard-7.png)
 
 
 ### Step 3: Create actions in cron
@@ -337,12 +337,12 @@ With those files in place:
 
 - `System > Settings > Cron`
 
-![OPNSense web interface for cron](turnoffservices--opnsense-wireguard-1.png)
+![OPNSense web interface for cron](/assets/img/posts/turnoffservices--opnsense-wireguard-1.png)
 
 
 - Click on the `orange plus` to add a new cron job
 
-![Adding a new crontab to OPNSense](turnoffservices--opnsense-wireguard-2.png)
+![Adding a new crontab to OPNSense](/assets/img/posts/turnoffservices--opnsense-wireguard-2.png)
 
 
 ### Step 4: Setup the cron job for Wireguard
@@ -360,7 +360,7 @@ This screenshot section only demonstrates adding a single service. **Please reme
   - If you need any help with your cron syntax, check out [https://crontab.guru](https://crontab.guru).
 
 
-![Using cron format to setup a cronjob](turnoffservices--opnsense-wireguard-3.png)
+![Using cron format to setup a cronjob](/assets/img/posts/turnoffservices--opnsense-wireguard-3.png)
 
 #### Input the Wireguard interface
 
@@ -370,7 +370,7 @@ Please note, the action takes an input.
 
   - The first Wireguard interface you make is `wg0` so try that if you dont know what to put.
 
-![Adding a parameter to the cron action](turnoffservices--opnsense-wireguard-4.png)
+![Adding a parameter to the cron action](/assets/img/posts/turnoffservices--opnsense-wireguard-4.png)
 
 
 #### Select the command to run
@@ -378,7 +378,7 @@ Please note, the action takes an input.
 - `Command` will be the **description** of the **action** in the directory **actions.d** you made earlier on [Step 2](#).
 
 
-![Selecting the action of the cron tab](turnoffservices--opnsense-wireguard-4.png)
+![Selecting the action of the cron tab](/assets/img/posts/turnoffservices--opnsense-wireguard-4.png)
 
 
 
@@ -409,26 +409,26 @@ If you do not, please see: [Ibracorp](https://docs.ibracorp.io/authentik/authent
 
 - `Authentik Web UI > Applications > Applications`
 
-![Authentik applications location in the menu](turnoffservices--authentik-03.png)
+![Authentik applications location in the menu](/assets/img/posts/turnoffservices--authentik-03.png)
 
 
 This example is going to use Portainer as the `app requiring authentication` before use.
 
 - Click on your `APPNAME` or hit the `pencil icon`
 
-![Enter the application to bind a policy to](turnoffservices--authentik-04.png)
+![Enter the application to bind a policy to](/assets/img/posts/turnoffservices--authentik-04.png)
 
 - Once on the new page, at the top
 
 - Click on `Policy/Group/User/Bindings`
 
-![Authentik Application user bindings page in the menu](turnoffservices--authentik-05.png)
+![Authentik Application user bindings page in the menu](/assets/img/posts/turnoffservices--authentik-05.png)
 
 - With the new tab open
 
 - Click on `Create and bind Policy`
 
-![Application create and bind policy button](turnoffservices--authentik-06.png)
+![Application create and bind policy button](/assets/img/posts/turnoffservices--authentik-06.png)
 
 - The `new policy` page will appear 
 
@@ -436,7 +436,7 @@ This example is going to use Portainer as the `app requiring authentication` bef
 
 - Click `Next`
 
-![Expression Policy creation for an Application on Authentik](turnoffservices--authentik-07.png)
+![Expression Policy creation for an Application on Authentik](/assets/img/posts/turnoffservices--authentik-07.png)
 
 - Think of the `name` you want to use to identify this python script. 
 
@@ -469,7 +469,7 @@ This expression will:
 
 - Click `Next` when done
 
-![Python code for returning datetime](turnoffservices--authentik-09.png)
+![Python code for returning datetime](/assets/img/posts/turnoffservices--authentik-09.png)
 
 The last page is for assigning the Policy, Enabling, Inverting, Ordering, and Assigning a Pass/Dont
 
@@ -479,7 +479,7 @@ The last page is for assigning the Policy, Enabling, Inverting, Ordering, and As
 
 - Scroll to the bottom
 
-![On a binding for a policy you must enable and select the policy](turnoffservices--authentik-10.png)
+![On a binding for a policy you must enable and select the policy](/assets/img/posts/turnoffservices--authentik-10.png)
 
 We dont want people to login if the current_hour is before 8am or after 5pm.
 
@@ -487,7 +487,7 @@ We dont want people to login if the current_hour is before 8am or after 5pm.
 
 - Click `Finish`
 
-![What is the result of the bound expression - pass or dont pass](turnoffservices--authentik-11.png)
+![What is the result of the bound expression - pass or dont pass](/assets/img/posts/turnoffservices--authentik-11.png)
 
 You can review what you just created on the page you arrived at earlier
 
@@ -495,7 +495,7 @@ You can review what you just created on the page you arrived at earlier
 
 - Click on `Edit Binding`, just for good fun.
 
-![Authentik Applications page now has the Bound Policy we created](turnoffservices--authentik-12.png)
+![Authentik Applications page now has the Bound Policy we created](/assets/img/posts/turnoffservices--authentik-12.png)
 
 Just to test out our rule, as it's still business hours where I'm at...
 
@@ -505,11 +505,11 @@ Just to test out our rule, as it's still business hours where I'm at...
 
 - Click `Update`
 
-![Negate the result of an Application's Bound Policy](turnoffservices--authentik-13.png)
+![Negate the result of an Application's Bound Policy](/assets/img/posts/turnoffservices--authentik-13.png)
 
 - Now try and use Authentik login to your test application.
 
-![Using Authentik to login to an OAuth page](turnoffservices--authentik-14.png)
+![Using Authentik to login to an OAuth page](/assets/img/posts/turnoffservices--authentik-14.png)
 
 - This page is blocking us from logging in!
 
@@ -519,24 +519,24 @@ Just to test out our rule, as it's still business hours where I'm at...
 
 - The value returned is then displayed for the user `returned result 'False'`
 
-![A blocked authentication from Authentik for attempting to login after hours](turnoffservices--authentik-15.png)
+![A blocked authentication from Authentik for attempting to login after hours](/assets/img/posts/turnoffservices--authentik-15.png)
 
 But none of this is real if we cant prove it to our boss.
 
 - `Events > Logs` 
 
-![Authentik logs page is under events and logs](turnoffservices--authentik-16.png)
+![Authentik logs page is under events and logs](/assets/img/posts/turnoffservices--authentik-16.png)
 
 Once one the page for event logs, we need to search for the failed login.
 
 
 
-![Authentik logs deeper dive, exploring logs](turnoffservices--authentik-17.png)
+![Authentik logs deeper dive, exploring logs](/assets/img/posts/turnoffservices--authentik-17.png)
 
 If you've located the offending login, hit the arrow down button to drill down and expand the action.
 
 
-![Drilling down into Authentik logs with an event](turnoffservices--authentik-18.png)
+![Drilling down into Authentik logs with an event](/assets/img/posts/turnoffservices--authentik-18.png)
 
 
 Here is the information of the bad person. Oh no!!!
@@ -547,14 +547,14 @@ Here is the information of the bad person. Oh no!!!
 
 - The identity of the person and the account used
 
-![Authentik Log information about the offending user](turnoffservices--authentik-19.png)
+![Authentik Log information about the offending user](/assets/img/posts/turnoffservices--authentik-19.png)
 
 
 You can view and edit the Policy you made, incase you need to change the hours
 
 - `Customization > Policies`
 
-![Location of custom expression policies in Authentik](turnoffservices--authentik-21.png)
+![Location of custom expression policies in Authentik](/assets/img/posts/turnoffservices--authentik-21.png)
 
 
 To edit the policy:
@@ -565,7 +565,7 @@ To edit the policy:
 
 
 
-![To make changes to the policy click the pencil icon](turnoffservices--authentik-22.png)
+![To make changes to the policy click the pencil icon](/assets/img/posts/turnoffservices--authentik-22.png)
 
 
 
@@ -574,7 +574,7 @@ Here you can adjust the policy in any way you want,
 - In this example, adjust the time of day between 8am and 5pm
 
 
-![A sloppy example of how to change the policy, this is from 8am to 5pm](turnoffservices--authentik-23.png)
+![A sloppy example of how to change the policy, this is from 8am to 5pm](/assets/img/posts/turnoffservices--authentik-23.png)
 
 
 ## Congratulations
