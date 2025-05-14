@@ -37,7 +37,7 @@ For the repo that goes along with this guide, visit https://github.com/MarcusHol
 
 ## Demo
 
-![demo](#)
+![Docker MacVLAN Bridge with Traefik Demo of Script Running](/assets/img/posts/traefik-macvlan-bridge--host-to-container-communication.gif)
 
 
 
