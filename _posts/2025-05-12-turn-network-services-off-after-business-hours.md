@@ -378,7 +378,7 @@ Please note, the action takes an input.
 - `Command` will be the **description** of the **action** in the directory **actions.d** you made earlier on [Step 2](#).
 
 
-![Selecting the action of the cron tab](/assets/img/posts/turnoffservices--opnsense-wireguard-4.png)
+![Selecting the action of the cron tab](/assets/img/posts/turnoffservices--opnsense-wireguard-5.png)
 
 
 
