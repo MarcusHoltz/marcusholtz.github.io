@@ -11,9 +11,6 @@ image:
 ---
 
 
-
-
-
 # 5pm turn off services when business hours end or while asleep at home
 
 
