@@ -58,7 +58,7 @@ A great idea for managing resources effectively without sacrificing the customer
 
 You can find a repository for the Traefik demonstration at:
 
-[https://github.com/MarcusHoltz/traefik-docker-cron](https://github.com/MarcusHoltz/traefik-docker-cron)
+[https://github.com/MarcusHoltz/traefik-docker-cron](https://github.com/MarcusHoltz/traefik-docker-cron){:target="_blank"}
 
 * * *
 
@@ -75,7 +75,7 @@ This guide is using:
 
 In addition, you will need:
 
-- [An application](https://docs.goauthentik.io/docs/add-secure-apps/applications/manage_apps) you can bind a policy to. This post uses Portainer.
+- [An application](https://docs.goauthentik.io/docs/add-secure-apps/applications/manage_apps){:target="_blank"} you can bind a policy to. This post uses Portainer.
 
 
 
