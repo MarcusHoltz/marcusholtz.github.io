@@ -53,6 +53,13 @@ to a non-app container, a static page, mitigating attack surface, and AI crawler
 A great idea for managing resources effectively without sacrificing the customer experience. 
 
 
+* * *
+
+You can find a repository for the Traefik demonstration at:
+
+https://github.com/MarcusHoltz/traefik-docker-cron
+
+* * *
 
 
 ## Follow Along System
