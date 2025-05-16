@@ -105,12 +105,12 @@ Turning off wifi can help reduce late-night screen time and encourage better rou
 First thing is to update the package list
 
 ![Update OpenWRT list of OPKG packages](/assets/img/posts/turnoffservices--openwrt-1.png)
-
+*image_caption*
 
 Wait as the package manager updates
 
 ![OPKG update command is running to ensure a up-to-date list of packages](/assets/img/posts/turnoffservices--openwrt-2.png)
-
+*image_caption 2*
 
 ### Step 2: Search OpenWRT software package list
 
