@@ -1,0 +1,280 @@
+---
+layout: post
+title: OpenWRT with DSA setup VLAN on OPNsense
+date: 2025-05-18 11:33:00 -0700
+categories: [Networking, WiFi]
+tags: [openwrt, opnsense, wireless, VLAN, security, networking, bridge, customization, dsa]
+pin: false
+image:
+  path: /assets/img/header/header--wireless--openwrt-dsa-bridge-vlan-network.jpg
+  alt: Setup VLANs on OpenWRT with DSA on OPNsense
+---
+
+
+
+# OpenWRT Setup with DSA VLANs
+
+So, you have an OPNsense firewall.
+
+You have some VLANS set up on that firewall.
+
+You want to send that segregated traffic to your access point - and, have your wireless network as isolated as your lan.
+
+That's the plan.
+
+
+## OpenWRT 24
+
+
+There is no longer a `switch` section of the `Network` in the OpenWRT LuCI interface.
+This has been [replaced by DSA](https://openwrt.org/docs/guide-user/network/dsa/converting-to-dsa){:target="_blank"}.
+
+If you try and go to the default bridge, `br-lan` and move over to the tab, `Bridge VLAN filtering` and try and `Enable VLAN filtering` you will break your config and have to roll back.
+
+**THIS WILL NOT WORK**
+
+
+Instead, the correct way is to:
+
+
+
+
+## Step 1: Make VLANS on OPNsense
+
+We're going to assume the network configuration of, a [router on a stick](https://en.wikipedia.org/wiki/Router_on_a_stick){:target="_blank"}.
+
+The last device on that stick, the router, is the first configuration we're goin to make.
+
+You need to setup your VLANS for the switch/accesspoint to use.
+
+A good example is:
+
+![OPNsense Interfaces overview page](/assets/img/posts/openwrt-dsa-OPNsense-Interfaces-Overview.png)
+*You can see the interfaces, their VLAN assignment and their IP address.*
+
+and then: 
+
+![OPNsense Interfaces vlan assignments](/assets/img/posts/openwrt-dsa-OPNsense-Interface-Assignments.png)
+*This screenshot demonstrates the interface assignment page.*
+
+I also have some screenshots of each VLAN and it's DHCP settings. So you can see later when we connect to the VLAN, we know we're connected - we got an IP Address.
+
+
+![OPNsense interface igb2 DHCP pool](/assets/img/posts/openwrt-dsa-OPNsense-DHCP-igb2.png)
+*OPNsense DHCP pool range for igb2*
+
+
+
+![OPNsense vlan 20 DHCP pool](/assets/img/posts/openwrt-dsa-OPNsense-DHCP-vlan20.png)
+*Parent interface, igb2, on VLAN 20's DHCP pool range*
+
+
+
+
+
+
+## Step 2: Verify physical connections
+
+First, we need to test the connection between OpenWRT and OPNSense and verify there is a working connection between OPNSense and OpenWRT.
+
+The way VLANs work now with DSA is to create them on a bridge, LuCI will make the vlan device, and then you put that vlan device on an Interface.
+
+Sound easy?
+
+The knee bone... is attached to the Upstream VLAN Ethernet Cable ... the Upstream Ethernet Cable is Attached to OPNSense ... 
+
+... Our upstream VLAN Ethernet Cable from OPNSense is also attached to an interface on OpenWRT, in this example `lan4`.
+
+We are connected with a cable into `Port 1`, `lan1`, and are on the `LAN` bridge, `br-lan`, so our network connection to OpenWRT will remain.
+
+
+
+
+## Step 3: Adding a bridge on OpenWRT
+
+This is all new to OpenWRT 24. 
+
+
+- Go to the `Networking > Interfaces` tab
+
+- Once there, we need to make a new bridge, to do this
+
+- Click on the `Devices` tab
+
+- Click on the `Add Device Configuration` button at the bottom
+
+- A new window will appear.
+
+- Change `Device Type` to `Bridge Device`
+
+- Device Name: anything you like
+
+- Bridge ports: select the interface you're plugging into your opnsense router or a switch with tagged vlans
+
+
+
+
+![OpenWRT bridge device creation page](/assets/img/posts/openwrt-dsa-OpenWRT-Bridge-Device-Creation.png)
+*Device Type & Bridge Port <you-are-plugging-into-opnsense>*
+
+
+### Step 3a: The new way to add a VLAN
+
+This has replaced the Switch section:
+
+- Head over to the `Bridge VLAN filtering` tab
+
+- This tab will have the option to add VLAN IDs to any selected `lan#` on the bridge
+
+- Here we're going to setup our VLAN but sent out untagged traffic
+
+- Set the VLAN ID you used in OPNsense
+
+- In the drop down, check "Untagged" and "is Primary VLAN"
+
+- Please keep the `local` check box ticked
+
+- Save
+
+
+
+![OpenWRT bridge vlan filtering tab with an untagged vlan](/assets/img/posts/openwrt-dsa-OpenWRT-Bridge-Device-Creation-VLAN-filtering--untagged.png)
+*Setting the VLAN ID on lan# to `U` for untagged egress traffic and `is Primary VLAN` for the Port VID (PVID) ingress traffic. This will ensure our network traffic comes out untagged.*
+
+
+
+
+### Step 4: Back on the Devices Tab
+
+- Now you should see the newly created bridge, and your VLAN device.
+
+- Local will automattically create the VLAN device in the Devices section
+
+- This interface will appear grayed out, as you cannot edit it. It is tied to the `local` check box and managed in that way.
+
+![Devices tab on OpenWRT as a new bridge is added](/assets/img/posts/openwrt-dsa-OpenWRT-Devices-Tab-Autogenerated-VLAN-Device.png)
+*Most everything will be greyed out.*
+
+Please note: You can never touch eth1 or eth0 - these are hard wired into the switch.
+Take a look at the MAC Addresses, you will see which cpu interface is tied to which network device.
+
+
+The [R7800 switch chip has 7 ports](https://openwrt.org/toh/netgear/r7800#switch_ports_for_vlans). Five of those are the Ethernet ports on the outside of the case, and two are internal connections between the switch chip and the CPU chip.
+
+
+At the CPU end they are accessed as eth0 and eth1. This has nothing to do with the number of processor cores. 
+By default, “eth0” is used for traffic to/from the ISP and “eth1” is for traffic to/from the local network. 
+
+Again, dont touch eth0 or eth1 - the setup with these are for the older version of OpenWRT when you had to create a dedicated bridge for each vlan. 
+
+
+![OpenWRT previously had a switch section](/assets/img/posts/openwrt-dsa-OpenWRT-OLD-Switch-VLAN-Creation--vlans.png)
+*You can see the Switch section of the previous verions of OpenWRT.*
+
+[OpenWRT previously made individual bridges for each vlan](/assets/img/posts/openwrt-dsa-OpenWRT-OLD-Device-VLAN-Autogenerated--vlan-devices.png)
+*And here is where the devices were generated for your vlan tagging.*
+
+
+
+## Step 5: Adding an interface on OpenWRT
+
+Interfaces allow us to use IP configuration. Without an Interface, we wont be able to directly communicate on the bridge.
+
+
+- Head back over to the `Interfaces` tab
+
+- Click on `Add New Interface`
+
+- You can name your interface anything you like (best to name it by use, e.g. - IoT, Guest)
+
+- Then under `Protocol` select `DHCP client`
+
+- Under Device, select the name of the bridge we made earlier, AND, the `.` followed by the VLAN ID you set.
+
+- Save
+
+
+
+[OpenWRT new interface creation](/assets/img/posts/openwrt-dsa-OpenWRT-Interface-Creation--protocol-device.png)
+*It should look something like `br4.20`*
+
+
+
+
+
+[OpenWRT new interface creation](/assets/img/posts/openwrt-dsa-OpenWRT-Interface-Port4--untagged-ip.png)
+*You should now see your new interface and it should have an IP on the untagged subnet for your vlan's parent interface on OPNsense*
+
+
+
+
+
+
+## Step 6: Make a VLAN bridge device on OpenWRT
+
+The best way to get this working is to:
+
+- Modify your bridge
+
+- Use the `Bridge VLAN filtering` tab
+
+- Find your VLAN IDs and modify the interface with `Tagged`
+
+- Save
+
+
+
+[OpenWRT modifing a bridge with a tagged vlan](/assets/img/posts/openwrt-dsa-OpenWRT-Bridge-Device-Creation-VLAN-filtering--tagged-vlan.png)
+*Modifing the bridge should look something like this.*
+
+
+
+
+
+
+
+
+
+## Step 7: Verify a VLAN connection
+
+You can now go back to `interfaces` tab.
+
+Hit the `restart` button on the interface you made earlier
+
+
+
+
+[OpenWRT interfaces sometimes need reset](/assets/img/posts/openwrt-dsa-OpenWRT-Interface--reset-ip.png)
+*You can request a new IP by resetting the interface.*
+
+
+
+
+
+[OpenWRT interfaces can change IP addresses](/assets/img/posts/openwrt-dsa-OpenWRT-Interface-Port4--vlan-tagged-ip.png)
+*You should have a new IP Address, one on the VLAN network you made.*
+
+
+
+
+
+## Step 8: Stay up to date
+
+https://openwrt.org/docs/guide-user/installation/attended.sysupgrade
+
+
+https://openwrt.org/docs/guide-user/installation/sysupgrade.owut
+
+
+
+
+
+## screenshots
+
+OpenWRT screen shots are 
+KONG 24.10 date 2025-05-13
+
+
+
+
+
