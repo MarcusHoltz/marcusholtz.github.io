@@ -585,18 +585,26 @@ Here you can adjust the policy in any way you want,
 ![A sloppy example of how to change the policy, this is from 8am to 5pm](/assets/img/posts/turnoffservices--authentik-23.png)
 
 
+* * *
+* * *
+
 ## Congratulations
 
+For sucessfully making it to the end, may I present to you - `SSID-rotate-script.sh`
+
+**Welcome to the bonus stage**
 
 * * *
 
-## Bonus: Rotate your Wifi SSID
+## Rotate your Wifi SSID Script!
+
+The [`SSID-rotate-script.sh`](#script-to-rotate-ssids-on-openwrt) is below...
 
 This script would be called by cron on your OpenWRT access point. 
 
-- The SSID changes to a pre-set list. Most begin with emoji.
+- This SSID changes to a pre-set list. Most begin with emoji.
 
-- The PSK is pulled from a Voltare novel. No random strings.
+- The PSK used is pulled from a Voltare novel. No random strings.
 
 - You are emailed the SSID and password.
 
@@ -850,12 +858,13 @@ logger -t ssid-rotate "=== SSID/PSK rotation complete ==="
 # === Goodbye
 ```
 
-## Have fun!
+## Have fun with some bonus on that extra fun!
 
-I can see someone doing something really neat with this script.
+I can see someone doing something really neat with this script....
 
-Like, **SSID = math puzzle**, and **PSK = solution**. Perfect for nerd households, hacker cafés, math classrooms, or just flexing on coworkers.
+* * *
 
+Daily Challenges!!!! 
 
 * * *
 
@@ -868,7 +877,7 @@ I have included some examples of Question:Answer SSID:PSK you can use to make yo
 
 #### **Difficult Math SSID Puzzle Set (SSID → PSK)**
 
-These are some **fun Math problems** you may have seen around.
+These are some **fun Math problems** you may have seen around. **SSID = math puzzle**, and **PSK = solution**. Perfect for nerd households, hacker cafés, math classrooms, or just flexing on coworkers.
 
 | **SSID**              | **PSK (Wi-Fi Password)** | **Explanation**                    |
 | --------------------- | ------------------------ | ---------------------------------- |
