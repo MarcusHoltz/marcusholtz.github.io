@@ -702,7 +702,7 @@ export NUMLINES=$(wc -l < "$SSID_filename")
 # === File Check Start ===
 
 # Check if files exist, otherwise download them
-[ ! -f "$SSID_filename" ] && wget -q -O "$SSID_filename" "https://pastebin.com/raw/00U5vnK2"
+[ ! -f "$SSID_filename" ] && wget -q -O "$SSID_filename" "https://pastebin.com/raw/JkA9KYeM"
 [ ! -f "$PSK_filename" ] && wget -q -O "$PSK_filename" "https://www.gutenberg.org/cache/epub/19942/pg19942.txt"
 
 # === File Check End ===
