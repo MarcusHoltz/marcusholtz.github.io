@@ -588,9 +588,399 @@ Here you can adjust the policy in any way you want,
 ## Congratulations
 
 
+* * *
+
+## Bonus: Rotate your Wifi SSID
+
+This script would be called by cron on your OpenWRT access point. 
+
+- The SSID changes to a pre-set list. Most begin with emoji.
+
+- The PSK is pulled from a Voltare novel. No random strings.
+
+- You are emailed the SSID and password.
+
+- Please, please - **specify your current Wifi SSIDs** that should not be changed by this script!!!!
+
+It can run daily, weekly, monthly, whatever.
+There are a limited amount of SSIDs, but the PSK it generates should be almost endless...
+
+> This is for extra fun! Good luck cracking a rotating Wifi.
+
+
+* * *
+
+### Putting the script together
+
+You will need to put the script:
+
+- Place this script in the directory: `/var/lib/ssid-rotate`
+
+- With the name: `SSID-rotate-script.sh`
+
+- Now you can run Cron on your AP to access this script: `10 06 * * * /var/lib/ssid-rotate/SSID-rotate-script.sh`
+
+
+* * *
+
+### Changes required in the script to function correctly
+
+You must modify the script to work for your needs, most of this is fake data
+
+- email_recipients: `keeptrackofSSID/PSKchanges@gmail.com`
+
+- BREVO_API_KEY: `xkeysib-1f922eVzzzxxxx`
+
+- BREVO_FROM (email): `wifi@dkim-my-domain.com`
+
+- static_ssids (your SSIDs seperated by a pipe): `So Many|WifiNameHere|_W‗i=️F‗i_|AllTheWifi`
+
+- Minimum and maximum length for SSIDs (this determines password complexity)
+
+  - MINLEN: `24`
+
+  - MAXLEN: `48`
+
+> I normally take the min and double it to find the max, but you can decide.
+
+
+* * *
+
+### Script to Rotate SSIDs on OpenWRT
+
+```bash
+#!/bin/ash
+
+
+# === Pre-check Start ===
+
+# Ensure /var/lib/ssid-rotate exists and silently change directory
+mkdir -p /var/lib/ssid-rotate/ 2>/dev/null
+cd /var/lib/ssid-rotate/ || exit 1
+
+# === Pre-check End ===
 
 
 
+# === CONFIG START ===
+
+# List of email recipients for SSID/PSK updates:
+email_recipients="
+keeptrackofSSID/PSKchanges@gmail.com
+"
+
+# Brevo API details (set your actual values):
+BREVO_API_KEY="xkeysib-1f922eVzzzxxxxxyyaaaabccccdddeeee"
+BREVO_FROM="wifi@webdkim.com"  # Brevo sender email
+
+# Static SSIDs to keep unchanged
+static_ssids="So Many|WifiNameHere|_W‗i=️F‗i_"
+
+# File names of the files to store
+SSID_filename="SSID-list-of-names.txt"
+PSK_filename="SSID-psk-by-voltaire.txt"
+
+### !!IMPORTANT!! ####  
+# Minimum and maximum length for SSIDs (this determines password complexity)
+export MINLEN=24
+export MAXLEN=48
+export NUMLINES=$(wc -l < "$SSID_filename")
+## OK YOU READ THAT ##
+
+# === CONFIG END ===
+
+
+
+# === File Check Start ===
+
+# Check if files exist, otherwise download them
+[ ! -f "$SSID_filename" ] && wget -q -O "$SSID_filename" "https://pastebin.com/raw/00U5vnK2"
+[ ! -f "$PSK_filename" ] && wget -q -O "$PSK_filename" "https://www.gutenberg.org/cache/epub/19942/pg19942.txt"
+
+# === File Check End ===
+
+
+
+# === Function to modify text into valid random sections at designated length ===
+mkfifo ssid_pipe filtered_pipe
+
+# Write SSIDs to pipe
+head -n "$NUMLINES" "$SSID_filename" > ssid_pipe &
+
+# Write filtered lines to pipe
+awk -v minlen="$MINLEN" -v maxlen="$MAXLEN" '
+  /^[[:space:]]*$/ {next}        # Skip empty lines
+  /   / {next}                   # Skip lines with triple spaces (likely headers or junk)
+  {
+    line = $0
+    if (length(line) > maxlen) {
+      trimmed = substr(line, 1, maxlen)
+      last_space = 0
+      for (i = maxlen; i > 0; i--) {
+        if (substr(trimmed, i, 1) == " ") {
+          last_space = i
+          break
+        }
+      }
+      if (last_space > 0) {
+        line = substr(trimmed, 1, last_space - 1)
+      } else {
+        line = trimmed
+      }
+    }
+    if (length(line) >= minlen) print line
+  }
+' "$PSK_filename" | \
+awk 'BEGIN {srand()} {print rand() "\t" $0}' | \
+sort -k1,1n | \
+cut -f2- | \
+head -n "$NUMLINES" > filtered_pipe &
+
+# Use awk to merge SSIDs and filtered PSKs
+list=$(awk '{ getline line2 < "filtered_pipe"; print $0 ":" line2 }' ssid_pipe)
+
+# Remove named pipes from memory
+rm ssid_pipe filtered_pipe
+
+# Shuffle the list
+shuffled_list=$(echo "$list" | awk 'BEGIN{srand()} NF {print rand(), $0}' | sort -k1,1n | cut -d' ' -f2-)
+iface_total=$(uci show wireless | grep '=wifi-iface' | wc -l)
+logger -t ssid-rotate "=== Starting SSID/PSK rotation ==="
+
+# === Function to modify text into valid random sections at designated length End ===
+
+
+
+# === Send email function used later ===
+
+# Send Email through Brevo
+send_brevo() {
+  subject="$1"
+  body="$2"
+
+  # Loop over email recipients
+  for email in $email_recipients; do
+    [ -z "$email" ] && continue
+
+    # Send email using Brevo API
+    curl -s -X POST "https://api.brevo.com/v3/smtp/email" \
+      -H "api-key: $BREVO_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d @- << EOF
+{
+  "sender": {
+    "email": "$BREVO_FROM"
+  },
+  "to": [
+    {
+      "email": "$email"
+    }
+  ],
+  "subject": "$subject",
+  "htmlContent": "<html><body><pre>$body</pre></body></html>"
+}
+EOF
+    logger -t ssid-rotate "[EMAIL] Sent credentials to '$email'"
+    echo ""
+  done
+}
+
+# === End send email function ===
+
+
+
+# === Write the email and set the correct SSID/PSK ===
+
+# Initialize body to collect SSID:PSK pairs
+body="The following WiFi SSID/PSK pairs were updated:\n\n"
+
+# Loop through shuffled SSIDs and apply
+index=0
+echo "$shuffled_list" | while IFS= read -r line; do
+  ssid_val=$(echo "$line" | cut -d':' -f1)
+  psk_val=$(echo "$line" | cut -d':' -f2)
+
+  iface="wireless.@wifi-iface[$index]"
+  current_ssid=$(uci get "$iface.ssid" 2>/dev/null)
+
+  echo "$current_ssid" | grep -qE "^($static_ssids)$"
+  if [ $? -eq 0 ]; then
+    logger -t ssid-rotate "[SKIP] $iface: Static SSID '$current_ssid'"
+  else
+    logger -t ssid-rotate "[UPDATE] $iface: Setting SSID='$ssid_val'"
+
+    # Update SSID/PSK in UCI
+    uci set "$iface.ssid=$ssid_val"
+    uci set "$iface.key=$psk_val"
+    echo -e "\n--------------------\nSSID SET TO:    $iface.ssid=$ssid_val"
+    echo -e "--------------------\nPassword is:    $iface.key=$psk_val\n========================"
+
+    # Append updated SSID:PSK to the body (write to temporary file)
+    echo "\nSSID:  $ssid_val\nPassword:  $psk_val\n" >> /tmp/ssid_update_body.txt
+  fi
+
+  index=$((index + 1))
+  [ "$index" -ge "$iface_total" ] && break
+done
+
+
+### NOTE: EDIT ANY TEXT IN THE EMAIL HERE ###
+# Read the accumulated body from the temporary file
+body="The following WiFi SSID/PSK pairs were updated:\n\n$(cat /tmp/ssid_update_body.txt)"
+
+# Send the entire list of SSID:PSK via Brevo
+send_brevo "[WiFi] All Updated SSID Credentials" "$body"
+
+# === End writing the email and setting the correct SSID/PSK ===
+
+
+
+# === Final send off
+
+# Cleanup temporary file
+rm -f /tmp/ssid_update_body.txt
+
+# Finish setting config
+uci commit wireless
+wifi reload
+
+# Log the completion of tasks
+logger -t ssid-rotate "=== SSID/PSK rotation complete ==="
+
+# === Goodbye
+```
+
+## Have fun!
+
+I can see someone doing something really neat with this script.
+
+Like, **SSID = math puzzle**, and **PSK = solution**. Perfect for nerd households, hacker cafés, math classrooms, or just flexing on coworkers.
+
+
+* * *
+
+### Examples Included!
+
+I have included some examples of Question:Answer SSID:PSK you can use to make your own list. You dont need Voltare!
+
+
+* * *
+
+#### **Difficult Math SSID Puzzle Set (SSID → PSK)**
+
+These are some **fun Math problems** you may have seen around.
+
+| **SSID**              | **PSK (Wi-Fi Password)** | **Explanation**                    |
+| --------------------- | ------------------------ | ---------------------------------- |
+| `∫₀^2 x² dx = ?`      | `8/3`                    | ∫₀² x² dx = x³/3 = 8/3             |
+| `e^(iπ) + 1 = ?`      | `0`                      | Euler’s Identity: `e^(iπ) + 1 = 0` |
+| `limₙ→∞ (1+1/n)ⁿ = ?` | `e`                      | The limit defines the number `e`   |
+| `φ = (1+√5)/2 = ?`    | `1.618`                  | Golden ratio (rounded)             |
+| `d/dx(x³+3x²+2x) = ?` | `3x²+6x+2`               | Derivative                         |
+| `∑ₙ₌₁^4 n² = ?`       | `30`                     | 1²+2²+3²+4² = 30                   |
+| `sin(π/2) = ?`        | `1`                      | Exact trig value                   |
+| `gcd(48,18) = ?`      | `6`                      | Greatest common divisor            |
+| `101 in decimal = ?`  | `5`                      | Binary `101` = decimal `5`         |
+| `ln(e³) = ?`          | `3`                      | Log base e                         |
+| `7! = ?`              | `5040`                   | 7×6×5×4×3×2×1 = 5040               |
+| `2⁵ × 3² = ?`         | `288`                    | Powers multiplied                  |
+| `∫₀^π sin(x) dx = ?`  | `2`                      | Area under sin(x) from 0 to π      |
+
+
+##### Usage Idea:
+
+| **What You Set**   | **Value**        |
+| ------------------ | ---------------- |
+| **SSID**           | `∫₀^2 x² dx = ?` |
+| **PSK (password)** | `8/3`            |
+
+Guests will see the network name as the challenge — and only get access if they solve it. 🤓
+
+
+* * *
+
+#### **Easier Math SSID challenges**
+
+Here's a curated set of **High School Math SSID challenges** — solvable with algebra, geometry, or basic precalc. The **SSID is the math problem**, and the **PSK (password)** is the correct answer. Great for classrooms, nerd households, or just *math-ing up your network*.
+
+| **SSID**                  | **PSK (Wi-Fi Password)** | **Explanation**                   |
+| ------------------------- | ------------------------ | --------------------------------- |
+| `x² - 9 = 0`              | `3`                      | x = ±3 → Pick positive real root  |
+| `log₁₀(100) = ?`          | `2`                      | log base 10 of 100                |
+| `√(49) = ?`               | `7`                      | Square root of 49                 |
+| `Area of circle, r=3`     | `28.27`                  | πr² = π·9 ≈ 28.27                 |
+| `Slope: (2,3),(4,7)`      | `2`                      | (7–3)/(4–2) = 4/2 = 2             |
+| `Distance: (0,0)-(3,4)`   | `5`                      | √(3²+4²) = 5 (Pythagorean triple) |
+| `x% of 200 = 50`          | `25`                     | 25% of 200 is 50                  |
+| `Volume cube, s=5`        | `125`                    | V = s³ = 5³ = 125                 |
+| `y = mx + b, m=2, b=3`    | `y=2x+3`                 | Plug into slope-intercept form    |
+| `x/2 = 8`                 | `16`                     | Multiply both sides by 2          |
+| `lcm(6,8) = ?`            | `24`                     | Smallest common multiple          |
+| `Perimeter, square s=4`   | `16`                     | 4×s = 16                          |
+| `a² + b² = c², a=5, b=12` | `13`                     | 5² + 12² = 169 → √169 = 13        |
+| `Solve: 2x+1=9`           | `4`                      | 2x = 8 → x = 4                    |
+
+
+##### Tips for Use:
+
+* **SSID:** set as the **math challenge**
+* **Password (PSK):** set as the **correct answer**, exactly (numbers, decimals, etc.)
+* Optional fun: allow **hint mode** via captive portal (showing formula or help if they click)
+
+
+* * *
+
+#### **Logic & Word Problem Wi-Fi SSIDs**
+
+Let’s go full **Logic & Word Problems** mode. These are clever, short SSID math puzzles that read like brain teasers — and the **Wi-Fi password (PSK)** is the answer. All under 32 characters. Perfect for math lovers, escape room vibes, or just making people work to connect.
+
+
+| **SSID (Wi-Fi Name)**                                         | **Password (PSK)** | **Explanation**                                                        |
+| ------------------------------------------------------------- | ------------------ | ---------------------------------------------------------------------- |
+| `Twice x = 10`                                                | `5`                | 2x = 10 → x = 5                                                        |
+| `Half of 18`                                                  | `9`                | 18 ÷ 2 = 9                                                             |
+| `3 ppl share $18 equally`                                     | `6`                | Each gets \$6                                                          |
+| `Next prime after 11`                                         | `13`               | 13 is next prime                                                       |
+| `30 cows + 28 chickens = ?`                                   | `2`                | *“twenty ate chickens”* (30 total - 28 = 2 cows didn’t eat chickens)   |
+| `Mom has 4 kids: NE SE SW ?`                                  | `NW`               | Compass directions — Northwest                                         |
+| `If 2 pens cost $4, 1 = ?`                                    | `2`                | $4 ÷ 2 = $2 per pen                                                  |
+| `3 cats catch 3 mice in 3min. How many in 9min?`              | `9`                | 1 cat catches 1 mouse in 3min → 3 cats = 3 mice every 3min → 9 in 9min |
+| `What’s odd about even?`                                      | `number`           | Wordplay: it's a number                                                |
+| `Word for 0 factorial`                                        | `1`                | 0! = 1                                                                 |
+| `You see 9 birds. You shoot 1. How many left?`                | `0`                | They all flew away!                                                    |
+| `I am a number. Double me is 10`                              | `5`                | Self-evident                                                           |
+| `An hour ago it was 2x as late`                               | `9`                | It’s 10 now. At 9 it was twice as late as 8                            |
+| `You buy $10 socks, pay $20, get $10 change. Store’s profit?` | `10`               | You paid $10 in total                                                 |
+| `You + me = ?`                                                | `we`               | Logic meets cute wordplay                                              |
+| `An odd number. Remove 1 letter = even`                       | `seven`            | Remove the “s” — it becomes “even”!                                    |
+
+
+* * *
+
+#### **Dad Joke SSID Challenge**
+
+Welcome to the **Wi-FI of Dad** — a wholesome zone where your SSID is a *pun, riddle, or dad joke*, and the **PSK (password)** is the **groan-worthy punchline**.
+
+| **SSID (Wi-Fi Name)**                     | **Password (Punchline)**     | **Explanation**                  |
+| ----------------------------------------- | ---------------------------- | -------------------------------- |
+| `Why can't eggs tell jokes?`              | `They crack up`              | Classic pun                      |
+| `What's brown and sticky?`                | `A stick`                    | Groan...                         |
+| `I only know 25 letters...`               | `I don't know Y`             | Get it? *Why*                    |
+| `Why did Wi-Fi break up?`                 | `No connection`              | Relationship status: buffering   |
+| `Can February March?`                     | `No, but April May`          | Wordplay calendar joke           |
+| `Why don't skeletons fight?`              | `No guts`                    | Physically impossible            |
+| `What do you call fake pasta?`            | `Impasta`                    | Imposter + pasta                 |
+| `What’s a fish with no eyes?`             | `Fsh`                        | No "i" in fish                   |
+| `What's orange and sounds like a parrot?` | `A carrot`                   | Carrot… parrot… just… yep.       |
+| `Want to hear a roof joke?`               | `Never mind, over your head` | Classic dad delivery             |
+| `Time traveler joke?`                     | `You didn't like it`         | Meta punchline                   |
+| `I’d tell a construction joke…`           | `Still working on it`        | Timeless                         |
+| `I told my dog a joke`                    | `He pawsed`                  | Woof-worthy pun                  |
+| `Wi-Fi went to therapy`                   | `Too many issues`            | Signal strength is emotional now |
+| `Broke up with my router`                 | `Lost the spark`             | ⚡📶💔                          |
+| `What's a cow with no legs?`              | `Ground beef`                | Mooving on                       |
+| `What’s Beethoven’s favorite fruit?`      | `Ba-na-na-na!`               | Sing it like the symphony        |
+| `I used to be a banker...`                | `Lost interest`              | Classic career pun               |
 
 
 
