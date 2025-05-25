@@ -590,7 +590,11 @@ Here you can adjust the policy in any way you want,
 
 ## Congratulations
 
-For sucessfully making it to the end, may I present to you - `SSID-rotate-script.sh`
+For sucessfully making it to the end, may I present to you 
+
+- [`SSID-rotate-script.sh`](#script-to-rotate-ssids-on-openwrt)
+
+- [`WAN-MAC-Address-Auto-Spoof.csh`](wan-mac-address-auto-spoof)
 
 **Welcome to the bonus stage**
 
@@ -993,4 +997,268 @@ Welcome to the **Wi-FI of Dad** — a wholesome zone where your SSID is a *pun, 
 
 
 
+* * *
 
+## Change your WAN IP with OPNsense every so often
+
+Why not change your IP every morning as well?
+
+I have a script that will do that exact same thing, for OPNsense!
+
+
+### What does this script do?
+
+This requires you to reboot your upstream provider's device. Cable modem, whatever. 
+
+This script will not do that!!
+
+Your reboot has to be done AFTER you have downloaded the required `oui.txt`
+
+There are two sections about timings, check them out - see if they need adjusted.
+
+
+* * *
+
+### How do I use this script?
+
+1. Make sure `SLEEPTIME_BEFORE_MODEM_REBOOT` is long enough that you can power cycle your modem, but it doesnt completly sync.
+
+2. Double check `SLEEPTIME_BEFORE_MODEM_DHCP` is long enough for your modem finish powering on and syncing before attempting DHCP.
+
+3. Run script
+
+
+* * *
+
+### Wan Mac Address Auto Spoof
+
+```bash
+
+#!/bin/csh
+
+# -----------------------------------------------------------------------------
+# WAN MAC Address Spoofing Script
+# -----------------------------------------------------------------------------
+# This script automates the process of changing (spoofing) your router's WAN
+# MAC address by editing config.xml and restarting the network interface.
+# It:
+#   1. Downloads the IEEE OUI (Organizationally Unique Identifier) list if needed
+#   2. Randomly picks a valid OUI and generates a new MAC address
+#   3. Edits <spoofmac/> in config.xml under the <wan> interface with the new MAC
+#   4. Restarts the WAN interface to apply the change
+# Use case: Circumventing ISP restrictions, resetting DHCP leases, or privacy.
+# -----------------------------------------------------------------------------
+
+
+# Use config.xml as the filename, you can change if you'd like to test the script and not wreck your router
+set filename = "config.xml"
+
+# Timing variables to coordinate modem/router reboot and DHCP re-registration
+## SLEEPTIME_BEFORE_MODEM_REBOOT is the sleep time before you take down your internet, and reboot your modem, make sure your modem 
+## doesnt come back up during this sleep time (so keep it short and try and time your reboot/powercycle and this script running together).
+set SLEEPTIME_BEFORE_MODEM_REBOOT = "30"   # Wait before rebooting modem (seconds)
+
+## This is the amount of time it takes your router to reboot and become in-sync/registered/online with the network.
+set SLEEPTIME_BEFORE_MODEM_DHCP = "120"    # Wait for router to sync after modem reboot (seconds)
+
+
+
+# -----------------------------------------------------------------------------
+# OUI List Download
+# -----------------------------------------------------------------------------
+# The OUI list is needed to generate a valid MAC address prefix.
+# Download it if it doesn't exist.
+if (! -f oui.txt) then
+    logger "[SPOOFWANMAC] Downloading oui.txt..."
+    curl -s -o oui.txt https://standards-oui.ieee.org/oui/oui.txt
+    if ($status != 0) then
+        logger "[SPOOFWANMAC] Failed to download OUI list"
+        exit 1
+    endif
+else
+    logger "[SPOOFWANMAC] oui.txt already exists - this script has been ran before. Nice."
+endif
+
+# Wait before proceeding, giving time for downloads or manual modem reboot
+sleep $SLEEPTIME_BEFORE_MODEM_REBOOT;
+
+
+
+#########################################
+####     I N S T R U C T I O N S     ####
+#######        b e l o w        #########
+##   Send your Zigbee  off/on command  ##
+##   and power cycle your modem right  ##
+##     before you run this section     ##
+#########################################
+
+
+
+logger "[SPOOFWANMAC] Using file $filename"
+
+# Check if config.xml exists
+if (! -e $filename) then
+    echo "File $filename does not exist."
+    exit 1
+endif
+
+# If the OUI list did not download above, you've lost internet, and the file is not present -- fullstop.
+if (! -f oui.txt) then
+    logger "[SPOOFWANMAC] Downloading oui.txt..."
+    curl -s -o oui.txt https://standards-oui.ieee.org/oui/oui.txt
+    if ($status != 0) then
+        logger "[SPOOFWANMAC] Failed to download OUI list"
+        exit 1
+    endif
+else
+    logger "[SPOOFWANMAC] oui.txt is present, continue."
+endif
+
+
+
+# -----------------------------------------------------------------------------
+# Generate a Random Valid MAC Address
+# -----------------------------------------------------------------------------
+# Extract all OUI prefixes (first 3 bytes of MAC) from oui.txt,
+# pick one at random, and append 3 random bytes to complete the MAC.
+
+set nonomatch
+
+# $$ is the script's PID, making the temp file unique
+set tempfile = "oui_temp_$$"   
+
+# Extract OUI prefixes, remove dashes, and store in tempfile
+grep -E '^[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F]{2}' oui.txt | cut -d' ' -f1 | tr -d '-' > $tempfile
+
+# Count number of OUIs
+set count = `wc -l < $tempfile`
+logger "[SPOOFWANMAC] OUI count is $count"
+if ($count == 0) then
+    logger "[SPOOFWANMAC] No valid OUIs found"
+    rm -f $tempfile
+    exit 1
+endif
+
+# Pick a random line from the OUI list
+set randline = `expr $$ % $count + 1`
+logger "[SPOOFWANMAC] Random line to pick is $randline"
+
+set OUI = `sed -n "${randline}p" $tempfile`
+logger "[SPOOFWANMAC] Picked OUI is $OUI"
+rm -f $tempfile
+
+if ("$OUI" == "") then
+    logger "[SPOOFWANMAC] Failed to extract OUI"
+    exit 1
+endif
+
+# Format OUI as XX:XX:XX:
+set OUIformatted = `echo $OUI | sed 's/../&:/g' | sed 's/:$//'`
+
+# Generate 3 random bytes for the device-specific part of the MAC
+set DEVICE = `od -An -N3 -tx1 /dev/urandom | tr -d ' \n' | sed 's/../:&/g'`
+
+# Concatenate to make the full MAC address
+set MACADDR = "${OUIformatted}${DEVICE}"
+logger "[SPOOFWANMAC] Final MACADDR is $MACADDR"
+
+
+
+# -----------------------------------------------------------------------------
+# Edit config.xml: Replace <spoofmac/> under <wan> with new MAC address
+# -----------------------------------------------------------------------------
+
+# Prepare temporary file for output
+set tmpfile = "${filename}.tmp"
+set found_interfaces = 0
+set found_wan = 0
+set replaced = 0
+set lineno = 0
+set post_wan_lines = 0
+
+# Clear the temp file
+cat /dev/null > $tmpfile
+
+# Read config.xml line by line to find the <wan> interface and replace <spoofmac/>
+foreach line ("`cat $filename`")
+    @ lineno++
+    if ($found_interfaces == 0) then
+        # Look for the <interfaces> section
+        echo "$line" | grep -q "<interfaces>"
+        if ($status == 0) then
+            logger "[SPOOFWANMAC] Found <interfaces> at line $lineno"
+            set found_interfaces = 1
+        endif
+        echo "$line" >> $tmpfile
+    else if ($found_wan == 0) then
+        # Look for the <wan> interface
+        echo "$line" | grep -q "<wan>"
+        if ($status == 0) then
+            logger "[SPOOFWANMAC] Found <wan> at line $lineno"
+            set found_wan = 1
+        endif
+        echo "$line" >> $tmpfile
+    else
+        # After finding <wan>, look for <spoofmac/> or </spoofmac> to replace
+        @ post_wan_lines++
+        if ($post_wan_lines <= 5) then
+            logger "[SPOOFWANMAC] Line after <wan> ($post_wan_lines): $line"
+        else if ($post_wan_lines % 1000 == 0) then
+            # Optionally log progress every 1000 lines
+#            logger "[SPOOFWANMAC] $post_wan_lines lines processed after <wan>..."
+        endif
+        if ($replaced == 0) then
+            # Replace <spoofmac/> or </spoofmac> with the new MAC address
+            echo "$line" | grep -Eq "<spoofmac/>|</spoofmac>"
+            if ($status == 0) then
+                logger "[SPOOFWANMAC] Found <spoofmac/> at line $lineno, replacing with new MAC"
+                echo "<spoofmac>$MACADDR</spoofmac>" >> $tmpfile
+                set replaced = 1
+            else
+                echo "$line" >> $tmpfile
+            endif
+        else
+            echo "$line" >> $tmpfile
+        endif
+    endif
+end
+
+# If replacement was successful, save the changes; otherwise, clean up
+if ($replaced == 1) then
+    mv $tmpfile $filename
+    logger "[SPOOFWANMAC] Success. MAC Address for WAN interface has been changed."
+else
+    rm -f $tmpfile
+    logger "[SPOOFWANMAC] End of file reached after <wan> at line $lineno, <spoofmac/> not found."
+    logger "[SPOOFWANMAC] Condition not met: replacement not done."
+endif
+
+
+
+# -----------------------------------------------------------------------------
+# Restart WAN Interface to Apply New MAC Address
+# -----------------------------------------------------------------------------
+# Wait for the router to finish rebooting and the modem to sync up
+
+
+# Next, reboot networking to accept new MAC address
+## This section only works if you power cycled your modem
+### And make sure it takes less than the defined seconds in 
+### SLEEPTIME_BEFORE_MODEM_DHCP for it to come back up
+
+sleep $SLEEPTIME_BEFORE_MODEM_DHCP;
+
+# Bring the WAN interface (igb1) down and up, then request a new DHCP lease
+ifconfig igb1 down |& logger -t [SPOOFWANMAC]
+ifconfig igb1 up |& logger -t [SPOOFWANMAC]
+dhclient igb1 |& logger -t [SPOOFWANMAC]
+
+
+
+# -----------------------------------------------------------------------------
+# End of Script
+# -----------------------------------------------------------------------------
+# At this point, your WAN interface should be using a new, randomly generated,
+# valid MAC address. Check your router and IP for confirmation.
+
+```
