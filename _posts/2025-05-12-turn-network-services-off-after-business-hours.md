@@ -666,9 +666,9 @@ You must modify the script to work for your needs, most of this is fake data
 
 # === Pre-check Start ===
 
-# Ensure /var/lib/ssid-rotate exists and silently change directory
-mkdir -p /var/lib/ssid-rotate/ 2>/dev/null
-cd /var/lib/ssid-rotate/ || exit 1
+# Ensure /usr/bin/ exists and silently change directory
+mkdir -p /usr/bin/ 2>/dev/null
+cd /usr/bin/ || exit 1
 
 # === Pre-check End ===
 
@@ -1061,6 +1061,12 @@ set SLEEPTIME_BEFORE_MODEM_REBOOT = "30"   # Wait before rebooting modem (second
 ## This is the amount of time it takes your router to reboot and become in-sync/registered/online with the network.
 set SLEEPTIME_BEFORE_MODEM_DHCP = "120"    # Wait for router to sync after modem reboot (seconds)
 
+# Set your interface you would like to automatically reboot at the end of the script.
+## If you do not uncomment/configure the WAN_INTERFACE below, it will be set to whatever interface is marked as (wan) by OPNsense
+# set WAN_INTERFACE = "igb1"
+if (! $?WAN_INTERFACE) then
+    setenv WAN_INTERFACE `ifconfig | awk '/\(wan\)/ { if (prev ~ /^[^:]+:/) { split(prev, a, ":"); print a[1] } } { prev = $0 }'`
+endif
 
 
 # -----------------------------------------------------------------------------
@@ -1248,10 +1254,10 @@ endif
 
 sleep $SLEEPTIME_BEFORE_MODEM_DHCP;
 
-# Bring the WAN interface (igb1) down and up, then request a new DHCP lease
-ifconfig igb1 down |& logger -t [SPOOFWANMAC]
-ifconfig igb1 up |& logger -t [SPOOFWANMAC]
-dhclient igb1 |& logger -t [SPOOFWANMAC]
+# Bring the WAN interface ($WAN_INTERFACE) down and up, then request a new DHCP lease
+ifconfig $WAN_INTERFACE down |& logger -t [SPOOFWANMAC]
+ifconfig $WAN_INTERFACE up |& logger -t [SPOOFWANMAC]
+dhclient $WAN_INTERFACE |& logger -t [SPOOFWANMAC]
 
 
 
