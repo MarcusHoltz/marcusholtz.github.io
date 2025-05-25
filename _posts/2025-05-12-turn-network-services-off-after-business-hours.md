@@ -626,11 +626,11 @@ There are a limited amount of SSIDs, but the PSK it generates should be almost e
 
 You will need to put the script:
 
-- Place this script in the directory: `/var/lib/ssid-rotate`
+- Place this script in the directory: `/usr/bin/`
 
 - With the name: `SSID-rotate-script.sh`
 
-- Now you can run Cron on your AP to access this script: `10 06 * * * /var/lib/ssid-rotate/SSID-rotate-script.sh`
+- Now you can run Cron on your AP to access this script: `10 06 * * * /usr/bin/SSID-rotate-script.sh`
 
 
 * * *
