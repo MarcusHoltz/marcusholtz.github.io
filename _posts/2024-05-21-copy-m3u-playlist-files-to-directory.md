@@ -87,7 +87,8 @@ Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MarcusHoltz/copy-m3u-p
 Using the Powershell version of this script you just downloaded, run the Powershell script with:
 
 ```
-copy-m3u-playlist-files-to-directory.ps1 name-of-your-playlist.m3u C:\path\to\destination\somefolder\
+Unblock-File .\copy-m3u-playlist-files-to-directory.ps1
+copy-m3u-playlist-files-to-directory.ps1 name-of-your-playlist.m3u C:\path\to\destination\somefolder\ -SkipMissing -Verbose
 ```
 
 
@@ -119,7 +120,7 @@ with open("copy-m3u-playlist-files-to-directory.py", "wb") as file:
 To run the downloaded Python script:
 
 ```
-python copy-m3u-playlist-files-to-directory.py example-playlist.m3u /path/to/destination
+python3 copy-m3u-playlist-files-to-directory.py name-of-your-playlist.m3u /path/to/destination
 ```
 
 
