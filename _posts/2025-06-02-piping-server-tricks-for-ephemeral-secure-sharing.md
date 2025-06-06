@@ -172,6 +172,8 @@ curl http://<server>:8080/my/mediashare/funphoto.jpg -o that_guys_photo.jpg
 
 ## 🖥️ Remote Command Execution
 
+Need to run a command on a remote machine, but can't get port 22 to work?
+
 **Remote device (receiver):**
 
 ```sh
@@ -195,7 +197,7 @@ timeout 1h bash -c 'while true; do curl -s http://<server>:8080/ican/cmd/for-one
 
 * * *
 
-## ⏲ Use curl to set a time limit on how long the data is available via the Piping Server
+## ⏳ Use curl to set a time limit on how long the data is available via the Piping Server
 
 Sometimes you want a secret, or a file only being available for so long, and if it isnt retrieved after a specified period, it's no longer offered.
 
@@ -241,7 +243,7 @@ No accounts needed.
 
 * * *
 
-## 🎯 Piping a Reverse Shell Over HTTP
+## 🍋 Piping a Reverse Shell Over HTTP
 
 We can extend Piping with bash!
 
