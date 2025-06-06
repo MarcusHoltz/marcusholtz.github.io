@@ -84,7 +84,7 @@ services:
 
 - Each endpoint (`/channel`) will be a one-time use.
 
-- Remember, once data is read, it’s gone — like a FIFO pipe.
+- Remember, once data is read, it's gone — like a FIFO pipe.
 
 - We'll be using `curl`, `openssl`, and `timeout`.
 
@@ -106,7 +106,7 @@ Breaking down how we're using:
 
 - Openssl `enc` tells OpenSSL to perform encryption. 
 
-- `aes-256-cbc` tells OpenSSL which cipher to use. This cipher is broken down as: `Advanced Encryption Standard`-`Use a 256-bit key`-`Cipher Block Chaining mode`(CBC is plaintext XOR’d with the previous block)
+- `aes-256-cbc` tells OpenSSL which cipher to use. This cipher is broken down as: `Advanced Encryption Standard`-`Use a 256-bit key`-`Cipher Block Chaining mode`(CBC is plaintext XOR'd with the previous block)
 
 - (Optional) based on use, `-d` will provide decryption. Reversing the ciphertext.
 
@@ -204,7 +204,7 @@ Sometimes you want a secret, or a file only being available for so long, and if 
 
 ### 🍚 Limit How Long the Sender Waits for a Receiver
 
-Let’s say you only want your `file.txt` to be available for 10 seconds:
+Let's say you only want your `file.txt` to be available for 10 seconds:
 
 ```sh
 curl -s --max-time 10 -T file.txt <server>:8080/mytempfile
@@ -550,12 +550,12 @@ Feature comparison of Magic Wormhole and Piping Server:
 | **Underlying Protocol**           | SPAKE2-based key exchange over a central rendezvous server; data flows directly (when possible) or via relays.                                                         | Simple HTTP server exposing unique paths; each path acts like a FIFO: upload (`PUT/POST`) and immediate download (`GET`) consume the data.                               |
 | **Setup & Server Dependency**     | Requires a Wormhole rendezvous server (public by default, or self-hosted). The client tools handle coordination automatically.                                         | Requires you to run the Piping Server binary (e.g., via Docker). There is no built-in relay or NAT traversal—both sender and receiver must reach the same HTTP endpoint. |
 | **URL/Path Customization**        | No URL paths. Instead, you get a short “wormhole code” (e.g., `7-cow-salad`) which is handed to the recipient; the actual URLs and ports are hidden behind the server. | Yes—you choose the exact path (e.g., `http://<host>:8080/myfile`), and that path is used until someone downloads it once.                                                |
-| **Encryption & Security**         | End-to-end encrypted (AES-256) by default via SPAKE2 key exchange; even the rendezvous server cannot read file contents.                                               | No built-in encryption; relies on TLS only if you run Piping Server over HTTPS. By default, it’s plain HTTP, so anyone with the URL can intercept/read data in transit.  |
+| **Encryption & Security**         | End-to-end encrypted (AES-256) by default via SPAKE2 key exchange; even the rendezvous server cannot read file contents.                                               | No built-in encryption; relies on TLS only if you run Piping Server over HTTPS. By default, it's plain HTTP, so anyone with the URL can intercept/read data in transit.  |
 | **Ephemeral Behavior**            | Wormhole codes expire after use; files are not persisted on any server. Transfers time out if no peer connects within a short window.                                  | Each path is “one-shot”: once a client downloads the data, the server deletes it. If nobody connects, the data stays until you manually clear or restart the server.     |
 | **Ease of Use**                   | `wormhole send/receive` commands abstract away complexity; just share a short code.                                                                                    | Very simple: `curl --upload-file file.txt http://server:8080/chosen-path` and `curl http://server:8080/chosen-path`; but no NAT traversal or automatic relay.            |
-| **NAT Traversal & Firewalls**     | Uses rendezvous server to negotiate a direct or relayed connection; often works across NAT/firewalls without additional config.                                        | No relay/NAT punch-through. Both ends must be able to reach the server’s IP/port directly.                                                                               |
+| **NAT Traversal & Firewalls**     | Uses rendezvous server to negotiate a direct or relayed connection; often works across NAT/firewalls without additional config.                                        | No relay/NAT punch-through. Both ends must be able to reach the server's IP/port directly.                                                                               |
 | **Typical Use Cases**             | Securely sending sensitive files to someone without setting up accounts or configuring firewalls; ad-hoc encrypted messaging or quick data exchange.                   | Quick “one-time” file shares on a LAN or within a cloud VM pool; simple signaling (e.g., remote commands) where encryption is added manually if needed.                  |
 | **Dependencies**                  | Requires Python and the `magic-wormhole` package (and possibly a self-hosted rendezvous server).                                                                       | Just the Rust/Cargo binary (or Docker image) for the server; clients only need `curl`/`wget` (no special client installation).                                           |
 | **Client Tooling**                | `wormhole send [filename]` and `wormhole receive [code]`.                                                                                                              | Any HTTP client (`curl`, `wget`, even a browser).                                                                                                                        |
 | **Customization & Extensibility** | Hooks for custom rendezvous servers or private codeword schemes; integrates with various clients (GUI, CLI).                                                           | You define your own paths and can layer scripts around `curl` (e.g., encryption, timeouts). No built-in authentication or fine-grained access control.                   |
-| **When to Choose This**           | When you need strong, automatic encryption with NAT traversal and just want to type a short code.                                                                      | When you need a no-frills, scriptable, one-time HTTP “pipe” (e.g., automated tasks, CI/CD pipelines, ad-hoc signaling) and you don’t need built-in encryption.           |
+| **When to Choose This**           | When you need strong, automatic encryption with NAT traversal and just want to type a short code.                                                                      | When you need a no-frills, scriptable, one-time HTTP “pipe” (e.g., automated tasks, CI/CD pipelines, ad-hoc signaling) and you don't need built-in encryption.           |
