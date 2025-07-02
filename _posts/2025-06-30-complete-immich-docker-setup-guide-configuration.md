@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Immich Docker on UnRAID: Installation + Config
+title: Immich Docker on UnRAID/: Installation /+ Config
 date: 2025-06-30 11:33:00 -0700
 categories: [Networking, UnRAID]
 tags: [backup, networking, immich, storage, communication, security, photos, sharing, privacy, de-google, cloud, family, docker, unraid, newbie, guide]
