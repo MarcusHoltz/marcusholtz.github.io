@@ -600,7 +600,7 @@ Let's address three "hypothetical" situations:
 
 2. Uncle uses 50MB jpegs for edits of his best photos.
 
-3. Cousin store photos with his RAW/CR2 files present (psst - tell them there's a [Lightroom Immich plugin](https://blog.fokuspunk.de/lrc-immich-plugin/){:target="_blank"}).
+3. Cousin stores all of his photos as RAW/CR2 files (psst - tell them there's a [Lightroom Immich plugin](https://blog.fokuspunk.de/lrc-immich-plugin/){:target="_blank"}).
 
 Yeah. **Lossy compression may be deemed acceptable.** 
 
