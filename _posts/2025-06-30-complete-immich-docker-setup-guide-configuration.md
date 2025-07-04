@@ -116,30 +116,25 @@ Yes, you could send all that to Immich, and have it available to search -- but *
 Each user will have the same folder structure. Any organization is done by Immich in [albums](https://github.com/simulot/immich-go#from-folder-sub-command){:target="_blank"}.
 
 
+
 * * *
 
 ## First step: Install
 
-I have most of my long term and speedy storage on UnRAID. 
+We will be using Immich on an UnRAID server, no point of having the service up if the files are unavailable.
 
-Immich will reside on the UnRAID server, no point of having the service up if the files are unavailable.
+Immich has a very good [Immich on Unraid: Docker-Compose](https://immich.app/docs/install/unraid) write-up for us to use. 
 
-[Immich](https://immich.app/docs/overview/welcome){:target="_blank"} has a very good [Unraid starter template](https://immich.app/docs/install/unraid){:target="_blank"} for us to use.
-
-This write-up assumes you've already had a go at that. If not, give the [Unraid: Community Applications Template - Docker-Compose Method](https://immich.app/docs/install/unraid){:target="_blank"} official documentation a read.
-
-I will be using that as a base for the files in this tutorial. You can find the files we will be using, the ones I use on my UnRAID server, in my [Immich Setup Repo](https://github.com/MarcusHoltz/immich-setup/tree/main/unraid-immich-compose){:target="_blank"}.
-
-To setup - if you're not using UnRAID - the [docker-compose.yml](https://github.com/MarcusHoltz/immich-setup/blob/main/unraid-immich-compose/compose.manager/projects/immich/docker-compose.yml){:target="_blank"} and [env](https://github.com/MarcusHoltz/immich-setup/blob/main/unraid-immich-compose/compose.manager/projects/immich/env){:target="_blank"} files will work just fine.
+If you have not read the official documentation from Immich above, do that now - or go ahead and use the one I made [below](#copy-my-files-make-a-few-edits-easy-mode)...
 
 
-### Use UnRAID for Immich
+### Copy my files, make a few edits, easy mode
 
-I have most of my long term and speedy storage on UnRAID. 
+You can find the files we will be using, the same I use on my UnRAID server, in my:
 
-So, to me, it made sense to setup Immich on the UnRAID server, no point of having the service up if the files are unavailable.
+- [UnRAID Immich Setup](https://github.com/MarcusHoltz/immich-setup/tree/main/unraid-immich-compose) folder.
 
-You can find the files I have used on the UnRAID server in this [Immich Setup Repo](https://github.com/MarcusHoltz/immich-setup/unraid-immich-compose){:target="_blank"}.
+> To setup - if you're not using UnRAID - the [docker-compose.yml](https://github.com/MarcusHoltz/immich-setup/blob/main/unraid-immich-compose/compose.manager/projects/immich/docker-compose.yml) and [env](https://github.com/MarcusHoltz/immich-setup/blob/main/unraid-immich-compose/compose.manager/projects/immich/env) files will work just fine.
 
 
 * * *
