@@ -257,7 +257,7 @@ This stack also relies on Environment Varriables to help set some of the configu
 
 UnRAID special labels with Docker that help the web interface display addional information. These labels define elements like the WebUI URL, container icons, and descriptions that appear in the Unraid dashboard. By including these labels in a `docker-compose.override.yml` file, you can make Immich services integrate seamlessly with Unraid's management interface, accessible through the GUI.
 
-If you are using [UnRAID's Docker Compose Manager Community Application](https://forums.unraid.net/topic/114415-plugin-docker-compose-manager){:target="_blank"} this is a nice feature to have.
+This is only possible uf you are using [UnRAID's Docker Compose Manager](https://forums.unraid.net/topic/114415-plugin-docker-compose-manager){:target="_blank"}, but it is a nice feature to have.
 
 - Make sure the stack_name is `immich`
 
@@ -345,7 +345,7 @@ So on a standard Android phone, you will have at-least one Album called `Camera`
 
 After that things like, `Downloads`, `Telegram Images`, `Telegram Video`, `Telegram Documents`, etc it's all up to you.
 
-But make sure, if you're doing the desktop sync, that these folders make sense in a logical manner, and accompany the albums you're using on your mobile device.
+> These folders need to make sense in a logical manner, and accompany the albums you're using on your mobile device.
 
 
 * * *
@@ -374,7 +374,28 @@ You must remove the `--dry-run` part of the command to make changes. What you se
 
 #### Immich-GO (expects subfolders)
 
-This will work in the current directory, assuming you have your folders there and the immich-go binary. But it will also "join folders" - what this means is if you have a bunch of subdirectories `/some/stuff/here/for/my/specific/purpose` - there are no sub-albumns in Immich. You need to flatten that structure. If you flatten it, what do you want it to look like? `some-stuff-here-for-my-specific-purpose`. And pictures in the `/some/stuff/here` directory will be in the album, `some-stuff-here`. The album-path-joiner flag at then end takes `/` and replaces them with `-` ... this is the same as `sed 's/\//-/g'`
+This will work in the current directory, assuming you have your folders there and the immich-go binary. 
+
+This command will also "join folders" - if you have folders inside of folders.
+
+If you have a bunch of subdirectories:
+
+ - Pics in the `/some/stuff/here/for/my/specific/purpose` directory.
+ 
+ - And pictures in the `/some/stuff/here` directory.
+ 
+> There are no sub-albumns in Immich. You need to flatten that directory into a tag.
+
+
+##### Folders exist as Albums
+
+If you flatten a series of subdirectories, what do you want it to look like?
+
+- `some-stuff-here-for-my-specific-purpose` will be in the album.
+
+- and `some-stuff-here` will be the album for the `/some/stuff/here` directory.
+
+> The album-path-joiner flag at then end takes `/` and replaces them with `-` ... this is the same as `sed 's/\//-/g'`
 
 
 ```bash
