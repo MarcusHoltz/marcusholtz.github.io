@@ -17,7 +17,7 @@ Here are all of the things I had to do to get Immich at a point where users, and
 
 * * *
 
-For the repo that goes along with this guide, visit: [https://github.com/MarcusHoltz/immich-setup](https://github.com/MarcusHoltz/immich-setup)
+For the repo that goes along with this guide, visit: [https://github.com/MarcusHoltz/immich-setup](https://github.com/MarcusHoltz/immich-setup){:target="_blank"}.
 
 * * *
 
@@ -28,7 +28,7 @@ Hello. Welcome.
 
 I presume you're here because you want out of a proprietary cloud-based photos/videos/memories system.
 
-[Immich](https://www.reddit.com/r/immich/) is a good Google Photos or iCloud Photos alternative, and still allows sharing between multiple users. It may just be easy enough for your parents.
+[Immich](https://www.reddit.com/r/immich/){:target="_blank"} is a good Google Photos or iCloud Photos alternative, and still allows sharing between multiple users. It may just be easy enough for your parents.
 
 It is not just a good iCloud/Google Photos replacement, in many aspects, it does much more.
 
@@ -54,6 +54,7 @@ What all does this tutorial cover?
     - [Understanding Immich Network Architecture](#understanding-example-setup-network-architecture)
   - [🎉 Congratulations! 🎉](#-congratulations-)
 
+
 Let's go!
 
 
@@ -63,9 +64,9 @@ Let's go!
 
 How Immich works, you need to pick one of these two:
 
-1. [Make changes outside of Immich, import your existing folders](https://immich.app/docs/guides/external-library/)
+1. [Make changes outside of Immich, import your existing folders](https://immich.app/docs/guides/external-library/){:target="_blank"}
 
-2. [Transfer your current folders full of photos to an Immich library](https://immich.app/docs/features/command-line-interface/)
+2. [Transfer your current folders full of photos to an Immich library](https://immich.app/docs/features/command-line-interface/){:target="_blank"}
 
 This sounds like they're the same thing, right? NO!
 
@@ -102,17 +103,17 @@ This is the start of the entire process. How will you store your photos?
 
 I will be importing into the system Immich uses to organize files. The folder structure can be changed in the future and Immich can re-folder your files.
 
-- `My meme folders` - not in Immich.
+- `My meme folders` - not in Immich. (use [Meme-search](https://github.com/neonwatty/meme-search){:target="_blank"})
 
-- `All of my documentation screen shots` - not in Immich.
+- `All of my documentation screen shots` - not in Immich. (use [Holtzweb Blog](https://blog.holtzweb.com/){:target="_blank"})
 
-- `All of my receipts, manuals, invoices, pdfs` - not in Immich.
+- `All of my receipts, manuals, invoices, pdfs` - not in Immich. (use [Papra](https://github.com/papra-hq/papra){:target="_blank"} or [Paperless-ngx](https://github.com/paperless-ngx/paperless-ngx){:target="_blank"})
 
 - `Smokie's Birthday Photos` - in Immich.
 
 Yes, you could send all that to Immich, and have it available to search -- but **this** is a *shared Immich instance* for family, not a general dumping ground.
 
-Each user will have the same folder structure. Any organization is done by Immich in [albums](https://github.com/simulot/immich-go#from-folder-sub-command).
+Each user will have the same folder structure. Any organization is done by Immich in [albums](https://github.com/simulot/immich-go#from-folder-sub-command){:target="_blank"}.
 
 
 * * *
@@ -123,13 +124,13 @@ I have most of my long term and speedy storage on UnRAID.
 
 Immich will reside on the UnRAID server, no point of having the service up if the files are unavailable.
 
-[Immich](https://immich.app/docs/overview/welcome) has a very good [Unraid starter template](https://immich.app/docs/install/unraid) for us to use.
+[Immich](https://immich.app/docs/overview/welcome){:target="_blank"} has a very good [Unraid starter template](https://immich.app/docs/install/unraid){:target="_blank"} for us to use.
 
-This write-up assumes you've already had a go at that. If not, give the [Unraid: Community Applications Template - Docker-Compose Method](https://immich.app/docs/install/unraid) official documentation a read.
+This write-up assumes you've already had a go at that. If not, give the [Unraid: Community Applications Template - Docker-Compose Method](https://immich.app/docs/install/unraid){:target="_blank"} official documentation a read.
 
-I will be using that as a base for the files in this tutorial. You can find the files we will be using, the ones I use on my UnRAID server, in my [Immich Setup Repo](https://github.com/MarcusHoltz/immich-setup/tree/main/unraid-immich-compose).
+I will be using that as a base for the files in this tutorial. You can find the files we will be using, the ones I use on my UnRAID server, in my [Immich Setup Repo](https://github.com/MarcusHoltz/immich-setup/tree/main/unraid-immich-compose){:target="_blank"}.
 
-To setup - if you're not using UnRAID - the [docker-compose.yml](https://github.com/MarcusHoltz/immich-setup/blob/main/unraid-immich-compose/compose.manager/projects/immich/docker-compose.yml) and [env](https://github.com/MarcusHoltz/immich-setup/blob/main/unraid-immich-compose/compose.manager/projects/immich/env) files will work just fine.
+To setup - if you're not using UnRAID - the [docker-compose.yml](https://github.com/MarcusHoltz/immich-setup/blob/main/unraid-immich-compose/compose.manager/projects/immich/docker-compose.yml){:target="_blank"} and [env](https://github.com/MarcusHoltz/immich-setup/blob/main/unraid-immich-compose/compose.manager/projects/immich/env){:target="_blank"} files will work just fine.
 
 
 ### Use UnRAID for Immich
@@ -138,7 +139,7 @@ I have most of my long term and speedy storage on UnRAID.
 
 So, to me, it made sense to setup Immich on the UnRAID server, no point of having the service up if the files are unavailable.
 
-You can find the files I have used on the UnRAID server in this [Immich Setup Repo](https://github.com/MarcusHoltz/immich-setup/unraid-immich-compose).
+You can find the files I have used on the UnRAID server in this [Immich Setup Repo](https://github.com/MarcusHoltz/immich-setup/unraid-immich-compose){:target="_blank"}.
 
 
 * * *
@@ -147,9 +148,9 @@ You can find the files I have used on the UnRAID server in this [Immich Setup Re
 
 To get this up and running, we need additonal software in UnRAID to support how this is set-up.
 
-The easiest way is to install the [Docker Compose Manager](https://github.com/dcflachs/plugin-repository/blob/master/compose.manager.xml) from the UnRAID Community Applications.
+The easiest way is to install the [Docker Compose Manager](https://github.com/dcflachs/plugin-repository/blob/master/compose.manager.xml){:target="_blank"} from the UnRAID Community Applications.
 
-You can find out more about [UnRAID's Unofficial Docker Compose Manager Plugin](https://forums.unraid.net/topic/114415-plugin-docker-compose-manager).
+You can find out more about [UnRAID's Unofficial Docker Compose Manager Plugin](https://forums.unraid.net/topic/114415-plugin-docker-compose-manager){:target="_blank"}.
 
 - Once it's installed, you can find it under `Plugins`.
 
@@ -163,7 +164,7 @@ You can find out more about [UnRAID's Unofficial Docker Compose Manager Plugin](
 
 ### UnRAID Immich Setup Downloader: Copy the Github Files
 
-If you haven’t copied the [Immich Setup: Install Immich on UnRAID Compose Github](https://github.com/MarcusHoltz/immich-setup/tree/main/unraid-immich-compose) repo yet, you'll need to get a few files:
+If you haven’t copied the [Immich Setup: Install Immich on UnRAID Compose Github](https://github.com/MarcusHoltz/immich-setup/tree/main/unraid-immich-compose){:target="_blank"} repo yet, you'll need to get a few files:
 
 - `docker-compose.yml` - in the `compose.manager` folder. **REQUIRED** - The main configuration file that defines all services and their relationships. Deploy this file to launch your complete Immich infrastructure.
 
@@ -232,7 +233,7 @@ Now that you know what's included in the stack, let's get this Docker Compose fi
 
 A `docker-compose.yml` file contains all of the programs in the stack.
 
-If you are using [UnRAID's Docker Compose Manager Community Application](https://forums.unraid.net/topic/114415-plugin-docker-compose-manager):
+If you are using [UnRAID's Docker Compose Manager Community Application](https://forums.unraid.net/topic/114415-plugin-docker-compose-manager){:target="_blank"}:
 
 - Make sure the stack_name is `immich`
 
@@ -261,7 +262,7 @@ This stack also relies on Environment Varriables to help set some of the configu
 
 UnRAID special labels with Docker that help the web interface display addional information. These labels define elements like the WebUI URL, container icons, and descriptions that appear in the Unraid dashboard. By including these labels in a `docker-compose.override.yml` file, you can make Immich services integrate seamlessly with Unraid's management interface, accessible through the GUI.
 
-If you are using [UnRAID's Docker Compose Manager Community Application](https://forums.unraid.net/topic/114415-plugin-docker-compose-manager) this is a nice feature to have.
+If you are using [UnRAID's Docker Compose Manager Community Application](https://forums.unraid.net/topic/114415-plugin-docker-compose-manager){:target="_blank"} this is a nice feature to have.
 
 - Make sure the stack_name is `immich`
 
@@ -283,9 +284,9 @@ Immich will fail, as the network has not fully come up yet. YMMV.
 
 ##### Install Userscripts on UnRAID
 
-To fix the Immich stack startup we're using the [User Scripts](https://github.com/Squidly271/user.scripts/blob/master/plugins/user.scripts.plg) plugin.
+To fix the Immich stack startup we're using the [User Scripts](https://github.com/Squidly271/user.scripts/blob/master/plugins/user.scripts.plg){:target="_blank"} plugin.
 
-You can find out more about [The Community Application: User Scripts](https://forums.unraid.net/topic/48286-plugin-ca-user-scripts/).
+You can find out more about [The Community Application: User Scripts](https://forums.unraid.net/topic/48286-plugin-ca-user-scripts){:target="_blank"}.
 
 Make sure it is installed before continuing.
 
@@ -302,7 +303,7 @@ This script waits 100 seconds and then updates & restarts the docker-compose sta
 
 It then proceeds to do the same to NetBird. 
 
-If you are using [UnRAID's User Scripts Community Application](https://forums.unraid.net/topic/48286-plugin-ca-user-scripts/) this is a nice feature to have.
+If you are using [UnRAID's User Scripts Community Application](https://forums.unraid.net/topic/48286-plugin-ca-user-scripts){:target="_blank"} this is a nice feature to have.
 
 - Make sure the directory you're in is `/boot/config/plugins/user.scripts/scripts/`
 
@@ -360,7 +361,7 @@ Immich-GO is a single binary you can slap anywhere and then start importing.
 
 It is soooooo easy. You could be on a remote server with a remote mount, no problem. Slap that binary in there, issue the command - done. No changes to the remote machine, nothing installed.
 
-There is even a Python based GUI you could use: [Immich-Go GUI](https://github.com/shitan198u/immich-go-gui)
+There is even a Python based GUI you could use: [Immich-Go GUI](https://github.com/shitan198u/immich-go-gui){:target="_blank"}
 
 
 * * *
@@ -473,7 +474,7 @@ docker run --rm -it \
 
 ## Third step: Immich stack
 
-[Immich-stack](https://github.com/majorfi/immich-stack) is designed to [automatically group similar photos](https://majorfi.github.io/immich-stack/getting-started/quick-start/) into [stacks](https://immich.app/docs/api/create-stack/) within the Immich photo management system. Its primary purpose is to help users organize large photo libraries by stacking related images—such as burst shots, [similar filenames](https://majorfi.github.io/immich-stack/api-reference/environment-variables/?h=criteria#custom-criteria_1), or images taken in quick succession—into logical groups for easier browsing and management
+[Immich-stack](https://github.com/majorfi/immich-stack){:target="_blank"} is designed to [automatically group similar photos](https://majorfi.github.io/immich-stack/getting-started/quick-start/){:target="_blank"} into [stacks](https://immich.app/docs/api/create-stack/){:target="_blank"} within the Immich photo management system. Its primary purpose is to help users organize large photo libraries by stacking related images—such as burst shots, [similar filenames](https://majorfi.github.io/immich-stack/api-reference/environment-variables/?h=criteria#custom-criteria_1){:target="_blank"}, or images taken in quick succession—into logical groups for easier browsing and management
 
 
 
@@ -514,7 +515,7 @@ immich-stack \
 
 #### Immich-Stack Command Explained
 
-Sorry, let me explain this a little. Their [wiki](https://majorfi.github.io/immich-stack/) isnt too easy to go by.
+Sorry, let me explain this a little. Their [wiki](https://majorfi.github.io/immich-stack/){:target="_blank"} isnt too easy to go by.
 
 
 - `--criteria:` Specifies how to group photos. In this example, it splits the `originalFileName` on `+` and `.` and uses the first segment, (`+`), as the grouping key. This is useful for stacking images that share a common base filename (e.g., burst shots like `IMG_1234+1.JPG`, `IMG_1234+2.JPG`).
@@ -599,11 +600,11 @@ Let's address three "hypothetical" situations:
 
 2. Uncle uses 50MB jpegs for edits of his best photos.
 
-3. Cousin store photos with his RAW/CR2 files present (psst - tell them there's a [Lightroom Immich plugin](https://blog.fokuspunk.de/lrc-immich-plugin/)).
+3. Cousin store photos with his RAW/CR2 files present (psst - tell them there's a [Lightroom Immich plugin](https://blog.fokuspunk.de/lrc-immich-plugin/){:target="_blank"}).
 
 Yeah. **Lossy compression may be deemed acceptable.** 
 
-Original files will always be backed up and stored off site. But if you really need compression with no loss in image data, try [immich-upload-optimizer](https://github.com/miguelangel-nubla/immich-upload-optimizer).
+Original files will always be backed up and stored off site. But if you really need compression with no loss in image data, try [immich-upload-optimizer](https://github.com/miguelangel-nubla/immich-upload-optimizer){:target="_blank"}.
 
 
 * * *
@@ -622,7 +623,7 @@ That should take care of any concerns about people gobbling up space with a few 
 
 The original video can be stored off site, or on a slower storage medium. It doesnt really need to be on the Immich server, heck, it doesnt really need it exist at all. Delete it. It's up to you.
 
-You can find the `inplace_mp4_optimizer.sh` script in the [compress2largeVIDEOS](https://github.com/MarcusHoltz/immich-setup/tree/main/compress2largeVIDEOS) folder in my [Immich Setup Repo](https://github.com/MarcusHoltz/immich-setup/).
+You can find the `inplace_mp4_optimizer.sh` script in the [compress2largeVIDEOS](https://github.com/MarcusHoltz/immich-setup/tree/main/compress2largeVIDEOS){:target="_blank"} folder in my [Immich Setup Repo](https://github.com/MarcusHoltz/immich-setup/){:target="_blank"}.
 
 That information can also be found below:
 
@@ -661,7 +662,7 @@ That information can also be found below:
 
 #### In-Place MP4 Optimizer Quick Instructions
 
-1. Have [Docker](https://docs.docker.com/get-docker/) Ready
+1. Have [Docker](https://docs.docker.com/get-docker/){:target="_blank"} Ready
 
 2. Put your media in a folder, e.g. `./media`
 
@@ -707,7 +708,7 @@ That information can also be found below:
 
 #### In-Place MP4 Optimizer Downloader: Copy the Github Files
 
-If you haven’t copied the [Immich Setup: compress2largeVIDEOS](https://github.com/MarcusHoltz/immich-setup/tree/main/compress2largeVIDEOS) folder yet, you'll need to get a few files:
+If you haven’t copied the [Immich Setup: compress2largeVIDEOS](https://github.com/MarcusHoltz/immich-setup/tree/main/compress2largeVIDEOS){:target="_blank"} folder yet, you'll need to get a few files:
 
 - `docker-compose.yml` - The main configuration file that defines all services and their relationships. Deploy this file to launch your video compression journey.
 
@@ -876,7 +877,7 @@ Converted files logged at: /workdir/.mp4_files_optimized--keepme.log
 
 - **Script stops with "Directory does not exist":** Make sure the `PROCESS_DIR` path is correct and accessible.
 
-- **Docker not installed:** To fix, [Install Docker](https://docs.docker.com/get-docker/) or [Docker Destkop](https://www.docker.com/products/docker-desktop/).
+- **Docker not installed:** To fix, [Install Docker](https://docs.docker.com/get-docker/){:target="_blank"} or [Docker Destkop](https://www.docker.com/products/docker-desktop/){:target="_blank"}.
 
 
 * * *
@@ -895,7 +896,7 @@ That should take care of any concerns about people gobbling up space with large 
 
 The original image can be stored off site, or on a slower storage medium. It doesnt, really need to be on the Immich server, heck, it doesnt really need it exist at all. Delete it. It's up to you.
 
-You can find the `inplace_jpg_optimizer.sh` script in the [compress2largeIMAGES](https://github.com/MarcusHoltz/immich-setup/tree/main/compress2largeIMAGES) folder in my [Immich Setup Repo](https://github.com/MarcusHoltz/immich-setup/).
+You can find the `inplace_jpg_optimizer.sh` script in the [compress2largeIMAGES](https://github.com/MarcusHoltz/immich-setup/tree/main/compress2largeIMAGES){:target="_blank"} folder in my [Immich Setup Repo](https://github.com/MarcusHoltz/immich-setup/){:target="_blank"}.
 
 That information can also be found below:
 
@@ -934,7 +935,7 @@ That information can also be found below:
 
 #### In-Place JPG Optimizer Quick Instructions
 
-1. Have [Docker](https://docs.docker.com/get-docker/) Ready
+1. Have [Docker](https://docs.docker.com/get-docker/){:target="_blank"} Ready
 
 2. Put your photos in a folder, e.g. `./photos`
 
@@ -969,7 +970,7 @@ That information can also be found below:
 
 #### In-Place JPG Optimizer Downloader: Copy the Github Files
 
-If you haven’t copied the [Immich Setup: compress2largeIMAGES](https://github.com/MarcusHoltz/immich-setup/tree/main/compress2largeIMAGES) folder yet, you'll need to get a few files:
+If you haven’t copied the [Immich Setup: compress2largeIMAGES](https://github.com/MarcusHoltz/immich-setup/tree/main/compress2largeIMAGES){:target="_blank"} folder yet, you'll need to get a few files:
 
 - `docker-compose.yml` - The main configuration file that defines all services and their relationships. Deploy this file to launch your video compression journey.
 
@@ -1064,7 +1065,7 @@ Originals have been moved to: ./originals
 
 - **Permissions:** Run as a user with read/write access to your photo folder.
 
-- **Docker not installed:** To fix, [Install Docker](https://docs.docker.com/get-docker/) or [Docker Destkop](https://www.docker.com/products/docker-desktop/).
+- **Docker not installed:** To fix, [Install Docker](https://docs.docker.com/get-docker/){:target="_blank"} or [Docker Destkop](https://www.docker.com/products/docker-desktop/){:target="_blank"}.
 
 
 * * *
@@ -1079,7 +1080,7 @@ So this script assumes you're at a remote location, prepping content to import b
 
 So, the script assumes you're outputting not to Immich, but to a folder, or external hard drive, or network resource, whatever. You will need somewhere to store these **new** files.
 
-You can find the `cr2jpeg.sh` script in the [batchCR2intoJPEG](https://github.com/MarcusHoltz/immich-setup/tree/main/batchCR2intoJPEG) folder in my [Immich Setup Repo](https://github.com/MarcusHoltz/immich-setup/).
+You can find the `cr2jpeg.sh` script in the [batchCR2intoJPEG](https://github.com/MarcusHoltz/immich-setup/tree/main/batchCR2intoJPEG){:target="_blank"} folder in my [Immich Setup Repo](https://github.com/MarcusHoltz/immich-setup/){:target="_blank"}.
 
 
 * * *
@@ -1116,7 +1117,7 @@ If you run the script, it is because you need the following features:
 
 #### CR2JPEG - Step 1: Copy the Github Files
 
-If you haven’t copied the [Immich Setup: batchCR2intoJPEG](https://github.com/MarcusHoltz/immich-setup/tree/main/batchCR2intoJPEG) folder yet, you'll need to get a few files:
+If you haven’t copied the [Immich Setup: batchCR2intoJPEG](https://github.com/MarcusHoltz/immich-setup/tree/main/batchCR2intoJPEG){:target="_blank"} folder yet, you'll need to get a few files:
 
 - `docker-compose.yml` - The main configuration file that defines all services and their relationships. Deploy this file to launch your video compression journey.
 
@@ -1415,14 +1416,14 @@ So, I will set the domain, IP, and port address to that of the Router. It can fi
 
 Why JetBird? Because NetBird's mobile client is closed source, and doesnt offer the option to register users with a key - OIDC login is hardcoded into the official Netbird mobile app — even when self-hosted.
 
-So if you want NetBird on mobile you must [have an OIDC ready to go](https://blog.holtzweb.com/posts/traefik-forwardauth-authentication-authentik), and expect to have anyone connecting use their OIDC account to login.
+So if you want NetBird on mobile you must [have an OIDC ready to go](https://blog.holtzweb.com/posts/traefik-forwardauth-authentication-authentik){:target="_blank"}, and expect to have anyone connecting use their OIDC account to login.
 
 
 * * *
 
 #### DNS Entries Will Not Work With JetBird
 
-If you just want to use registration keys to set up mobile users, you will need to use JetBird. But, the opensource client JetBird, [will not be able to send DNS entries to your clients](https://codeberg.org/bg443/JetBird/issues/57). That's a big problem.
+If you just want to use registration keys to set up mobile users, you will need to use JetBird. But, the opensource client JetBird, [will not be able to send DNS entries to your clients](https://codeberg.org/bg443/JetBird/issues/57){:target="_blank"}. That's a big problem.
 
 You will have to have public DNS entries for everyone to reach. This defeats the purpose of having something like Netbird, it might as well just be Wireguard.
 
