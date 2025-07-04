@@ -17,6 +17,11 @@ Here are all of the things I had to do to get Immich at a point where users, and
 
 * * *
 
+For the repo that goes along with this guide, visit: [https://github.com/MarcusHoltz/immich-setup](https://github.com/MarcusHoltz/immich-setup)
+
+* * *
+
+
 ## Hi, I'm new to Immich
 
 Hello. Welcome. 
