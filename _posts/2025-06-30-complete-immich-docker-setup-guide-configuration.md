@@ -242,13 +242,13 @@ Additionally, you require one more file...
 
 This stack relies on environment variables. An environment variable file is typically named `.env` and must be placed in the same directory as the compose file.
 
-This stack also relies on Environment Varriables to help set some of the configuration information, but the environment variable file is named `env`, without the `period`. This is how the plugin is written.
+This stack also relies on Environment Variables to help set some of the configuration information, the environment variable file is named `.env`. The file you downloaded is named `env`. Please rename the file as you move it to the correct location.
 
 - Make sure the stack_name is `immich`
 
-- Your `env` file needs to be in the same directory as the `docker-compose.yml` file.
+- Your recently renamed `.env` file needs to be in the same directory as the `docker-compose.yml` file.
 
-- The `env` file should be located at: `/boot/config/plugins/compose.manager/projects/immich/env`
+- The `.env` file should be located at: `/boot/config/plugins/compose.manager/projects/immich/.env`
 
 
 * * *
