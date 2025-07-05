@@ -141,7 +141,7 @@ You can find the files we will be using, the same I use on my UnRAID server, in 
 
 ### UnRAID Requirements: Part 1
 
-To get this up and running, we need additonal software in UnRAID to support how this is set-up.
+To get this up and running, we need additional software in UnRAID to support how this is set-up.
 
 The easiest way is to install the [Docker Compose Manager](https://github.com/dcflachs/plugin-repository/blob/master/compose.manager.xml){:target="_blank"} from the UnRAID Community Applications.
 
@@ -174,7 +174,7 @@ If you haven’t copied the [Immich Setup: Install Immich on UnRAID Compose Gith
 
 #### Bash/ZSH Script to Download UnRAID Immich Setup
 
-If you have not dowloaded anything yet, here is a `Bash` script to download all the required files for an UnRAID Immich Setup:
+If you have not downloaded anything yet, here is a `Bash` script to download all the required files for an UnRAID Immich Setup:
 
 ```bash
 
@@ -255,7 +255,7 @@ This stack also relies on Environment Variables to help set some of the configur
 
 #### Docker-Compose Additional UnRAID Overrides
 
-UnRAID special labels with Docker that help the web interface display addional information. These labels define elements like the WebUI URL, container icons, and descriptions that appear in the Unraid dashboard. By including these labels in a `docker-compose.override.yml` file, you can make Immich services integrate seamlessly with Unraid's management interface, accessible through the GUI.
+UnRAID special labels with Docker that help the web interface display additional information. These labels define elements like the WebUI URL, container icons, and descriptions that appear in the Unraid dashboard. By including these labels in a `docker-compose.override.yml` file, you can make Immich services integrate seamlessly with Unraid's management interface, accessible through the GUI.
 
 This is only possible uf you are using [UnRAID's Docker Compose Manager](https://forums.unraid.net/topic/114415-plugin-docker-compose-manager){:target="_blank"}, but it is a nice feature to have.
 
@@ -507,7 +507,7 @@ Immich has a feature to help you inspect every duplicate and decide to trash it,
 
 You run immich-stack as a command-line tool or via Docker. It connects to your Immich server using an API key and processes your photo library according to the criteria you specify.
 
-The real beauty of immich-stack is it lets you specify how your files have been named, then stack them accordingingly. Let me give you an example:
+The real beauty of immich-stack is it lets you specify how your files have been named, then stack them accordingly. Let me give you an example:
 
 
 * * *
@@ -646,7 +646,7 @@ That information can also be found below:
 
 * * *
 
-#### In-Place MP4 Optimizer Introducton
+#### In-Place MP4 Optimizer Introduction
 
 - **This script will:** Scans a directory of MP4 videos, recompresses each file that meets certain condition, keep all metadata, and back up originals.
 
@@ -737,7 +737,7 @@ If you haven’t copied the [Immich Setup: compress2largeVIDEOS](https://github.
 
 ##### Bash/ZSH Script to Download In-Place MP4 Optimizer
 
-If you have not dowloaded anything yet, here is a `Bash` script to download all the required files for the In-Place MP4 Optimizer script, ran in Docker:
+If you have not downloaded anything yet, here is a `Bash` script to download all the required files for the In-Place MP4 Optimizer script, ran in Docker:
 
 ```bash
 
@@ -750,7 +750,7 @@ BASE_URL="https://raw.githubusercontent.com/MarcusHoltz/immich-setup/main/compre
 
 ##### Powershell Script to Download In-Place MP4 Optimizer
 
-Again, on Windows, if you have not dowloaded anything yet here is a `Powershell` script to download all the required files for the In-Place MP4 Optimizer script, ran in Docker:
+Again, on Windows, if you have not downloaded anything yet here is a `Powershell` script to download all the required files for the In-Place MP4 Optimizer script, ran in Docker:
 
 ```powershell
 
@@ -919,7 +919,7 @@ That information can also be found below:
 
 * * *
 
-#### In-Place JPG Optimizer Introducton
+#### In-Place JPG Optimizer Introduction
 
 - **This script will:** Shrink big JPGs in-place, keep all metadata, and back up originals.
 
@@ -999,7 +999,7 @@ If you haven’t copied the [Immich Setup: compress2largeIMAGES](https://github.
 
 ##### Bash/ZSH Script to Download In-Place JPG Optimizer
 
-If you have not dowloaded anything yet, here is a `Bash` script to download all the required files for the In-Place JPG Optimizer script, ran in Docker:
+If you have not downloaded anything yet, here is a `Bash` script to download all the required files for the In-Place JPG Optimizer script, ran in Docker:
 
 ```bash
 
@@ -1012,7 +1012,7 @@ BASE_URL="https://raw.githubusercontent.com/MarcusHoltz/immich-setup/main/compre
 
 ##### Powershell Script to Download In-Place JPG Optimizer
 
-Again, on Windows, if you have not dowloaded anything yet here is a `Powershell` script to download all the required files for the In-Place JPG Optimizer script, ran in Docker:
+Again, on Windows, if you have not downloaded anything yet here is a `Powershell` script to download all the required files for the In-Place JPG Optimizer script, ran in Docker:
 
 ```powershell
 
@@ -1213,7 +1213,7 @@ Sorry about the bytes, here's a conversion table to help!
 
 #### CR2JPEG - Step 4: Try CR2intoJPEG out
 
-You can just run the script in Linux, it will do as detailed above, but you will need to specifiy the input and output directories.
+You can just run the script in Linux, it will do as detailed above, but you will need to specify the input and output directories.
 
 ```bash
 
@@ -1311,7 +1311,7 @@ Netbird Network (100.64.0.0/10)
 
 #### Netbird? VPN? What's about go to on here?
 
-So, the beauty of a lot of the new Wireguard VPNs is holepunching. Only one side needs to be able to accept a connection from the internet, then the reply from that connection will create a hole in a stateful firewall to allow persistant traffic in, provided there's a keep alive packet every now and then.
+So, the beauty of a lot of the new Wireguard VPNs is holepunching. Only one side needs to be able to accept a connection from the internet, then the reply from that connection will create a hole in a stateful firewall to allow persistent traffic in, provided there's a keep alive packet every now and then.
 
 A connection can be made into a network without opening any sort of public port.
 
@@ -1386,7 +1386,7 @@ We need to add a Resource (Subnet) to your Network, so external clients can find
   - Name: `immich-home`.
   - Description: `Route to local network for Immich access`
   - Address: Enter your home subnet (e.g., `172.21.8.0/24` if your home LAN is in this range).
-  - Destination Groups: Click on this field, then click into the search bar that appears at the top of this new menu. You should see a blinking cursor next to the magnifing glass. You can now type in the name to restrict this resource down to. This is the group for your Docker container (e.g. immich-connector).
+  - Destination Groups: Click on this field, then click into the search bar that appears at the top of this new menu. You should see a blinking cursor next to the magnifying glass. You can now type in the name to restrict this resource down to. This is the group for your Docker container (e.g. immich-connector).
   - Enabled: ✅
   - Click the `Add Resource` button.
 
