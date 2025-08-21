@@ -12,6 +12,8 @@ image:
 
 # Country Based IP Address Internet Blocklist Aggregator
 
+Automated IP blocklist aggregation with geolocation-based country filtering, Docker ready, and twice daily runs via GitHub Actions.
+
 - 📥 Automatically collects IP addresses from the different blocklists you've configured
 
 - 🦺 Combines all the IP addresses into one VLSM list
