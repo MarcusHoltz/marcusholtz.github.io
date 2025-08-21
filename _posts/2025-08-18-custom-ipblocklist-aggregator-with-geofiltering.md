@@ -51,12 +51,11 @@ For the repo that goes along with this guide, visit:
       - [Customizing your list](#customizing-your-list)
       - [GeoIP Aggregation](#geoip-aggregation)
     - [How does this work](#how-does-this-work)
-      - [**⚡ Performance Characteristics**](#-performance-characteristics)
-      - [**⚖️ Accuracy vs Performance**](#️-accuracy-vs-performance)
+      - [Python](#-performance-characteristics)
   - [Use Cases and Deployment Scenarios](#use-cases-and-deployment-scenarios)
-    - [🌍 Regional Service Protection](#-regional-service-protection)
-    - [🛡️ Infrastructure Security](#️-infrastructure-security)
-    - [📋 Compliance and Governance](#-compliance-and-governance)
+    - [Regional Service Protection](#-regional-service-protection)
+    - [Infrastructure Security](#️-infrastructure-security)
+    - [Compliance and Governance](#-compliance-and-governance)
   - [IP Blocklist list](#ip-blocklist-list)
     - [Block list suggestions](#block-list-suggestions)
 
@@ -165,6 +164,8 @@ Generated blocklists appear in the `./data/output` directory and include:
 - **📋 Aggregated formats**: Combined lists for multi-country deployments  
 
 
+* * *
+
 
 ![Get your IPBlocklist Aggregator today! Now with Geofiltering, for only $19.00!](/assets/img/posts/aggregator-get-yours-today--450.png)
 
@@ -221,6 +222,7 @@ That link will provide a **Data Preview** section where you can quickly filter b
 
 ### How does this work
 
+Most of the script is written in Python.
 
 The magic to the script is:
 
@@ -241,29 +243,6 @@ us_ips = [ip for ip in all_ips if ip in tree]
 ```
 
 > This script uses a Patricia trie, Python≥3.9, and it makes the lookups very efficient even with many prefixes. In benchmarks, PySubnetTree is much faster than naive loops.
-
-#### **⚡ Performance Characteristics**
-
-- **💾 Memory Usage**: Modest overhead (tens of MB for ~200k prefixes)
-
-- **🚀 Lookup Speed**: Efficient even with large prefix sets
-
-- **🖥️ Platform Support**: Python ≥3.9 on Unix systems (no Windows support)
-
-- **📦 Installation**: pip-installable C extensions
-
-
-#### **⚖️ Accuracy vs Performance**
-
-- **🎯 Exact Matching**: No approximation, preserves complete accuracy
-
-- **🌳 Tree Structure**: More memory than flat lists, but faster lookups
-
-- **📚 External Dependencies**: Requires PySubnetTree package installation
-
-
-
-
 
 
 * * *
@@ -415,92 +394,4 @@ The purpose of the project is to identify botnet command&control servers (C&C) a
 
 * * *
 
-
-
-
-
-
-
-
-This automated, geo-filtered IP blocklist aggregator provides enterprise-grade security capabilities while remaining completely free and open-source. By focusing on specific countries and optimizing for firewall capacity limits, it delivers targeted protection without the overhead of global-scale blocking solutions. 🎯✨
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ![The IPblocklist Geofiltered Aggregator Atari Game](/assets/img/posts/aggregator-game-cartridge--thumb.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
