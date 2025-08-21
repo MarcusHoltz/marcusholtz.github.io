@@ -212,7 +212,7 @@ You now have output!
 
 #### Customizing your list
 
-If you're going to customize the list, you should remove the `./data/output` folder, as it will only contain data pertinant to the current setup.
+If you're going to customize the list, you should remove the `./data/output` folder, as it will only contain data pertinent to the current setup.
 
 Be sure to remove the `./data/output` folder when you customize the countries. 
 
@@ -247,10 +247,10 @@ from SubnetTree import SubnetTree
 
 # Build geographic lookup tree
 tree = SubnetTree()
-for cidr in us_cidr_list:
+for cidr in us_networks:
     tree[cidr] = True
 
-# Filter IPs by geographic location
+# Filter IPs by geographic location with O(log n) magic
 us_ips = [ip for ip in all_ips if ip in tree]
 ```
 
