@@ -12,19 +12,29 @@ image:
 
 # Country Based IP Address Internet Blocklist Aggregator
 
-This tool automatically collects IP addresses from different blocklists and combines them into one big list, then filters out only the IP addresses from specific countries you choose. It runs by itself using GitHub to keep your blocked IP list fresh and updated.
+- 📥 Automatically collects IP addresses from the different blocklists you've configured
+
+- 🦺 Combines all the IP addresses into one VLSM list
+
+- 🌐 Filters geographically to show only IP addresses from specific countries you choose
+
+- 🤖 Runs autonomously using GitHub Actions to keep your blocked IP list fresh and updated
 
 
 * * *
 
-For the repo that goes along with this guide, visit: [https://github.com/MarcusHoltz/ipblocklist-geofiltered-aggregator](https://github.com/MarcusHoltz/ipblocklist-geofiltered-aggregator){:target="_blank"}.
+For the repo that goes along with this guide, visit: 
+
+[https://github.com/MarcusHoltz/ipblocklist-geofiltered-aggregator](https://github.com/MarcusHoltz/ipblocklist-geofiltered-aggregator){:target="_blank"}.
 
 * * *
 
 
 
+![The IPblocklist Geofiltered Aggregator Atari Game, Free! A $19.00 value!](/assets/img/posts/aggregator-game-cartridge.jpg)
 
 
+* * *
 
 - [Country Based IP Address Internet Blocklist Aggregator](#country-based-ip-address-internet-blocklist-aggregator)
   - [Why this](#why-this)
@@ -46,10 +56,11 @@ For the repo that goes along with this guide, visit: [https://github.com/MarcusH
 
 I like the idea of fail2ban, I like the idea of a shared global fail2ban, I dont like [the idea of Crowdsec](https://discourse.crowdsec.net/t/is-crowdsec-acting-against-european-privacy-regulations/1363){:target="_blank"}.
 
+![Revealing all your private connection information to Crowdsec](/assets/img/posts/aggregator-crowdsec--thumb.png)
+
 So I decided I should get aggregate all the public block lists I can find, but alas, this would quickly exceed my firewall's default table size of 1000000, and you [do not want to](https://docs.opnsense.org/manual/firewall_settings.html#firewall-adaptive-timeouts){:target="_blank"} go over the number of entries.
 
-
-![Picture of OPNSense firewall table limits](/assets/img/posts/opnsense--firewall-aliases-nearing-full.png)
+![Picture of OPNSense firewall table limits](/assets/img/posts/opnsense--firewall-aliases-nearing-full--thumb.png)
 
 So, we need to cut this list down, and refine it by [VLSM](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing){:target="_blank"}.
 
@@ -65,6 +76,8 @@ But I need it to run when I am asleep and be publicly available.
 - Enter:  [ipblocklist-geofiltered-aggregator](https://github.com/MarcusHoltz/ipblocklist-geofiltered-aggregator){:target="_blank"} repo.
 
 > A [$19.00 value](https://www.provya.com/12-subscriptions), free!
+
+![Get your IPBlocklist Aggregator today! Now with Geofiltering, for only $19.00!](/assets/img/posts/aggregator-get-yours-today--450.png)
 
 
 * * *
