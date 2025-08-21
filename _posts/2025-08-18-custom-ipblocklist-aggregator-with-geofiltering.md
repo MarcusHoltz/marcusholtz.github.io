@@ -49,7 +49,7 @@ For the repo that goes along with this guide, visit:
 - [Github Blog Post](#github-blog-post)
 
 
-[![The IPblocklist Geofiltered Aggregator Atari Game](/assets/img/posts/aggregator-game-cartridge--thumb.png)](/assets/img/posts/aggregator-game-cartridge.jpg)
+
 
 
 ## Why this
@@ -152,7 +152,7 @@ They preserve exact accuracy (no approximation).
 
 
 
-
+![The IPblocklist Geofiltered Aggregator Atari Game](/assets/img/posts/aggregator-game-cartridge--thumb.png)
 
 
 ## Customizing your list
