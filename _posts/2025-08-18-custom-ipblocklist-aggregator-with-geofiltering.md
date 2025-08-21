@@ -39,7 +39,7 @@ For the repo that goes along with this guide, visit: [https://github.com/MarcusH
 - [Github Blog Post](#github-blog-post)
 
 
-[![The IPblocklist Geofiltered Aggregator Atari Game](/assets/img/posts/aggregator-game-cartridge--thumb.png)]((/assets/img/posts/aggregator-game-cartridge.jpg))
+[![The IPblocklist Geofiltered Aggregator Atari Game](/assets/img/posts/aggregator-game-cartridge--thumb.png)](/assets/img/posts/aggregator-game-cartridge.jpg)
 
 
 ## Why this
