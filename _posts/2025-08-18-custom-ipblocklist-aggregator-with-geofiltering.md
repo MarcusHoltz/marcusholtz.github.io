@@ -54,11 +54,11 @@ For the repo that goes along with this guide, visit:
 
 ## Why this
 
-I like the idea of fail2ban, I like the idea of a shared global fail2ban, I dont like [the idea of Crowdsec](https://discourse.crowdsec.net/t/is-crowdsec-acting-against-european-privacy-regulations/1363){:target="_blank"}.
+I like the idea of fail2ban - I dont like [the idea of Crowdsec](https://discourse.crowdsec.net/t/is-crowdsec-acting-against-european-privacy-regulations/1363){:target="_blank"}.
 
 ![Revealing all your private connection information to Crowdsec](/assets/img/posts/aggregator-crowdsec--thumb.png)
 
-So I decided I should get aggregate all the public block lists I can find, but alas, this would quickly exceed my firewall's default table size of 1000000, and you [do not want to](https://docs.opnsense.org/manual/firewall_settings.html#firewall-adaptive-timeouts){:target="_blank"} go over the number of entries.
+What about an idea of a shared global fail2ban? Should I aggregate all the public block lists I can find, but alas, this would quickly exceed my firewall's default table size of 1000000, and you [do not want to](https://docs.opnsense.org/manual/firewall_settings.html#firewall-adaptive-timeouts){:target="_blank"} go over the number of entries.
 
 ![Picture of OPNSense firewall table limits](/assets/img/posts/opnsense--firewall-aliases-nearing-full--thumb.png)
 
