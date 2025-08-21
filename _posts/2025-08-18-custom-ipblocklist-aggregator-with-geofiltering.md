@@ -162,11 +162,13 @@ Generated blocklists appear in the `./data/output` directory and include:
 - **📋 Aggregated formats**: Combined lists for multi-country deployments  
 
 
-> A [$19.00 value](https://www.provya.com/12-subscriptions), free! 
-{: .prompt-info }
 
 ![Get your IPBlocklist Aggregator today! Now with Geofiltering, for only $19.00!](/assets/img/posts/aggregator-get-yours-today--450.png)
 
+
+
+> A [$19.00 value](https://www.provya.com/12-subscriptions), free! 
+{: .prompt-info }
 
 * * *
 
