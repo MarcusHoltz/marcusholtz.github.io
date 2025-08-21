@@ -405,5 +405,5 @@ The purpose of the project is to identify botnet command&control servers (C&C) a
 
 
 
-![The IPblocklist Geofiltered Aggregator Atari Game](/assets/img/posts/aggregator-game-cartridge--thumb.png)
+![The IPblocklist Geofiltered Aggregator Atari Game](/assets/img/posts/aggregator-game-cartridge-with-price--thumb.png)
 
