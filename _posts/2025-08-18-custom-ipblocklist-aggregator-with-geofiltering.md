@@ -68,7 +68,7 @@ So, we can addresses this challenge by:
 
 - **Automating** updates for a zero-maintenance operation
 
-> Let's say your_country_here is .5 million addresses, that gives .5 million blocklist addresses to use (presuming firewall default table size of 1,000,000). 
+> Let's say "yourcountryhere" consists of .5 million addresses, that gives .5 million blocklist addresses to use (presuming firewall default table size of 1,000,000). 
 
 
 * * *
@@ -108,33 +108,33 @@ The features I wanted in this project are:
 
 #### Automated Processing
 
-- **⏰ Scheduled Updates**: Runs automatically via GitHub Actions
+- **Scheduled Updates**: Automated updates that the user can set. Runs automatically via GitHub Actions.
 
-- **📊 Multiple Source Integration**: Combines various threat intelligence feeds
+- **Multiple Source Integration**: Combines various IP blocklist feeds into a de-duplicated minimized VLSM list.
 
-- **🌐 Geographic Filtering**: Focuses on user-specified countries
+- **Geographic Filtering**: Lets the user specific as few or as many countries to filter the aggregated blocklist through.
 
-- **📐 CIDR Optimization**: Reduces blocklist size through subnet aggregation
+- **CIDR Optimization**: Reduces the total blocklist size through subnet aggregation in all blocklist generations.
 
 
 #### Firewall Compatibility  
 
-- **🔥 OPNSense/pfSense**: Direct integration with firewall aliases
+- **OPNSense/pfSense**: This must work with firewall aliases on M0n0wall-based firewalls.
 
-- **🐧 iptables**: Compatible with Linux-based systems
+- **iptables**: The lists generated need to be compatible with Linux-based deployments as well. 
 
-- **📡 OpenWRT**: Works with router-based implementations
+- **OpenWRT**: Support with other router-based operating systems
 
-- **🔧 Generic Format**: Standard CIDR notation for broad compatibility
+- **Generic Format**: Standard CIDR notation for broad compatibility
 
 
 #### Multiple Output Cusomizations
 
 Generated blocklists appear in the `./data/output` directory and include:
 
-- **🌍 Country-specific lists**: Separate files for each configured country
+- **Country-specific lists**: Separate files for each configured country
 
-- **📋 Aggregated formats**: Combined lists for multi-country deployments  
+- **Aggregated formats**: Combined lists for multi-country deployments  
 
 
 * * *
@@ -217,6 +217,7 @@ Be sure to remove the `./data/output` folder when you customize the countries.
 - This will ensure you dont include older, unused countries in your new aggreagtion lists.
 
 
+* * *
 
 #### GeoIP Aggregation
 
@@ -224,6 +225,7 @@ All of the information about what IP belongs to what country is pulled in from [
 
 That link will provide a **Data Preview** section where you can quickly filter by `country_name` and `country_iso_code`.
 
+This project assumes you are already doing country-based blocking. The best method for country-based blocking is to inverse match. Anything not matching the countries you are accepting traffic from, blocked. Then filter with this project's custom blocklists.
 
 * * *
 
@@ -255,45 +257,45 @@ us_ips = [ip for ip in all_ips if ip in tree]
 
 * * *
 
-## Use Cases and Deployment Scenarios
+## Differernt Use Cases and Deployment Scenarios
 
 ### Regional Service Protection
 
 Perfect for services that primarily serve specific geographic regions:
 
-- **🛒 E-commerce sites** focusing on domestic markets
+- **E-commerce sites** focusing on domestic markets
 
-- **🏛️ Government services** restricted to national access
+- **Government services** restricted to national access
 
-- **📺 Regional content delivery** with geographic licensing
+- **Regional content delivery** with geographic licensing
 
-- **🏢 Corporate networks** with defined operational territories
+- **Corporate networks** with defined operational territories
 
 
 ### Infrastructure Security
 
 Ideal for hardening network perimeters:
 
-- **🌐 Edge gateway protection** against global threat sources
+- **Edge gateway protection** against global threat sources
 
-- **🖥️ Server farm security** with country-based access control
+- **Server farm security** with country-based access control
 
-- **🔐 VPN endpoint filtering** for geographic compliance
+- **VPN endpoint filtering** for geographic compliance
 
-- **📱 IoT device protection** in constrained environments
+- **IoT device protection** in constrained environments
 
 
 ### Compliance and Governance
 
 Supports regulatory requirements:
 
-- **🗄️ Data residency** mandates requiring geographic restrictions
+- **Data residency** mandates requiring geographic restrictions
 
-- **🚫 Export control** compliance for sensitive technologies
+- **Export control** compliance for sensitive technologies
 
-- **🔒 Privacy regulations** limiting cross-border data flows
+- **Privacy regulations** limiting cross-border data flows
 
-- **🏦 Financial services** with jurisdictional operating requirements
+- **Financial services** with jurisdictional operating requirements
 
 
 
@@ -400,7 +402,6 @@ The purpose of the project is to identify botnet command&control servers (C&C) a
 - If you want a web app that can do mostly the aggrigation, you can find [Catcusd](https://github.com/m0zgen/cactusd/). 
 
 
-* * *
 
 
 
