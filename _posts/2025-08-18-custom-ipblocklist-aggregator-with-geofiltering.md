@@ -84,19 +84,19 @@ But alas, this would quickly exceed my firewall's default table size of 1,000,00
 
 * * *
 
-### What Would Our Solution Look Like
+### What Does The Solution Look Like
 
-So, we can addresses these challenges by:
+So, we can addresses this challenge by:
 
 - **Aggregating** multiple public blocklists into a single source to compose the more comprehensive list possible
 
 - **Optimizing** using [VLSM](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing){:target="_blank"} to reduce the number of entries
 
-- **Geo-filtering** to focus on specific sections of your network not intended for global use, cutting connections down to countries relevant to your infrastructure  
+- **Geo-filtering** to focus on specific sections of your network not intended for global use, cutting connections down to countries relevant to only your infrastructure  
 
-- **Automating** updates through GitHub Actions for a zero-maintenance operation
+- **Automating** updates for a zero-maintenance operation
 
-> If <your_country_here> is only .5 million addresses, that will give us .5 million of blocklist addresses we can use (presuming firewall default table size of 1,000,000). 
+> Let's say your_country_here is .5 million addresses, that gives .5 million blocklist addresses to use (presuming firewall default table size of 1,000,000). 
 
 
 * * *
@@ -110,9 +110,9 @@ The lists used in the [ipblocklist-geofiltered-aggregator](https://github.com/Ma
 
 > These go straight into your iptables. Be it, on your firewall, edge gateway, router, proxy, transparent bridge, etc.
 
-- **NOT** `DNS blocklists`, [DNS](https://github.com/hagezi/dns-blocklists) [Blocklists](https://oisd.nl) with dns123names456in789them.net
+- **NOT** DNS blocklists, [DNS](https://github.com/hagezi/dns-blocklists) [Blocklists](https://oisd.nl) have dns123names456in789them.net
 
-> DNS Blocklists are the kind that you might use with your PiHole, pfBlockerNG, Squid, AdGuard Home, Power DNS, etc.
+> DNS Blocklists are the kind that you might use with your PiHole, pfBlockerNG, Squid, AdGuard, Power DNS, etc.
 
 
 * * *
@@ -129,7 +129,10 @@ The lists used in the [ipblocklist-geofiltered-aggregator](https://github.com/Ma
 
 * * *
 
-###  Defining Features
+###  Defining Final Feature Set
+
+The features I wanted in this project are:
+
 
 #### Automated Processing
 
