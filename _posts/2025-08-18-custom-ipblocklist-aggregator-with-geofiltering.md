@@ -36,33 +36,6 @@ For the repo that goes along with this guide, visit:
 
 * * *
 
-- [Country Based IP Address Internet Blocklist Aggregator](#country-based-ip-address-internet-blocklist-aggregator)
-  - [What is This Project](#what-is-this-project)
-    - [Global Blocklist Sharing](#global-blocklist-sharing)
-    - [What Would Our Solution Look Like](#what-would-our-solution-look-like)
-    - [What Types of Blocklists are Used](#what-types-of-blocklists-are-used)
-    - [How Can I Use an IP Blocklist](#how-can-i-use-an-ip-blocklist)
-    - [Defining Features](#defining-features)
-      - [Automated Processing](#automated-processing)
-      - [Firewall Compatibility](#firewall-compatibility)
-      - [Multiple Output Cusomizations](#multiple-output-cusomizations)
-  - [How can this be used](#how-can-this-be-used)
-    - [How can this be configured](#how-can-this-be-configured)
-      - [Customizing your list](#customizing-your-list)
-      - [GeoIP Aggregation](#geoip-aggregation)
-    - [How does this work](#how-does-this-work)
-      - [Python](#-performance-characteristics)
-  - [Use Cases and Deployment Scenarios](#use-cases-and-deployment-scenarios)
-    - [Regional Service Protection](#-regional-service-protection)
-    - [Infrastructure Security](#️-infrastructure-security)
-    - [Compliance and Governance](#-compliance-and-governance)
-  - [IP Blocklist list](#ip-blocklist-list)
-    - [Block list suggestions](#block-list-suggestions)
-
-
-
-
-
 ## What is This Project
 
 I like the idea of fail2ban - I dont like the idea of [Crowdsec capturing all your private connection information](https://discourse.crowdsec.net/t/is-crowdsec-acting-against-european-privacy-regulations/1363){:target="_blank"}.
@@ -169,31 +142,66 @@ Generated blocklists appear in the `./data/output` directory and include:
 
 ![Get your IPBlocklist Aggregator today! Now with Geofiltering, for only $19.00!](/assets/img/posts/aggregator-get-yours-today--450.png)
 
-
-
 > A [$19.00 value](https://www.provya.com/12-subscriptions), free! 
 {: .prompt-info }
 
-* * *
-
-
-## How can this be used
-
-This will chew through your Github Actions if you are using a few large lists to combine:
-
-https://docs.github.com/en/get-started/learning-about-github/githubs-plans#github-free-for-personal-accounts
-
-You have a total of 2000 min per account per month.
 
 * * *
 
+## Using the ipblocklist-geofiltered-aggregator
 
-### How can this be configured
+### First Step - Install
+
+1. **Sign in** to GitHub and navigate to [this repository](https://github.com/MarcusHoltz/ipblocklist-geofiltered-aggregator).
+
+2. Click the **"Use this template"** button (in the upper right corner).
+
+3. Select **Create a new repository**. Enter a name (e.g., `my-eu-badip-blocklist`), and confirm.
+
+4. Your new repository is now independent — it will not share commit history with the original.
+
+5. You can immediately begin editing or configuring it for your own multi-country IP aggregation project.
+
+> The **"Use this template"** button on GitHub allows you to quickly create a new, independent repository pre-populated with the project's files and structure. Your new repository won't inherit commit history from the template. This is perfect for your personal blocklist repo.
+
+*Usage is below for steps on running this repository with Github Actions in your new IP aggregation project.*
 
 
-You need to setup the .env file first.
+* * *
 
-With a change to the .env file, the Github Actions will run.
+### Second Step - Set Your Permissions
+
+6. **Enable Actions**: Go to Settings > Actions > General > Workflow permissions
+
+7. **Set Permissions**: Select "Read and write permissions", click "Save".
+
+
+* * *
+
+### Third Step - Configure Your Cron
+
+8. **Adjust cron**, it is how often your aggregator runs in `.github/workflows/ip-aggregation.yml` 
+
+This repository chew through your Github Actions if you are using large lists to combine with many countries. 
+
+You have a [total of 2000 min](https://docs.github.com/en/get-started/learning-about-github/githubs-plans#github-free-for-personal-accounts) per account per month.
+
+
+* * *
+
+### Fourth Step - How can this be configured
+
+You need to setup the `.env` file.
+
+9. **Configure Environment**: Edit `.env` file with your desired sources and countries
+
+10. **Your Favorite Blocklists**: Load as many blocklists as you like, just make sure the line starts with `LIST1_`, `LIST2_`, `LIST3_`, etc.
+
+11. **Multiple Countries**: Countries can be modified the same way, `COUNTRY_ISO_CODE_1`, `COUNTRY_NAME_1`, `COUNTRY_ISO_CODE_2`, `COUNTRY_NAME_2`, etc.
+
+12. **Find Country Codes**: You can find your country codes in the [geoip2-ipv4 spreadsheet](https://datahub.io/core/geoip2-ipv4)
+
+With a change to the `.env` file, the Github Actions will run.
 
 You now have output!
 
@@ -249,7 +257,7 @@ us_ips = [ip for ip in all_ips if ip in tree]
 
 ## Use Cases and Deployment Scenarios
 
-### 🌍 Regional Service Protection
+### Regional Service Protection
 
 Perfect for services that primarily serve specific geographic regions:
 
@@ -262,7 +270,7 @@ Perfect for services that primarily serve specific geographic regions:
 - **🏢 Corporate networks** with defined operational territories
 
 
-### 🛡️ Infrastructure Security
+### Infrastructure Security
 
 Ideal for hardening network perimeters:
 
@@ -275,7 +283,7 @@ Ideal for hardening network perimeters:
 - **📱 IoT device protection** in constrained environments
 
 
-### 📋 Compliance and Governance
+### Compliance and Governance
 
 Supports regulatory requirements:
 
@@ -394,4 +402,7 @@ The purpose of the project is to identify botnet command&control servers (C&C) a
 
 * * *
 
+
+
 ![The IPblocklist Geofiltered Aggregator Atari Game](/assets/img/posts/aggregator-game-cartridge--thumb.png)
+
