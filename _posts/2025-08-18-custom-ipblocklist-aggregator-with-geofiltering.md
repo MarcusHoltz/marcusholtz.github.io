@@ -404,7 +404,31 @@ The purpose of the project is to identify botnet command&control servers (C&C) a
 - If you want a web app that can do mostly the aggrigation, you can find [Catcusd](https://github.com/m0zgen/cactusd/). 
 
 
+## **BONUS:** 
 
+### Achieve max level blocking, block by Border Gateway Protocol (BGP) routing Autonomous System Numbers (ASN)
+
+- You can find the list of ASN here: https://ftp.ripe.net/ripe/asnames/asn.txt 
+
+    - or as a CSV: https://github.com/ipverse/asn-info/raw/refs/heads/master/as.csv
+
+- To block whomever, correlate the list to: https://github.com/ipverse/asn-ip/tree/master
+
+#### Using ASNs with Cloudflare
+
+You can use ASN's with Cloudflare's WAF:
+
+- Sign in to your Cloudflare account and proceed to the firewall settings.
+
+- Click on "Firewall Rules", then "Create Firewall Rule".
+
+- Choose "ASN" as the trigger for your rule.
+
+- Copy and paste the contents for your ASNs into the relevant fields.
+
+- Save and activate your firewall rules.
+
+Find out more: https://radar.cloudflare.com
 
 
 ![The IPblocklist Geofiltered Aggregator Atari Game](/assets/img/posts/aggregator-game-cartridge-with-price--thumb.png)
