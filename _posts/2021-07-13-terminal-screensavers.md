@@ -109,6 +109,55 @@ And:
 - `./weave.sh '(( $(echo "v=s(($x-1)*2*4*a(1)/$W);scale=0;$H-$H*(v+1)/2 == $y" | bc -l) ))'`
 
 
+* * *
+## DVD logo
+
+Make the DVD logo bounce around your screen!
+
+```bash
+#!/bin/bash
+
+DVD_LOGO=(
+"  ____  __     __  ____  "
+" |  _ \\ \\ \\   / / |  _ \\ "
+" | | | | \\ \\_/ /  | | | |"
+" | |_| |  \\   /   | |_| |"
+" |____/    |_|    |____/ "
+)
+
+logo_height=${#DVD_LOGO[@]}
+logo_width=${#DVD_LOGO[0]}
+
+rows=$(tput lines)
+cols=$(tput cols)
+
+x=5
+y=5
+dx=2
+dy=1
+
+trap 'tput cnorm; clear; exit' INT TERM
+
+tput civis  # Hide cursor
+
+while :; do
+    # Clear screen
+    printf "\033[2J"
+    # Draw logo
+    for ((i=0; i<logo_height; i++)); do
+        printf "\033[$((y+i));${x}H${DVD_LOGO[i]}"
+    done
+    sleep 0.05
+
+    x=$((x + dx))
+    y=$((y + dy))
+
+    if (( x <= 0 || x + logo_width >= cols )); then dx=$(( -dx )); fi
+    if (( y <= 0 || y + logo_height >= rows )); then dy=$(( -dy )); fi
+
+done
+```
+
 
 * * *
 # PearlBased Terminal Screensavers
