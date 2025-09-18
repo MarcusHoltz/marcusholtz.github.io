@@ -263,8 +263,44 @@ YouTube Source: [How to Set Up DNSCrypt-Proxy on OPNsense](https://youtu.be/aK_-
 Blog Source: [How to Set Up DNSCrypt-Proxy on OPNsense](https://sysadmin102.com/2025/03/how-to-set-up-dnscrypt-proxy-on-opnsense-protect-encrypt-your-dns-traffic/)
 
 
-## More to come
+* * *
 
-This post is part of a larger project demonstrating multi-site split DNS using Unbound and HAProxy to route traffic based on SNI headers. 
+## 💣 Beware
 
-The really fun part is most of this traffic being routed is doing so using the proxy protocol. So another reverse proxy, Traefik, with proxy protocol setup, is waiting on the other end.
+### OPNsense’s Dnsmasq move was shortsighted for advanced users
+
+Dnsmasq DNS & DHCP on OPNsense is the dumbed-down cousin of real networking tools, and needs to be locked in the basement till it wilts away and no one remembers it.
+
+It lacks capability, flexibility, and ends up dragging down workflows for anyone doing more than the basics.
+
+If you’re dealing with macvlan interfaces across multiple VLANs that all share the same MAC address, you’ll hit one of its biggest limitations. This is a quirk of macvlan mode, especially with bridge setups.
+
+
+* * *
+
+#### Deprecated ISC behavior
+
+- The older system supported per-interface static DHCP assignments.
+
+- Even with the same MAC, it was smart enough to differentiate assignments based on the incoming interface or subnet.
+
+
+* * *
+
+#### New Dnsmasq behavior
+
+- Dnsmasq, by default, doesn’t support interface-specific static leases.
+
+- It only matches MAC → IP, globally.
+
+- That means your macvlan devices all collide into the same lease — or worse, Dnsmasq shrugs, hands out dynamic leases, and ignores your static overrides.
+
+For advanced setups, this is a step backward, plain and simple. OPNsense prioritizing Dnsmasq might work for casual users, but for those who need precision, it feels like they traded power for convenience and left serious users, like me, stranded.
+
+Hope this helps someone.
+
+* * *
+
+### Kea DHCP is not finished
+
+Unfortunately, the Kea DHCP integration in OPNsense is not as mature or flexible as ISC DHCP, especially for advanced use cases like per-subnet DNS settings. The still you're forced to go a step backward to ISC, Kea should have been a more user-friendly, feature-complete setup. Here's hoping.
