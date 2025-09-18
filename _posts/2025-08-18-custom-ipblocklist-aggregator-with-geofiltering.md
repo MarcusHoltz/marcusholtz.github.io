@@ -97,8 +97,9 @@ The lists used in the [ipblocklist-geofiltered-aggregator](https://github.com/Ma
 
 - Here is a great example from the [Windgate Blog](https://windgate.net) on [How to use ip blocklists with OPNsense](https://windgate.net/opnsense-ip-blocklists-and-geo-ip-block-to-enhance-security-against-malicious-attacks).
 
-
 - Another resource is [this collection of shell scripts](https://github.com/kravietz/blacklist-scripts) that are intended to block Linux systems and OpenWRT routers by using ip blocklists.
+
+- Or read this forum post using [ipset from within firewalld](https://www.linode.com/community/questions/11143/top-tip-firewalld-and-ipset-country-blacklist) to use the good ole' firewall-cmd commands for IP/net blacklisting.
 
 
 * * *
