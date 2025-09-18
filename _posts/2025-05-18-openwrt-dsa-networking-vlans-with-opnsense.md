@@ -273,6 +273,31 @@ OpenWRT screen shots are:
 > KONG 24.10 date 2025-05-13
 
 
+* * *
+
+## OpenWRT: Understanding Bonded Bridges and VLAN Limitations  
+
+If you’re setting up a bridge in OpenWRT, there’s a key idea to keep in mind: You can only have one bridge per interface. For example, LAN1 can *ONLY* belong to just one bridge with a single native VLAN.
+
+That means you can’t use that same interface on a different bridge—LAN1 needs to stay tied to the one bridge it's assigned to, and attempts to use it elsewhere will result in a DEVICE_CLAIM_FAILED error.
+
+**So how do you handle multiple VLAN SSIDs on the same interface?**
+
+You generate multiple VLANs from that single bridge as needed.
+
+But wait... Are you making the bridge with a bond? Uh, oh!
 
 
+* * *
 
+### OpenWRT Bonded Bridges and LACP hashing
+
+This is the crucial part. You can only carry VLANs over a bonded bridge if you use the correct hashing method for traffic distribution, namely `encap2+3` for CISCO switches. Here's what I mean:
+
+- `layer2+3` hashing uses the source and destination MAC addresses (Layer 2) and IP addresses (Layer 3) to determine how outbound traffic spreads across aggregated links. This works well with plain Ethernet and IP packets.
+
+- `encap2+3` works like `layer2+3` but also examines inner headers in encapsulation or tunneling protocols such as VLAN, VXLAN, GRE, or VPN tunnels. It uses a Linux kernel function (skb_flow_dissect) to identify these inner fields, ensuring traffic inside tunnels is more evenly balanced across links.
+
+You might wonder about the difference in naming conventions: Cisco often uses "encap" to refer to encapsulation headers at Layer 2 and Layer 3, whereas OpenWRT/Linux uses "layer2+3" for added clarity.
+
+For context, I’m using a Cisco SLM2024 switch, which supports these features and is a solid 2007 option for handling VLANs with OpenWRT setups. I'm sure modern switches have better options, but for those that don't... hope that helped.
