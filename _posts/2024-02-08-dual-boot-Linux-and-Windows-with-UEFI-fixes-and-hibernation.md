@@ -691,6 +691,80 @@ To use BitLocker and encrypt your OS:
 
 6. Next time you go to boot Windows you will be prompted with a screen to enter your password to unencrypt the Windows partition for use.
 
+* * *
+
+## Empty Screen with Cursor on boot after Fedora upgrade
+
+If you just updated your kernel and returned to a blank screen, welcome - you're in the club.
+
+Please take the following steps to exit and redeem your prize:
+
+
+* * *
+
+### Step 1: Reboot to cursor and black screen
+
+SUCCESS! You're really almost done now.
+
+
+* * *
+
+### Step 2: Change to a tty 
+
+hit: `ctrl + alt + f3`
+
+
+* * *
+
+### Step 3: Remove broken nvidia stuff
+
+`dnf remove akmod-nvidia xorg-x11-drv-nvidia xorg-x11-drv-nvidi-libs xorg-x11-drv-nvidia-cuda`
+
+
+* * *
+
+### Step 4: Install working nvidia stuff
+
+```bash
+sudo dnf install kernel-devel-matched kernel-headers gcc make dkms acpid libglvnd-glx libglvnd-opengl libglvnd-devel pkgconfig
+sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-42.noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-42.noarch.rpm
+sudo dnf update
+sudo dnf install akmod-nvidia xorg-x11-drv-nvidia-cuda xorg-x11-drv-nvidia-libs.i686
+```
+
+
+* * *
+
+## Note:
+
+### DONT RUSH IT. You can break your kernel. 
+
+**Just wait for the output of the current nvidia version to hit your screen before you even think about rebooting.**
+
+`watch modinfo -F version nvidia`
+
+
+## REBOOT
+
+Reboot when you see a big number.
+
+`sudo reboot`
+
+
+## Enable power state for videocard
+
+```bash
+sudo systemctl enable nvidia-suspend.service
+sudo systemctl enable nvidia-hibernate.service
+sudo systemctl enable nvidia-resume.service
+```
+
+## Optional
+
+When persistence mode is enabled the NVIDIA driver remains loaded even when no active clients, such as X11 or nvidia-smi, exist. This minimizes the driver load latency associated with running dependent apps, such as CUDA programs. The effect of this operation is immediate. However, it does not persist across reboots. 
+
+`sudo nvidia-smi -pm 1`
+
 
 * * *
 
