@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Proxmox SDN using PowerDNS with MariaDB
+title: PowerDNS Install with Web GUI and DB
 date: 2025-09-27 11:33:00 -0700
 categories: [Proxmox, ProxmoxNetworking]
 tags: [virtualization, proxmox, networking, security, server, firewall, DNS, PowerDNS, SDN]
