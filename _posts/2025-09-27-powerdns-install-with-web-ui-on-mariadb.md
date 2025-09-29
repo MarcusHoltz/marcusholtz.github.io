@@ -12,7 +12,10 @@ image:
 
 # Installing PowerDNS with PowerDNS-Admin on Debian 12
 
-## Introduction
+
+* * *
+
+## What is PowerDNS and How Can I Harness this Power
 
 PowerDNS is a powerful, flexible authoritative DNS server that can be used to manage your domain's DNS records programmatically. But sometimes you dont want to look at text and use a GUI instead. PowerDNS can be paired paired with PowerDNS-Admin, so you get a modern web interface for your DNS management. 
 
@@ -22,7 +25,10 @@ Proxmox's new SDN uses PowerDNS for it's DNS features, and so a PowerDNS LXC sho
 
 And that's what we're doing today! By the end of this write-up, you'll have a fully functional DNS server with a web-based management interface, complete with API access for Proxmox SDN's DNS automation.
 
-## What You'll Build
+
+* * *
+
+## What Does This Write Up Talk About
 
 - **PowerDNS Authoritative Server**: A local DNS server, NOT one that does global lookups on the internet!
 - **MariaDB Database**: Backend storage for DNS records and application data
@@ -31,10 +37,17 @@ And that's what we're doing today! By the end of this write-up, you'll have a fu
 - **Multi-tenant Support**: Ready for Proxmox multi-client and Proxmox multi-domain deployments
 
 
-## Prerequisites
+* * *
 
-- A Debian 12 (Bookworm) system with root access
-- At least 1GB of RAM and 10GB of disk space
+## 🏁 Speedrun This Process with a Script
+
+If like to download scripts from the internet - you're in luck!
+
+I have, at the bottom of this post, a - [🎚️ PowerDNS EZ-MODE script](#️-powerdns-ez-mode-script). 
+
+> This script will complete the entire write-up for you! Just be sure to change the config variables first.
+
+Please continue on to go through the steps of setting up PowerDNS to use MariaDB, then PowerDNS-Admin.
 
 
 * * *
@@ -645,7 +658,7 @@ The database-backed PowerDNS installation provides:
 
 * * *
 
-## PowerDNS EZ-MODE script
+## 🎚️ PowerDNS EZ-MODE script
 
 But if you are having problems, just use the script below.
 
