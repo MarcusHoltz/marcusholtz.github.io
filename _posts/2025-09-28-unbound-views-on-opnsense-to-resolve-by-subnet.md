@@ -613,3 +613,52 @@ exit 0
 
 ```
 
+
+* * *
+
+## More Unbound View Examples
+
+Let me give another example and expand on these views a bit more, based on the concept here: https://forum.opnsense.org/index.php?topic=40247.0
+
+
+You can fine grain redirect specific subnets, for example work people cannot use Copilot or watch restricted YouTube content:
+
+
+```txt
+# GLOBAL: Define which subnets get which views
+server:
+    access-control-view: 192.168.112.0/21 "vlan112_view"
+    access-control-view: 192.168.88.0/21 "vlan88_view"
+
+# VIEW: VLAN 112 (Gaming) - No filters
+view:
+    name: "vlan112_view"
+    local-zone: "myhouse.home.arpa." transparent
+    local-data: "unraid.myhouse.home.arpa. IN A 192.168.112.12"
+
+# VIEW: VLAN 88 (Work) - With redirect filters
+view:
+    name: "vlan88_view"
+    local-zone: "myhouse.home.arpa." transparent
+    local-data: "unraid.myhouse.home.arpa. IN A 192.168.88.12"
+
+    # Bing
+    local-zone: "bing.com" redirect
+    local-data: "bing.com CNAME nochat.bing.com"
+
+    # CoPilot
+    local-zone: "copilot.microsoft.com" redirect
+    local-data: "copilot.microsoft.com CNAME cdp.copilot.microsoft.com"
+
+    # YouTube
+    local-zone: "www.youtube.com" redirect
+    local-data: "www.youtube.com CNAME restrict.youtube.com"
+    local-zone: "m.youtube.com" redirect
+    local-data: "m.youtube.com CNAME restrict.youtube.com"
+    local-zone: "youtubei.googleapis.com" redirect
+    local-data: "youtubei.googleapis.com CNAME restrict.youtube.com"
+    local-zone: "youtube.googleapis.com" redirect
+    local-data: "youtube.googleapis.com CNAME restrict.youtube.com"
+    local-zone: "www.youtube-nocookie.com" redirect
+    local-data: "www.youtube-nocookie.com CNAME restrict.youtube.com"
+```
