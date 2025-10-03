@@ -222,6 +222,11 @@ VLAN_ID,SUBNET,HOSTNAME,IP_ADDRESS
 # Work VLAN
 88,192.168.88.0/21,unraid,192.168.88.12
 88,192.168.88.0/21,nas,192.168.88.15
+
+# Name Your Untagged Networks (no VLAN #)
+kids,10.0.0.0/24,zigbee_light,10.0.0.10
+kids,10.0.0.0/24,fedorasugar,10.0.0.20
+
 ```
 
 > Run the script, and it generates the full Unbound config.
@@ -250,10 +255,16 @@ nano /root/vlans.txt
 
 #### Step 3. Use the script and your input file
 
-Generate the Unbound config:
+Generate the Unbound config with:
+
+- **input_file** - `vlans.txt`
+
+- **output_file**  - `/usr/local/etc/unbound.opnsense.d/vlan-views.conf`
+
+- **domain_suffix** - `mycustom.domain.fantastic`
 
 ```sh
-./generate-unbound-views.sh vlans.txt /usr/local/etc/unbound.opnsense.d/vlan-views.conf
+./generate-unbound-views.sh vlans.txt /usr/local/etc/unbound.opnsense.d/vlan-views.conf mycustom.domain.fantastic
 ```
 
 #### Step 4. Does it still work
@@ -289,28 +300,48 @@ dig unraid
 ```bash
 #!/bin/sh
 #
+##########################################################
 # generate-unbound-views.sh
-# 
+#
 # Purpose: Generate Unbound VLAN-specific DNS views configuration from an input file
-# Usage: ./generate-unbound-views.sh input.txt output.conf
-# 
-# Input file format (CSV-style, comments allowed with #):
-# VLAN_ID,SUBNET,HOSTNAME,IP_ADDRESS
-# 
+#
+# Example Usage:
+#   ./generate-unbound-views.sh input.txt output.conf "mydomain.local"
+#
+# Arguments:
+#   input_file   - CSV file containing VLAN definitions (required)
+#   output_file  - The output configuration file (default: /usr/local/etc/unbound.opnsense.d/vlan-views.conf)
+#   domain_suffix - The domain to use (default: "myhouse.home.arpa")
+#
+#
+# Input file format are comma seperated values (CSV):
+#    VLAN_ID,SUBNET,HOSTNAME,IP_ADDRESS
+#
 # Example input.txt:
-# # Gaming VLAN
-# 112,192.168.112.0/24,unraid,192.168.112.12
-# 112,192.168.112.0/24,nas,192.168.112.15
-# # Work VLAN
-# 88,192.168.88.0/24,unraid,192.168.88.12
-# 88,192.168.88.0/24,nas,192.168.88.15
-
+#    # IoT VLAN 112 - 192.168.112.0/24
+#    112,192.168.112.0/24,smart_washer,192.168.112.12
+#    112,192.168.112.0/24,security_camera,192.168.112.15
+#
+#    # Guest VLAN 88 - 192.168.88.0/24
+#    88,192.168.88.0/24,scanner,192.168.88.10
+#    88,192.168.88.0/24,printer,192.168.88.20
+#
+#    # Systems Untagged VLAN - 192.168.0.0/24
+#    systems,192.168.0.0/24,router,192.168.0.10
+#    systems,192.168.0.0/24,nas,192.168.0.20
+#
+#    # KidsNet Untagged VLAN - 10.0.0.0/24
+#    kids,10.0.0.0/24,zigbee_light,10.0.0.10
+#    kids,10.0.0.0/24,fedorasugar,10.0.0.20
+#
+#
+##########################################################
 set -e  # Exit on any error
 
 # ============================================================================
 # Configuration
 # ============================================================================
-DOMAIN_SUFFIX="myhouse.home.arpa"
+DEFAULT_DOMAIN_SUFFIX="myhouse.home.arpa"
 DEFAULT_OUTPUT="/usr/local/etc/unbound.opnsense.d/vlan-views.conf"
 
 # ============================================================================
@@ -319,30 +350,41 @@ DEFAULT_OUTPUT="/usr/local/etc/unbound.opnsense.d/vlan-views.conf"
 
 usage() {
     cat << EOF
-Usage: $0 <input_file> [output_file]
+Usage: $0 <input_file> [output_file] [domain_suffix]
 
 Generate Unbound VLAN-specific DNS views configuration.
 
 Arguments:
-    input_file   - CSV file with VLAN definitions (required)
-    output_file  - Output configuration file (default: ${DEFAULT_OUTPUT})
+    input_file   - CSV file containing VLAN definitions (required).
+    output_file  - The output configuration file (default: /usr/local/etc/unbound.opnsense.d/vlan-views.conf).
+    domain_suffix - The domain to use (default: "myhouse.home.arpa")
 
-Input file format (CSV with optional comments):
+Input file format are comma seperated values (CSV):
     VLAN_ID,SUBNET,HOSTNAME,IP_ADDRESS
 
 Example input file:
-    # Gaming VLAN
-    112,192.168.112.0/24,unraid,192.168.112.12
-    112,192.168.112.0/24,nas,192.168.112.15
-    # Work VLAN  
-    88,192.168.88.0/24,unraid,192.168.88.12
-    88,192.168.88.0/24,nas,192.168.88.15
+    # IoT VLAN 112 - 192.168.112.0/24
+    112,192.168.112.0/24,smart_washer,192.168.112.12
+    112,192.168.112.0/24,security_camera,192.168.112.15
+
+    # Guest VLAN 88 - 192.168.88.0/24
+    88,192.168.88.0/24,scanner,192.168.88.10
+    88,192.168.88.0/24,printer,192.168.88.20
+
+    # Systems Untagged VLAN - 192.168.0.0/24
+    systems,192.168.0.0/24,router,192.168.0.10
+    systems,192.168.0.0/24,nas,192.168.0.20
+
+    # KidsNet Untagged VLAN - 10.0.0.0/24
+    kids,10.0.0.0/24,zigbee_light,10.0.0.10
+    kids,10.0.0.0/24,fedorasugar,10.0.0.20
 
 Example usage:
     $0 vlans.txt
-    $0 vlans.txt /tmp/test-views.conf
+    $0 vlans.txt /tmp/test-views-output.conf
+    $0 vlans.txt <output_file_required_if_using_custom_domain> mycustom.domain.fantastic
 
-After generation:
+Validate it works:
     configctl unbound check    # Validate configuration
     configctl unbound restart  # Apply changes
 EOF
@@ -388,6 +430,7 @@ fi
 
 INPUT_FILE="$1"
 OUTPUT_FILE="${2:-$DEFAULT_OUTPUT}"
+DOMAIN_SUFFIX="${3:-$DEFAULT_DOMAIN_SUFFIX}"
 
 log_info "Input file: $INPUT_FILE"
 log_info "Output file: $OUTPUT_FILE"
@@ -413,6 +456,7 @@ log_info "Parsing input file..."
 # Arrays to store unique VLANs and their data
 # Format: vlan_id:subnet:hostname1:ip1:hostname2:ip2...
 VLAN_DATA=""
+UNTAGGED_COUNT=0  # Counter for untagged views
 
 while IFS=',' read -r vlan_id subnet hostname ip_address; do
     # Skip comments and empty lines
@@ -429,6 +473,16 @@ while IFS=',' read -r vlan_id subnet hostname ip_address; do
     if [ -z "$vlan_id" ] || [ -z "$subnet" ] || [ -z "$hostname" ] || [ -z "$ip_address" ]; then
         log_error "Invalid line (missing fields): $vlan_id,$subnet,$hostname,$ip_address"
         continue
+    fi
+    
+    # Check if vlan_id is a number or not
+    if ! echo "$vlan_id" | grep -qE '^[0-9]+$'; then
+        # If not a number, treat as a custom name for untagged VLAN
+        UNTAGGED_COUNT=$((UNTAGGED_COUNT + 1))
+        VIEW_NAME="${vlan_id}_${UNTAGGED_COUNT}"
+    else
+        # For numeric VLAN_ID, use the standard naming convention
+        VIEW_NAME="vlan${vlan_id}_view"
     fi
     
     # Store data - append to existing VLAN or create new entry
@@ -468,23 +522,26 @@ cat > "$TMP_FILE" << 'EOF_HEADER'
 # ============================================================================
 # SERVER CLAUSE
 # ============================================================================
-# CRITICAL: access-control-view MUST be inside a server: clause.
-# These directives are server-level configuration and will be ignored or
-# cause errors if placed at the root level of the config file.
 server:
     # Map source subnets to their respective views
-    # Format: access-control-view: <subnet> "<view_name>"
-    # Note: View names MUST be quoted
-    
 EOF_HEADER
 
 # Generate access-control-view entries
 echo "$VLAN_DATA" | while IFS=':' read -r vlan_id subnet rest; do
-    cat >> "$TMP_FILE" << EOF
+    if ! echo "$vlan_id" | grep -qE '^[0-9]+$'; then
+        # For non-numeric VLAN IDs, use the custom name and increment the counter
+        UNTAGGED_COUNT=$((UNTAGGED_COUNT + 1))
+        VIEW_NAME="${vlan_id}_${UNTAGGED_COUNT}"
+        cat >> "$TMP_FILE" << EOF
+    # Custom Untagged VLAN - ${subnet}
+    access-control-view: ${subnet} "${VIEW_NAME}"
+EOF
+    else
+        cat >> "$TMP_FILE" << EOF
     # VLAN ${vlan_id} - ${subnet}
     access-control-view: ${subnet} "vlan${vlan_id}_view"
-    
 EOF
+    fi
 done
 
 cat >> "$TMP_FILE" << 'EOF_MID'
@@ -498,34 +555,33 @@ EOF_MID
 echo "$VLAN_DATA" | while IFS= read -r line; do
     [ -z "$line" ] && continue
     
-    # Extract vlan_id and subnet (first two colon-separated fields)
     vlan_id=$(echo "$line" | cut -d: -f1)
     subnet=$(echo "$line" | cut -d: -f2)
     
-    cat >> "$TMP_FILE" << EOF
-
+    if ! echo "$vlan_id" | grep -qE '^[0-9]+$'; then
+        # For non-numeric VLAN IDs, use the custom name and increment the counter
+        UNTAGGED_COUNT=$((UNTAGGED_COUNT + 1))
+        VIEW_NAME="${vlan_id}_${UNTAGGED_COUNT}"
+        cat >> "$TMP_FILE" << EOF
+# ============================================================================
+# VIEW - untagged network ${VIEW_NAME}
+# ============================================================================
+view:
+    name: "${VIEW_NAME}"
+    local-zone: "${DOMAIN_SUFFIX}." transparent
+EOF
+    else
+        cat >> "$TMP_FILE" << EOF
 # ============================================================================
 # VIEW FOR VLAN ${vlan_id}
 # ============================================================================
-# Subnet: ${subnet}
-# A view is a named local-zone tree that can be assigned to specific clients.
 view:
-    # Unique name for this view (must match access-control-view above)
     name: "vlan${vlan_id}_view"
-    
-    # Local zone type: "transparent"
-    # - transparent: Answers local-data queries here, allows other queries to
-    #   resolve normally (e.g., DHCP registrations, other host overrides)
-    # - static: Would ONLY answer from local-data defined here; everything 
-    #   else would get NXDOMAIN (too restrictive for most use cases)
     local-zone: "${DOMAIN_SUFFIX}." transparent
-    
-    # A records for this VLAN
 EOF
-
+    fi
+    
     # Parse and add all hostnames for this VLAN
-    # Format: vlan:subnet:hostname1:ip1:hostname2:ip2...
-    # Start from field 3 (after vlan and subnet)
     field_num=3
     num_fields=$(echo "$line" | awk -F: '{print NF}')
     
@@ -543,7 +599,6 @@ EOF
             fi
         fi
         
-        # Move to next pair (skip 2 fields: hostname and ip)
         field_num=$((field_num + 2))
     done
     
@@ -560,9 +615,6 @@ cat >> "$TMP_FILE" << 'EOF_FOOTER'
 # 1. Validate: configctl unbound check
 # 2. Restart:  configctl unbound restart
 # 3. Test:     nslookup <hostname>.<domain> (from each VLAN)
-#
-# To regenerate this file, edit your input file and run:
-#     ./generate-unbound-views.sh <input_file>
 # ============================================================================
 EOF_FOOTER
 
@@ -580,7 +632,7 @@ fi
 
 # Backup existing file if it exists
 if [ -f "$OUTPUT_FILE" ]; then
-    BACKUP_FILE="${OUTPUT_FILE}.backup.$(date +%Y%m%d_%H%M%S)"
+    BACKUP_FILE=".${OUTPUT_FILE}.backup.$(date +%Y%m%d_%H%M%S).old"
     log_info "Backing up existing configuration to: $BACKUP_FILE"
     cp "$OUTPUT_FILE" "$BACKUP_FILE"
 fi
@@ -604,7 +656,6 @@ log_info "  - VLANs configured: $VLAN_COUNT"
 log_info "  - Domain suffix: $DOMAIN_SUFFIX"
 
 echo "$VLAN_DATA" | while IFS=':' read -r vlan_id subnet rest; do
-    # Count hostnames (every other field after subnet)
     host_count=$(echo "$rest" | awk -F: '{print int((NF+1)/2)}')
     log_info "  - VLAN $vlan_id ($subnet): $host_count host(s)"
 done
