@@ -355,8 +355,8 @@ Usage: $0 <input_file> [output_file] [domain_suffix]
 Generate Unbound VLAN-specific DNS views configuration.
 
 Arguments:
-    input_file   - CSV file containing VLAN definitions (required).
-    output_file  - The output configuration file (default: /usr/local/etc/unbound.opnsense.d/vlan-views.conf).
+    input_file   - CSV file containing VLAN definitions (required)
+    output_file  - The output configuration file (default: /usr/local/etc/unbound.opnsense.d/vlan-views.conf)
     domain_suffix - The domain to use (default: "myhouse.home.arpa")
 
 Input file format are comma seperated values (CSV):
@@ -522,8 +522,10 @@ cat > "$TMP_FILE" << 'EOF_HEADER'
 # ============================================================================
 # SERVER CLAUSE
 # ============================================================================
+# This maps source subnets to their respective views
+# Format: access-control-view: <subnet> "<view_name>"  (view names MUST be quoted)
 server:
-    # Map source subnets to their respective views
+    
 EOF_HEADER
 
 # Generate access-control-view entries
@@ -535,11 +537,13 @@ echo "$VLAN_DATA" | while IFS=':' read -r vlan_id subnet rest; do
         cat >> "$TMP_FILE" << EOF
     # Custom Untagged VLAN - ${subnet}
     access-control-view: ${subnet} "${VIEW_NAME}"
+
 EOF
     else
         cat >> "$TMP_FILE" << EOF
     # VLAN ${vlan_id} - ${subnet}
     access-control-view: ${subnet} "vlan${vlan_id}_view"
+    
 EOF
     fi
 done
@@ -555,6 +559,7 @@ EOF_MID
 echo "$VLAN_DATA" | while IFS= read -r line; do
     [ -z "$line" ] && continue
     
+    # Extract vlan_id and subnet (first two colon-separated fields)
     vlan_id=$(echo "$line" | cut -d: -f1)
     subnet=$(echo "$line" | cut -d: -f2)
     
@@ -656,6 +661,7 @@ log_info "  - VLANs configured: $VLAN_COUNT"
 log_info "  - Domain suffix: $DOMAIN_SUFFIX"
 
 echo "$VLAN_DATA" | while IFS=':' read -r vlan_id subnet rest; do
+    # Count hostnames (every other field after subnet)
     host_count=$(echo "$rest" | awk -F: '{print int((NF+1)/2)}')
     log_info "  - VLAN $vlan_id ($subnet): $host_count host(s)"
 done
