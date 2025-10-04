@@ -783,4 +783,18 @@ sleep 10
 #
 # Log the completion of the script execution
 logger "SSH Script execution completed."
+#
+##########################################
+## Tools to check if you got this working:
+#
+### Check if there's another config file:
+sshd -T | grep listenaddress
+#
+### See where modifications are:
+grep -r "ListenAddress" /etc/ssh/
+grep -r "ListenAddress" /boot/config/
+#
+### Check syslog for any SSH-related errors:
+cat /var/log/syslog | grep sshd
+
 ```
