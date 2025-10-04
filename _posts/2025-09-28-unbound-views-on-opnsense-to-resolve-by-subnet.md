@@ -719,3 +719,68 @@ view:
     local-zone: "www.youtube-nocookie.com" redirect
     local-data: "www.youtube-nocookie.com CNAME restrict.youtube.com"
 ```
+
+
+* * *
+
+## UnRAID Interface Custom SSH ListenAddress
+
+UnRAID is real real real aggressive with setting up what interfaces should or should not be able to allow connections on an open port 22.
+
+Problem: If you change your `sshd_config` file, it will almost certainly overwrite it. 
+
+Solution: You must disable sshd and manage this service/file yourself.
+
+The script below will fix this, please follow the instructions.
+
+The only area needs editing is the `sed` section that adds everything after `AddressFamily inet`.
+
+You can add up to 16 interface addresses, just be sure there is a `\` at the end of all the lines but the last.
+
+
+* * *
+
+### Edit UnRAID Custom SSH ListenAddress with Script
+
+``` bash
+#!/bin/bash
+# #  From: https://forums.unraid.net/topic/165993-custom-ssh-listenaddress/#findComment-1561729
+#
+# #  Step 1. disable SSH in UnRAID GUI:
+#
+# #  Settings → Management Access → SSH
+#
+# #  Step 2. create this user script:
+#
+# Log the start of the script execution
+logger "SSH script execution started."
+#
+sleep 30
+#
+# Script part 1. Edit your config with ONLY the interfaces you want
+# # NOTE: 16 - 13 = 3 Interfaces left
+sudo sed -i '/^[[:space:]]*#\?\s*ListenAddress/d' /boot/config/ssh/sshd_config && \
+sudo sed -i '/AddressFamily inet/a\
+ListenAddress 192.168.2.12\
+ListenAddress 192.168.3.12\
+ListenAddress 10.236.88.12\
+ListenAddress 10.236.112.12\
+ListenAddress 10.0.0.12' /boot/config/ssh/sshd_config
+
+sleep 20
+
+# Script part 2. Copy it to the running location
+cp /boot/config/ssh/sshd_config /etc/ssh/sshd_config
+
+# Script part 3. Make sure your host keys exist
+ssh-keygen -A
+
+# Script part 4. Make sure it's started
+sleep 10
+
+# Script part 5. Start sshd directly, bypassing the UnRAID script
+/usr/sbin/sshd
+
+# Log the completion of the script execution
+logger "SSH Script execution completed."
+```
