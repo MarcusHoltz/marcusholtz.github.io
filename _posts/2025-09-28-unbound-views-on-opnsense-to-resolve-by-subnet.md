@@ -725,11 +725,11 @@ view:
 
 ## UnRAID Interface Custom SSH ListenAddress
 
-UnRAID is real real real aggressive with setting up what interfaces should or should not be able to allow connections on an open port 22.
+UnRAID is real real real aggressive with setting up what interfaces should or should not be able to allow connections on an open port 22. One major issue is the **sshd_build()** function in Unraid's startup scripts. This function automatically detects network interfaces and modifies SSH settings without your input. While this might be useful for some users, it becomes a hassle when you want to manually configure your system.
 
-Problem: If you change your `sshd_config` file, it will almost certainly overwrite it. 
+- Problem: If you change your `sshd_config` file, it will almost certainly overwrite it. 
 
-Solution: You must disable sshd and manage this service/file yourself.
+- Solution: You must disable sshd and manage this service/file yourself.
 
 The script below will fix this, please follow the instructions.
 
@@ -740,7 +740,7 @@ You can add up to 16 interface addresses, just be sure there is a `\` at the end
 
 * * *
 
-### Edit UnRAID Custom SSH ListenAddress with Script
+### Edit UnRAID Custom SSH ListenAddress Script
 
 ``` bash
 #!/bin/bash
@@ -766,21 +766,21 @@ ListenAddress 192.168.3.12\
 ListenAddress 10.236.88.12\
 ListenAddress 10.236.112.12\
 ListenAddress 10.0.0.12' /boot/config/ssh/sshd_config
-
+#
 sleep 20
-
+#
 # Script part 2. Copy it to the running location
 cp /boot/config/ssh/sshd_config /etc/ssh/sshd_config
-
+#
 # Script part 3. Make sure your host keys exist
 ssh-keygen -A
-
+#
 # Script part 4. Make sure it's started
 sleep 10
-
+#
 # Script part 5. Start sshd directly, bypassing the UnRAID script
 /usr/sbin/sshd
-
+#
 # Log the completion of the script execution
 logger "SSH Script execution completed."
 ```
