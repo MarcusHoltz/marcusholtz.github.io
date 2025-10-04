@@ -758,7 +758,7 @@ logger "SSH script execution started."
 sleep 30
 #
 # Script part 1. Edit your config with ONLY the interfaces you want
-# # NOTE: 16 - 13 = 3 Interfaces left
+# # NOTE: 16 - 5 = 11 Interfaces left
 sudo sed -i '/^[[:space:]]*#\?\s*ListenAddress/d' /boot/config/ssh/sshd_config && \
 sudo sed -i '/AddressFamily inet/a\
 ListenAddress 192.168.2.12\
