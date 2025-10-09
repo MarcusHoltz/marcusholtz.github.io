@@ -768,6 +768,21 @@ When persistence mode is enabled the NVIDIA driver remains loaded even when no a
 
 * * *
 
+## Why Fedora?
+
+Be Careful, if you choose a distro that thinks for you - you will have a conflict soon enough.
+
+Fedora’s philosophy is strict adherence to free software and patent law, which is why they ship “crippled” packages. Beware if you pick Fedora as your distro.
+
+Fedora ships with garbage as a shim, and they should not - as it ruins your perspective of the Desktop experience.
+
+If you give someone their first car and it's a 50cc engine, they assume that all cars are 50cc.
+
+Then, when they see someone else using a 'standard' car, they're a little upset with the dealer for that 50cc garbage. This is the same for Fedora. They give you a 50cc distro, assuming, free software only, you're dumb and please dont hurt yourself with non-free software. They even ship their own flatpaks. WHY?!!! Cuz 50cc is all you get.
+
+Well, now you’ve got a conflict between the Fedora “ffmpeg-free” package (the one that comes with the official Fedora repos) and the RPM Fusion “ffmpeg” package (which includes all codecs). Welcome to that cripple life.
+
+
 * * *
 
 ## Having trouble?
