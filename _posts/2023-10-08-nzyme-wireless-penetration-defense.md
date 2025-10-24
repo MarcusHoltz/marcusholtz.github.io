@@ -263,3 +263,275 @@ fi
 echo -e "\nTest after reboot with: \ntail -n 200 /var/log/nzyme/nzyme.log"
 echo -e "\n######################################\n## Install complete, reboot needed  ##\n######################################"
 ```
+
+* * *
+
+## Nzyme 2.0 alpha
+
+I also have a quick makeshift script for the 2.0 alpha, it's not as complete as the script above, and the version is hardcoded.
+
+
+```bash
+#!/bin/bash
+set -e
+
+# Configuration file paths
+NZYME_CONF="/etc/nzyme/nzyme.conf"
+TAP_CONF="/etc/nzyme/nzyme-tap.conf"
+
+# Get current IP address (excluding localhost)
+CURRENT_IP=$(hostname -I | awk '{print $1}')
+DEFAULT_REST_URI="https://${CURRENT_IP}:22900/"
+DEFAULT_HTTP_URI="https://${CURRENT_IP}:22900/"
+
+clear
+echo "========================================="
+echo "nzyme Installation Script for Ubuntu 24.04"
+echo "========================================="
+echo
+
+# Step 1: Install dependencies
+echo "Step 1/9: Installing dependencies..."
+sudo apt update
+sudo apt install -y openjdk-17-jre-headless postgresql-16 wget curl
+echo "✓ Dependencies installed"
+echo
+
+# Step 2: Download and install nzyme-node
+echo "Step 2/9: Downloading and installing nzyme-node..."
+wget -q -O /tmp/nzyme-node.deb https://github.com/nzymedefense/nzyme/releases/download/2.0.0-alpha.17/nzyme-node_ubuntu-2404noble-noarch-2.0.0-alpha.17.deb
+sudo dpkg -i /tmp/nzyme-node.deb
+echo "✓ nzyme-node installed"
+echo
+
+# Step 3: Configure PostgreSQL
+clear
+echo "Step 3/9: Configuring PostgreSQL..."
+echo
+read -sp "Enter password for PostgreSQL 'nzyme' user: " NZYME_DB_PASS
+echo
+echo
+
+sudo -u postgres psql <<EOF
+CREATE DATABASE nzyme;
+DO \$\$
+BEGIN
+   IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'nzyme') THEN
+      CREATE USER nzyme WITH ENCRYPTED PASSWORD '$NZYME_DB_PASS';
+   END IF;
+END
+\$\$;
+GRANT ALL PRIVILEGES ON DATABASE nzyme TO nzyme;
+\c nzyme
+GRANT CREATE ON SCHEMA public TO nzyme;
+EOF
+echo "✓ PostgreSQL configured"
+echo
+
+# Step 4: Configure nzyme.conf
+clear
+echo "========================================="
+echo "Step 4/9: Configuring nzyme.conf"
+echo "========================================="
+echo
+
+# Backup the config file
+sudo cp "$NZYME_CONF" "${NZYME_CONF}.bak.$(date +%s)"
+
+# Prompt for configuration values
+echo "Enter nzyme node name"
+read -p "[Default: nzyme-node-01]: " NZYME_NAME
+NZYME_NAME=${NZYME_NAME:-nzyme-node-01}
+echo
+
+echo "Enter rest_listen_uri (must start with https://)"
+read -p "[Default: $DEFAULT_REST_URI]: " REST_LISTEN
+REST_LISTEN=${REST_LISTEN:-$DEFAULT_REST_URI}
+while [[ ! "$REST_LISTEN" =~ ^https:// ]]; do
+    echo "Error: URL must start with https://"
+    read -p "Enter rest_listen_uri: " REST_LISTEN
+done
+echo
+
+echo "Enter http_external_uri (must start with https://)"
+read -p "[Default: $DEFAULT_HTTP_URI]: " HTTP_EXTERNAL
+HTTP_EXTERNAL=${HTTP_EXTERNAL:-$DEFAULT_HTTP_URI}
+while [[ ! "$HTTP_EXTERNAL" =~ ^https:// ]]; do
+    echo "Error: URL must start with https://"
+    read -p "Enter http_external_uri: " HTTP_EXTERNAL
+done
+echo
+
+# Edit nzyme.conf in-place using sed
+DB_URL="postgresql://localhost:5432/nzyme?user=nzyme&password=$NZYME_DB_PASS"
+
+# Update general.name
+sudo sed -i "s|^  name:.*|  name: $NZYME_NAME|" "$NZYME_CONF"
+
+# Update general.database_path - escape special characters
+DB_URL_ESCAPED=$(echo "$DB_URL" | sed 's/[&/\]/\\&/g')
+sudo sed -i "s|^  database_path:.*|  database_path: \"$DB_URL_ESCAPED\"|" "$NZYME_CONF"
+
+# Update interfaces.rest_listen_uri
+REST_LISTEN_ESCAPED=$(echo "$REST_LISTEN" | sed 's/[&/\]/\\&/g')
+sudo sed -i "s|^  rest_listen_uri:.*|  rest_listen_uri: \"$REST_LISTEN_ESCAPED\"|" "$NZYME_CONF"
+
+# Update interfaces.http_external_uri
+HTTP_EXTERNAL_ESCAPED=$(echo "$HTTP_EXTERNAL" | sed 's/[&/\]/\\&/g')
+sudo sed -i "s|^  http_external_uri:.*|  http_external_uri: \"$HTTP_EXTERNAL_ESCAPED\"|" "$NZYME_CONF"
+
+echo "✓ nzyme.conf configured"
+echo
+
+# Step 5: Run database migrations
+echo "Step 5/9: Running database migrations..."
+sudo nzyme --migrate-database
+echo "✓ Database migrations complete"
+echo
+
+# Step 6: Enable and start nzyme-node
+echo "Step 6/9: Enabling and starting nzyme-node service..."
+sudo systemctl enable nzyme
+sudo systemctl restart nzyme
+
+echo "✓ nzyme-node service started"
+echo
+echo "Waiting 10 seconds for nzyme-node to start up..."
+sleep 10
+
+# Check if service is running
+if sudo systemctl is-active --quiet nzyme; then
+    echo "✓ nzyme-node is running"
+else
+    echo "⚠ Warning: nzyme-node may not be running. Check: sudo systemctl status nzyme"
+fi
+echo
+
+# Step 7: Wait for user to create tap in web interface
+clear
+echo "========================================="
+echo "IMPORTANT: Manual Step Required"
+echo "========================================="
+echo
+echo "1. Open $HTTP_EXTERNAL in your browser"
+echo "2. Complete the initial setup and create your first user"
+echo "3. Navigate to: System -> Taps"
+echo "4. Create a new tap and click on the name after creation."
+echo "5. On this screen you need to Show your Tap Secret and copy it."
+echo
+echo "Press Enter after you have copied the leader tap secret..."
+read -p "" dummy
+echo
+
+# Step 8: Get tap configuration
+clear
+echo "========================================="
+echo "Step 7/9: Configuring nzyme-tap"
+echo "========================================="
+echo
+echo "Paste the tap secret from the web interface:"
+read -sp "" LEADER_SECRET
+echo
+echo
+
+echo "Enter leader URI (address of your nzyme-node)"
+read -p "[Default: $HTTP_EXTERNAL]: " LEADER_URI
+LEADER_URI=${LEADER_URI:-$HTTP_EXTERNAL}
+echo
+
+echo "Accept insecure/self-signed TLS certificates?"
+read -p "[Default: true]: " ACCEPT_INSECURE
+ACCEPT_INSECURE=${ACCEPT_INSECURE:-true}
+echo
+
+# Detect network interfaces
+echo "Detecting network interfaces..."
+echo
+sleep 1
+
+# Get all ethernet interfaces (excluding lo, docker, veth, etc.)
+ETHERNET_IFACES=$(ip -o link show | awk -F': ' '{print $2}' | grep -v '^lo$\|^docker\|^veth\|^br-\|^virbr' | grep -v '^wl')
+
+# Get all wifi interfaces (typically start with wl or wlx)
+WIFI_IFACES=$(ip -o link show | awk -F': ' '{print $2}' | grep '^wl')
+
+echo "Found network interfaces:"
+if [ -n "$ETHERNET_IFACES" ]; then
+    echo "  Ethernet: $ETHERNET_IFACES"
+else
+    echo "  Ethernet: None detected"
+fi
+
+if [ -n "$WIFI_IFACES" ]; then
+    echo "  WiFi: $WIFI_IFACES"
+else
+    echo "  WiFi: None detected"
+fi
+echo
+sleep 3
+
+# Download and install nzyme-tap
+echo
+echo "Step 8/9: Downloading and installing nzyme-tap..."
+wget -q -O /tmp/nzyme-tap.deb https://github.com/nzymedefense/nzyme/releases/download/2.0.0-alpha.17/nzyme-tap_ubuntu-2404noble-amd64-2.0.0-alpha.17.deb
+sudo dpkg -i /tmp/nzyme-tap.deb
+echo "✓ nzyme-tap installed"
+echo
+sleep 2
+
+# Backup tap config if it exists
+if [ -f "$TAP_CONF" ]; then
+    sudo cp "$TAP_CONF" "${TAP_CONF}.bak.$(date +%s)"
+fi
+
+# Edit nzyme-tap.conf in-place
+LEADER_SECRET_ESCAPED=$(echo "$LEADER_SECRET" | sed 's/[&/\]/\\&/g')
+LEADER_URI_ESCAPED=$(echo "$LEADER_URI" | sed 's/[&/\]/\\&/g')
+
+sudo sed -i "s|^leader_secret = .*|leader_secret = \"$LEADER_SECRET_ESCAPED\"|" "$TAP_CONF"
+sudo sed -i "s|^leader_uri = .*|leader_uri = \"$LEADER_URI_ESCAPED\"|" "$TAP_CONF"
+sudo sed -i "s|^accept_insecure_certs = .*|accept_insecure_certs = $ACCEPT_INSECURE|" "$TAP_CONF"
+
+sudo sed -i "s|\[ethernet_interfaces\.enp6s0\]|\[ethernet_interfaces.$ETHERNET_IFACES\]|" "$TAP_CONF"
+sudo sed -i "s|\[wifi_interfaces\.wlx00c0ca000000\]|\[wifi_interfaces.$WIFI_IFACES\]|" "$TAP_CONF"
+
+# Comment out [wifi_interfaces.wlx00c0ca000001] and following 12 lines
+sudo sed -i "/^\[wifi_interfaces\.wlx00c0ca000001\]/,+12 s/^/# /" "$TAP_CONF"
+
+
+echo "✓ nzyme-tap.conf configured"
+echo
+sleep 3
+
+# Step 9: Enable and start nzyme-tap
+clear
+echo "========================================="
+echo "Step 9/9: Starting nzyme-tap service"
+echo "========================================="
+echo
+sudo systemctl enable nzyme-tap
+sudo systemctl restart nzyme-tap
+
+echo "✓ nzyme-tap service started"
+echo
+
+# Final status check
+clear
+echo "========================================="
+echo "Installation Complete!"
+echo "========================================="
+echo
+echo "Service Status:"
+sudo systemctl status nzyme --no-pager -l | head -n 5
+echo
+sudo systemctl status nzyme-tap --no-pager -l | head -n 5
+echo
+echo "Useful Commands:"
+echo "  - View nzyme-node logs: sudo journalctl -u nzyme -f"
+echo "  - View nzyme-tap logs:  sudo journalctl -u nzyme-tap -f"
+echo "  - Check service status: sudo systemctl status nzyme"
+echo "  - Check tap status:     sudo systemctl status nzyme-tap"
+echo
+echo "Access the web interface at: $HTTP_EXTERNAL"
+echo "========================================="
+```
