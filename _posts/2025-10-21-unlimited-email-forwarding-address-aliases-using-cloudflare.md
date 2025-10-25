@@ -53,7 +53,7 @@ Now you can just log into your cloudflare dashboard and edit this script instead
 
 ***
 
-[This script](#) basically automates the busy work of sorting your emails efficiently on your domain before they reach your inbox, all controlled by easy-to-edit rules.
+[This script](#the-script-that-needs-edited) basically automates the busy work of sorting your emails efficiently on your domain before they reach your inbox, all controlled by easy-to-edit rules.
 
 
 * * *
@@ -184,7 +184,7 @@ Generate a `destination address` for any address you’re thinking about forward
 
 You will need to be sure you have correctly changed the sections of the script to fit your addresses and needs before adding them:
 
-- You can find the [area required to edit this script down below](#)
+- You can find the [area required to edit this script down below](https://blog.holtzweb.com/posts/unlimited-email-forwarding-address-aliases-using-cloudflare/#basic-configuration-examples)
 
 - If you're ready to create an email worker, click `Create`
 
@@ -211,7 +211,7 @@ You will need to be sure you have correctly changed the sections of the script t
 
 - Replace any placeholder email addresses with correct addresses
 
-- You can find more more information in the [area required to edit this script down below](#)
+- You can find more more information in the [area required to edit this script down below](https://blog.holtzweb.com/posts/unlimited-email-forwarding-address-aliases-using-cloudflare/#basic-configuration-examples)
 
 - When the script is ready, open the `Code editor` from the Worker you made
 
@@ -252,7 +252,7 @@ You need to have a catch all that will forward to your email worker. (DONT click
 ![Step20-Adding-an-Email-Routing-Rule-to-Catch-All](/assets/img/posts/Cloudflare-Forwarding-Email---Step20---Adding-an-Email-Routing-Rule-to-Catch-All.png)
 *Routing Rules tab on the Email Routing page with Catch-all addresses*
 
-![Step21-Edit-the-Routing-Rule-to-send-Catch-All-to-the-Worker](Cloudflare-Forwarding-Email---Step21---Edit-the-Routing-Rule-to-send-Catch-All-to-the-Worker.png)
+![Step21-Edit-the-Routing-Rule-to-send-Catch-All-to-the-Worker](/assets/img/posts/Cloudflare-Forwarding-Email---Step21---Edit-the-Routing-Rule-to-send-Catch-All-to-the-Worker.png)
 *Adding a catch-all address to work with the Email Worker*
 
 * * *
@@ -441,17 +441,15 @@ We can create a rule that only accepts certain allowed senders for `familymessag
 
 ### More Configuration Examples Below
 
-There are a lot of different ways you can use this script, so I wanted to include [more examples](#).
+There are a lot of different ways you can use this script, so I wanted to include [more examples](#more-configuration-with-scenario-based-examples).
 
-- [Scenario 1: Online Shopping Accounts](#)
+- [Scenario 1: Online Shopping Accounts](#scenario-1-online-shopping-accounts)
 
-- [Scenario 2: Financial Account Separation](#)
+- [Scenario 2: Financial Account Separation](#scenario-2-financial-account-separation)
 
-- [Scenario 3: Developer/Freelancer Workflow](#)
+- [Scenario 3: Smart Home & Family Management](#scenario-3-smart-home--family-management)
 
-- [Scenario 4: Smart Home & Family Management](#)
-
-- [Scenario 5: Gaming & Social Media Isolation](#)
+- [Scenario 4: Gaming & Social Media Isolation](#scenario-4-gaming--social-media-isolation)
 
 
 Skip to those if you want to learn more. 
@@ -653,7 +651,7 @@ recipients: ["john@gmail.com"]
 
 * * *
 
-### *Mistake 3: Commas Also in routingRules
+### Mistake 3: Commas Also in routingRules
 
 Not just when listing between brackets `[]` do you need to be careful of commas `,` but also when listing between each routing rule `{ }`
 
@@ -967,17 +965,15 @@ const CONFIG = {
   
   // Global subject keywords that will BLOCK emails
   globalBlockKeywords: [
-    "viagra", "casino", "lottery", "prince nigeria", 
-    "bitcoin mining", "make money fast"
+    "crypto giveaway", "win a free car", "prince nigeria", "you could have already won", "dont think make money fast"
   ],
   
-  // Routing rules - checked in order, first match wins
-  // Each rule can have: from, to, subject, recipients, block, blockKeywords, forwardKeywords
+  // The rules before are checked in order, first match wins
   routingRules: [
     {
       // Route specific email address to specific recipient
       to: "shopping@yourdomain.com",
-      recipients: ["your-shopping-tracker@example.com"],
+      recipients: ["your-shopping-email@example.com"],
       description: "Shopping accounts"
     },
     {
@@ -998,23 +994,10 @@ const CONFIG = {
     },
     {
       // Forward only if subject contains specific keywords
-      to: "alerts@yourdomain.com",
-      recipients: ["your-phone@sms-gateway.com"],
-      forwardKeywords: ["urgent", "alert", "critical", "security"],
-      description: "Only forward urgent alerts to phone"
-    },
-    {
-      // Route based on sender domain
-      from: "@github.com",
-      recipients: ["your-dev-email@example.com"],
-      description: "All GitHub emails"
-    },
-    {
-      // Route based on both sender and subject
-      from: "@bank.com",
-      subject: "statement",
-      recipients: ["your-finance@example.com"],
-      description: "Bank statements"
+      to: "school@yourdomain.com",
+      recipients: ["parent1@gmail.com", "parent2@gmail.com"],
+      forwardKeywords: ["urgent", "emergency", "sick", "incident", "pickup"],
+      description: "School - urgent messages to both parents"
     },
     {
       // Block all emails to this address
@@ -1024,7 +1007,10 @@ const CONFIG = {
     }
   ]
 };
-
+//
+// To find more routingRule examples:
+// https://blog.holtzweb.com/posts/unlimited-email-forwarding-address-aliases-using-cloudflare/#more-configuration-with-scenario-based-examples
+//
 // ============================================
 // EMAIL WORKER CODE - NO NEED TO EDIT BELOW
 // ============================================
