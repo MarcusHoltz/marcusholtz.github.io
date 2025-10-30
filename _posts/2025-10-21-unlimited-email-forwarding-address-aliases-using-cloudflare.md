@@ -26,9 +26,12 @@ Here are some of the services available already in that category:
 - [Cloaked.com](https://www.cloaked.com/plans?vid=019a112e-133e-7c3f-af4f-bc3a7060c66b) 
 - [ForwardEmail](https://forwardemail.net/en/self-hosted)
 
-For a way to generate forwarding addresses. But i'm afraid of the idea of being locked into a company that may one day disappear, and self-hosting to generate forwarding addresses, just doesnt vibe.
+Those are great, you can even integrate some into [Bitwarden](https://bitwarden.com/blog/add-privacy-and-security-using-email-aliases-with-bitwarden/), infact [PCWorld](https://www.pcworld.com/article/2217318/how-to-get-unlimited-masked-emails-to-keep-your-inbox-secure-and-private.html) has a whole write-up on it.
+
+But I'm afraid of the idea of being **locked** into a company that **may** one day **disappear**, and **self-hosting** to generate forwarding addresses, just doesnt *vibe*.
 
 
+* * *
 
 So, I thought - nope, we do this instead:
 
@@ -37,19 +40,20 @@ So, I thought - nope, we do this instead:
 Now you can just log into your cloudflare dashboard and edit this script instead of a web UI with buttons.
 
 
+* * *
 
 ## What This Method Allows For
 
-✅ **No vendor lock-in** - Just Cloudflare javascript
+✅ **No vendor lock-in** - Just Cloudflare javascript - make changes in the script
 
-✅ **Unlimited aliases** - Create as many as you want  
+✅ **Unlimited aliases** - Create as many as you want - no need for additional domains
 
-✅ **Free** - Up to 100k emails/day  
+✅ **Free** - Up to 100k emails/day - this is per account and not per domain
 
-✅ **Version Control** - Backup and export rules
+✅ **Version Control** - Backup and export rules - config is in script header
 
-✅ **Multiple Functions** - You can create forwarding lists, block spam, and filter emails.
-
+✅ **Multiple Functions** - You can create forwarding lists, block spam, and filter emails
+ 
 
 ***
 
@@ -60,17 +64,13 @@ Now you can just log into your cloudflare dashboard and edit this script instead
 
 ## Steps to Configure Email Forwarding using Alias from Cloudflare's Email Routing with Conditional Rules
 
-
-
+> I haven’t gone into email privacy — and yes, that’s a bit ironic for something involving routing with Cloudflare. I do care about privacy and plan to make it a key part of the setup down the line. For now, my main goal is to build a solid, long-term system that runs smoothly and gives me some actual peace of mind.
 
 Here are the steps (with screenshots) needed to get the Cloudflare email worker up and runnnig. 
 
 You will need to configure the script before you paste it in, just a heads up.
 
 There is a section after this screen shot configuration of Cloudflare email workers to help you setup the email worker script for your needs.
-
-
-
 
 
 * * *
