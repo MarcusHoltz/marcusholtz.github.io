@@ -37,22 +37,22 @@ So, I thought - nope, we do this instead:
 
 - [Cloudflare Email Routing](https://www.cloudflare.com/developer-platform/products/email-routing/) using [Cloudflare's Free Email Workers](https://developers.cloudflare.com/email-routing/email-workers/)
 
-Now you can just log into your cloudflare dashboard and edit this script instead of a web UI with buttons.
+Now you can just log into your Cloudflare dashboard and edit this script instead of a web UI with buttons.
 
 
 * * *
 
 ## What This Method Allows For
 
-✅ **No vendor lock-in** - Just Cloudflare javascript - make changes in the script
+✅ **No vendor lock-in** - Just Cloudflare javascript - make changes in [the script]((https://blog.holtzweb.com/posts/unlimited-email-forwarding-address-aliases-using-cloudflare/#the-script-that-needs-edited))
 
-✅ **Unlimited aliases** - Create as many as you want - no need for additional domains
+✅ **Unlimited aliases** - Create or block as many as you want - no need for [additional domains](https://fyx.me/minis/create-infinite-email-aliases-using-cloudflare-email-routing/)
 
-✅ **Free** - Up to 100k emails/day - this is per account and not per domain
+✅ **Free** - Up to 100k emails/day, and [200](https://developers.cloudflare.com/email-routing/limits/) addresses - this is per account and not per domain
 
-✅ **Version Control** - Backup and export rules - config is in script header
+✅ **Version Control** - Backup and export rules - the [configuration section](https://blog.holtzweb.com/posts/unlimited-email-forwarding-address-aliases-using-cloudflare/#the-script-that-needs-edited) is in script header
 
-✅ **Multiple Functions** - You can create forwarding lists, block spam, and filter emails
+✅ **Multiple Functions** - You can [create forwarding lists, block spam, and filter emails](https://blog.holtzweb.com/posts/unlimited-email-forwarding-address-aliases-using-cloudflare/#more-configuration-with-scenario-based-examples)
  
 
 ***
