@@ -44,15 +44,15 @@ Now you can just log into your Cloudflare dashboard and edit this script instead
 
 ## What This Method Allows For
 
-✅ **No vendor lock-in** - Just Cloudflare javascript - make changes in [the script]((https://blog.holtzweb.com/posts/unlimited-email-forwarding-address-aliases-using-cloudflare/#the-script-that-needs-edited))
+✅ **No vendor lock-in** - Just Cloudflare javascript - make changes in [the script](#the-script-that-needs-edited))
 
 ✅ **Unlimited aliases** - Create or block as many as you want - no need for [additional domains](https://fyx.me/minis/create-infinite-email-aliases-using-cloudflare-email-routing/)
 
 ✅ **Free** - Up to 100k emails/day, and [200](https://developers.cloudflare.com/email-routing/limits/) addresses - this is per account and not per domain
 
-✅ **Version Control** - Backup and export rules - the [configuration section](https://blog.holtzweb.com/posts/unlimited-email-forwarding-address-aliases-using-cloudflare/#the-script-that-needs-edited) is in script header
+✅ **Version Control** - Backup and export rules - the [configuration section](#the-script-that-needs-edited) is in script header
 
-✅ **Multiple Functions** - You can [create forwarding lists, block spam, and filter emails](https://blog.holtzweb.com/posts/unlimited-email-forwarding-address-aliases-using-cloudflare/#more-configuration-with-scenario-based-examples)
+✅ **Multiple Functions** - You can [create forwarding lists, block spam, and filter emails](#more-configuration-with-scenario-based-examples)
  
 
 ***
@@ -184,7 +184,7 @@ Generate a `destination address` for any address you’re thinking about forward
 
 You will need to be sure you have correctly changed the sections of the script to fit your addresses and needs before adding them:
 
-- You can find the [area required to edit this script down below](https://blog.holtzweb.com/posts/unlimited-email-forwarding-address-aliases-using-cloudflare/#basic-configuration-examples)
+- You can find the [area required to edit this script down below](#basic-configuration-examples)
 
 - If you're ready to create an email worker, click `Create`
 
@@ -211,7 +211,7 @@ You will need to be sure you have correctly changed the sections of the script t
 
 - Replace any placeholder email addresses with correct addresses
 
-- You can find more more information in the [area required to edit this script down below](https://blog.holtzweb.com/posts/unlimited-email-forwarding-address-aliases-using-cloudflare/#basic-configuration-examples)
+- You can find more more information in the [area required to edit this script down below](#basic-configuration-examples)
 
 - When the script is ready, open the `Code editor` from the Worker you made
 
