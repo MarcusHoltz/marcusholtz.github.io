@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Generating Unlimited Email Alias with Conditional Rules
+description: Automates the busy work of sorting your emails efficiently on your domain before they reach your inbox.
 date: 2025-10-21 11:33:00 -0700
 categories: [DevOps, Email]
 tags: [cloud, serverless, email, administration, security, customization, privacy, mirror, guide, communication]
