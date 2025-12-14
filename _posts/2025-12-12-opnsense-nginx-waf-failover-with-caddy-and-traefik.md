@@ -54,10 +54,10 @@ User types URL in browser
            │      │
            ▼      ▼
     ┌──────────┐ ┌──────────┐
-    │ Resolve  │ │ Resolve  │
-    │   to     │ │   to     │
-    │ Traefik  │ │ OPNsense │
-    │   IP     │ │Virtual IP│
+    │ Resolves  │ │ Resolve  │
+    │   to      │ │   to     │
+    │ Traefik   │ │ OPNsense │
+    │   IP      │ │Virtual IP│
     └────┬─────┘ └────┬─────┘
          │            │
          ▼            ▼
