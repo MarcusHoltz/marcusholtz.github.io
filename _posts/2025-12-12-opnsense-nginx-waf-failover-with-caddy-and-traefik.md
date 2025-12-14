@@ -1339,6 +1339,20 @@ curl -v https://whoami1.maindomain.com
 ```
 Expected: Valid response from whoami container
 
+
+* * *
+
+#### Test the WAF
+
+If you want to try and test your WAF and verify it is working, I have an easy-to-use script that you can download from:
+
+https://github.com/MarcusHoltz/waf-smoke-test.sh
+
+
+##### Basic test - just give it your new URL
+
+`./waf-smoke-test.sh "https://app.maindomain.com"`
+
 * * *
 
 ### Get all the domains traefik is hosting
