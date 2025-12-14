@@ -13,21 +13,23 @@ image:
 
 # OPNsense Caddy Nginx-WAF to Traefik
 
-If you want an NGINX WAF with failover capabilities, but also need the advanced features of Caddy and Traefik, this stack delivers all three.
+If you want an NGINX WAF with failover capabilities, but also need the advanced features of Caddy and Traefik, this stack will deliver you all three.
 
-This stack combines Caddy's TLS tools, Nginx's WAF capabilities, and Traefik's container-aware routing into a single system with multi-device failover.
+This article combines Caddy's TLS tools, Nginx's WAF capabilities, and Traefik's container-aware routing into a single system with multi-device failover.
 
 **Traffic Flow**: `Internet → Caddy (TLS termination) → Nginx (WAF inspection) → Traefik (per-host routing) → Apps`
 
 
 ### The motivation was simple
 
-When the primary fileserver reboots, traffic routes to a secondary NUC. When that's offline, a laptop picks up the load. One device down? No problem. Two down? Still fine. Three down? Keep going. If the entire local network fails, a remote server connected via WireGuard handles requests.
+When the primary fileserver reboots, traffic routes to a secondary system. When that's offline, a random laptop picks up the load. That old laptop catches on fire from the load? No problem. Still fine. We can keep going on a remote connected server via WireGuard.
 
 
 ### The implementation
 
-Traefik runs on each device that hosts applications. Nginx maintains an upstream pool of all Traefik instances with priority-based failover. Caddy handles TLS termination and routes traffic to Nginx for WAF inspection before reaching Traefik. Each device also has its own subdomain that bypasses the proxy stack entirely, providing direct <3ms access to that specific Traefik instance when needed.
+Traefik runs on each device that hosts applications. Nginx maintains an upstream pool of all Traefik instances with priority-based failover. Caddy handles TLS termination and routes traffic to Nginx for WAF inspection before reaching Traefik. 
+
+Each device also has its own subdomain that bypasses the proxy stack entirely, providing direct <3ms access to that specific Traefik instance when needed.
 
 
 ### Failover is not high availability
@@ -99,7 +101,7 @@ User types URL in browser
 
 ## Facts
 
-### IP Addresses and Ports
+### IP Addresses and Port references
 
 | Component | IP Address | Port(s) | Purpose |
 |-----------|------------|---------|---------|
