@@ -1101,21 +1101,6 @@ For separate logs per domain :
 
 * * *
 
-### Test Nginx
-
-From command line:
-```bash
-# Test direct connection to Nginx
-curl -H "Host: whoami1.subdomain.maindomain.com" http://10.236.232.140:8781/
-
-# Expected: Response from Traefik's whoami container
-
-# Test NAXSI WAF blocking
-curl "http://10.236.232.140:8781/?id=1' OR '1'='1"
-
-# Expected: 403 Forbidden or NAXSI block page
-```
-
 
 
 
@@ -1353,32 +1338,6 @@ curl -I https://whoami1.subdomain.maindomain.com
 curl -v https://whoami1.maindomain.com
 ```
 Expected: Valid response from whoami container
-
-2. **Test WAF Protection**:
-```bash
-# SQL Injection
-curl "https://whoami1.maindomain.com/?id=1' OR '1'='1"
-
-# XSS Attempt
-curl "https://whoami1.maindomain.com/?search=<script>alert('xss')</script>"
-
-# Path Traversal
-curl "https://whoami1.maindomain.com/../../../etc/passwd"
-```
-Expected: All should return `403 Forbidden` or `418 I'm a teapot`
-
-3. **Verify subdomain bypasses WAF**:
-```bash
-# This should NOT be blocked even with SQL injection (no WAF)
-curl "https://whoami1.subdomain.maindomain.com/?id=1' OR '1'='1"
-```
-Expected: Normal response (no WAF inspection on subdomain path)
-
-4. **Check Logs**:
-   - **Caddy**: Services → Caddy Web Server → Log File (only shows `.maindomain.com` traffic)
-   - **Nginx**: Services → Nginx → Log File (only shows traffic from Caddy)
-   - **Traefik**: Check your Traefik access logs (shows BOTH subdomain direct access AND traffic from Nginx)
-
 
 * * *
 
