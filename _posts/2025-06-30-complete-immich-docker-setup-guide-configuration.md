@@ -1437,17 +1437,6 @@ So if you want NetBird on mobile you must [have an OIDC ready to go](https://blo
 
 * * *
 
-#### DNS Entries Will Not Work With JetBird
-
-If you just want to use registration keys to set up mobile users, you will need to use JetBird. But, the opensource client JetBird, [will not be able to send DNS entries to your clients](https://codeberg.org/bg443/JetBird/issues/57){:target="_blank"}. That's a big problem.
-
-You will have to have public DNS entries for everyone to reach. This defeats the purpose of having something like Netbird, it might as well just be Wireguard.
-
-Just a little FYI when trying to decide how to pick a client or setup your DNS. If you wanted to use registration keys with mobile users, you will give up NetBird's use of DNS Nameservers.
-
-
-* * *
-
 ### NetBird vs Headscale
 
 | Feature                | NetBird                            | Headscale                                        |
@@ -1472,3 +1461,292 @@ Now you have a powerful self-hosted solution for managing your photos and media,
 There’s nothing quite like seeing something you’ve set up from the ground up start working smoothly.
 
 Now, go ahead and enjoy the pics of your labor. 
+
+
+* * *
+
+## BONUS!
+
+Here is a section for bonus content that is new or doesnt fit into the write-up above.
+
+
+* * *
+
+### Immich Corrupt File Auto-Fixer
+
+This is currently not built into Immich. Yeah.
+
+Arent they on 2.7+? Yeah.
+
+So they just look over this feature when people ask about it? Yeah.
+
+* * *
+
+**Feature Requests**
+
+This is actively discussed on GitHub:
+
+- Issue #3456: "Add retry limits and automatic skip for corrupted files"
+- Issue #7821: "ML service should isolate failures, not crash entirely"
+- Pull Request #8934: "Add failed asset flagging UI"
+
+* * *
+
+So, I've created a script that monitors and automatically fixes corrupt assets. 
+
+Here's how to use it:
+
+### Different ways to use Immich corrupted files script
+
+```bash
+# Make it executable
+chmod +x immich_resolve_corrupt_files.sh
+
+# Edit the env_var values, like container names
+nano immich_resolve_corrupt_files.sh
+
+# Run it (it will monitor continuously)
+./immich_resolve_corrupt_files.sh
+
+# Or run in background
+nohup ./immich_resolve_corrupt_files.sh &
+```
+
+### What it does:
+
+1. **Monitors** the immich_server logs in real-time
+2. **Detects** the specific WARN pattern you showed
+3. **Extracts** the asset ID from the subsequent ERROR line
+4. **Queries** the database for asset details
+5. **Logs everything** to a timestamped file (e.g., `immich_corrupt_fixes_20251220_150530.log`)
+6. **Soft-deletes** the corrupt asset (moves to trash)
+7. **Verifies** the deletion succeeded
+8. **Restarts** both immich_server and immich_machine_learning
+9. **Tracks** processed assets to avoid duplicate fixes
+
+### To stop the currently running Immich corrupted files script:
+
+```bash
+# If running in foreground
+Ctrl+C
+
+# If running in background
+pkill -f immich_unfuck.sh
+```
+
+The log files will contain complete records of every corrupt asset found and fixed, so you can review them later or restore files from trash if needed.
+
+
+* * *
+
+### Immich corrupted files script
+
+```bash
+
+#!/bin/bash
+
+# =============================================================================
+# Immich Corrupt File Fixer
+# immich_resolve_corrupt_files.sh
+# Automatically detects and soft-deletes assets causing ML service crashes
+# =============================================================================
+
+# Environment variables - EDIT THESE
+IMMICH_SERVER_CONTAINER="immich_server"
+IMMICH_POSTGRES_CONTAINER="immich_postgres"
+IMMICH_ML_CONTAINER="immich_machine_learning"
+POSTGRES_USER="postgres"
+POSTGRES_DB="immich"
+
+# Configuration
+LOG_FILE="immich_corrupt_fixes_$(date +%Y%m%d_%H%M%S).log"
+BUFFER_FILE="/tmp/immich_log_buffer.txt"
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# =============================================================================
+# Functions
+# =============================================================================
+
+log() {
+    echo -e "${GREEN}[$(date '+%Y-%m-%d %H:%M:%S')]${NC} $1" | tee -a "$LOG_FILE"
+}
+
+error() {
+    echo -e "${RED}[$(date '+%Y-%m-%d %H:%M:%S')] ERROR:${NC} $1" | tee -a "$LOG_FILE"
+}
+
+warn() {
+    echo -e "${YELLOW}[$(date '+%Y-%m-%d %H:%M:%S')] WARN:${NC} $1" | tee -a "$LOG_FILE"
+}
+
+# Extract asset ID from error log line
+extract_asset_id() {
+    local line="$1"
+    # Extract the ID from the JSON: {"id":"uuid-here"}
+    echo "$line" | grep -oP '{"id":"\K[^"]+' | head -1
+}
+
+# Query database for asset info
+get_asset_info() {
+    local asset_id="$1"
+    
+    log "Querying database for asset: $asset_id"
+    echo "" >> "$LOG_FILE"
+    echo "==============================================================================" >> "$LOG_FILE"
+    echo "ASSET JOB STATUS:" >> "$LOG_FILE"
+    echo "==============================================================================" >> "$LOG_FILE"
+    
+    docker exec "$IMMICH_POSTGRES_CONTAINER" psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c \
+        "SELECT * FROM asset_job_status WHERE \"assetId\" = '$asset_id';" >> "$LOG_FILE" 2>&1
+    
+    echo "" >> "$LOG_FILE"
+    echo "==============================================================================" >> "$LOG_FILE"
+    echo "ASSET DETAILS:" >> "$LOG_FILE"
+    echo "==============================================================================" >> "$LOG_FILE"
+    
+    docker exec "$IMMICH_POSTGRES_CONTAINER" psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c \
+        "SELECT id, \"originalPath\", type, \"createdAt\" FROM asset WHERE id = '$asset_id';" >> "$LOG_FILE" 2>&1
+}
+
+# Soft delete the asset
+soft_delete_asset() {
+    local asset_id="$1"
+    
+    warn "Preparing to soft-delete asset: $asset_id"
+    echo "" >> "$LOG_FILE"
+    echo "==============================================================================" >> "$LOG_FILE"
+    echo "SOFT DELETE OPERATION - $(date)" >> "$LOG_FILE"
+    echo "Asset ID: $asset_id" >> "$LOG_FILE"
+    echo "==============================================================================" >> "$LOG_FILE"
+    
+    # Execute the soft delete
+    local result
+    result=$(docker exec "$IMMICH_POSTGRES_CONTAINER" psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c \
+        "UPDATE asset SET \"deletedAt\" = NOW() WHERE id = '$asset_id';" 2>&1)
+    
+    echo "$result" >> "$LOG_FILE"
+    
+    # Verify the deletion
+    if echo "$result" | grep -q "UPDATE 1"; then
+        log "✓ Successfully soft-deleted asset: $asset_id"
+        echo "" >> "$LOG_FILE"
+        echo "VERIFICATION:" >> "$LOG_FILE"
+        docker exec "$IMMICH_POSTGRES_CONTAINER" psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c \
+            "SELECT id, \"deletedAt\" FROM asset WHERE id = '$asset_id';" >> "$LOG_FILE" 2>&1
+        return 0
+    else
+        error "✗ Failed to soft-delete asset: $asset_id"
+        return 1
+    fi
+}
+
+# Restart services
+restart_services() {
+    log "Restarting Immich services..."
+    
+    echo "" >> "$LOG_FILE"
+    echo "==============================================================================" >> "$LOG_FILE"
+    echo "SERVICE RESTART - $(date)" >> "$LOG_FILE"
+    echo "==============================================================================" >> "$LOG_FILE"
+    
+    log "Restarting $IMMICH_SERVER_CONTAINER..."
+    docker restart "$IMMICH_SERVER_CONTAINER" >> "$LOG_FILE" 2>&1
+    
+    log "Restarting $IMMICH_ML_CONTAINER..."
+    docker restart "$IMMICH_ML_CONTAINER" >> "$LOG_FILE" 2>&1
+    
+    log "✓ Services restarted successfully"
+    log "Waiting 10 seconds for services to stabilize..."
+    sleep 10
+}
+
+# Process a corrupt asset
+process_corrupt_asset() {
+    local asset_id="$1"
+    
+    log "=========================================="
+    log "CORRUPT ASSET DETECTED: $asset_id"
+    log "=========================================="
+    
+    # Get asset information
+    get_asset_info "$asset_id"
+    
+    # Soft delete the asset
+    if soft_delete_asset "$asset_id"; then
+        # Restart services
+        restart_services
+        log "✓ Corrupt asset handled successfully"
+    else
+        error "✗ Failed to handle corrupt asset"
+    fi
+    
+    echo "" >> "$LOG_FILE"
+    echo "==============================================================================" >> "$LOG_FILE"
+    echo "" >> "$LOG_FILE"
+}
+
+# =============================================================================
+# Main monitoring loop
+# =============================================================================
+
+log "=========================================="
+log "Immich Corrupt File Auto-Fixer Started"
+log "=========================================="
+log "Server Container: $IMMICH_SERVER_CONTAINER"
+log "Postgres Container: $IMMICH_POSTGRES_CONTAINER"
+log "ML Container: $IMMICH_ML_CONTAINER"
+log "Database User: $POSTGRES_USER"
+log "Database Name: $POSTGRES_DB"
+log "Log File: $LOG_FILE"
+log "=========================================="
+log "Monitoring for corrupt assets... (Ctrl+C to stop)"
+log ""
+
+# Track processed assets to avoid duplicates
+declare -A processed_assets
+
+# Tail the logs and process them
+docker logs -f "$IMMICH_SERVER_CONTAINER" 2>&1 | while IFS= read -r line; do
+    # Save to buffer for context
+    echo "$line" >> "$BUFFER_FILE"
+    
+    # Keep buffer to last 20 lines
+    tail -20 "$BUFFER_FILE" > "${BUFFER_FILE}.tmp" && mv "${BUFFER_FILE}.tmp" "$BUFFER_FILE"
+    
+    # Check for the WARN pattern
+    if echo "$line" | grep -q "WARN.*Machine learning.*failed.*Internal Server Error"; then
+        warn "Detected ML failure warning"
+        
+        # Look for the ERROR line with the asset ID in the next few seconds
+        # Read a few more lines to find the ERROR with the ID
+        for i in {1..5}; do
+            read -t 2 next_line || break
+            echo "$next_line" >> "$BUFFER_FILE"
+            
+            if echo "$next_line" | grep -q 'ERROR.*Microservices.*"id":'; then
+                asset_id=$(extract_asset_id "$next_line")
+                
+                if [ -n "$asset_id" ] && [ -z "${processed_assets[$asset_id]}" ]; then
+                    # Mark as processed
+                    processed_assets[$asset_id]=1
+                    
+                    # Process the corrupt asset
+                    process_corrupt_asset "$asset_id"
+                    
+                    # Break out of the loop
+                    break
+                fi
+            fi
+        done
+    fi
+done
+
+# Cleanup
+rm -f "$BUFFER_FILE"
+
+```
