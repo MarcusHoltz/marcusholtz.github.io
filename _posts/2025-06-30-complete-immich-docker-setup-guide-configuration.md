@@ -1531,7 +1531,7 @@ nohup ./immich_resolve_corrupt_files.sh &
 Ctrl+C
 
 # If running in background
-pkill -f immich_unfuck.sh
+pkill -f immich_resolve_corrupt_files.sh
 ```
 
 The log files will contain complete records of every corrupt asset found and fixed, so you can review them later or restore files from trash if needed.
