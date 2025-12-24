@@ -690,7 +690,7 @@ The username here is your hosted metrics ID, which is different from your hosted
 
 If you're running your own Prometheus instance locally, you can uncomment and configure the local endpoint:
 
-```iniLogs
+```ini
 // prometheus.remote_write "local" {
 //     endpoint {
 //         url = "http://prometheus:9090/api/v1/write"
@@ -2269,10 +2269,8 @@ And that's the complete flow from music playback to mobile notification, demonst
 
 * * *
 
-- [Grafana Alerting Overview](https://grafana.com/docs/grafana/latest/alerting/)
-
-- [LogQL Query Language Documentation](https://grafana.com/docs/loki/latest/query/)
-
-- [Telegram Bot API Documentation](https://core.telegram.org/bots/api)
+[Grafana Alerting Overview](https://grafana.com/docs/grafana/latest/alerting/)
+[LogQL Query Language Documentation](https://grafana.com/docs/loki/latest/query/)
+[Telegram Bot API Documentation](https://core.telegram.org/bots/api)
 
 * * *
