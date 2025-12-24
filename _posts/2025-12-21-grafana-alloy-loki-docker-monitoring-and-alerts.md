@@ -23,7 +23,6 @@ If you want to try this out yourself on system prepared for you, check out the f
 
 * * *
 
-```markdown
 ## Homelab Monitoring Stack: Alloy, Loki, and Grafana
 
 This article uses three tools for monitoring:
