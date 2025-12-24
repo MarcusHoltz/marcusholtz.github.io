@@ -570,7 +570,7 @@ Beyond logs, Alloy can also collect and forward metrics. In our configuration, w
 
 * * *
 
-### Prom alloy exporter
+### 1). Alloy Exporter for Prometheus
 
 The metrics collection starts with the self-monitoring exporter:
 
@@ -583,7 +583,7 @@ This component exposes **only** Alloy's internal metrics in Prometheus format.
 
 * * *
 
-### Alloy prom scraper
+### 2). Alloy Prometheus Scraper
 
 Next, we configure a scraper on ourself that periodically collects data  metrics from ourself (uncomment to enable):
 
@@ -603,7 +603,7 @@ The `scrape_interval` of sixty seconds means Alloy checks its own metrics every 
 
 * * *
 
-### Alloy prom grafana cloud endpoint
+### 3). Alloy prom grafana cloud endpoint
 
 In the `config.alloy` file, you'll see commented-out blocks for Grafana Cloud prometheus server. The configuration is designed so you can enable or disable cloud logging simply by uncommenting specific lines. Here's the Grafana Cloud Prometheus endpoint configuration:
 
@@ -633,7 +633,7 @@ The username here is your hosted metrics ID, which is different from your hosted
 
 * * *
 
-## Alloy prom local endpoint
+### 4). Alloy prom local endpoint
 
 If you're running your own Prometheus instance locally, you can uncomment and configure the local endpoint:
 
@@ -648,7 +648,7 @@ If you're running your own Prometheus instance locally, you can uncomment and co
 
 * * *
 
-### Alloy Sends to Local Loki
+### 5). Alloy Sends to Local Loki
 
 Now that we're out of the cloud, let's tie together - how logs actually flow from Alloy to Loki, one more time.
 
@@ -664,7 +664,7 @@ loki.write "local" {
 }
 ```
 
-### Loki Collection Endpoint - IP or DNS
+### 6). Loki Collection Endpoint - IP or DNS
 
 This is optional choice is configured in the docker-compose file.
 
@@ -705,7 +705,7 @@ Loki takes logs.
 
  * * *
 
-### Step 1: How Loki Sets Where It's Listening
+### 1). How Loki Sets Where It's Listening
 
 Moving to the Loki side of our stack, we need to configure where Loki accepts incoming logs. This is defined in the `loki-config.yaml` file under the server section:
 
@@ -734,24 +734,20 @@ server:
 * * *
 
 
-### How Loki Stores Logs
+### 2). Loki Docker Compose Volumes
 
 Loki's storage configuration determines everything from where log data lives to how it's organized and accessed.
 
 In this section we'll look at file storage for loki logs.
 
 
-
-* * *
-
-### Configuring Loki Data on the Host
+#### Configuring Loki Data on the Host
 
 Loki has to store this data somewhere, if you dump it all in docker volume  - I will cry.
 
 Please dont make me cry, please export this data for the host system to have available.
 
-
-#### Step 2: Loki Docker Compose Volumes
+* * *
 
 In our `docker-compose.yml`, we **mount a host directory** to persist this data, but we need to amke sure to keep permissions correct:
 
@@ -766,7 +762,7 @@ This means all the log data written to `/loki` inside the container is actually 
 
 * * *
 
-#### Loki Data on the Host
+#### Permissions for Loki Data on the Host
 
 Exporting the data above requires correct permissions.
 
@@ -791,7 +787,7 @@ Loki runs as user ID `10001` inside the container, so these directories must be 
 
 * * *
 
-#### Step 3: Loki Log File Storage Location
+### 3). Loki Log File Storage Location
 
 In our `loki-config.yaml`, the storage configuration uses the filesystem mode:
 
@@ -816,7 +812,7 @@ common:
 
 * * *
 
-#### Step 4: Loki Log Storage Style
+#### 4). Loki Log Storage Style
 
 The storage schema configuration tells Loki how to organize this data:
 
@@ -849,7 +845,7 @@ This configuration is particularly important.
 
 * * *
 
-### Step 5: How Loki Keeps Logs
+### 5). How Loki Keeps Logs
 
 Back to the config file.
 
@@ -877,7 +873,7 @@ Just incase there is a problem the `retention_delete_delay` of two hours provide
 
 * * *
 
-### Step 6: How Long Loki Keeps Logs
+### 6). How Long Loki Keeps Logs
 
 The actual retention period is set in the limits configuration:
 
@@ -909,7 +905,7 @@ The `reject_old_samples` setting prevents clients from writing logs with timesta
 * * *
 
 
-### Step 7: Loki Operational Limits
+### 7). Loki Operational Limits
 
 This provides stability for loki, and ensures that one noisy container (spamming logs) cannot take down the entire logging system.
 
@@ -930,7 +926,7 @@ These limits also control resource usage:
 
 * * *
 
-### Step 8: Loki with GeoIP data
+### 8). Loki with GeoIP data
 
 We're collecting labels from Docker, from Traefik access logs, and potentially from GeoIP lookups.
 The default Loki limits are quite restrictive, so we've increased them to accommodate our rich labeling strategy. 
@@ -954,7 +950,7 @@ Without these increased limits, Loki would reject logs that have too many labels
 * * *
 
 
-#### Additional Fixes That Might Be Useful
+### Additional Fixes That Might Be Useful
 
 Here are some adustments you can make to your `loki-config.yaml`, if your setup requires it:
 
@@ -975,7 +971,7 @@ Are we there yet? No, so if you have to use the bathroom we can make a quick sto
 
 * * *
 
-### How Grafana Looks for Datasources
+### 1). How Grafana Looks for Datasources
 
 When Grafana starts, it needs to know where to find its data sources like Loki. Rather than configuring these manually through the UI, we use Grafana's provisioning system to automatically configure datasources when the container starts.
 
@@ -1013,7 +1009,7 @@ Grafana's provisioning system watches these directories every 10 second and will
 
 * * *
 
-### How Grafana Finds Loki and Sets the UID
+### 2). How Grafana Finds Loki and Sets the UID
 
 The datasource configuration is where Grafana learns how to connect to Loki. Our configuration lives in `ds.yaml`:
 
@@ -1051,7 +1047,7 @@ When Grafana starts, it reads this file and automatically creates the datasource
 
 * * *
 
-### How Grafana Provisions Dashboards
+### 3). How Grafana Provisions Dashboards
 
 Dashboards are the visual interface where you query and display your logs. Like datasources, dashboards can be provisioned automatically using configuration files.
 
@@ -1090,7 +1086,7 @@ Here's what makes this powerful: you can version control your dashboards alongsi
 
 * * *
 
-### Adding New Dashboards
+### 4). Adding New Dashboards
 
 You can always [search for Grafana Dashboards](https://grafana.com/grafana/dashboards/) that other's have made public. No support provided.
 
@@ -1121,11 +1117,6 @@ You **must** edit:
 7. **Grafana queries Loki** → LogQL queries via provisioned datasource
 8. **Compactor manages retention** → Deletes logs older than 30 days
 
-
-
-* * *
-
-# Adding Music
 
 
 * * *
@@ -1294,7 +1285,7 @@ Let's get airsonic setup
 ```
 
 
-## Best Practice: Use Docker Labels + Alloy Discovery
+### Best Practice: Use Docker Labels + Alloy Discovery
 
 Docker lets you apply **labels to containers**, and Alloy can **use those labels to target the correct container log**.
 
@@ -1783,7 +1774,7 @@ policies:
 
 * * *
 
-# ContactPoint-Telegram.yaml
+### ContactPoint-Telegram.yaml
 
 Here is the explanation for the **Telegram Contact Point**.
 
@@ -1821,14 +1812,14 @@ contactPoints:
 
 * * *
 
-## [Grafana Configure Telegram Documentation](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/integrations/configure-telegram/)
+[Grafana Configure Telegram Documentation](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/integrations/configure-telegram/)
 
 * * *
 
 
 * * *
 
-# LyrionAlert.json
+## LyrionAlert.json
 
 Here is the explanation for the **Lyrion Music Alert (Regex-Based)**.
 
@@ -1870,7 +1861,7 @@ sum by (title, artist) (
 
 * * *
 
-# AirSonicAlert.json
+## AirSonicAlert.json
 
 Here is the explanation for the **Airsonic Music Alert (Label-Based)**.
 
@@ -1904,7 +1895,7 @@ sum by (asonic_music) (
 
 * * *
 
-## [Grafana LogQL Label Filter Documentation](https://grafana.com/docs/loki/latest/query/log_queries/#label-filter-expression)
+[Grafana LogQL Label Filter Documentation](https://grafana.com/docs/loki/latest/query/log_queries/#label-filter-expression)
 
 * * *
 
