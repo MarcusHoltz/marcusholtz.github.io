@@ -23,9 +23,10 @@ If you want to try this out yourself on system prepared for you, check out the f
 
 * * *
 
+```markdown
 ## Homelab Monitoring Stack: Alloy, Loki, and Grafana
 
-This article uses three tools for montioring:
+This article uses three tools for monitoring:
 
 - `Grafana Alloy` for log collection
 - `Loki` for log storage
@@ -35,10 +36,9 @@ By the end of this guide, you'll understand what each part does.
 
 **BONUS**: `Traefik` is also used in this stack.
 
-
 * * *
 
-## What Is Alloy?
+### What Is Alloy?
 
 Alloy is Grafana's modern log collector. It is [replacing Promtail](https://grafana.com/docs/loki/latest/send-data/promtail/), for [Alloy's OTEL support](https://grafana.com/oss/alloy-opentelemetry-collector/).
 
@@ -51,12 +51,52 @@ Think of it as building pipelines with three stages:
 **Important Syntax Gotchas:**
 - Alloy uses HCL (HashiCorp Configuration Language)
 - Comments use `//` not `#`
-- No comma after the last item in lists
+- Commas, even after the last item in the list
 
 
 * * *
 
-## Section 1: Alloy Reads Docker Socket Logs
+### What Is Loki?
+
+Loki is Grafana's log aggregation system. It's designed to be a way to store your losts, cost-effective and easy to operate.
+
+Unlike traditional log systems, Loki doesn't index log content. Instead:
+
+1. **Index Labels Only** - Stores metadata like service name, host, job
+2. **Compress Logs** - Keeps raw log lines compressed
+
+**Key Design Principles:**
+- Only label dimensions you'll query by (service, environment, host)
+- Don't add high-cardinality labels (user IDs, request IDs, timestamps)
+- Use LogQL to filter log content at query time
+- Logs are stored in chunks and kept in object storage
+
+**Storage Modes:**
+- `filesystem` - Simple, good for single-node setups
+- `s3` or `gcs` - Production-ready, scalable storage
+
+
+* * *
+
+### What Is Grafana?
+
+Grafana is your visualization dashboard. It queries Loki (and other data sources) to display logs, metrics, and handles alerts all in one place.
+
+Key concepts:
+
+1. **Data Sources** - Connect to Loki, Prometheus, etc.
+2. **Dashboards** - Visual panels showing your data
+
+**LogQL Basics:**
+```logql
+{job="traefik"} |= "error"           // Find logs containing "error"
+{job="traefik"} | json               // Parse JSON logs
+{job="traefik"} | logfmt             // Parse logfmt logs
+```
+
+* * *
+
+## Part 1: Alloy Reads Docker Socket Logs
 
 
 Alloy is the first step, it allows us to take a log file, or a unix socket, read from it, and transform it, before sending it off for log ingestion and storage.
@@ -64,7 +104,7 @@ Alloy is the first step, it allows us to take a log file, or a unix socket, read
 
 * * *
 
-### Step 1. Alloy Access to Docker Socket
+### 1). Alloy Access to Docker Socket
 
 First, to get Alloy to read all the logs in docker, you must give it access to the docker socket.
 
@@ -86,7 +126,7 @@ Don't forget to also mount the Docker socket (`/var/run/docker.sock`) as a **rea
 
 * * *
 
-### Step 2: Get Alloy to Discover Docker Containers
+### 2). Get Alloy to Discover Docker Containers
 
 Let's look at how reading docker logs works in our `config.alloy` file.
 
@@ -120,7 +160,7 @@ Access it on the Alloy Web UI: `http://your-alloy-host:12345/component/discovery
 * * * 
 
 
-### Step 3: Use Alloy to Clean Up Labels
+### 3). Use Alloy to Clean Up Labels
 
 Discovering containers is only the first step. 
 
@@ -156,7 +196,7 @@ Access it: `http://your-alloy-host:12345/component/discovery.relabel.containers#
 * * * 
 
 
-### Step 4: Finish Step 3
+### 4). Finish Step 3
 
 Now that you understand the concept, let's clean up the rest of those fields and make them all presentable.
 
@@ -195,7 +235,7 @@ This ensures your logs arrive in Loki/Grafana with standard, readable tags like 
 
 * * *
 
-#### Put a filter in your rules
+#### a). Put a filter in your rules
 
 If you had a container you didnt want to include in the logs, you can add a rule to drop specific containers.
 
@@ -210,7 +250,7 @@ rule {
 * * *
 
 
-### Step 5: Alloy Send Logs to Collector
+### 5). Alloy Send Logs to Collector
 
 Finally, the actual log collection happens through the `loki.source.docker` block. Alloy's configuration component takes the discovered targets and begins streaming their logs from the discovered containers to Loki. It acts as a bridge, reading lines as they are written and immediately pushing them to the `loki.write.local` component.
 
@@ -228,7 +268,7 @@ Notice how the targets come from our relabeling output, `discovery.relabel.conta
 
 * * *
 
-### Step 6: Alloy Sends to Local Loki
+### 6) Alloy Sends to Local Loki
 
 Let's tie together how logs actually flow from Alloy to Loki. 
 
@@ -254,7 +294,7 @@ loki.write "local" {
 
 * * * 
 
-## Section 2: Alloy Reads Files - Traefik Access Logs
+## Part 2: Alloy Reads Files - Traefik Access Logs
 
 
 Beyond container stdout and stderr logs, we often need to collect structured application logs from files. In this example, we're using Traefik as a reverse proxy.
@@ -430,7 +470,7 @@ This receiver has `local` in it because you can change where logs go by modifyin
 
 * * *
 
-## Section 3: Sending Logs to Grafana Cloud
+## Part 3: Sending Logs to Grafana Cloud
 
 You can send your data to the cloud for safe-backup, sure.
 
@@ -663,7 +703,7 @@ loki:
 
 * * *
 
-## Section 4: Loki the endpoind
+## Part 4: Loki the endpoind
 
 Loki also goes by the collector, the compressor, the reciever, the accepter, the listener, etc. It has a lot of things it does, but is still very easy to use. 
 
