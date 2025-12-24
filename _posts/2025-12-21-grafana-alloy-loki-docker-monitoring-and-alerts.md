@@ -38,7 +38,7 @@ By the end of this guide, you'll understand what each part does.
 
 * * *
 
-### What Is Alloy?
+## What Is Alloy?
 
 Alloy is Grafana's modern log collector. It is [replacing Promtail](https://grafana.com/docs/loki/latest/send-data/promtail/), for [Alloy's OTEL support](https://grafana.com/oss/alloy-opentelemetry-collector/).
 
@@ -56,7 +56,7 @@ Think of it as building pipelines with three stages:
 
 * * *
 
-### Section 1: Alloy Reads Docker Socket Logs
+## Section 1: Alloy Reads Docker Socket Logs
 
 
 Alloy is the first step, it allows us to take a log file, or a unix socket, read from it, and transform it, before sending it off for log ingestion and storage.
@@ -64,7 +64,7 @@ Alloy is the first step, it allows us to take a log file, or a unix socket, read
 
 * * *
 
-#### Step 1. Alloy Access to Docker Socket
+### Step 1. Alloy Access to Docker Socket
 
 First, to get Alloy to read all the logs in docker, you must give it access to the docker socket.
 
@@ -86,7 +86,7 @@ Don't forget to also mount the Docker socket (`/var/run/docker.sock`) as a **rea
 
 * * *
 
-#### Step 2: Get Alloy to Discover Docker Containers
+### Step 2: Get Alloy to Discover Docker Containers
 
 Let's look at how reading docker logs works in our `config.alloy` file.
 
@@ -120,7 +120,7 @@ Access it on the Alloy Web UI: `http://your-alloy-host:12345/component/discovery
 * * * 
 
 
-#### Step 3: Use Alloy to Clean Up Labels
+### Step 3: Use Alloy to Clean Up Labels
 
 Discovering containers is only the first step. 
 
@@ -156,7 +156,7 @@ Access it: `http://your-alloy-host:12345/component/discovery.relabel.containers#
 * * * 
 
 
-#### Step 4: Finish Step 3
+### Step 4: Finish Step 3
 
 Now that you understand the concept, let's clean up the rest of those fields and make them all presentable.
 
@@ -195,7 +195,7 @@ This ensures your logs arrive in Loki/Grafana with standard, readable tags like 
 
 * * *
 
-##### Put a filter in your rules
+#### Put a filter in your rules
 
 If you had a container you didnt want to include in the logs, you can add a rule to drop specific containers.
 
@@ -210,7 +210,7 @@ rule {
 * * *
 
 
-#### Step 5: Alloy Send Logs to Collector
+### Step 5: Alloy Send Logs to Collector
 
 Finally, the actual log collection happens through the `loki.source.docker` block. Alloy's configuration component takes the discovered targets and begins streaming their logs from the discovered containers to Loki. It acts as a bridge, reading lines as they are written and immediately pushing them to the `loki.write.local` component.
 
@@ -228,7 +228,7 @@ Notice how the targets come from our relabeling output, `discovery.relabel.conta
 
 * * *
 
-#### Step 6: Alloy Sends to Local Loki
+### Step 6: Alloy Sends to Local Loki
 
 Let's tie together how logs actually flow from Alloy to Loki. 
 
@@ -254,7 +254,7 @@ loki.write "local" {
 
 * * * 
 
-### Section 2: Alloy Reads Files - Traefik Access Logs
+## Section 2: Alloy Reads Files - Traefik Access Logs
 
 
 Beyond container stdout and stderr logs, we often need to collect structured application logs from files. In this example, we're using Traefik as a reverse proxy.
@@ -266,7 +266,7 @@ Traefik will write access logs in JSON format to a file. This gives us rich info
 
 * * *
 
-#### Step 1: Docker - Traefik Mount for Access Logs
+### Step 1: Docker - Traefik Mount for Access Logs
 
 In the `docker-compose.yml` file, there needs to be a section to tell Traefik to export logs to the host so we can read them outside of the container.
 
@@ -285,7 +285,7 @@ You will find `"./traefik/access-logs:/opt/access-logs"` in your `docker-compose
 * * *
 
 
-#### Step 2: Traefik Config - Access Logs Type and Location
+### Step 2: Traefik Config - Access Logs Type and Location
 
 In your static `traefik.yml` config, you will need to be sure you're passing the same path, and telling what kind of log format you need.
 
@@ -310,7 +310,7 @@ accessLog:
 
 * * *
 
-#### Step 3: Alloy Docker Volume to Access Traefik Logs in Alloy
+### Step 3: Alloy Docker Volume to Access Traefik Logs in Alloy
 
 This snippet from the `docker-compose.yml` file creates a target pointing to the access log file. 
 
@@ -326,7 +326,7 @@ alloy:
 
 * * *
 
-#### Step 4: Access the Access Logs in Alloy
+### Step 4: Access the Access Logs in Alloy
 
 In the `config.alloy` file, the process of reading file-based logs is slightly different from reading Docker logs. 
 
@@ -349,7 +349,7 @@ This creates a target, `traefik_access_logs`, pointing to Traefik's JSON access 
 * * *
 
 
-#### Step 5: Read the File In
+### Step 5: Read the File In
 
 Once Alloy knows where the file is, the `loki.source.file` component can begin tailing it, similar to how the `tail -f` command works:
 
@@ -371,7 +371,7 @@ Notice that instead of forwarding directly to Loki, we're forwarding to that `lo
 * * *
 
 
-#### Step 6: Parse JSON and Add Labels
+### Step 6: Parse JSON and Add Labels
 
 The `loki.process` block below parses the JSON and creates labels. Traefik writes fields like ClientHost, RequestMethod, and DownstreamStatus in its JSON logs, and we want these as queryable labels in Loki:
 
@@ -419,7 +419,7 @@ In the block above,
 
 * * *
 
-#### You now have file logs and socket logs
+### You now have file logs and socket logs
 
 One detail to note: the forward configuration, `forward_to`, appears in multiple places because we have multiple sources. 
 
@@ -430,13 +430,13 @@ This receiver has `local` in it because you can change where logs go by modifyin
 
 * * *
 
-### Section 3: Sending to Grafana Cloud (Optional)
+## Section 3: Sending Logs to Grafana Cloud
 
-You can send your logs to the cloud for safe-backup, sure.
+You can send your data to the cloud for safe-backup, sure.
 
-But the real reason, is Grafana's AI integration to the data. It can craft a fancy LogQL query detailing outliers and alerts with a single prompt.
+But the real reason, is Grafana's AI integration to the data. It can craft outliers and alerts with a single prompt.
 
-Want to send logs to Grafana Cloud? Alloy makes this easy through its forwarding configuration.
+Want to send data to Grafana Cloud? Alloy makes this easy through its forwarding configuration.
 
 In the `config.alloy` file, you'll see commented-out blocks for Grafana Cloud. The configuration file was designed so you can enable or disable cloud logging simply by uncommenting those specific lines. 
 
@@ -453,15 +453,12 @@ https://youtu.be/Xa3mCIdsno4?t=96
 
 * * *
 
-
-### Sending your Alloy loki connections to the Grafana Cloud
-
-In this setup, you'll be sending **ALL** of your logs to the Grafana Cloud. Please be aware, all logs for all containers and all logs being read from all files.
+> In this setup, you'll be sending **ALL** of your logs to the Grafana Cloud. Please be aware, all logs for all containers and all logs being read from all files.
 
 
 * * *
 
-#### Step 1. Create a Grafana Cloud account
+### Step 1. Create a Grafana Cloud account
 
 You must have an account to use Grafana Cloud, go ahead and sign up now.
 
@@ -470,7 +467,7 @@ You must have an account to use Grafana Cloud, go ahead and sign up now.
 
 * * *
 
-#### Step 2. After account creation - find details here
+### Step 2. After account creation - find details here
 
 You need to create and org/Grafana Cloud stack
 
@@ -486,7 +483,7 @@ You can create a token if you go to this page:
 
 * * *
 
-#### Step 3. Add your details assigned to the .env file
+### Step 3. Add your details assigned to the .env file
 
 You need to enter your username and password for Alloy to be able to export to the cloud.
 
@@ -506,7 +503,7 @@ Username and password are stored in an .env file so you never commit those.
 // }
 ```
 
-#### Step 4. Uncommenting the cloud endpoint isnt enough! 
+### Step 4. Uncommenting the cloud endpoint isnt enough! 
 
 You must also add the destination for your `forward_to` lists:
 
@@ -533,7 +530,7 @@ This means Alloy sends every log line to multiple destinations simultaneously, *
 
 * * *
 
-#### For Grafana Cloud Metrics:
+### For Grafana Cloud Metrics:
 
 Beyond logs, Alloy can also collect and forward metrics. In our configuration, we're specifically collecting Alloy's own metrics so we can monitor the health of our logging pipeline itself. This self-monitoring is crucial because if your logging system fails, you need to know about it!
 
@@ -1931,7 +1928,6 @@ This forces Grafana to treat it as a string instead of a number.
 ### Why This Bug Exists
 
 Grafana's YAML parser expands environment variables before type checking, so numbers - even with quotes around them - get parsed as numeric types instead of strings. This is a known bug (#69950) that's been open since June 2023.
-
 
 
 
