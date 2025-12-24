@@ -99,6 +99,8 @@ Before we can spin up docker, there are things we need to do:
 
 - Edit: `.env`
 
+- Edit: `./traefik/traefik.yml`
+
 - Review: `docker network`
 
 
@@ -124,9 +126,21 @@ The .env file stores all of the varriables we will use throughout. Please review
 The sections include:
 
 - `Docker Compose information` for `DOMAIN` and `Let's Encrypt`
+- `Cloudflare API` for Let's Encrypt DNS-01 certificates
 - Your `Grafana Cloud` information
 - The location of your `Music` for generating logs
 - `Telegram` for Grafana alerts needs the `token` and `chatid`
+
+
+* * *
+
+
+### `traefik.yml` in the traefik directory
+
+This file is our static traefik config. It should never need updating, except for this one thing.
+
+- At the bottom of the file, under the "Certificate Resolvers", you will find `email:` and will have `"your_email_address@some_email_provider.com"`
+- Change the `"your_email_address@some_email_provider.com"` to an email address you have access to (this is for LE renewals)
 
 
 * * *
@@ -2269,8 +2283,10 @@ And that's the complete flow from music playback to mobile notification, demonst
 
 * * *
 
-[Grafana Alerting Overview](https://grafana.com/docs/grafana/latest/alerting/)
-[LogQL Query Language Documentation](https://grafana.com/docs/loki/latest/query/)
-[Telegram Bot API Documentation](https://core.telegram.org/bots/api)
+- [Grafana Alerting Overview](https://grafana.com/docs/grafana/latest/alerting/)
+
+- [LogQL Query Language Documentation](https://grafana.com/docs/loki/latest/query/)
+
+- [Telegram Bot API Documentation](https://core.telegram.org/bots/api)
 
 * * *
