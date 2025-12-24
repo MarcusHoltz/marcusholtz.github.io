@@ -57,7 +57,7 @@ Think of it as building pipelines with three stages:
 
 ### What Is Loki?
 
-Loki is Grafana's log aggregation system. It's designed to be a way to store your losts, cost-effective and easy to operate.
+[Loki](https://grafana.com/docs/enterprise-logs/latest/get-started/overview/) is Grafana's log aggregation system. It's designed to be a way to store your losts, cost-effective and easy to operate.
 
 Unlike traditional log systems, Loki doesn't index log content. Instead:
 
@@ -79,23 +79,17 @@ Unlike traditional log systems, Loki doesn't index log content. Instead:
 
 ### What Is Grafana?
 
-Grafana is your visualization dashboard. It queries Loki (and other data sources) to display logs, metrics, and handles alerts all in one place.
+Grafana is your [visualization dashboard](https://docs.huihoo.com/grafana/img/animated_gifs/drag_drop.gif). It queries Loki (and other data sources) to display logs, metrics, and handles alerts all in one place.
 
 Key concepts:
 
 1. **Data Sources** - Connect to Loki, Prometheus, etc.
 2. **Dashboards** - Visual panels showing your data
 
-**LogQL Basics:**
-```logql
-{job="traefik"} |= "error"           // Find logs containing "error"
-{job="traefik"} | json               // Parse JSON logs
-{job="traefik"} | logfmt             // Parse logfmt logs
-```
 
 * * *
 
-## Part 1: Alloy Reads Docker Socket Logs
+## Part 1: Alloy Reads - Docker Socket Logs
 
 
 Alloy is the first step, it allows us to take a log file, or a unix socket, read from it, and transform it, before sending it off for log ingestion and storage.
@@ -234,9 +228,9 @@ This ensures your logs arrive in Loki/Grafana with standard, readable tags like 
 
 * * *
 
-#### a). Put a filter in your rules
+#### Put a Filter in Your Rules (optional)
 
-If you had a container you didnt want to include in the logs, you can add a rule to drop specific containers.
+This is an example. If you had a container you didnt want to include in the logs, you can add a rule to drop specific containers.
 
 ```ini
 rule {
@@ -267,7 +261,7 @@ Notice how the targets come from our relabeling output, `discovery.relabel.conta
 
 * * *
 
-### 6) Alloy Sends to Local Loki
+### 6). Alloy Sends to Local Loki
 
 Let's tie together how logs actually flow from Alloy to Loki. 
 
@@ -293,7 +287,7 @@ loki.write "local" {
 
 * * * 
 
-## Part 2: Alloy Reads Files - Traefik Access Logs
+## Part 2: Alloy Reads - Files (Traefik Access Logs)
 
 
 Beyond container stdout and stderr logs, we often need to collect structured application logs from files. In this example, we're using Traefik as a reverse proxy.
@@ -305,7 +299,7 @@ Traefik will write access logs in JSON format to a file. This gives us rich info
 
 * * *
 
-### Step 1: Docker - Traefik Mount for Access Logs
+### 1: Docker - Traefik Mount for Access Logs
 
 In the `docker-compose.yml` file, there needs to be a section to tell Traefik to export logs to the host so we can read them outside of the container.
 
@@ -324,7 +318,7 @@ You will find `"./traefik/access-logs:/opt/access-logs"` in your `docker-compose
 * * *
 
 
-### Step 2: Traefik Config - Access Logs Type and Location
+### : Traefik Config - Access Logs Type and Location
 
 In your static `traefik.yml` config, you will need to be sure you're passing the same path, and telling what kind of log format you need.
 
@@ -349,7 +343,7 @@ accessLog:
 
 * * *
 
-### Step 3: Alloy Docker Volume to Access Traefik Logs in Alloy
+### 3): Alloy Docker Volume to Access Traefik Logs in Alloy
 
 This snippet from the `docker-compose.yml` file creates a target pointing to the access log file. 
 
@@ -365,7 +359,7 @@ alloy:
 
 * * *
 
-### Step 4: Access the Access Logs in Alloy
+### 4): Access the Access Logs in Alloy
 
 In the `config.alloy` file, the process of reading file-based logs is slightly different from reading Docker logs. 
 
