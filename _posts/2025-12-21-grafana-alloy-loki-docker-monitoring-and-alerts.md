@@ -89,6 +89,20 @@ Key concepts:
 
 * * *
 
+### The Complete Alloy, Loki, and Grafana Stack
+
+1. **Container logs to Docker** → Docker daemon captures them
+2. **Alloy discovers containers** → Via Docker socket
+3. **Alloy applies labels** → Container name, stream, etc.
+4. **Alloy tails Traefik logs** → Parses JSON, adds labels
+5. **Alloy sends to Loki** → HTTP push to port 3100
+6. **Loki indexes and stores** → Labels + compressed chunks
+7. **Grafana queries Loki** → LogQL queries via provisioned datasource
+8. **Compactor manages retention** → Deletes logs older than 30 days
+
+
+* * *
+
 ## Part 0: Setup the Lab Enviornment
 
 Be sure you have copied the required files from the github repo.
@@ -1170,20 +1184,6 @@ You **must** edit:
 - Loki: `Select a Loki data source`
 
 - `Import`
-
-* * *
-
-## The Complete Flow
-
-1. **Container logs to Docker** → Docker daemon captures them
-2. **Alloy discovers containers** → Via Docker socket
-3. **Alloy applies labels** → Container name, stream, etc.
-4. **Alloy tails Traefik logs** → Parses JSON, adds labels
-5. **Alloy sends to Loki** → HTTP push to port 3100
-6. **Loki indexes and stores** → Labels + compressed chunks
-7. **Grafana queries Loki** → LogQL queries via provisioned datasource
-8. **Compactor manages retention** → Deletes logs older than 30 days
-
 
 
 * * *
