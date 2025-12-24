@@ -89,6 +89,59 @@ Key concepts:
 
 * * *
 
+## Part 0: Setup the Lab Enviornment
+
+Be sure you have copied the required files from the github repo.
+
+Before we can spin up docker, there are things we need to do:
+
+- Run: `1_permissions_init_for_project.sh`
+
+- Edit: `.env`
+
+- Review: `docker network`
+
+
+* * *
+
+### 1_permissions_init_for_project.sh script
+
+For ease of use, just run the `sudo bash 1_permissions_init_for_project.sh` script that will set permissions for you.
+
+There are two permissions that need set, as we'll be using files outside of the container - on the host.
+
+- `acme.json` needs `600` in the `./traefik` directory
+
+- `data` directory must be owned by UID `10001` in the `./loki` directory
+
+
+* * *
+
+### .env file
+
+The .env file stores all of the varriables we will use throughout. Please review and make changes (instructions for Telegram are included when we get there).
+
+The sections include:
+
+- `Docker Compose information` for `DOMAIN` and `Let's Encrypt`
+- Your `Grafana Cloud` information
+- The location of your `Music` for generating logs
+- `Telegram` for Grafana alerts needs the `token` and `chatid`
+
+
+* * *
+
+### Docker Network
+
+So this write-up uses an external docker network. That network is a macvlan that allows each container to get their own address on the network connected to the parent interface (eth0), with the name of the bridged docker network being (br1.232).
+
+`docker network create -d macvlan --subnet=10.236.232.0/24 --gateway=10.236.232.254 -o parent=eth0 br1.232`
+
+Please adjust the settings for the network used throughout for your own use.
+
+
+* * *
+
 ## Part 1: Alloy Reads - Docker Socket Logs
 
 
