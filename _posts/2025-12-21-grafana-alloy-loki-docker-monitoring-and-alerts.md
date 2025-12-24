@@ -1436,12 +1436,12 @@ discovery.relabel "airsonic_container" {
 
 * * *
 
-#### Step 4: Filter using the relabel from above
+### Step 4: Filter using the relabel from above
 
 
 * * *
 
-##### What `loki.source.docker` Does
+### What `loki.source.docker` Does
 
 Scrapes ONLY airsonic logs from Docker.
 
@@ -1469,7 +1469,7 @@ loki.source.docker "airsonic_logs" {
 
 * * *
 
-## What `loki.process "airsonic_enrich"` Does
+### What `loki.process "airsonic_enrich"` Does
 
 This is the part the reads from the logs and sends the data back out as a Loki label.
 
@@ -1570,7 +1570,7 @@ This is a **multi-stage processing pipeline** that enriches logs:
 
 * * *
 
-## The Full Flow
+### The Full Flow
 
 **Step 1: `discovery.docker "containers"`**
 - Connects to Docker and discovers all running containers
@@ -1620,7 +1620,7 @@ This is a **multi-stage processing pipeline** that enriches logs:
 
 * * *
 
-## Label Results
+### Label Results
 
 After processing, logs will have different labels depending on their content:
 
@@ -1647,29 +1647,29 @@ After processing, logs will have different labels depending on their content:
 
 * * *
 
-## Summary of Label Hierarchy
+### Summary of Label Hierarchy
 
-### All Docker Logs
+#### All Docker Logs
 - `container` - Container name (without leading `/`)
 - `service_name` - Same as container name
 - `container_id` - Docker container ID
 - `stream` - stdout or stderr
 
-### Airsonic Logs (all have these)
+#### Airsonic Logs (all have these)
 - All labels from "All Docker Logs" above
 - `job="airsonic"` - Always present
 
-### Airsonic Stream Logs (subset)
+#### Airsonic Stream Logs (subset)
 - All labels from "Airsonic Logs" above
 - `client_ip` - Extracted IP address
 - `log_type="stream"` - Indicates streaming activity
 
-### Airsonic Cache Logs (subset)
+#### Airsonic Cache Logs (subset)
 - All labels from "Airsonic Logs" above
 - `artist` - Extracted artist name
 - `log_type="cache"` - Indicates cache activity
 
-### Traefik Access Logs
+#### Traefik Access Logs
 - `log_type="access"`
 - `job="traefik"`
 - Extracted JSON fields available (but not as labels): `client_ip`, `method`, `path`, `status`
@@ -1677,7 +1677,7 @@ After processing, logs will have different labels depending on their content:
 
 * * *
 
-## Key Differences from Label-Based Discovery
+### Key Differences from Label-Based Discovery
 
 **What this config does NOT use:**
 - Docker labels like `alloy.job=airsonic`
