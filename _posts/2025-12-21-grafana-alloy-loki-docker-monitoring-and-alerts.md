@@ -331,7 +331,7 @@ loki.write "local" {
 ```
 
 
- * * *
+* * *
 
 [Grafana Alloy has documentation on using Docker as a Loki Source](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.docker/)
 
@@ -535,7 +535,7 @@ If you've never used Grafana Cloud, you need an account.
 
 And probably a quick introduction, this video shows how to import local to cloud:
 
-https://youtu.be/Xa3mCIdsno4?t=96
+[Grafana Learning Journeys: How to Send Logs to Grafana Cloud Using Alloy](https://youtu.be/Xa3mCIdsno4?t=96)
 
 * * *
 
@@ -690,7 +690,7 @@ The username here is your hosted metrics ID, which is different from your hosted
 
 If you're running your own Prometheus instance locally, you can uncomment and configure the local endpoint:
 
-```ini
+```iniLogs
 // prometheus.remote_write "local" {
 //     endpoint {
 //         url = "http://prometheus:9090/api/v1/write"
@@ -756,7 +756,7 @@ Loki also goes by the collector, the compressor, the reciever, the accepter, the
 Loki takes logs.
 
 
- * * *
+* * *
 
 ### 1). How Loki Sets Where It's Listening
 
@@ -865,7 +865,7 @@ common:
 
 * * *
 
-#### 4). Loki Log Storage Style
+### 4). Loki Log Storage Style
 
 The storage schema configuration tells Loki how to organize this data:
 
@@ -2013,138 +2013,8 @@ Alert rules define the actual conditions that trigger notifications. We'll creat
 
 The LyrionMediaServer alert uses regex to parse unstructured text logs at query time. We will be using the file `./grafana/provisioning/alerting/LyrionAlert.json`:
 
-```json{
-  "apiVersion": 1,
-  "groups": [
-    {
-      "orgId": 1,
-      "name": "10s",
-      "folder": "alerts",
-      "interval": "10s",
-      "rules": [
-        {
-          "uid": "cf74nwa8akxdsc",
-          "title": "Lyrion Playing Favorite Music",
-          "condition": "C",
-          "data": [
-            {
-              "refId": "A",
-              "queryType": "range",
-              "relativeTimeRange": {
-                "from": 30,
-                "to": 0
-              },
-              "datasourceUid": "lokithedatasourceuid",
-              "model": {
-                "editorMode": "code",
-                "expr": "sum by (title, artist) (\n  rate({container=~\"(?i)(lyrionmusicserver|lms)\"} \n    |= \"currently playing\" \n    |~ `(?i)(nickelback|creed|insane clown posse|limp bizkit|crazy potato)`\n    | regexp `currently playing \"(?P<title>[^\\t]+)\\t(?P<url>[^\\t]+)\\t(?P<artist>[^\\t]+)\\t`\n  [3s])\n)",
-                "instant": true,
-                "intervalMs": 1000,
-                "legendFormat": "",
-                "maxDataPoints": 43200,
-                "queryType": "range",
-                "refId": "A"
-              }
-            },
-            {
-              "refId": "reducer",
-              "queryType": "expression",
-              "relativeTimeRange": {
-                "from": 0,
-                "to": 0
-              },
-              "datasourceUid": "__expr__",
-              "model": {
-                "conditions": [
-                  {
-                    "evaluator": {
-                      "params": [
-                        0,
-                        0
-                      ],
-                      "type": "gt"
-                    },
-                    "operator": {
-                      "type": "and"
-                    },
-                    "query": {
-                      "params": []
-                    },
-                    "reducer": {
-                      "params": [],
-                      "type": "avg"
-                    },
-                    "type": "query"
-                  }
-                ],
-                "datasource": {
-                  "name": "Expression",
-                  "type": "__expr__",
-                  "uid": "__expr__"
-                },
-                "expression": "A",
-                "intervalMs": 1000,
-                "maxDataPoints": 43200,
-                "reducer": "last",
-                "refId": "reducer",
-                "type": "reduce"
-              }
-            },
-            {
-              "refId": "C",
-              "relativeTimeRange": {
-                "from": 0,
-                "to": 0
-              },
-              "datasourceUid": "__expr__",
-              "model": {
-                "conditions": [
-                  {
-                    "evaluator": {
-                      "params": [
-                        0
-                      ],
-                      "type": "gt"
-                    },
-                    "operator": {
-                      "type": "and"
-                    },
-                    "query": {
-                      "params": [
-                        "C"
-                      ]
-                    },
-                    "reducer": {
-                      "params": [],
-                      "type": "last"
-                    },
-                    "type": "query"
-                  }
-                ],
-                "datasource": {
-                  "type": "__expr__",
-                  "uid": "__expr__"
-                },
-                "expression": "reducer",
-                "intervalMs": 1000,
-                "maxDataPoints": 43200,
-                "refId": "C",
-                "type": "threshold"
-              }
-            }
-          ],
-          "noDataState": "OK",
-          "execErrState": "Error",
-          "isPaused": false,
-          "notification_settings": {
-            "receiver": "MusicAlert_bot"
-          }
-        }
-      ]
-    }
-  ]
-}
-```
+
+* * *
 
 #### Understanding the LogQL Query Above
 
@@ -2196,94 +2066,8 @@ The Airsonic alert uses pre-parsed labels from our Alloy configuration, making t
 
 We will be using the file `./grafana/provisioning/alerting/AirsonicAlert.json`:
 
-```json
-{
-  "apiVersion": 1,
-  "groups": [
-    {
-      "orgId": 1,
-      "name": "10s",
-      "folder": "alerts",
-      "interval": "10s",
-      "rules": [
-        {
-          "uid": "cf7i3a4c54d1ce",
-          "title": "Lyrion Playing Favorite Music",
-          "condition": "C",
-          "data": [
-            {
-              "refId": "A",
-              "queryType": "instant",
-              "relativeTimeRange": {
-                "from": 600,
-                "to": 0
-              },
-              "datasourceUid": "lokithedatasourceuid",
-              "model": {
-                "editorMode": "code",
-                "expr": "sum by (asonic_music) (\n  rate({job=\"airsonic\"} \n    | asonic_music =~ `(?i)(nickelback|creed|fred durst|Rick Astley|Limp Bizkit)`\n  [3m])\n)",
-                "instant": true,
-                "intervalMs": 1000,
-                "maxDataPoints": 43200,
-                "queryType": "instant",
-                "refId": "A"
-              }
-            },
-            {
-              "refId": "C",
-              "relativeTimeRange": {
-                "from": 0,
-                "to": 0
-              },
-              "datasourceUid": "__expr__",
-              "model": {
-                "conditions": [
-                  {
-                    "evaluator": {
-                      "params": [
-                        0
-                      ],
-                      "type": "gt"
-                    },
-                    "operator": {
-                      "type": "and"
-                    },
-                    "query": {
-                      "params": [
-                        "C"
-                      ]
-                    },
-                    "reducer": {
-                      "params": [],
-                      "type": "last"
-                    },
-                    "type": "query"
-                  }
-                ],
-                "datasource": {
-                  "type": "__expr__",
-                  "uid": "__expr__"
-                },
-                "expression": "A",
-                "intervalMs": 1000,
-                "maxDataPoints": 43200,
-                "refId": "C",
-                "type": "threshold"
-              }
-            }
-          ],
-          "noDataState": "OK",
-          "execErrState": "Error",
-          "isPaused": false,
-          "notification_settings": {
-            "receiver": "MusicAlert_bot"
-          }
-        }
-      ]
-    }
-  ]
-}
-```
+
+* * *
 
 #### Understanding the LogQL Query
 
@@ -2425,7 +2209,7 @@ mute_time_intervals:
 
 * * *
 
-## The Complete Monitoring Flow
+## Final Monitoring and Alerting Flow
 
 Let's trace a single log line through the entire system to see how all the pieces connect:
 
@@ -2485,62 +2269,10 @@ And that's the complete flow from music playback to mobile notification, demonst
 
 * * *
 
-[Grafana Alerting Overview](https://grafana.com/docs/grafana/latest/alerting/)
-[LogQL Query Language Documentation](https://grafana.com/docs/loki/latest/query/)
-[Telegram Bot API Documentation](https://core.telegram.org/bots/api)
+- [Grafana Alerting Overview](https://grafana.com/docs/grafana/latest/alerting/)
 
+- [LogQL Query Language Documentation](https://grafana.com/docs/loki/latest/query/)
 
-* * *
-
-## YAML tirade 
-
-To get a string working in YAML, it's a little tricky. `chatid` is required to be a string, but it is a number. So just passing an env_var in, isnt correct.
-
+- [Telegram Bot API Documentation](https://core.telegram.org/bots/api)
 
 * * *
-
-### The Solution
-
-Use YAML multiline syntax to force this as a string:
-
-```yaml
-yamlapiVersion: 1
-contactPoints:
-    - orgId: 1
-      name: MusicAlert_bot
-      receivers:
-        - uid: nj9087ns47
-          type: telegram
-          settings:
-            bottoken: ${MYTGRAM_BOTTOKEN}
-            chatid: >
-              ${MYTGRAM_CHATID}
-            disable_notification: false
-            disable_web_page_preview: false
-            protect_content: false
-          disableResolveMessage: true
-```
-
-
-* * *
-
-### What the Scalar Solution Does
-
-Why this works:
-
-- `The Indentation`: By indenting ${MYTGRAM_CHATID}, the YAML parser treats it as the value of chatid.
-
-- `The Folded Scalar (>)`: The > symbol tells YAML: "Everything indented below this is a string."
-
-- `No Quotes`: Since you aren't using literal " or ' marks, Grafana receives the raw digits but treats them as a string type.
-
-This forces Grafana to treat it as a string instead of a number.
-
-
-* * *
-
-### Why This Bug Exists
-
-Grafana's YAML parser expands environment variables before type checking, so numbers - even with quotes around them - get parsed as numeric types instead of strings. This is a known bug (#69950) that's been open since June 2023.
-
-
