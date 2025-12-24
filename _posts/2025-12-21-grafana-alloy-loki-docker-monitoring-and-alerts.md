@@ -1121,7 +1121,7 @@ You **must** edit:
 
 * * *
 
-## LyrionMediaServer
+## Part 7: LyrionMediaServer
 
 We have to Add Lyrion to be able to test Grafana.
 
@@ -1224,7 +1224,7 @@ LyrionMusicServer uses multicast and UDP. It's not fun to reverse proxy into a h
 * * *
 * * *
 
-## Airsonic example
+## Part 8: Airsonic example
 
 I will admit, this dashboard is slightly built around my folder structure.
 
@@ -1819,7 +1819,7 @@ contactPoints:
 
 * * *
 
-## LyrionAlert.json
+### LyrionAlert.json
 
 Here is the explanation for the **Lyrion Music Alert (Regex-Based)**.
 
@@ -1861,7 +1861,7 @@ sum by (title, artist) (
 
 * * *
 
-## AirSonicAlert.json
+### AirSonicAlert.json
 
 Here is the explanation for the **Airsonic Music Alert (Label-Based)**.
 
