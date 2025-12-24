@@ -299,7 +299,7 @@ Traefik will write access logs in JSON format to a file. This gives us rich info
 
 * * *
 
-### 1: Docker - Traefik Mount for Access Logs
+### 1). Docker - Traefik Mount for Access Logs
 
 In the `docker-compose.yml` file, there needs to be a section to tell Traefik to export logs to the host so we can read them outside of the container.
 
@@ -318,7 +318,7 @@ You will find `"./traefik/access-logs:/opt/access-logs"` in your `docker-compose
 * * *
 
 
-### : Traefik Config - Access Logs Type and Location
+### 2). Traefik Config - Access Logs Type and Location
 
 In your static `traefik.yml` config, you will need to be sure you're passing the same path, and telling what kind of log format you need.
 
@@ -343,7 +343,7 @@ accessLog:
 
 * * *
 
-### 3): Alloy Docker Volume to Access Traefik Logs in Alloy
+### 3). Alloy Docker Volume to Access Traefik Logs in Alloy
 
 This snippet from the `docker-compose.yml` file creates a target pointing to the access log file. 
 
@@ -359,7 +359,7 @@ alloy:
 
 * * *
 
-### 4): Access the Access Logs in Alloy
+### 4). Access the Access Logs in Alloy
 
 In the `config.alloy` file, the process of reading file-based logs is slightly different from reading Docker logs. 
 
@@ -382,7 +382,7 @@ This creates a target, `traefik_access_logs`, pointing to Traefik's JSON access 
 * * *
 
 
-### Step 5: Read the File In
+### 5). Read the File In
 
 Once Alloy knows where the file is, the `loki.source.file` component can begin tailing it, similar to how the `tail -f` command works:
 
@@ -404,7 +404,7 @@ Notice that instead of forwarding directly to Loki, we're forwarding to that `lo
 * * *
 
 
-### Step 6: Parse JSON and Add Labels
+### 6). Parse JSON and Add Labels
 
 The `loki.process` block below parses the JSON and creates labels. Traefik writes fields like ClientHost, RequestMethod, and DownstreamStatus in its JSON logs, and we want these as queryable labels in Loki:
 
@@ -563,14 +563,14 @@ This means Alloy sends every log line to multiple destinations simultaneously, *
 
 * * *
 
-### For Grafana Cloud Metrics:
+## Part 4: Sending Grafana Cloud Metrics
 
 Beyond logs, Alloy can also collect and forward metrics. In our configuration, we're specifically collecting Alloy's own metrics so we can monitor the health of our logging pipeline itself. This self-monitoring is crucial because if your logging system fails, you need to know about it!
 
 
 * * *
 
-#### Prom alloy exporter
+### Prom alloy exporter
 
 The metrics collection starts with the self-monitoring exporter:
 
@@ -583,7 +583,7 @@ This component exposes **only** Alloy's internal metrics in Prometheus format.
 
 * * *
 
-#### Alloy prom scraper
+### Alloy prom scraper
 
 Next, we configure a scraper on ourself that periodically collects data  metrics from ourself (uncomment to enable):
 
@@ -603,7 +603,7 @@ The `scrape_interval` of sixty seconds means Alloy checks its own metrics every 
 
 * * *
 
-#### Alloy prom grafana cloud endpoint
+### Alloy prom grafana cloud endpoint
 
 In the `config.alloy` file, you'll see commented-out blocks for Grafana Cloud prometheus server. The configuration is designed so you can enable or disable cloud logging simply by uncommenting specific lines. Here's the Grafana Cloud Prometheus endpoint configuration:
 
@@ -633,7 +633,7 @@ The username here is your hosted metrics ID, which is different from your hosted
 
 * * *
 
-#### Alloy prom local endpoint
+## Alloy prom local endpoint
 
 If you're running your own Prometheus instance locally, you can uncomment and configure the local endpoint:
 
@@ -696,7 +696,7 @@ loki:
 
 * * *
 
-## Part 4: Loki the endpoind
+## Part 5: Loki the endpoind
 
 Loki also goes by the collector, the compressor, the reciever, the accepter, the listener, etc. It has a lot of things it does, but is still very easy to use. 
 
@@ -968,7 +968,7 @@ Here are some adustments you can make to your `loki-config.yaml`, if your setup 
 
 * * *
 
-## Grafana Configuration
+## Part 6: Grafana Configuration
 
 Are we there yet? No, so if you have to use the bathroom we can make a quick stop now.
 
