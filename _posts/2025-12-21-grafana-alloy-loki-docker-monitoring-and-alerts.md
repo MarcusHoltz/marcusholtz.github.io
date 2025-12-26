@@ -170,11 +170,22 @@ Please adjust the settings for the network used throughout for your own use.
 
 * * *
 
-### Starting Each Part 1-5
+### Before Starting Part 1-5
+
+* * *
 
 #### Working Folder Workflow
 
-**The Core Idea**: You'll have a base folder (`0-Setup-Lab-Environment`) that stays untouched, and a working folder that gets deleted and recreated for each step.
+You will have to copy folders before starting each step.
+
+You'll have:
+
+- Base folder (`0-Setup-Lab-Environment`) that needs edited once.
+
+- A working folder (`Some-Folder-Name-Here`) that gets deleted and recreated for each step.
+
+
+* * *
 
 ##### Initial Setup (Do This Once)
 
@@ -183,7 +194,11 @@ Please adjust the settings for the network used throughout for your own use.
    - Edit `.env` with your details
    - Update the email in `./traefik/traefik.yml`
    
-2. Create the Docker network (see the blog for the command)
+2. Create the Docker network 
+   - `docker network create -d macvlan --subnet=10.236.232.0/24 --gateway=10.236.232.254 -o parent=eth0 br1.232`
+
+
+* * *
 
 ##### For Each Lab Step
 
@@ -193,6 +208,9 @@ Please adjust the settings for the network used throughout for your own use.
 4. Run `1_permissions_init_for_project.sh` again
 5. Run `docker-compose up`
 
+
+* * *
+
 ##### Moving to the Next Step
 
 1. Delete your working folder completely
@@ -200,7 +218,7 @@ Please adjust the settings for the network used throughout for your own use.
 
 **Why?** This keeps your base configuration clean and gives you a fresh start for each step. You're always working with `0-Setup-Lab-Environment` + current step files, nothing more.
 
-**Important**: Never edit `0-Setup-Lab-Environment` directly after initial setup. Always work in your temporary working folder.
+**Reminder**: Never edit `0-Setup-Lab-Environment` after initial setup. Always work in your temporary working folder.
 
 
 * * *
