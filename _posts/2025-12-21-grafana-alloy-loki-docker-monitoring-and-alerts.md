@@ -171,7 +171,7 @@ Please adjust the settings for the network used throughout for your own use.
 
 * * *
 
-### Before Starting Part 1-5
+### Before Starting Part 1-7
 
 * * *
 
@@ -201,18 +201,18 @@ You'll have:
 
 * * *
 
-##### For Each Lab Step
+##### For Each Part 1,2,3,4,6,7
 
 1. Create a new working folder
 2. Copy everything from `0-Setup-Lab-Environment` into it
-3. Add the files for your current step
+3. Add the files for your current part
 4. Run `1_permissions_init_for_project.sh` again
 5. Run `docker-compose up`
 
 
 * * *
 
-##### Moving to the Next Step
+##### Moving to the Next Part
 
 1. Delete your working folder completely
 2. Repeat the process above with the new step's files
@@ -442,7 +442,7 @@ Traefik will write access logs in JSON format to a file. This gives us rich info
 5. Run `1_permissions_init_for_project.sh`
 6. Run `docker-compose up -d`
 
-When moving to the next step: delete the working folder and repeat this process.
+When moving to the next step - delete the working folder and repeat this process.
 
 * * *
 
@@ -638,19 +638,19 @@ And probably a quick introduction, this video shows how to import local to cloud
 
 * * *
 
-### Step 0. Setup Reminder
+### 0). Setup Reminder
 
 Dont forget to delete your current working folder, and copy everything again!
 
 ```
-Create working folder → Copy 0-Setup-Lab-Environment → Add step files → Run permissions script → Run docker-compose
+Create working folder → Copy 0-Setup-Lab-Environment → Add 3-Sending-Data-to-Grafana-Cloud files → Run permissions script → Run docker-compose
 ```
 
-(Delete working folder before moving to next step)
+(Dont delete working folder when moving to  4: Sending Grafana Cloud Metrics)
 
 * * *
 
-### Step 1. Create a Grafana Cloud account
+### 1). Create a Grafana Cloud account
 
 You must have an account to use Grafana Cloud, go ahead and sign up now.
 
@@ -659,7 +659,7 @@ You must have an account to use Grafana Cloud, go ahead and sign up now.
 
 * * *
 
-### Step 2. After account creation - find details here
+### 2). After account creation - find details here
 
 You need to create and org/Grafana Cloud stack
 
@@ -674,7 +674,7 @@ You can create a token if you go to this page:
 
 * * *
 
-### Step 3. Add your details assigned to the .env file
+### 3). Add your details assigned to the .env file
 
 You need to enter your username and password for Alloy to be able to export to the cloud.
 
@@ -694,7 +694,7 @@ Username and password are stored in an .env file so you never commit those.
 // }
 ```
 
-### Step 4. Uncommenting the cloud endpoint isnt enough! 
+### 4). Uncommenting the cloud endpoint isnt enough! 
 
 You must also add the destination for your `forward_to` lists:
 
@@ -862,7 +862,7 @@ Loki also goes by the collector, the compressor, the reciever, the accepter, the
 
 Loki takes logs.
 
-(You can use your current working folder, all deployments have the same loki configuration)
+(You can use your current working folder, all deployment configurations have the same loki file)
 
 
 * * *
@@ -1294,7 +1294,7 @@ We are going to keep persistant data inside of ./appdata/<app_name>
 5. Run `1_permissions_init_for_project.sh`
 6. Run `docker-compose up -d`
 
-When moving to the next step: delete the working folder and repeat this process.
+When moving to the next part - delete the working folder and repeat this process.
 
 
 * * *
