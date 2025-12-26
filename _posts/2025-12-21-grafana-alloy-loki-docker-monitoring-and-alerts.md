@@ -122,7 +122,7 @@ Before we can spin up docker, there are things we need to do:
 
 ### 1_permissions_init_for_project.sh script
 
-For ease of use, just run the `sudo bash 1_permissions_init_for_project.sh` script that will set permissions for you.
+For ease of use, just run the `1_permissions_init_for_project.sh` script that will set permissions for you.
 
 There are two permissions that need set, as we'll be using files outside of the container - on the host.
 
