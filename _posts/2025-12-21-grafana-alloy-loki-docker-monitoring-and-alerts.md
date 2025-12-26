@@ -57,7 +57,7 @@ Think of it as building pipelines with three stages:
 
 ### What Is Loki?
 
-[Loki](https://grafana.com/docs/enterprise-logs/latest/get-started/overview/) is Grafana's log aggregation system. It's designed to be a way to store your losts, cost-effective and easy to operate.
+[Loki](https://grafana.com/docs/enterprise-logs/latest/get-started/overview/) is Grafana's log aggregation system. It's designed to be a way to store your logs, cost-effective and easy to operate.
 
 Unlike traditional log systems, Loki doesn't index log content. Instead:
 
@@ -135,7 +135,7 @@ There are two permissions that need set, as we'll be using files outside of the 
 
 ### .env file
 
-The .env file stores all of the varriables we will use throughout. Please review and make changes (instructions for Telegram are included when we get there).
+The .env file stores all of the variables we will use throughout. Please review and make changes (instructions for Telegram are included when we get there).
 
 The sections include:
 
@@ -166,6 +166,41 @@ So this write-up uses an external docker network. That network is a macvlan that
 `docker network create -d macvlan --subnet=10.236.232.0/24 --gateway=10.236.232.254 -o parent=eth0 br1.232`
 
 Please adjust the settings for the network used throughout for your own use.
+
+
+* * *
+
+### Starting Each Part 1-5
+
+#### Working Folder Workflow
+
+**The Core Idea**: You'll have a base folder (`0-Setup-Lab-Environment`) that stays untouched, and a working folder that gets deleted and recreated for each step.
+
+##### Initial Setup (Do This Once)
+
+1. Complete everything in your `0-Setup-Lab-Environment` folder:
+   - Run `1_permissions_init_for_project.sh`
+   - Edit `.env` with your details
+   - Update the email in `./traefik/traefik.yml`
+   
+2. Create the Docker network (see the blog for the command)
+
+##### For Each Lab Step
+
+1. Create a new working folder
+2. Copy everything from `0-Setup-Lab-Environment` into it
+3. Add the files for your current step
+4. Run `1_permissions_init_for_project.sh` again
+5. Run `docker-compose up`
+
+##### Moving to the Next Step
+
+1. Delete your working folder completely
+2. Repeat the process above with the new step's files
+
+**Why?** This keeps your base configuration clean and gives you a fresh start for each step. You're always working with `0-Setup-Lab-Environment` + current step files, nothing more.
+
+**Important**: Never edit `0-Setup-Lab-Environment` directly after initial setup. Always work in your temporary working folder.
 
 
 * * *
@@ -302,7 +337,7 @@ Docker setups with Promtail (now Alloy) often export the label, `container`, as 
 
 But, `service_name` is gaining traction for Kubernetes or multi-service setups.
 
-You will see both `container` and `service_name` labels from `__meta_docker_container_name`. This is for maximum Grafana dashboard compatability.
+You will see both `container` and `service_name` labels from `__meta_docker_container_name`. This is for maximum Grafana dashboard compatibility.
 
 This ensures your logs arrive in Loki/Grafana with standard, readable tags like `container` and `container_id` rather than obscure internal variables.
 
@@ -377,6 +412,18 @@ Traefik will write access logs in JSON format to a file. This gives us rich info
 
 
 * * *
+
+
+### 0). Quick Reminder: Working Folder Setup
+
+1. Delete your current working folder
+2. Create a new working folder
+3. Copy `0-Setup-Lab-Environment` into it
+4. Add `2-Alloy-Reads-Files-Traefik-Access-Logs` files
+5. Run `1_permissions_init_for_project.sh`
+6. Run `docker-compose up -d`
+
+When moving to the next step: delete the working folder and repeat this process.
 
 * * *
 
@@ -572,6 +619,18 @@ And probably a quick introduction, this video shows how to import local to cloud
 
 * * *
 
+### Step 0. Setup Reminder
+
+Dont forget to delete your current working folder, and copy everything again!
+
+```
+Create working folder → Copy 0-Setup-Lab-Environment → Add step files → Run permissions script → Run docker-compose
+```
+
+(Delete working folder before moving to next step)
+
+* * *
+
 ### Step 1. Create a Grafana Cloud account
 
 You must have an account to use Grafana Cloud, go ahead and sign up now.
@@ -588,7 +647,6 @@ You need to create and org/Grafana Cloud stack
 You can create a token if you go to this page:
 
 - [https://<your_assigned_url>.grafana.net/a/grafana-collector-app/alloy/installation](https://<your_assigned_url>.grafana.net/a/grafana-collector-app/alloy/installation)
-
 
 - Once you create a token, you will see an "Install and run Grafana Alloy" section.
 
@@ -647,6 +705,8 @@ This means Alloy sends every log line to multiple destinations simultaneously, *
 ## Part 4: Sending Grafana Cloud Metrics
 
 Beyond logs, Alloy can also collect and forward metrics. In our configuration, we're specifically collecting Alloy's own metrics so we can monitor the health of our logging pipeline itself. This self-monitoring is crucial because if your logging system fails, you need to know about it!
+
+(You can use your current,`3-Sending-Data-to-Grafana-Cloud`, working folder)
 
 
 * * *
@@ -782,6 +842,8 @@ loki:
 Loki also goes by the collector, the compressor, the reciever, the accepter, the listener, etc. It has a lot of things it does, but is still very easy to use. 
 
 Loki takes logs.
+
+(You can use your current working folder, all deployments have the same loki configuration)
 
 
 * * *
@@ -1050,6 +1112,9 @@ Here are some adustments you can make to your `loki-config.yaml`, if your setup 
 Are we there yet? No, so if you have to use the bathroom we can make a quick stop now.
 
 
+(You can use your current working folder, all deployments have at least one Grafana dashboard)
+
+
 * * *
 
 ### 1). How Grafana Looks for Datasources
@@ -1201,6 +1266,20 @@ We are going to keep persistant data inside of ./appdata/<app_name>
 
 * * *
 
+### 0.) Setup Working Folder First
+
+1. Delete your current working folder
+2. Create a new working folder
+3. Copy `0-Setup-Lab-Environment` into it
+4. Add `2-Alloy-Reads-Files-Traefik-Access-Logs` files
+5. Run `1_permissions_init_for_project.sh`
+6. Run `docker-compose up -d`
+
+When moving to the next step: delete the working folder and repeat this process.
+
+
+* * *
+
 ### 1). Configure LyrionMediaServer in Docker Compose
 
 The LyrionMediaServer container needs access to your music files and a place to store its configuration. Add this service to your `docker-compose.yml`:
@@ -1258,7 +1337,7 @@ At time of writing, you will need PlayLog.
 This plugin allows you you to log the tracks you listen to, either automatically or by pressing a few remote control buttons. It provides a web interface for viewing its log, linking to the web for more information about what you've listened to, and downloading XML and M3U playlists of played songs.
 
 
-**Step 1: Settings > Access Plugin Menu**
+#### Step 1: Install Plugin from Settings
 First we need to install PlayLog:
 - Click on the menu and find the **Settings** area
 - Click on **Server**
@@ -1271,14 +1350,14 @@ First we need to install PlayLog:
 - Click **Save Settings** at the bottom of the page
 - Restart the LyrionMediaServer container when prompted
 
-**Step 2: Configure PlayLog**
+#### Step 2: Configure PlayLog
 Once the container restarts, go back to Settings > Server:
 - In the drop down menu, click **PlayLog settings** (under Plugins section)
 - Under **Current Song Logging**, select **All tracks** (every single track played generates a log entry)
 - Click **Save Settings**
 
 
-**Step 5: Enable Debug Logging**
+#### Step 3: Enable Debug Logging
 To get the detailed log format we need for parsing:
 - Go to **Settings** → **Server Settings** → **Logging**
 - After clicking on **Logging** in the drop down menu, you should be on a new page.
@@ -1302,7 +1381,7 @@ LyrionMediaServer needs at least one client connected to actually play music and
 
 **For Linux/Termux:**
 
-If you have a spare Android phone or tablet, you can use Termux (a Linux terminal emulator) and run Squeezelite directly on it.
+If you have a spare Android phone, or tablet, you can use Termux (a Linux terminal emulator) and run Squeezelite directly on it.
 
 Once Termux is installed, open it and run:
 
@@ -1392,6 +1471,9 @@ Airsonic Advanced provides a more feature-rich music streaming web-server.
 
 This section demonstrates a different logging pattern: instead of parsing unstructured text logs like we do with LyrionMediaServer, we'll extract metadata from Airsonic's file paths and cache operations.
 
+(You can use your current working folder, `5-Lyrion-Airsonic-Grafana-Alerts`)
+
+
 * * *
 
 ### What Is Airsonic Advanced?
@@ -1440,8 +1522,8 @@ This folder structure is the best way to store your complete music archive.
 
 [Beets Documentation](https://beets.readthedocs.io/)
 
-* * *
 
+* * *
 
 ### 1). Configure Airsonic in Docker Compose
 
@@ -2027,6 +2109,7 @@ Alert rules define the actual conditions that trigger notifications. We'll creat
 
 The LyrionMediaServer alert uses regex to parse unstructured text logs at query time. We will be using the file `./grafana/provisioning/alerting/LyrionAlert.json`:
 
+> Sorry I didnt include the JSON for the alerting, it was too large. Please find it in the repo link.
 
 * * *
 
@@ -2080,6 +2163,7 @@ The Airsonic alert uses pre-parsed labels from our Alloy configuration, making t
 
 We will be using the file `./grafana/provisioning/alerting/AirsonicAlert.json`:
 
+> Sorry I didnt include the JSON for the alerting, it was too large. Please find it in the repo link.
 
 * * *
 
