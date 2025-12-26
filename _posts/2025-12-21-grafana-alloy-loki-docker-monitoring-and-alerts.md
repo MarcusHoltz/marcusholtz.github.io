@@ -171,7 +171,7 @@ Please adjust the settings for the network used throughout for your own use.
 
 * * *
 
-### Before Starting Part 1-7
+### Before Starting Part 1-9
 
 * * *
 
@@ -201,7 +201,7 @@ You'll have:
 
 * * *
 
-##### For Each Part 1,2,3,4,6,7
+##### For Each Part 1,2,3,7
 
 1. Create a new working folder
 2. Copy everything from `0-Setup-Lab-Environment` into it
@@ -646,7 +646,7 @@ Dont forget to delete your current working folder, and copy everything again!
 Create working folder → Copy 0-Setup-Lab-Environment → Add 3-Sending-Data-to-Grafana-Cloud files → Run permissions script → Run docker-compose
 ```
 
-(Dont delete working folder when moving to  4: Sending Grafana Cloud Metrics)
+(Dont delete working folder when moving to **Part 4: Sending Grafana Cloud Metrics**)
 
 * * *
 
@@ -1907,6 +1907,8 @@ Grafana's alerting system consists of three components that work together:
 3. **Notification Policies** - Define routing and timing behavior
 
 We'll configure all three to send Telegram notifications when certain music is played.
+
+(You can use your current working folder, `5-Lyrion-Airsonic-Grafana-Alerts`)
 
 * * *
 
