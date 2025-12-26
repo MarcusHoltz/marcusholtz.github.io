@@ -143,6 +143,7 @@ The sections include:
 - `Cloudflare API` for Let's Encrypt DNS-01 certificates
 - Your `Grafana Cloud` information
 - The location of your `Music` for generating logs
+- Your `UID/GID` for that user's Music folder
 - `Telegram` for Grafana alerts needs the `token` and `chatid`
 
 
