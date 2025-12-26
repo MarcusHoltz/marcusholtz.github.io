@@ -665,7 +665,7 @@ You need to create and org/Grafana Cloud stack
 
 You can create a token if you go to this page:
 
-- [https://<your_assigned_url>.grafana.net/a/grafana-collector-app/alloy/installation](https://<your_assigned_url>.grafana.net/a/grafana-collector-app/alloy/installation)
+- https://<your_assigned_url>.grafana.net/a/grafana-collector-app/alloy/installation
 
 - Once you create a token, you will see an "Install and run Grafana Alloy" section.
 
