@@ -226,8 +226,24 @@ You'll have:
 
 ## Part 1: Alloy Reads - Docker Socket Logs
 
-
 Alloy is the first step, it allows us to take a log file, or a unix socket, read from it, and transform it, before sending it off for log ingestion and storage.
+
+
+* * *
+
+### 0). Be Sure You've Setup the Lab Environment
+
+Be sure you have copied the required files from the previous step in the github repo.
+
+If you have not yet, please setup the lab enviornment.
+
+- Run: `1_permissions_init_for_project.sh`
+
+- Edit: `.env`
+
+- Edit: `./traefik/traefik.yml`
+
+- Review: `docker network`
 
 
 * * *
