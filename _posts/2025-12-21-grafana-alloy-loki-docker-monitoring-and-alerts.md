@@ -20,6 +20,8 @@ This article was written to help you get better understanding of logging and obs
 
 If you want to try this out yourself on system prepared for you, check out the free labs available for Grafana at [killercoda.com](https://killercoda.com/het-tanis/course/Linux-Labs/102-monitoring-linux-logs).
 
+There are plenty more examples than this one below, for more check out the [alloy-scenarios git repo](https://github.com/grafana/alloy-scenarios).
+
 
 * * *
 
