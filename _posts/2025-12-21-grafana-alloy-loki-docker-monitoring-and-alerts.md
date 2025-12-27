@@ -1,14 +1,14 @@
 ---
 layout: post
 title: Grafana, Alloy, Loki using Docker alerting on our favorite song
-description: A quick guide to Grafana, Alloy, Loki using Docker
+description: A quick guide to homelab monitoring and alerting with Grafana, Alloy, Loki using Docker.
 date: 2025-12-21 11:33:00 -0700
 categories: [DevOps, Monitoring]
-tags: [cloud, monitoring, homelab, security, customization, logs, mirror, guide, applications, docker, traefik, fun]
+tags: [cloud, monitoring, loki, grafana, alloy, homelab, security, customization, logs, mirror, guide, applications, docker, traefik, fun]
 pin: false
 image:
   path: /assets/img/header/header--grafana--alloy-loki-stack-docker-homelab-monitoring.jpg
-  alt: Grafana-alloy-loki-on-docker-for-homelab-monitoring-explained
+  alt: Grafana, Alloy, Loki, on Docker for Homelab Monitoring Explained
 ---
 
 
@@ -16,7 +16,7 @@ image:
 
 When you're running containerized applications, you need to understand what's happening inside your stack. 
 
-This article was written to help you get better understanding of logging and observability.
+This article and [repository](https://github.com/MarcusHoltz/grafana-loki-alloy-homelab-monitoring-stack) were written to help you get better understanding of logging and observability.
 
 If you want to try this out yourself on system prepared for you, check out the free labs available for Grafana at [killercoda.com](https://killercoda.com/het-tanis/course/Linux-Labs/102-monitoring-linux-logs).
 
@@ -107,7 +107,9 @@ Key concepts:
 
 ## Part 0: Setup the Lab Enviornment
 
-Be sure you have copied the required files from the github repo.
+Be sure you have copied the required files from: [the grafana loki alloy homelab monitoring stack repo](https://github.com/MarcusHoltz/grafana-loki-alloy-homelab-monitoring-stack).
+
+> [Part 0: Setup the Lab Environment](https://github.com/MarcusHoltz/grafana-loki-alloy-homelab-monitoring-stack/tree/main/0-Setup-Lab-Environment)
 
 Before we can spin up docker, there are things we need to do:
 
@@ -142,10 +144,15 @@ The .env file stores all of the variables we will use throughout. Please review 
 The sections include:
 
 - `Docker Compose information` for `DOMAIN` and `Let's Encrypt`
+
 - `Cloudflare API` for Let's Encrypt DNS-01 certificates
+
 - Your `Grafana Cloud` information
+
 - The location of your `Music` for generating logs
+
 - Your `UID/GID` for that user's Music folder
+
 - `Telegram` for Grafana alerts needs the `token` and `chatid`
 
 
@@ -157,6 +164,7 @@ The sections include:
 This file is our static traefik config. It should never need updating, except for this one thing.
 
 - At the bottom of the file, under the "Certificate Resolvers", you will find `email:` and will have `"your_email_address@some_email_provider.com"`
+
 - Change the `"your_email_address@some_email_provider.com"` to an email address you have access to (this is for LE renewals)
 
 
@@ -192,7 +200,7 @@ You'll have:
 
 ##### Initial Setup (Do This Once)
 
-1. Complete everything in your `0-Setup-Lab-Environment` folder:
+1. Complete everything in your `[0-Setup-Lab-Environment](https://github.com/MarcusHoltz/grafana-loki-alloy-homelab-monitoring-stack/tree/main/0-Setup-Lab-Environment)` folder:
    - Run `1_permissions_init_for_project.sh`
    - Edit `.env` with your details
    - Update the email in `./traefik/traefik.yml`
@@ -235,7 +243,7 @@ Alloy is the first step, it allows us to take a log file, or a unix socket, read
 
 ### 0). Be Sure You've Setup the Lab Environment
 
-Be sure you have copied the required files from the previous step in the github repo.
+Be sure you have copied [the required files](https://github.com/MarcusHoltz/grafana-loki-alloy-homelab-monitoring-stack/tree/main/0-Setup-Lab-Environment) from the previous step in the github repo.
 
 If you have not yet, please setup the lab enviornment.
 
@@ -252,7 +260,7 @@ If you have not yet, please setup the lab enviornment.
 
 ### 1). Alloy Access to Docker Socket
 
-First, to get Alloy to read all the logs in docker, you must give it access to the docker socket.
+First, to [get Alloy to read all the logs in docker](https://github.com/MarcusHoltz/grafana-loki-alloy-homelab-monitoring-stack/tree/main/1-Alloy-Reads-Docker-Socket-Logs), you must give it access to the docker socket.
 
 * * *
 
@@ -443,7 +451,7 @@ loki.write "local" {
 ## Part 2: Alloy Reads - Files (Traefik Access Logs)
 
 
-Beyond container stdout and stderr logs, we often need to collect structured application logs from files. In this example, we're using Traefik as a reverse proxy.
+Beyond container stdout and stderr logs, we often need to collect structured application logs from files. In this example, we're [using Traefik to generate logs](https://github.com/MarcusHoltz/grafana-loki-alloy-homelab-monitoring-stack/tree/main/2-Alloy-Reads-Files-Traefik-Access-Logs).
 
 Traefik will write access logs in JSON format to a file. This gives us rich information about every HTTP request hitting our infrastructure.
 
@@ -636,7 +644,7 @@ But the real reason, is Grafana's AI integration to the data. It can craft outli
 
 Want to send data to Grafana Cloud? Alloy makes this easy through its forwarding configuration.
 
-In the `config.alloy` file, you'll see commented-out blocks for Grafana Cloud. The configuration file was designed so you can enable or disable cloud logging simply by uncommenting those specific lines. 
+In the `[config.alloy](https://github.com/MarcusHoltz/grafana-loki-alloy-homelab-monitoring-stack/blob/main/3-Sending-Data-to-Grafana-Cloud/alloy/config.alloy)` file, you'll see commented-out blocks for Grafana Cloud. The configuration file was designed so you can enable or disable cloud logging simply by uncommenting those specific lines. 
 
 Basic Authentication (User ID + API Key) is also required in the `.env` file.
 
@@ -878,7 +886,7 @@ loki:
 
 Loki also goes by the collector, the compressor, the reciever, the accepter, the listener, etc. It has a lot of things it does, but is still very easy to use. 
 
-Loki takes logs.
+[Loki takes logs](https://github.com/MarcusHoltz/grafana-loki-alloy-homelab-monitoring-stack/tree/main/4-Loki-and-Grafana).
 
 (You can use your current working folder, all deployment configurations have the same loki file)
 
@@ -1292,7 +1300,7 @@ You **must** edit:
 
 ## Part 7: LyrionMediaServer Setup
 
-To demonstrate our monitoring stack in action, we need an application that generates interesting logs. LyrionMediaServer (formerly Logitech Media Server) is a music streaming server that logs every track played, making it perfect for testing our Grafana alerting system.
+To demonstrate our [monitoring stack](https://github.com/MarcusHoltz/grafana-loki-alloy-homelab-monitoring-stack/tree/main/5-Lyrion-Airsonic-Grafana-Alerts) in action, we need an application that generates interesting logs. LyrionMediaServer (formerly Logitech Media Server) is a music streaming server that logs every track played, making it perfect for testing our Grafana alerting system.
 
 
 * * *
