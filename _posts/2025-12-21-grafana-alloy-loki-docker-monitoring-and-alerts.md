@@ -2421,3 +2421,48 @@ And that's the complete flow from music playback to mobile notification, demonst
 - [Telegram Bot API Documentation](https://core.telegram.org/bots/api)
 
 * * *
+
+
+## BONUS: ScummVM over Neko
+
+Want to have fun with far-away counsins over holiday? Try [playing classic point and click adventures over Neko](https://github.com/MarcusHoltz/grafana-loki-alloy-homelab-monitoring-stack/tree/main/bonus/scummvm-neko)!
+
+A lot of them work great with a mobile phone.
+
+
+* * *
+
+### Download the ScummVM over Neko Stack
+
+I have a small repo using a lot of these same files ready to drop-into a VPS and go:
+
+- [ScummVM-over-Neko](https://github.com/MarcusHoltz/grafana-loki-alloy-homelab-monitoring-stack/tree/main/bonus/scummvm-neko)
+
+
+* * *
+
+### Download Some Games
+
+Download a few demos, and see what is our there:
+
+[Script Creation Utility for Maniac Mansion Virtual Machine: Game Demos](https://www.scummvm.org/demos/)
+
+
+* * * 
+
+### Game Download Location
+
+Once you download a few freeware/demo games, place them into a folder structure like below
+
+`./appdata/scummvm/games`
+
+with your `docker-compose.yml` being at the `./` base of the directory structure.
+
+
+* * *
+
+### Thanks!
+
+Thats it! Enjoy some fun with friends.
+
+
