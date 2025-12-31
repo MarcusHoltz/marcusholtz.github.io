@@ -535,3 +535,63 @@ echo
 echo "Access the web interface at: $HTTP_EXTERNAL"
 echo "========================================="
 ```
+
+* * *
+
+### Nzyme 2.0 alpha caveats
+
+According to Nzyme's release notes, the system has configurable session timeouts with defaults that are Nzyme "fairly aggressive".
+
+Meaning, they're such poor defaults you cannot even use Nzyme as a dashboard - you'll be kicked off.
+
+```sql
+nzyme=# SELECT * FROM auth_tenants;
+ id |      name      |       description        |         created_at         |         updated_at         |                 uuid                 |           organization_id            | session_timeout_minutes | session_inactivity_timeout_minutes | mfa_timeout_minutes 
+----+----------------+--------------------------+----------------------------+----------------------------+--------------------------------------+--------------------------------------+-------------------------+------------------------------------+---------------------
+  1 | Default Tenant | The nzyme default tenant | 2025-10-24 17:54:00.674+00 | 2025-10-24 17:54:00.674+00 | 65a61318-de18-452e-a76d-f1a62263db7e | 97990277-55a9-461a-93df-509f0327d96a |                     720 |                                 15 |                   5
+(1 row)
+```
+
+
+* * *
+
+#### Nzyme 2.0 alpha token/session is expiring
+
+Nzyme has a session timeout issue. **User experience is expected to end in 15min.**
+
+
+* * *
+
+##### Official Nzyme 2.0 alpha sorry about the token/session expiring fix
+
+So let's see if we cannot fix this according to how Lennart wanted you to:
+
+Login to Nzyme:
+`Authentication & Authorization > Organizations > Default Organization > Tenants > Default Tenant > Edit > Additional options`
+
+Make changes to browser session timeouts in the "Edit Tenant" screen in the collapsed section under "Additional options".
+
+* * *
+
+Yup, that's right. It's as per documentation, errr, well no - it's not documented, it mentioned in a blog post: 
+https://www.nzyme.org/news/2023/12/08/release-v200-alpha-6
+
+Congrats, you're supposed to now have gained a system that wont boot you in 15min, but it still boots me. 
+
+So I guess, alpha. Glad I documented this fix.
+
+
+* * *
+
+#### Fix Nyme 2.0 alpha token/session is expiring in the database
+
+Not keen for a UI fix? Here's the database entries:
+
+```bash
+sudo -u postgres psql nzyme
+SELECT * FROM auth_tenants;
+UPDATE auth_tenants SET session_timeout_minutes = 7200;
+UPDATE auth_tenants SET session_inactivity_timeout_minutes = 7255;
+\q
+```
+
