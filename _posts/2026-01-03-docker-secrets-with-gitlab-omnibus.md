@@ -327,7 +327,7 @@ Luckily there's a file made just for that, `gitlab.rb`
 
 This will additionally allow us to put the rest of the values we saw in the docker-compose file into our .env file and never mess with the `gitlab.rb` after it's been initialy edited. 
 
-TO GET ANY OF THIS WORKING YOU NEED TO SET THE `GITLAB_HOST_IP` and `ALLOWED_HOSTS` TO THE IP YOU CAN CONNECT TO DOCKER OVER
+But you will still need to edit `GITLAB_HOST_IP` to match your Docker host you're running the compose file on.
 
 
 ```ini
@@ -349,22 +349,6 @@ GITLAB_SSH_PORT=2222
 # ============================================================================
 # Path on host machine where GitLab backups will be stored
 BACKUP_PATH=/mnt/backups/borg/gitlab
-
-
-# ============================================================================
-# NETWORK CONFIGURATION
-# ============================================================================
-# Monitoring whitelist - IPs allowed to access /health and /-/readiness
-# Format: Comma-separated CIDR ranges
-MONITORING_WHITELIST=127.0.0.0/8,::1/128
-
-# Allowed hosts - prevents Host header attacks
-# Format: Comma-separated hostnames/IPs
-ALLOWED_HOSTS=0.0.0.0,localhost,127.0.0.1,192.168.1.55
-
-# Trusted proxies - IPs of reverse proxies that can set X-Forwarded-For
-# Format: Comma-separated CIDR ranges or hostnames
-TRUSTED_PROXIES=172.18.0.0/16,192.168.0.0/16,home.arpa
 
 ```
 
