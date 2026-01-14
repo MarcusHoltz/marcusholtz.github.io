@@ -19,144 +19,250 @@ Getting your own self-hosted DevSecOps platform running doesn't have to be a hea
 
 This guide will get you a professional-grade **GitLab CE** instance, secured with **TLS (HTTPS)** via Traefik, a pre-configured **GitLab Runner**, and a **CI/CD pipeline** project, in under 15 minutes.
 
+To find the repository that goes along with this guide, visit:
+
+[github.com/MarcusHoltz/docker-gitlab-runner](https://github.com/MarcusHoltz/docker-gitlab-runner)
+
 
 * * *
 
 ## The Architecture at a Glance
 
-Before we dive in, here is how the traffic flows through your stack:
+Before we dive in, here is how the traffic flows through this stack:
 
-* **Traefik:** Acts as the traffic cop, handling SSL termination and routing.
-* **Certbot:** Automatically fetches Wildcard certificates via Cloudflare DNS.
-* **GitLab CE:** The core application, running on an internal Docker network.
-* **GitLab Runner:** Automatically registers itself to your instance using a helper script.
+- **Traefik:** Acts as the traffic cop, handling SSL termination and routing.
 
+- **Certbot:** Automatically fetches Wildcard certificates via Cloudflare DNS.
 
-* * *
+- **GitLab CE:** The core application, running on an internal Docker network.
 
-## Step 1: Prepare Your Environment
+- **GitLab Runner:** Automatically registers itself to your instance using a helper script.
 
-You need to tell the stack who you are. The `.env` file is your single source of truth.
-
-1. **Configure `.env`:** Open your `.env` file and update these key fields:
-* `DOMAIN_NAME`: Your domain (e.g., `example.com`).
-* `GITLAB_SUBDOMAIN`: Usually `gitlab`.
-* `ACME_EMAIL`: Your email for Let's Encrypt alerts.
-
-
-2. **Set the Root Password:** To keep things secure, we use Docker Secrets.
-* Create a folder named `secrets`.
-* Create a file inside called `gitlab_root_password.txt` and paste your desired admin password there.
+- **WeatherCICD:** This is the gitlab-ci.yml pipeline that we will run once the project is complete.
 
 
 * * *
 
-## Step 2: Spin Up the Stack
+## 1). Configure the Project Environment to Your Requirements
 
-With your configuration set, it's time to pull the trigger.
+You need to tell the stack a few details. 
+
+- `./certbot/cloudflare.ini` - This file tells Certbot your Cloudflare API Token for DNS-01
+
+- `./secrets/gitlab_root_password.txt` - This file contains our intial password to login to GitLab as root
+
+- `.env` - The `.env` file is where we place every other non-secret value. It contains all the customization within our script.
+
+
+* * *
+
+### Edit ./certbot/cloudflare.ini
+
+The first step is to leave this write-up and go to another website.
+
+Cloudflare can provide a nameserver for almost any domain, allowing us to use Cloudflare's API to create temporary TXT records for SSL domain validation.
+
+For help with creating a Token in Cloudflare, visit [Cloudflare's docs on creating a token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/) for a quick how-to.
+
+Once you have the token,
+
+- Go inside the `cerbot` folder
+
+- Edit the `cloudflare.ini` file
+
+- Find `dns_cloudflare_api_token`
+
+- Replace `YOUR_CLOUDFLARE_API_TOKEN_HERE` with your token
+
+- Save and quit the file
+
+> Ensure the token has "Zone:DNS:Edit" permissions for your domain.
+
+
+* * *
+
+### Edit ./secrets/gitlab_root_password.txt
+
+To keep passwords secure, we will use Docker Secrets.
+
+- Go inside the folder named `secrets`
+
+- Edit a file inside called `gitlab_root_password.txt`
+- You should see a placeholder password, `HEYOUchangeThisPassword`
+- Remove that text and enter your password (your password should be the only text in the file)
+- Save and quit the file
+
+> Make sure to paste just your GitLab root password
+
+
+* * *
+
+### Edit .env
+
+The .env file is were we store everything we want to configure in all of our files (outside of our secrets).
+
+This allows us to make changes in one place throughout the entire project, but keep our keys, tokens, passwords, and secrets safe somewhere else.
+
+- Open your `.env` file
+
+- You must atleast update the following fields:
+  - `DOMAIN_NAME`: Your domain (e.g., `example.com`).
+  - `GITLAB_SUBDOMAIN`: Usually `gitlab`.
+  - `GITLAB_HOST_IP`: The IP address of your Docker host running GitLab
+
+- There are many more fields, change a few more and you may just break something - Good Luck!
+
+
+* * *
+
+## 2). Spin Up the Stack
+
+With configuration complete, you can bring up the Docker compose project stack.
 
 ```bash
 docker compose up -d
-
 ```
+
+
+* * *
 
 ### What's happening?
 
 * **Certbot** runs first to ensure your SSL certificates exist in `./appdata/certbot`.
-* **Traefik** starts listening on ports 80 and 443.
+
+* **Traefik** starts listening on ports 80 and 443, but will need rebooted to find the certificates.
+
 * **GitLab** begins its boot sequence.
+
+
+* * *
+
+#### What can I do?
+
+I would say, to let everything get everything settled, run this command and walk away:
+
+`docker compose up -d && sleep 180 && docker compose up -d && sleep 270 && docker logs -f gitlab_ce`
 
 > **GitLab is heavy.** It can take 5–10 minutes to fully initialize. You can monitor the progress with `docker logs -f gitlab_ce`.
 
 
 * * *
 
-### Problems with docker compose
+#### Problems?
 
-See the Help section at the end
+See the [Help section](#help) at the end.
 
 
 * * *
 
-## Step 3: Automate Runner Registration
+## 3.) Runner Registration Script
 
-Usually, registering a runner is a manual chore of copying tokens. We've automated this with the `3_register_runner.sh` script.
+Usually, registering a runner is a manual chore of copying tokens. I have automated this with the `register_gitlab_runner.sh` script.
 
 Once GitLab is healthy (you can reach the login page), run:
 
 ```bash
-chmod +x 3_register_runner.sh
-./3_register_runner.sh
+register_gitlab_runner.sh
 ```
 
-**What this script does for you:**
 
-1. **Wait:** It polls the GitLab API until it's actually ready.
-2. **Auth:** It enters the GitLab container and generates a temporary Personal Access Token.
-3. **Register:** It fetches a Runner Registration Token and links the `gitlab-runner` container to your instance.
-4. **Connect:** It configures the runner to use the Docker executor, allowing it to run CI/CD jobs.
+* * *
+
+### What the register_gitlab_runner.sh script does for you
+
+- **Wait:** It polls the GitLab API until it's actually ready.
+
+- **Auth:** It enters the GitLab container and generates a temporary Personal Access Token.
+
+- **Register:** It fetches a Runner Registration Token and links the `gitlab-runner` container to your instance.
+
+- **Connect:** It configures the runner to use the Docker executor, allowing it to run CI/CD jobs.
 
 
 * * *
 
-## Step 4: Login and Verify
+### Login to GitLab and Verify Runner
 
-1. Navigate to `https://gitlab.yourdomain.com`.
-2. Log in with username **root** and the password you put in your secrets file.
-3. Go to **Admin Area > CI/CD > Runners**. You should see your `homelab-hybrid-runner` online and ready!
+- Navigate to `https://gitlab.yourdomain.com`.
+
+- Log in with username **root** and the password you put in your secrets file.
+
+- Go to **Admin Area > CI/CD > Runners**. You should see your `homelab-hybrid-runner` online and ready!
 
 
 * * *
 
-## Step 5: Your First Project
+## 4). Your First Project
 
-Go to the cidi ddididid directory.
+With your recent sucess of logging into GitLab, we should do something with it.
 
-And then 
+I have provided a gitlab-ci pipeline to do exactly that!
+
+- Login to GitLab, if not already
+
+- In the upper right hand corner of the screen is a `+` icon, click it
+
+- In this new GitLab menu, click `New project/repository`
+
+- On the new screen click on `Create blank project`
+
+- Enter a `project name`
+
+- Under the **Project URL** use the drop down for `Pick a group or namespace` to select an option (probably just `root`)
+
+- Under **Project Configuration** `uncheck` - Initialize repository with a README
+
+- Click on `Create project`
+
+- On this new screen, with your newly minted repo, head down to the `Add files`
+
+- Click on `HTTPS`
+
+- We want to `Configure the Git repository` for our **WeatherCICD** folder, copy and paste these commands somewhere
 
 
-Click **"New Project"** > **"Create blank project."**
+* * *
+
+### Git Push the WeatherCICD
+
+With a new reposity to hold our files, we can put the WeatherCICD into GitLab.
+
+- Find the `WeatherCICD` folder in the working directory we've been using for `docker-compose.yml`
+
+- Once inside the `WeatherCICD` folder,
+
+- Here you can use the commands we copied from your new repository
+
+- They should look like
 
 ```bash
+git init --initial-branch=main --object-format=sha1
 git remote add origin https://<your-domain>/<user>/<repo>.git
-git push -u origin main
+git add .
+git commit -m "Initial commit"
+git push --set-upstream origin main
 ```
 
-
-To move an existing project into your new instance, use these standard Git commands:
-
-1. **Initialize local Git:** `git init` (if you haven't already).
+> Once you git pushed - you should see your new files in GitLab.
 
 
-2. **Add your new home:** `git remote add origin https://your-gitlab-url.com/username/project.git`.
+* * *
 
-
-3. **Push everything:** `git push -u origin main`.
-
-
-
-
-
-
-## Step 6: Weather CI/CD Demo
-
-Once you pushed to a new repo you should see some new files in there.
+## 5). Weather CI/CD Demo
 
 This project demonstrates GitLab CI/CD pipelines with interactive user input.
 
-There should be some image instructions to go along with this here.
-
 
 * * *
 
-## Getting Started
+### Getting Weather CI/CD Demo Running
 
 1. **Set up your API key**:
    - Get a free API key from [OpenWeatherMap](https://openweathermap.org/api)
    - Add it in **Settings → CI/CD → Variables**
    - Click **Add variable**
    - Enter the **Key** as `WEATHER_API_KEY`
-   - Enter the **Value** as `Your API key`
+   - Enter the **Value** with the free API key you got from OpenWeatherMap
    - Save changes
 
 2. **Run your first pipeline**:
