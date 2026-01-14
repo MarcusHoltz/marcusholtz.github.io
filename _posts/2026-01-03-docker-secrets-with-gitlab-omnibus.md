@@ -18,74 +18,27 @@ If you're running GitLab in Docker, you've probably stored your root password in
 This guide was written to help you set up GitLab Omnibus with Docker Secrets stored **outside** of an `.env` file or in `Gitlab.rb`.
 
 
+* * *
+
 ## Requirements
 
-Be sure you have docker installed and the compose plugin. If not, I have included a step 0, install docker
+Be sure you have Docker and the compose plugin installed. If not, I have included a step [0-install-docker](https://github.com/MarcusHoltz/setting-up-docker-secrets-in-gitlab/tree/main/0-install-docker).
 
-This script is for a Fresh Debian LXC to setup a new user, docker, some additional software.
-
-Please configure and run the included script.
-
-```bash
+This script is for a fresh Debian LXC to setup a new user, docker, some additional software.
 
 
-# ==============================================================================
-# SCRIPT: New User & System Bootstrap
-# DESCRIPTION:
-#   This script automates the setup of a new Debian/Ubuntu environment.
-#
-# USAGE:
-#   1. Open the "CONFIGURATION" section below.
-#   2. Edit the USERNAME, PASSWORD, and TIMEZONE variables as needed.
-#   3. Run as root: sudo ./new-user-script.sh
-# ==============================================================================
+* * *
 
-# ==============================================================================
-# CONFIGURATION
-# ==============================================================================
+## Each Section Builds on Previous Example
 
-# --- Target User Details ---
-# If this user exists, we will just install Docker and configure their shell.
-# If this user does NOT exist, we will create them using the PASSWORD below.
-USERNAME="john"
-PASSWORD="myuserpassword"
-GROUP="john"
-SHELL="/bin/bash"
-FULL_NAME="John Hamster"
-
-# --- System Preferences ---
-# Timezone used for the Tmux status bar clock
-TIMEZONE="America/Denver"
-
-# Default fallback for Debian version if detection fails (e.g., for MX Linux/Parrot)
-# As of 2026, 'trixie' is Debian 13 (Stable).
-DEFAULT_DEBIAN_CODENAME="trixie"
-
-# --- User Environment Settings (.bashrc) ---
-# Skin for Midnight Commander (mc)--
-MC_SKIN="nicedark"
-
-# Bash History Settings
-HIST_SIZE="10000"
-HIST_FILE_SIZE="20000"
-
-# ==============================================================================
-# END CONFIGURATION
-# ==============================================================================
-
-```
-
-
-## Three Examples
-
-This repository contains three folders, each demonstrating a different approach. We will be going through each one, in order. Every folder will require edits to run.
+[The setting-up-docker-secrets-in-gitlab](https://github.com/MarcusHoltz/setting-up-docker-secrets-in-gitlab) repository contains three folders, each demonstrating a different approach. We will be going through each one, in order. Every folder will require edits to run.
 
 
 * * *
 
 ### Example 1). Basic .env Setup
 
-**Folder:** `01-basic-env/`
+**Folder:** [1-basic-env](https://github.com/MarcusHoltz/setting-up-docker-secrets-in-gitlab/tree/main/1-basic-env)
 
 This is the insecure method. Everything, including your password, lives in the `.env` file and gets loaded into the container environment. The `docker-compose.yml` contains all the GitLab configuration inline using `GITLAB_OMNIBUS_CONFIG`.
 
@@ -94,22 +47,20 @@ This is the insecure method. Everything, including your password, lives in the `
 
 ### Example 2). Docker Secrets
 
-**Folder:** `02-docker-secrets/`
+**Folder:** [2-docker-secrets](https://github.com/MarcusHoltz/setting-up-docker-secrets-in-gitlab/tree/main/2-docker-secrets)
 
 Your password moves to `./secrets/gitlab_root_password.txt`. Docker mounts it securely at `/run/secrets/` inside the container, where GitLab reads it using Ruby's `File.read()`. The password never appears in environment variables.
 
-Yes, the password is still stored in plain text, but this is not a [secrets and privileged access management](https://github.com/hashicorp/vault) post. 
+Yes, the password is still stored in plain text, be sure you've restrcted it accordingly. Other options inlcude secrets and privileged access management system, [Valut](https://github.com/hashicorp/vault) . 
 
 
 * * *
 
 ### Example 3). External Configuration File
 
-**Folder:** `03-external-config/`
+**Folder:** [3-secrets-in-gitlab.rb](https://github.com/MarcusHoltz/setting-up-docker-secrets-in-gitlab/tree/main/3-secrets-in-gitlab.rb)
 
 Extending Docker Secrets by moving all GitLab configuration out of `docker-compose.yml` into the `gitlab-config.rb` file. Your `.env` file expands to include all the tuning parameters, making everything configurable without touching Ruby or YAML files after initial setup.
-
-
 
 
 * * *
@@ -181,19 +132,20 @@ The `.env` file loads our `.env` file, all of it, into the container for use ins
 Let's take a look from the Docker perspective...
 
 
-
 ![Docker .env secrets exposed](/assets/img/posts/docker_secrets-1.png)
-
 
 
 Whoopsie. We've exposed a lot of information most of it not important, except, wait, there's a password. Oh no!
 
 
+* * *
 
 ## 2). Seperate Docker Secrets
 
 **What changes**: Remove the password from .env and create a secrets file.
 
+
+* * *
 
 ### Env file
 
@@ -253,6 +205,8 @@ HEYOUchangeThisPassword
 Amazing.
 
 
+* * *
+
 ### Compose Changes to Support a Secret File
 
 We were able to do this because we made some changes in the `docker-compose.yml` to support this new secrets file.
@@ -310,9 +264,7 @@ Now that we have a docker secret we dont see our secret inside the container any
 
 Let's take a look...
 
-
 ![Docker secrets file loaded](/assets/img/posts/docker_secrets-2.png)
-
 
 
 * * * 
@@ -352,6 +304,7 @@ BACKUP_PATH=/mnt/backups/borg/gitlab
 
 ```
 
+* * *
 
 ### gitlab.rb
 
@@ -360,10 +313,7 @@ The new file is the gitlab.rb. We're using that to take the GitLab config out of
 The config is packed full of comments to help explain what each part does.
 
 
-
-
-
-
+* * *
 
 ### What does this look like now
 
@@ -371,81 +321,22 @@ Now that we have a docker secret we dont see our secret inside the container and
 
 Let's take a look...
 
-
-
-
-
 ![Docker secrets loaded using our gitlab.rb](/assets/img/posts/docker_secrets-3.png)
-
-
-
-
-
-
-
 
 Great job!!
 
 
+* * *
+
+## Complete
+
+You made sure to keep a password out of your working enviornment. Well done.
 
 
-## End
+* * *
 
+### Next Steps
 
-You make sure to keep a password out of your working enviornment. Well done.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Once complete you can continue to the second half of this project, [GitLab Omnibus with Runner and TLS](https://blog.holtzweb.com/posts/gitlab-on-docker-with-runners-and-tls-for-the-homelab).
 
 
