@@ -182,7 +182,8 @@ Let's take a look from the Docker perspective...
 
 
 
-![Image of Container Env](#)
+![Docker .env secrets exposed](/assets/img/posts/docker_secrets-1.png)
+
 
 
 Whoopsie. We've exposed a lot of information most of it not important, except, wait, there's a password. Oh no!
@@ -310,8 +311,7 @@ Now that we have a docker secret we dont see our secret inside the container any
 Let's take a look...
 
 
-
-![Image of Container Env](#)
+![Docker secrets file loaded](/assets/img/posts/docker_secrets-2.png)
 
 
 
@@ -373,7 +373,12 @@ Let's take a look...
 
 
 
-![Image of Container Env](#)
+
+
+![Docker secrets loaded using our gitlab.rb](/assets/img/posts/docker_secrets-3.png)
+
+
+
 
 
 
