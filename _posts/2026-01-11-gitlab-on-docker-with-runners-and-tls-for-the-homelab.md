@@ -300,33 +300,14 @@ This project demonstrates GitLab CI/CD pipelines with interactive user input.
    - Visit your README.md for the changes
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+* * *
 
 ## Help
 
 
+* * *
 
-
-
-
-## 1. Ok, now run the compose file
+### 1. Ok, now run the compose file
 
 Deploy the stack using `docker compose up -d`.
 
@@ -344,8 +325,9 @@ Immediately after running this, you will likely see a 502 error in your browser.
 * **Port 22 Conflict:** If your host machine already uses port 22 for SSH (it usually does), your GitLab SSH will fail. Check if your config maps port 22 to a different host port (like `2424:22`) to avoid this.
 
 
+* * *
 
-## 2. Super, now run the runner setup script
+### 2. Super, now run the runner setup script
 
 Now that the instance is alive, run your setup script to connect the "worker" (the Runner).
 
@@ -354,18 +336,16 @@ As of 2025, GitLab has deprecated "Registration Tokens." If you try to use a sta
 
 * **The Fix:** You must create the Runner in the UI first (**Admin > CI/CD > Runners**) to get an **Authentication Token** (prefixed with `glrt-`).
 
-
-
 **What the script does for you:**
 
 * **Docker Executor:** It sets the executor to `docker`. This ensures every build job runs in a clean, isolated container.
 
-
 * **The Socket Mount:** It mounts `/var/run/docker.sock`. This is high-value because it lets your runner spin up other containers, but it means the runner has root-level power over your server. Keep this instance private!
 
 
+* * *
 
-## 3. Login
+### 3. Login
 
 You need your password, and it wasn't set in the compose file.
 
@@ -373,16 +353,20 @@ You need your password, and it wasn't set in the compose file.
 GitLab generates a random password on boot. Run this command to see it:
 `docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password`.
 
-**Trap:** This file is automatically deleted after 24 hours. Login and change your password in **User Settings** immediately.
 
-## 4. Cool, create your first repo
+* * *
+
+### 4. Cool, create your first repo
 
 Click **"New Project"** > **"Create blank project."**
 
 * **Novice Tip:** If you're using this for internal tools, set the visibility to **Private**.
 * **Novice Tip:** Don't skip the "Initialize with a README" checkbox; it makes the next step easier to verify.
 
-## 5. Now connect the gitlab-ci repo
+
+* * *
+
+### 5. Now connect the gitlab-ci repo
 
 Connect your local code to your new instance using these commands on your screen:
 
@@ -391,31 +375,38 @@ git remote add origin https://<your-domain>/<user>/<repo>.git
 git push -u origin main
 ```
 
-**The Novice Trap: SSL Verification Fails**
+- **The Novice Trap: SSL Verification Fails**
+
 If your local machine doesn't trust your Let's Encrypt cert yet (or if you are using self-signed certs), your `git push` might fail. 
-*   **The Fix:** Ensure your domain is fully resolved in DNS. If you are on the same network as the server, you may need to add your domain to your local `/etc/hosts` file to bypass "hairpin NAT" issues.[3, 12]
+
+- **The Fix:** 
+
+Ensure your domain is fully resolved in DNS. If you are on the same network as the server, you may need to add your domain to your local `/etc/hosts` file to bypass "hairpin NAT" issues.
 
 
+* * *
+
+### Expanded Troubleshooting:
 
 
+* * *
 
-
-
-
-### Step 1: Fire Up the Compose File
+#### Step 1: Fire Up the Compose File
 
 First, run your `docker-compose.yml`. This file is the "blueprint" for your infrastructure. Here is what is happening under the hood for a novice user:
 
 * **Traefik as the Gateway:** Instead of GitLab managing its own SSL, Traefik sits in front. It talks to **Let's Encrypt** to get your HTTPS certificates automatically.
 
-
 * **The External URL:** In your config, `external_url` is set to `https://your-domain.com`. Even though Traefik handles the security, GitLab needs to know its public name to generate correct links for your repositories.
-* **Internal Networking:** You’ll notice `nginx['listen_https'] = false` and port `80`. This tells GitLab to stay "simple" internally while Traefik handles the "secure" (HTTPS) traffic from the outside world.
 
+* **Internal Networking:** You’ll notice `nginx['listen_https'] = false` and port `80`. This tells GitLab to stay "simple" internally while Traefik handles the "secure" (HTTPS) traffic from the outside world.
 
 * **Persistent Data:** We map volumes (like `/var/opt/gitlab`) to your host machine. This ensures that if the container restarts, your code and users are still there.
 
-### Step 2: Run the Runner Setup Script
+
+* * *
+
+#### Step 2: Run the Runner Setup Script
 
 GitLab Runners are the "workers" that actually run your code tests and builds.
 
@@ -424,14 +415,15 @@ The setup script uses the **new 2025 workflow**. Gone are the days of old "regis
 When you run the registration command:
 
 1. It connects to your new GitLab instance.
-2. It identifies itself as a **Docker Executor**.
 
+2. It identifies itself as a **Docker Executor**.
 
 3. It binds to the `docker.sock`. This is high-value: it lets the runner spin up temporary containers to test your code in a clean environment every time.
 
 
+* * *
 
-### Step 3: Login (The "Where is my password?" moment)
+#### Step 3: Login (The "Where is my password?" moment)
 
 GitLab no longer asks you to set a password on the first screen. For security, it generates a random one and hides it inside the container.
 
@@ -440,178 +432,29 @@ To find it, run:
 
 **Note:** This file is deleted after 24 hours, so your first task should be changing the password in the **User Settings**.
 
+
+* * *
+
 ### Step 4: Create Your First Repo
 
 Once you are in, click the **"New Project"** button and select **"Create blank project."**
 
 * **Visibility:** Choose "Private" if you're not ready for the world to see your code.
 
-
 * **Initialize:** You can initialize with a README to see it live immediately.
 
 
+* * *
 
-### Step 5: Connect Your Code
+#### Step 5: Connect Your Code
 
 To move an existing project into your new instance, use these standard Git commands:
 
 1. **Initialize local Git:** `git init` (if you haven't already).
 
-
 2. **Add your new home:** `git remote add origin https://your-gitlab-url.com/username/project.git`.
 
-
 3. **Push everything:** `git push -u origin main`.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
