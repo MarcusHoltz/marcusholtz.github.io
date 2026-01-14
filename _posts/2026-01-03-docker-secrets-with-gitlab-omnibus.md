@@ -17,21 +17,31 @@ If you're running GitLab in Docker, you've probably stored your root password in
 
 This guide was written to help you set up GitLab Omnibus with Docker Secrets stored **outside** of an `.env` file or in `Gitlab.rb`.
 
+Click to visit the [setting-up-docker-secrets-in-gitlab](https://github.com/MarcusHoltz/setting-up-docker-secrets-in-gitlab) repository that goes along with this guide.
+
 
 * * *
 
 ## Requirements
 
-Be sure you have Docker and the compose plugin installed. If not, I have included a step [0-install-docker](https://github.com/MarcusHoltz/setting-up-docker-secrets-in-gitlab/tree/main/0-install-docker).
+Be sure you have Docker and the compose plugin installed. 
 
-This script is for a fresh Debian LXC to setup a new user, docker, some additional software.
+If not, I have included [0-install-docker](https://github.com/MarcusHoltz/setting-up-docker-secrets-in-gitlab/tree/main/0-install-docker).
+
+The script in that folder is for a fresh Debian LXC - to setup a new user, docker, some additional software.
 
 
 * * *
 
 ## Each Section Builds on Previous Example
 
-[The setting-up-docker-secrets-in-gitlab](https://github.com/MarcusHoltz/setting-up-docker-secrets-in-gitlab) repository contains three folders, each demonstrating a different approach. We will be going through each one, in order. Every folder will require edits to run.
+The [setting-up-docker-secrets-in-gitlab](https://github.com/MarcusHoltz/setting-up-docker-secrets-in-gitlab) repository contains three folders. 
+
+Each demonstrating a different approach. 
+
+We will be going through each one, in order. 
+
+> Every folder will require edits to run.
 
 
 * * *
@@ -135,12 +145,12 @@ Let's take a look from the Docker perspective...
 ![Docker .env secrets exposed](/assets/img/posts/docker_secrets-1.png)
 
 
-Whoopsie. We've exposed a lot of information most of it not important, except, wait, there's a password. Oh no!
+Whoopsie. We've exposed a lot of information most of it not important, except, wait, there's a password. Oh no! Good thing someone blured that out! Phew.
 
 
 * * *
 
-## 2). Seperate Docker Secrets
+## 2). Separate Docker Secrets
 
 **What changes**: Remove the password from .env and create a secrets file.
 
@@ -233,8 +243,8 @@ secrets:
 The second step is to mount the secret we named in our compose file inside our container. Docker does this by mounting it as a file inside container at: `/run/secrets/` (the location is automatically chosen by Docker)
 
 ```yaml
-    secrets:
-      - gitlab_root_password
+secrets:
+  - gitlab_root_password
 ```
 
 
@@ -251,8 +261,8 @@ We're just using a docker compose file, so we have to place the config in this f
 The new addition will read secrets from mounted files via File.read() into the Omnibus config, and then removing any extra lines:
 
 ```yaml
-      GITLAB_OMNIBUS_CONFIG: |
-        gitlab_rails['initial_root_password'] = File.read('/run/secrets/gitlab_root_password').gsub("\n", "")
+GITLAB_OMNIBUS_CONFIG: |
+  gitlab_rails['initial_root_password'] = File.read('/run/secrets/gitlab_root_password').gsub("\n", "")
 ```
 
 
