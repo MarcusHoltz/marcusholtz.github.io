@@ -435,7 +435,7 @@ To find it, run:
 
 * * *
 
-### Step 4: Create Your First Repo
+#### Step 4: Create Your First Repo
 
 Once you are in, click the **"New Project"** button and select **"Create blank project."**
 
