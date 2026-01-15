@@ -88,8 +88,11 @@ To keep passwords secure, we will use Docker Secrets.
 - Go inside the folder named `secrets`
 
 - Edit a file inside called `gitlab_root_password.txt`
+
 - You should see a placeholder password, `HEYOUchangeThisPassword`
+
 - Remove that text and enter your password (your password should be the only text in the file)
+
 - Save and quit the file
 
 > Make sure to paste just your GitLab root password
@@ -157,7 +160,7 @@ See the [Help section](#help) at the end.
 
 ## 3.) Runner Registration Script
 
-Usually, registering a runner is a manual chore of copying tokens. I have automated this with the `register_gitlab_runner.sh` script.
+Usually, registering a runner is a manual chore of copying tokens. I have automated this with the [register_gitlab_runner.sh](https://github.com/MarcusHoltz/docker-gitlab-runner/blob/main/register_gitlab_runner.sh) script.
 
 Once GitLab is healthy (you can reach the login page), run:
 
@@ -225,11 +228,11 @@ I have provided a gitlab-ci pipeline to do exactly that!
 
 ### Git Push the WeatherCICD
 
-With a new reposity to hold our files, we can put the WeatherCICD into GitLab.
+With a new reposity to hold our files, we can put the [WeatherCICD](https://github.com/MarcusHoltz/docker-gitlab-runner/tree/main/WeatherCICD) into GitLab.
 
-- Find the `WeatherCICD` folder in the working directory we've been using for `docker-compose.yml`
+- Open the folder in the [docker-gitlab-runner](https://github.com/MarcusHoltz/docker-gitlab-runner/tree/main) repository under [WeatherCICD](https://github.com/MarcusHoltz/docker-gitlab-runner/tree/main/WeatherCICD).
 
-- Once inside the `WeatherCICD` folder,
+- Once inside the `WeatherCICD` folder
 
 - Here you can use the commands we copied from your new repository
 
