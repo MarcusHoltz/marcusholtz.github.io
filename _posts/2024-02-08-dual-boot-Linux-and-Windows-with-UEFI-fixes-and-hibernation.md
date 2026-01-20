@@ -785,8 +785,29 @@ Well, now you’ve got a conflict between the Fedora “ffmpeg-free” package (
 
 * * *
 
-## Having trouble?
+## Wayland is the Worst
 
-For a one-time donation you can get one-on-one troubleshooting support for any of my guides/projects. I'll help you fix any issue you may have encountered regarding usage/deployment of one of my guides or projects. More info in my [Github Sponsors profile](https://github.com/sponsors/MarcusHoltz).
+Yes, It's crazy how big of a shift many distros have made for a self-described "unstable" display manager.
 
-<iframe src="https://github.com/sponsors/MarcusHoltz/card" title="By sponsoring me, you're supporting my ongoing work and everything you've come to know me by -- cutting-edge and resilient systems with vigilant monitoring practices." height="225" width="600" style="border: 0;"></iframe>
+So, here's a small fix for KDE - 
+
+
+* * *
+
+### Wayland fix for remembering window sizes and positions
+
+Remember when you could close a window and open the same application and it will open in the same size. Ahhh, Windows 95.
+
+Ashame it's been 30 years and KDE Wayland cannot get the same feature working. Well, let's just ship Wayland anyway. 
+
+Shipping with broken features is the hallmark of Wayland, and apparently, Fedora.
+
+To fix window positions:
+
+[Remember Window Positions repository](https://github.com/rxappdev/RememberWindowPositions)
+
+Thats right, you need additional software to have a standard baseline set of features! Wow are we using Gnome? NO!
+
+Way to go developers, you forced someone else to do the work you should have done, will give them no credit for this fix, and may never even ship this feature.
+
+Amazing. Truly the year of the Linux desktop.
