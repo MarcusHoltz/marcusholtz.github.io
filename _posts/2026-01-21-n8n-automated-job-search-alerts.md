@@ -1,4 +1,4 @@
- ---
+---
 layout: post
 title: Automated Job Search Review and Alerts Assistant
 description: Step-by-step guide to building an automated job search system using ChangeDetection.io, n8n, and Ollama. 
