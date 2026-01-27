@@ -2009,7 +2009,7 @@ Good luck & have fun!
 
 ```json
 {
-  "name": "Telegram Bot - Start on Publish - Check Messages Every 5 sec",
+  "name": "Telegram Bot - Start on Publish - Check Messages Every 5 Seconds",
   "nodes": [
     {
       "parameters": {
@@ -2029,13 +2029,13 @@ Good luck & have fun!
         },
         "options": {}
       },
-      "id": "3e1be194-584b-498d-9158-8d4c1dc08e58",
+      "id": "6bff9109-c80c-4add-b7c9-4037b75f9c7c",
       "name": "2. Get Updates",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -160,
-        144
+        1056,
+        0
       ],
       "continueOnFail": true
     },
@@ -2045,7 +2045,8 @@ Good luck & have fun!
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "strict"
+            "typeValidation": "strict",
+            "version": 1
           },
           "conditions": [
             {
@@ -2062,13 +2063,13 @@ Good luck & have fun!
         },
         "options": {}
       },
-      "id": "02badb1e-4cab-4f4a-8ff6-c27b6451aa13",
+      "id": "d64d0111-23f8-483f-86d1-72b1523608ce",
       "name": "3. Has Message?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        0,
-        112
+        1216,
+        -32
       ]
     },
     {
@@ -2082,10 +2083,10 @@ Good luck & have fun!
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.8,
       "position": [
-        336,
-        96
+        1536,
+        -48
       ],
-      "id": "f30be620-2a41-4638-8b82-8f374d62328c",
+      "id": "3422ab93-51d1-4629-834f-8b8ba8b65cd1",
       "name": "5. Send to LLM"
     },
     {
@@ -2108,13 +2109,13 @@ Good luck & have fun!
         },
         "options": {}
       },
-      "id": "545e61c0-7c15-4c86-8ae0-4ea9e3fcd86d",
+      "id": "385524e1-eb1a-4668-9a26-dc81c87e68e5",
       "name": "9. Update Offset Var",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1152,
-        96
+        2368,
+        -48
       ]
     },
     {
@@ -2125,10 +2126,10 @@ Good luck & have fun!
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
       "typeVersion": 1,
       "position": [
-        336,
-        288
+        1552,
+        144
       ],
-      "id": "1118be09-8d64-4999-a13b-11ef1cf346a8",
+      "id": "42ee938d-aecf-469e-9ea3-34601e4d6734",
       "name": "Ollama Chat Model",
       "credentials": {
         "ollamaApi": {
@@ -2157,26 +2158,26 @@ Good luck & have fun!
         },
         "options": {}
       },
-      "id": "749e5b4a-b469-4a42-82b3-637e7483b67e",
+      "id": "c66c3e19-5462-4c11-8dd4-c07e498fca3b",
       "name": "1. Set Telegram Token",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -320,
-        192
+        896,
+        48
       ]
     },
     {
       "parameters": {
-        "jsCode": "// Extract the first message update\nreturn [{ json: items[0].json.result[0] }];"
+        "jsCode": "// Filter for updates that have actual text messages\nconst textUpdates = items[0].json.result.filter(update => \n  update.message && update.message.text\n);\n\n// Return the latest text message (last in array)\nif (textUpdates.length > 0) {\n  return [{ json: textUpdates[textUpdates.length - 1] }];\n}\n\n// No text messages found - return empty to skip processing\nreturn [];"
       },
-      "id": "b06f8f1a-6365-4554-a0ee-05da11c64605",
+      "id": "e64d68f2-78b8-4f51-af54-7a17fcecd745",
       "name": "4a. Extract Message",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        192,
-        96
+        1408,
+        -48
       ]
     },
     {
@@ -2193,13 +2194,13 @@ Good luck & have fun!
         },
         "options": {}
       },
-      "id": "2362455a-0717-4d0f-bfca-c58d43af2c9d",
+      "id": "a3d1ef8a-15d7-4c31-a1e3-f8d7eca6feaf",
       "name": "8. Confirm Read Telegram Message",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        976,
-        96
+        2192,
+        -48
       ]
     },
     {
@@ -2220,26 +2221,26 @@ Good luck & have fun!
         },
         "options": {}
       },
-      "id": "c3cfff2f-b4e7-4653-bf69-98332b8edfe3",
+      "id": "279bbe45-6d75-4afe-b668-95563b58ad3a",
       "name": "7. Send AI Reply",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        816,
-        96
+        2032,
+        -48
       ]
     },
     {
       "parameters": {
         "jsCode": "// Get the AI response\nconst llmOutput = $input.first().json.output;\n\n// Get the original message data from Node 4\nconst messageNode = $('4a. Extract Message').first().json;\nconst chatId = messageNode.message.chat.id;\n\n// Prepare clean data for the API call\nreturn [{\n  json: {\n    chat_id: chatId,\n    llm_response: typeof llmOutput === 'object' ? llmOutput.text : llmOutput,\n    offset: $('4a. Extract Message').first().json.update_id + 1,\n    bot_token: $('1. Set Telegram Token').first().json.bot_token\n  }\n}];"
       },
-      "id": "7c1de421-e5c9-499c-a47f-4ff7993d038f",
+      "id": "f11a9632-8b40-45a8-9cc3-0ea02acc21cc",
       "name": "6. Prepare Response + Message Offset",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        608,
-        96
+        1824,
+        -48
       ]
     },
     {
@@ -2253,21 +2254,21 @@ Good luck & have fun!
       "type": "n8n-nodes-base.n8nTrigger",
       "typeVersion": 1,
       "position": [
-        -432,
-        64
+        784,
+        -80
       ],
-      "id": "aa7e8bc4-3b9d-4420-8a6c-976d793d9617",
+      "id": "10c94e07-74b5-4bee-bd9d-f6293f3908ae",
       "name": "n8n Trigger"
     },
     {
       "parameters": {},
-      "id": "6882277a-8e1a-49ac-885a-69f7b4486ac8",
+      "id": "d25a11a1-063b-498b-9c25-2dbbe9b170da",
       "name": "11. Wait 5 Seconds",
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        1504,
-        304
+        2720,
+        160
       ],
       "webhookId": "1809e752-3ac4-426e-bd4e-7e59fa42ed1e"
     },
@@ -2276,10 +2277,10 @@ Good luck & have fun!
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        144,
-        272
+        1360,
+        128
       ],
-      "id": "1fc685d0-542a-4286-b862-b86af8d1d569",
+      "id": "41ded3ad-50d2-4cc2-b07b-f7930fad8d53",
       "name": "4b. Wait 5 seconds before checking for messages",
       "webhookId": "dd7f73e2-c049-40cb-b7ff-014508bcdb44"
     },
@@ -2293,10 +2294,10 @@ Good luck & have fun!
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -768,
-        -64
+        448,
+        -208
       ],
-      "id": "32d14f25-46c0-4299-9c02-732496aa3d4c",
+      "id": "1d777f3e-6aff-408f-9416-20704c5a3fdf",
       "name": "Sticky Note"
     }
   ],
@@ -2458,12 +2459,12 @@ Good luck & have fun!
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "c242df8b-1c39-420a-b861-68a47e62e51c",
+  "versionId": "d3843333-efb3-4551-9bc1-1669344c03e4",
   "meta": {
-    "templateCredsSetupCompleted": true,
     "instanceId": "5b190c49174778d107cc5d364d3fb35d408aac3422ee5fa91a0e094276d7388f"
   },
-  "id": "C3g1W07hyg1IWM6A",
+  "id": "3xbaha9maERYWI5eCE1vQ",
   "tags": []
 }
+
 ```
