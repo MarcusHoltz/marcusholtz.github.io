@@ -1999,121 +1999,18 @@ If you need a persistant memory to a chatbot you can access over a messenging pl
 
 ### Telegram LLM Bot - 1 shot reply
 
-Instructions are included in the n8n workflow. Good luck & have fun!
+Instructions are included in the n8n workflow.
+
+- Once you publish it, it runs non-stop in a loop
+- Checking for new messages every 5 seconds
+- Messages are marked as read after the AI generates a response
+
+Good luck & have fun!
 
 ```json
 {
-  "name": "Telegram LLM Bot - 1 shot reply",
+  "name": "Telegram Bot - Start on Publish - Check Messages Every 5 sec",
   "nodes": [
-    {
-      "parameters": {
-        "rule": {
-          "interval": [
-            {
-              "field": "seconds",
-              "secondsInterval": 3
-            }
-          ]
-        }
-      },
-      "id": "bc0556b7-bbcd-4312-9eff-7a99097603c7",
-      "name": "Poll Every 3 Seconds",
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "typeVersion": 1.2,
-      "position": [
-        192,
-        704
-      ]
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "bot-token",
-              "name": "bot_token",
-              "value": "YOUR_BOT_TOKEN_HERE",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "9d5ee5f5-06d5-4889-848d-35d96d5d3e45",
-      "name": "Set Bot Token",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        352,
-        704
-      ]
-    },
-    {
-      "parameters": {
-        "url": "=https://api.telegram.org/bot{{ $json.bot_token }}/getUpdates",
-        "sendQuery": true,
-        "queryParameters": {
-          "parameters": [
-            {
-              "name": "timeout",
-              "value": "30"
-            },
-            {
-              "name": "limit",
-              "value": "10"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "9e51754e-cebf-4907-9e1f-144b63a5d174",
-      "name": "Get Telegram Updates",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        512,
-        704
-      ]
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "boolean": [
-            {
-              "value1": "={{ $json.ok }}",
-              "value2": true
-            },
-            {
-              "value1": "={{ $json.result.length }}",
-              "operation": "largerEqual",
-              "value2": 1
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "d4f4aed8-6962-4ef6-a340-d27e98e0f0a4",
-      "name": "Has New Messages?",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2,
-      "position": [
-        688,
-        704
-      ]
-    },
-    {
-      "parameters": {
-        "jsCode": "// Get the highest update_id from the batch\nconst updates = $input.first().json.result;\nconst highestUpdateId = Math.max(...updates.map(u => u.update_id));\n\n// Get bot token from earlier node\nconst botToken = $('Set Bot Token').first().json.bot_token;\n\nreturn {\n  highest_update_id: highestUpdateId,\n  bot_token: botToken,\n  next_offset: highestUpdateId + 1\n};"
-      },
-      "id": "6762d1d8-a6c9-4047-8858-90ea3dab10f7",
-      "name": "Get Highest Update ID",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        896,
-        592
-      ]
-    },
     {
       "parameters": {
         "url": "=https://api.telegram.org/bot{{ $json.bot_token }}/getUpdates",
@@ -2122,58 +2019,56 @@ Instructions are included in the n8n workflow. Good luck & have fun!
           "parameters": [
             {
               "name": "offset",
-              "value": "={{ $json.next_offset }}"
+              "value": "={{ $json.offset }}"
             },
             {
-              "name": "limit",
-              "value": "1"
+              "name": "timeout",
+              "value": 30
             }
           ]
         },
         "options": {}
       },
-      "id": "7358e5fa-b788-44b3-a1d4-a33c432002be",
-      "name": "Confirm Updates (Mark as Read)",
+      "id": "3e1be194-584b-498d-9158-8d4c1dc08e58",
+      "name": "2. Get Updates",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1104,
-        592
-      ]
-    },
-    {
-      "parameters": {
-        "fieldToSplitOut": "result",
-        "options": {}
-      },
-      "id": "14e2e2c6-b76d-42e6-8f05-7484fe1d1bbb",
-      "name": "Split Messages",
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1,
-      "position": [
-        896,
-        800
-      ]
+        -160,
+        144
+      ],
+      "continueOnFail": true
     },
     {
       "parameters": {
         "conditions": {
-          "string": [
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
             {
-              "value1": "={{ $json.message?.text }}",
-              "operation": "isNotEmpty"
+              "id": "check-msg",
+              "leftValue": "={{ $json.result.length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
             }
-          ]
+          ],
+          "combinator": "and"
         },
         "options": {}
       },
-      "id": "c75a4b0b-7753-40f9-b9f0-bc9496487467",
-      "name": "Is Text Message?",
+      "id": "02badb1e-4cab-4f4a-8ff6-c27b6451aa13",
+      "name": "3. Has Message?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        1104,
-        800
+        0,
+        112
       ]
     },
     {
@@ -2181,56 +2076,135 @@ Instructions are included in the n8n workflow. Good luck & have fun!
         "promptType": "define",
         "text": "={{ $json.message.text }}",
         "options": {
-          "systemMessage": "You are a helpful AI assistant. Respond naturally and conversationally to the user's message. Keep responses concise but friendly."
+          "systemMessage": "You are a helpful AI assistant."
         }
       },
-      "id": "811623ae-9531-4053-84e1-c4b27c875f57",
-      "name": "Send to LLM",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.8,
       "position": [
-        1280,
-        800
+        336,
+        96
+      ],
+      "id": "f30be620-2a41-4638-8b82-8f374d62328c",
+      "name": "5. Send to LLM"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "new-offset",
+              "name": "offset",
+              "value": "={{ $('6. Prepare Response + Message Offset').item.json.offset }}",
+              "type": "number"
+            },
+            {
+              "id": "keep-token",
+              "name": "bot_token",
+              "value": "={{ $('1. Set Telegram Token').item.json.bot_token }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "545e61c0-7c15-4c86-8ae0-4ea9e3fcd86d",
+      "name": "9. Update Offset Var",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1152,
+        96
       ]
     },
     {
       "parameters": {
         "model": "qwen2.5-coder:7b",
-        "options": {
-          "temperature": 0.7
-        }
+        "options": {}
       },
-      "id": "a7748cfb-3ea1-4d49-bbb3-7a8768cb464f",
-      "name": "Ollama Chat Model",
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
       "typeVersion": 1,
       "position": [
-        1328,
-        976
+        336,
+        288
       ],
+      "id": "1118be09-8d64-4999-a13b-11ef1cf346a8",
+      "name": "Ollama Chat Model",
       "credentials": {
         "ollamaApi": {
-          "id": "FJDWdL8xSoyrklib",
+          "id": "YOUR_OLLAMA_API_ID_HERE",
           "name": "Ollama account"
         }
       }
     },
     {
       "parameters": {
-        "jsCode": "// Get the LLM response\nconst llmOutput = $input.first().json.output;\n\n// Get the original message data\nconst messageNode = $('Is Text Message?').first().json;\nconst chatId = messageNode.message.chat.id;\nconst messageId = messageNode.message.message_id;\n\n// Get bot token\nconst botToken = $('Set Bot Token').first().json.bot_token;\n\nreturn {\n  chat_id: chatId,\n  message_id: messageId,\n  llm_response: llmOutput,\n  bot_token: botToken,\n  original_text: messageNode.message.text\n};"
+        "assignments": {
+          "assignments": [
+            {
+              "id": "token",
+              "name": "bot_token",
+              "value": "YOUR_BOT_TOKEN_HERE",
+              "type": "string"
+            },
+            {
+              "id": "offset",
+              "name": "offset",
+              "value": "={{ $json.offset || 0 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
       },
-      "id": "12f6bac5-ae07-462f-b381-a9ae5a4bb224",
-      "name": "Prepare Response",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "id": "749e5b4a-b469-4a42-82b3-637e7483b67e",
+      "name": "1. Set Telegram Token",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
       "position": [
-        1552,
-        800
+        -320,
+        192
       ]
     },
     {
       "parameters": {
-        "url": "=https://api.telegram.org/bot{{ $json.bot_token }}/sendMessage",
+        "jsCode": "// Extract the first message update\nreturn [{ json: items[0].json.result[0] }];"
+      },
+      "id": "b06f8f1a-6365-4554-a0ee-05da11c64605",
+      "name": "4a. Extract Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        192,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.telegram.org/bot{{ $('1. Set Telegram Token').item.json.bot_token }}/getUpdates",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "offset",
+              "value": "={{ $('6. Prepare Response + Message Offset').item.json.offset }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2362455a-0717-4d0f-bfca-c58d43af2c9d",
+      "name": "8. Confirm Read Telegram Message",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        976,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.telegram.org/bot{{ $('1. Set Telegram Token').item.json.bot_token }}/sendMessage",
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
@@ -2241,130 +2215,138 @@ Instructions are included in the n8n workflow. Good luck & have fun!
             {
               "name": "text",
               "value": "={{ $json.llm_response }}"
-            },
-            {
-              "name": "reply_to_message_id",
-              "value": "={{ $json.message_id }}"
             }
           ]
         },
         "options": {}
       },
-      "id": "6e6bba4a-72b1-4905-adcf-61201d40c963",
-      "name": "Send Reply to User",
+      "id": "c3cfff2f-b4e7-4653-bf69-98332b8edfe3",
+      "name": "7. Send AI Reply",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1728,
-        800
+        816,
+        96
       ]
     },
     {
       "parameters": {
-        "content": "## **** 📨 Telegram LLM Bot 🤖 ****\n\n### 📋 Setup Instructions:\n\n1. **Get Bot Token:**\n   - Chat with @BotFather on Telegram\n   - Send `/newbot` and follow instructions\n   - Copy your bot token\n\n2. **Configure Workflow:**\n   - Open \"Set Bot Token\" node\n   - Replace `YOUR_BOT_TOKEN_HERE`\n\n3. **Configure LLM:**\n   - Default: Ollama (qwen2.5-coder:7b)\n   - Or swap to OpenAI/Anthropic/etc\n\n4. **Activate:**\n   - Click \"Activate\" button\n   - Send message to your bot\n   - Get AI response!\n\n\n* * *\n\n### 🔧 Technical Details:\n\n**Offset Management:**\n- Telegram stores updates for 24h\n- We confirm processed updates\n- Prevents re-processing on restart\n\n**Long Polling:**\n- 30s timeout per request\n- Efficient, no missed messages\n- Better than webhooks for simple bots\n\n### ✅ Proper Offset Management\nThis workflow correctly handles Telegram updates to prevent duplicate processing.\n\n**How it works:**\n1. **Poll** - Gets new updates every 3s\n2. **Confirm** - Marks updates as read on Telegram's server\n3. **Process** - Handles each message\n4. **Respond** - Sends LLM reply back\n\n**Key Features:**\n✓ No duplicate messages\n✓ Production-ready\n✓ Efficient polling\n✓ Proper error handling\n",
-        "height": 1132,
-        "width": 420,
+        "jsCode": "// Get the AI response\nconst llmOutput = $input.first().json.output;\n\n// Get the original message data from Node 4\nconst messageNode = $('4a. Extract Message').first().json;\nconst chatId = messageNode.message.chat.id;\n\n// Prepare clean data for the API call\nreturn [{\n  json: {\n    chat_id: chatId,\n    llm_response: typeof llmOutput === 'object' ? llmOutput.text : llmOutput,\n    offset: $('4a. Extract Message').first().json.update_id + 1,\n    bot_token: $('1. Set Telegram Token').first().json.bot_token\n  }\n}];"
+      },
+      "id": "7c1de421-e5c9-499c-a47f-4ff7993d038f",
+      "name": "6. Prepare Response + Message Offset",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "events": [
+          "update",
+          "activate",
+          "init"
+        ]
+      },
+      "type": "n8n-nodes-base.n8nTrigger",
+      "typeVersion": 1,
+      "position": [
+        -432,
+        64
+      ],
+      "id": "aa7e8bc4-3b9d-4420-8a6c-976d793d9617",
+      "name": "n8n Trigger"
+    },
+    {
+      "parameters": {},
+      "id": "6882277a-8e1a-49ac-885a-69f7b4486ac8",
+      "name": "11. Wait 5 Seconds",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1504,
+        304
+      ],
+      "webhookId": "1809e752-3ac4-426e-bd4e-7e59fa42ed1e"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        144,
+        272
+      ],
+      "id": "1fc685d0-542a-4286-b862-b86af8d1d569",
+      "name": "4b. Wait 5 seconds before checking for messages",
+      "webhookId": "dd7f73e2-c049-40cb-b7ff-014508bcdb44"
+    },
+    {
+      "parameters": {
+        "content": "##    📨 Telegram LLM Bot 🤖\n\n### 📋 Setup Instructions:\n\n1. **Get Bot Token:**\n   - Chat with @BotFather on Telegram\n   - Send `/newbot` and follow instructions\n   - Copy your bot token\n\n2. **Configure Workflow:**\n   - Open \"Set Bot Token\" node\n   - Replace `YOUR_BOT_TOKEN_HERE`\n\n3. **Configure LLM:**\n   - Default: Ollama (qwen2.5-coder:7b)\n   - Or swap to OpenAI/Anthropic/etc\n\n4. **Activate:**\n   - Click \"Activate\" button\n   - Send message to your bot\n   - Get AI response!\n\n\n* * *\n\n### 🔧 Technical Details:\n\n**Offset Management:**\n- Telegram stores updates for 24h\n- We confirm processed updates\n- Prevents re-processing on restart\n\n**Long Polling:**\n- 30s timeout per request\n- Efficient, no missed messages\n- Better than webhooks for simple bots\n\n### ✅ Proper Offset Management\nThis workflow correctly handles Telegram updates to prevent duplicate processing.\n\n**How it works:**\n1. **Poll** - Gets new updates every 5s\n2. **Confirm** - Marks updates as read on Telegram's server\n3. **Process** - Handles each message\n4. **Respond** - Sends LLM reply back\n\n**Key Features:**\n✓ No duplicate messages\n✓ Production-ready\n✓ Efficient polling\n✓ Proper error handling\n\n\n```\nFetch Updates\n   ↓\n   Has messages?\n   ├─ NO → Wait 5s → Loop back\n   └─ YES → Process → LLM → Reply → Loop back\n```",
+        "height": 1280,
+        "width": 320,
         "color": 4
       },
-      "id": "5b12dc76-d67f-4049-8243-4b9b1d474652",
-      "name": "Instructions",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -288,
-        432
-      ]
+        -768,
+        -64
+      ],
+      "id": "32d14f25-46c0-4299-9c02-732496aa3d4c",
+      "name": "Sticky Note"
     }
   ],
   "pinData": {},
   "connections": {
-    "Poll Every 3 Seconds": {
+    "2. Get Updates": {
       "main": [
         [
           {
-            "node": "Set Bot Token",
+            "node": "3. Has Message?",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Set Bot Token": {
+    "3. Has Message?": {
       "main": [
         [
           {
-            "node": "Get Telegram Updates",
+            "node": "4a. Extract Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "4b. Wait 5 seconds before checking for messages",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Get Telegram Updates": {
+    "5. Send to LLM": {
       "main": [
         [
           {
-            "node": "Has New Messages?",
+            "node": "6. Prepare Response + Message Offset",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Has New Messages?": {
+    "9. Update Offset Var": {
       "main": [
         [
           {
-            "node": "Get Highest Update ID",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Split Messages",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get Highest Update ID": {
-      "main": [
-        [
-          {
-            "node": "Confirm Updates (Mark as Read)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Split Messages": {
-      "main": [
-        [
-          {
-            "node": "Is Text Message?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Is Text Message?": {
-      "main": [
-        [
-          {
-            "node": "Send to LLM",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send to LLM": {
-      "main": [
-        [
-          {
-            "node": "Prepare Response",
+            "node": "11. Wait 5 Seconds",
             "type": "main",
             "index": 0
           }
@@ -2375,18 +2357,95 @@ Instructions are included in the n8n workflow. Good luck & have fun!
       "ai_languageModel": [
         [
           {
-            "node": "Send to LLM",
+            "node": "5. Send to LLM",
             "type": "ai_languageModel",
             "index": 0
           }
         ]
       ]
     },
-    "Prepare Response": {
+    "1. Set Telegram Token": {
       "main": [
         [
           {
-            "node": "Send Reply to User",
+            "node": "2. Get Updates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4a. Extract Message": {
+      "main": [
+        [
+          {
+            "node": "5. Send to LLM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "8. Confirm Read Telegram Message": {
+      "main": [
+        [
+          {
+            "node": "9. Update Offset Var",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "7. Send AI Reply": {
+      "main": [
+        [
+          {
+            "node": "8. Confirm Read Telegram Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "6. Prepare Response + Message Offset": {
+      "main": [
+        [
+          {
+            "node": "7. Send AI Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n Trigger": {
+      "main": [
+        [
+          {
+            "node": "1. Set Telegram Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "11. Wait 5 Seconds": {
+      "main": [
+        [
+          {
+            "node": "1. Set Telegram Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4b. Wait 5 seconds before checking for messages": {
+      "main": [
+        [
+          {
+            "node": "1. Set Telegram Token",
             "type": "main",
             "index": 0
           }
@@ -2394,16 +2453,17 @@ Instructions are included in the n8n workflow. Good luck & have fun!
       ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "79ad9241-473a-4c57-ad5c-481183db48df",
+  "versionId": "c242df8b-1c39-420a-b861-68a47e62e51c",
   "meta": {
+    "templateCredsSetupCompleted": true,
     "instanceId": "5b190c49174778d107cc5d364d3fb35d408aac3422ee5fa91a0e094276d7388f"
   },
-  "id": "x954x6wailp69oRa39T1F",
+  "id": "C3g1W07hyg1IWM6A",
   "tags": []
 }
 ```
