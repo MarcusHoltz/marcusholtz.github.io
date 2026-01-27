@@ -2004,12 +2004,14 @@ Instructions are included in the n8n workflow.
 - Once you publish it, it runs non-stop in a loop
 - Checking for new messages every 5 seconds
 - Messages are marked as read after the AI generates a response
+- If the bot is in a group, it will mark any message from that group it gets as read
+- If the bot is in a group, it will only reply if `!what` begins the message: "!what how many days are in a week?"
 
 Good luck & have fun!
 
 ```json
 {
-  "name": "Telegram Bot - Start on Publish - Check Messages Every 5 Seconds",
+  "name": "Telegram Bot - Start on Publish - Check Group Messages Every 5 Seconds",
   "nodes": [
     {
       "parameters": {
@@ -2029,15 +2031,28 @@ Good luck & have fun!
         },
         "options": {}
       },
-      "id": "6bff9109-c80c-4add-b7c9-4037b75f9c7c",
+      "id": "5016396d-6949-4f93-ab65-5cbe29087cee",
       "name": "2. Get Updates",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1056,
-        0
+        784,
+        380
       ],
       "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the Telegram API response\nconst telegramResponse = items[0].json;\n\n// Find the highest update_id from ALL messages (before filtering)\n// This ensures we mark even filtered messages as read\nlet highestUpdateId = 0;\nif (telegramResponse.result && telegramResponse.result.length > 0) {\n  highestUpdateId = Math.max(...telegramResponse.result.map(u => u.update_id));\n}\n\n// Filter the result array to only include processable messages\nconst filteredResults = telegramResponse.result.filter(update => {\n  // Must have a message object\n  if (!update.message) {\n    return false;\n  }\n  \n  // Must have text\n  if (!update.message.text) {\n    return false;\n  }\n  \n  const chatType = update.message.chat.type;\n  const messageText = update.message.text;\n  \n  // Private chats: always include\n  if (chatType === 'private') {\n    return true;\n  }\n  \n  // Groups/channels: only include if starts with !what\n  if (chatType === 'group' || chatType === 'supergroup' || chatType === 'channel') {\n    return messageText.startsWith('!what');\n  }\n  \n  // Unknown chat type: don't include\n  return false;\n});\n\n// Return the response with filtered results + highest update_id\nreturn [{\n  json: {\n    ok: telegramResponse.ok,\n    result: filteredResults,\n    _highest_update_id: highestUpdateId  // Track for marking all as read\n  }\n}];"
+      },
+      "id": "8bd383d4-edef-4aa6-ad99-81a6d39c57ad",
+      "name": "2a. Filter Valid Messages",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1008,
+        380
+      ]
     },
     {
       "parameters": {
@@ -2063,13 +2078,13 @@ Good luck & have fun!
         },
         "options": {}
       },
-      "id": "d64d0111-23f8-483f-86d1-72b1523608ce",
+      "id": "50129502-1b58-41a3-beb2-4b91ecdd4a92",
       "name": "3. Has Message?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        1216,
-        -32
+        1232,
+        380
       ]
     },
     {
@@ -2077,16 +2092,16 @@ Good luck & have fun!
         "promptType": "define",
         "text": "={{ $json.message.text }}",
         "options": {
-          "systemMessage": "You are a helpful AI assistant."
+          "systemMessage": "You are a helpful AI assistant, and you understand the person messaging you has very little screen space for text, and even less little time to read you reply."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.8,
       "position": [
-        1536,
-        -48
+        1680,
+        128
       ],
-      "id": "3422ab93-51d1-4629-834f-8b8ba8b65cd1",
+      "id": "78e34795-42f5-45dc-a122-13d7c536a1e2",
       "name": "5. Send to LLM"
     },
     {
@@ -2109,13 +2124,13 @@ Good luck & have fun!
         },
         "options": {}
       },
-      "id": "385524e1-eb1a-4668-9a26-dc81c87e68e5",
+      "id": "82195896-96dd-4e04-826a-333a306ab236",
       "name": "9. Update Offset Var",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2368,
-        -48
+        2704,
+        232
       ]
     },
     {
@@ -2126,10 +2141,10 @@ Good luck & have fun!
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
       "typeVersion": 1,
       "position": [
-        1552,
-        144
+        1752,
+        352
       ],
-      "id": "42ee938d-aecf-469e-9ea3-34601e4d6734",
+      "id": "a18057f9-f7c9-4f8e-8882-3ca8fd9f1e0d",
       "name": "Ollama Chat Model",
       "credentials": {
         "ollamaApi": {
@@ -2158,26 +2173,26 @@ Good luck & have fun!
         },
         "options": {}
       },
-      "id": "c66c3e19-5462-4c11-8dd4-c07e498fca3b",
+      "id": "c46cf6e7-8d80-470d-ac4d-c3f60c62bf13",
       "name": "1. Set Telegram Token",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        896,
-        48
+        560,
+        672
       ]
     },
     {
       "parameters": {
-        "jsCode": "// Filter for updates that have actual text messages\nconst textUpdates = items[0].json.result.filter(update => \n  update.message && update.message.text\n);\n\n// Return the latest text message (last in array)\nif (textUpdates.length > 0) {\n  return [{ json: textUpdates[textUpdates.length - 1] }];\n}\n\n// No text messages found - return empty to skip processing\nreturn [];"
+        "jsCode": "// Messages are already filtered by node 2a\n// Just extract the latest text message\nconst messages = items[0].json.result;\n\nif (messages.length > 0) {\n  // Return the latest message\n  return [{ json: messages[messages.length - 1] }];\n}\n\n// No messages (shouldn't happen since Has Message? already checked)\nreturn [];"
       },
-      "id": "e64d68f2-78b8-4f51-af54-7a17fcecd745",
+      "id": "36f5fda9-67ba-4b82-9785-15db131ee93b",
       "name": "4a. Extract Message",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1408,
-        -48
+        1456,
+        232
       ]
     },
     {
@@ -2194,13 +2209,13 @@ Good luck & have fun!
         },
         "options": {}
       },
-      "id": "a3d1ef8a-15d7-4c31-a1e3-f8d7eca6feaf",
+      "id": "0988e1d3-0d34-4901-a870-e16b8ef781d3",
       "name": "8. Confirm Read Telegram Message",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2192,
-        -48
+        2480,
+        232
       ]
     },
     {
@@ -2221,26 +2236,26 @@ Good luck & have fun!
         },
         "options": {}
       },
-      "id": "279bbe45-6d75-4afe-b668-95563b58ad3a",
+      "id": "a5e9555a-f719-4b31-b233-c95ddf0b008e",
       "name": "7. Send AI Reply",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2032,
-        -48
+        2256,
+        232
       ]
     },
     {
       "parameters": {
-        "jsCode": "// Get the AI response\nconst llmOutput = $input.first().json.output;\n\n// Get the original message data from Node 4\nconst messageNode = $('4a. Extract Message').first().json;\nconst chatId = messageNode.message.chat.id;\n\n// Prepare clean data for the API call\nreturn [{\n  json: {\n    chat_id: chatId,\n    llm_response: typeof llmOutput === 'object' ? llmOutput.text : llmOutput,\n    offset: $('4a. Extract Message').first().json.update_id + 1,\n    bot_token: $('1. Set Telegram Token').first().json.bot_token\n  }\n}];"
+        "jsCode": "// Get the AI response\nconst llmOutput = $input.first().json.output;\n\n// Get the original message data from Node 4\nconst messageNode = $('4a. Extract Message').first().json;\nconst chatId = messageNode.message.chat.id;\n\n// Get the highest update_id from the filter node (includes ALL messages, even filtered ones)\nconst filterNode = $('2a. Filter Valid Messages').first().json;\nconst highestUpdateId = filterNode._highest_update_id || messageNode.update_id;\n\n// Prepare clean data for the API call\nreturn [{\n  json: {\n    chat_id: chatId,\n    llm_response: typeof llmOutput === 'object' ? llmOutput.text : llmOutput,\n    offset: highestUpdateId + 1,  // Mark ALL messages as read\n    bot_token: $('1. Set Telegram Token').first().json.bot_token\n  }\n}];"
       },
-      "id": "f11a9632-8b40-45a8-9cc3-0ea02acc21cc",
+      "id": "0f409a08-9b6e-4427-828d-ccaa97828eaa",
       "name": "6. Prepare Response + Message Offset",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1824,
-        -48
+        2032,
+        232
       ]
     },
     {
@@ -2254,21 +2269,21 @@ Good luck & have fun!
       "type": "n8n-nodes-base.n8nTrigger",
       "typeVersion": 1,
       "position": [
-        784,
-        -80
+        336,
+        672
       ],
-      "id": "10c94e07-74b5-4bee-bd9d-f6293f3908ae",
+      "id": "495a4346-ee75-4886-bc24-64b019f67a2f",
       "name": "n8n Trigger"
     },
     {
       "parameters": {},
-      "id": "d25a11a1-063b-498b-9c25-2dbbe9b170da",
+      "id": "08a87261-a2a2-4635-b20f-3bd49ae9f987",
       "name": "11. Wait 5 Seconds",
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        2720,
-        160
+        2928,
+        452
       ],
       "webhookId": "1809e752-3ac4-426e-bd4e-7e59fa42ed1e"
     },
@@ -2277,12 +2292,25 @@ Good luck & have fun!
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        1360,
-        128
+        1744,
+        528
       ],
-      "id": "41ded3ad-50d2-4cc2-b07b-f7930fad8d53",
+      "id": "fb2b8821-d541-42c1-903f-bc13523dacc6",
       "name": "4b. Wait 5 seconds before checking for messages",
       "webhookId": "dd7f73e2-c049-40cb-b7ff-014508bcdb44"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Check if there were ANY messages that got filtered\nconst filterNode = $('2a. Filter Valid Messages').first().json;\nconst highestUpdateId = filterNode._highest_update_id;\n\n// Prepare data for next loop\nreturn [{\n  json: {\n    offset: highestUpdateId > 0 ? highestUpdateId + 1 : 0,\n    bot_token: $('1. Set Telegram Token').first().json.bot_token\n  }\n}];"
+      },
+      "id": "70d0d6f2-e0a2-4727-9b26-b08a3f1e72d2",
+      "name": "4c. Mark Filtered as Read",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1456,
+        528
+      ]
     },
     {
       "parameters": {
@@ -2294,16 +2322,27 @@ Good luck & have fun!
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        448,
-        -208
+        0,
+        0
       ],
-      "id": "1d777f3e-6aff-408f-9416-20704c5a3fdf",
+      "id": "17b4c17d-a9f1-489e-a6b2-a7b883640634",
       "name": "Sticky Note"
     }
   ],
   "pinData": {},
   "connections": {
     "2. Get Updates": {
+      "main": [
+        [
+          {
+            "node": "2a. Filter Valid Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2a. Filter Valid Messages": {
       "main": [
         [
           {
@@ -2325,7 +2364,7 @@ Good luck & have fun!
         ],
         [
           {
-            "node": "4b. Wait 5 seconds before checking for messages",
+            "node": "4c. Mark Filtered as Read",
             "type": "main",
             "index": 0
           }
@@ -2381,6 +2420,17 @@ Good luck & have fun!
         [
           {
             "node": "5. Send to LLM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4c. Mark Filtered as Read": {
+      "main": [
+        [
+          {
+            "node": "4b. Wait 5 seconds before checking for messages",
             "type": "main",
             "index": 0
           }
@@ -2454,17 +2504,16 @@ Good luck & have fun!
       ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "d3843333-efb3-4551-9bc1-1669344c03e4",
+  "versionId": "0aa2957a-bd7c-40fb-9420-bffe9cb35b21",
   "meta": {
     "instanceId": "5b190c49174778d107cc5d364d3fb35d408aac3422ee5fa91a0e094276d7388f"
   },
-  "id": "3xbaha9maERYWI5eCE1vQ",
+  "id": "830yGV7i3BM4y-AGhwOa2",
   "tags": []
 }
-
 ```
