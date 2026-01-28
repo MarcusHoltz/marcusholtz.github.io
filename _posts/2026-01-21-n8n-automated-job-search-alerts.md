@@ -2007,6 +2007,8 @@ Instructions are included in the n8n workflow.
 - If the bot is in a group, it will mark any message from that group it gets as read
 - If the bot is in a group, it will only reply if `!what` begins the message: "!what how many days are in a week?"
 
+> Telegram Groups with a bot requires you to talk to [The BotFather](https://t.me/BotFather) and make sure [Privacy mode](https://core.telegram.org/bots/features#privacy-mode) is disabled for that bot
+
 Good luck & have fun!
 
 ```json
