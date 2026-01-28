@@ -2519,3 +2519,20 @@ Good luck & have fun!
   "tags": []
 }
 ```
+
+
+* * *
+
+##### Just change the prompt for more fun!
+
+For more fun, you can have it make up stories!
+
+Just change the parameters on the model to turn the temperature up to `1`
+
+```
+Create a captivating short tale for kids - please use the enclosed details.
+Use the enclosed details to whisk them away to magical lands brimming with wisdom. Explore diverse themes in a fun and simple way, weaving in valuable messages. Dive into cultural adventures with the enclosed details and use lively language that sparks curiosity. Let your story inspire young minds through enchanting narratives that linger long after the last word. (Approximately 900 characters)
+
+
+Read the closed details below, and once you're complete - Begin crafting your imaginative tale! 
+```
