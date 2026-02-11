@@ -700,7 +700,7 @@ Navigate to **Global Filters**:
 This is where the magic happens - connecting ChangeDetection to n8n:
 
 **URLs field - Add both of these lines:**
-```
+```text
 bot - tgram://11111111111:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/1111111111?parse_mode=Markdown
 n8n - form://10.236.224.26:5678/webhook/job-posting
 ```
@@ -711,15 +711,15 @@ n8n - form://10.236.224.26:5678/webhook/job-posting
 - The webhook path `/webhook/job-posting` must match what you'll configure in n8n (covered in next section)
 
 **Notification Title:**
-```
-{{watch_title}} {{watch_tag}}
+```text
+&#123;&#123;watch_title&#125;&#125; &#123;&#123;watch_tag&#125;&#125;
 ```
 
 This includes the watch name and tag in the notification, helping you identify which search triggered.
 
 **Notification Body:**
-```
-{{diff_added}}
+```text
+&#123;&#123;diff_added&#125;&#125;
 ```
 
 This sends only the new content detected (the actual job posting text), not the entire page.
@@ -734,7 +734,7 @@ This sends only the new content detected (the actual job posting text), not the 
 ### Understanding the Notification Flow
 
 When ChangeDetection detects a new job:
-1. It captures the `{{diff_added}}` content (new text on the page)
+1. It captures the `&#123;&#123;diff_added&#125;&#125;` content (new text on the page)
 2. Sends it to both Telegram (optional) and n8n webhook
 3. n8n receives the webhook, passes it to Ollama for AI analysis
 4. n8n sends a smart notification to Telegram with the AI's recommendation
