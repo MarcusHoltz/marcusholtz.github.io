@@ -712,14 +712,18 @@ n8n - form://10.236.224.26:5678/webhook/job-posting
 
 **Notification Title:**
 ```text
-&#123;&#123;watch_title&#125;&#125; &#123;&#123;watch_tag&#125;&#125;
+{% raw %}
+{{watch_title}} {{watch_tag}}
+{% endraw %}
 ```
 
 This includes the watch name and tag in the notification, helping you identify which search triggered.
 
 **Notification Body:**
 ```text
-&#123;&#123;diff_added&#125;&#125;
+{% raw %}
+{{diff_added}}
+{% endraw %}
 ```
 
 This sends only the new content detected (the actual job posting text), not the entire page.
@@ -734,7 +738,7 @@ This sends only the new content detected (the actual job posting text), not the 
 ### Understanding the Notification Flow
 
 When ChangeDetection detects a new job:
-1. It captures the `&#123;&#123;diff_added&#125;&#125;` content (new text on the page)
+1. It captures the `{% raw %}{{diff_added}}{% endraw %}` content (new text on the page)
 2. Sends it to both Telegram (optional) and n8n webhook
 3. n8n receives the webhook, passes it to Ollama for AI analysis
 4. n8n sends a smart notification to Telegram with the AI's recommendation
@@ -1654,6 +1658,7 @@ Here is the full `Cowboy Job Search` json file.
 You can download this as file, or just paste it into a newly created workflow inside of n8n.
 
 ```json
+{% raw %}
 {
   "name": "Cowboy Job Search - Telegram - Must Use Single Job",
   "nodes": [
@@ -1950,6 +1955,7 @@ You can download this as file, or just paste it into a newly created workflow in
   },
   "tags": []
 }
+{% endraw %}
 ```
 
 
@@ -2012,6 +2018,7 @@ Instructions are included in the n8n workflow.
 Good luck & have fun!
 
 ```json
+{% raw %}
 {
   "name": "Telegram Bot - Start on Publish - Check Group Messages Every 5 Seconds",
   "nodes": [
@@ -2518,6 +2525,7 @@ Good luck & have fun!
   "id": "830yGV7i3BM4y-AGhwOa2",
   "tags": []
 }
+{% endraw %}
 ```
 
 
