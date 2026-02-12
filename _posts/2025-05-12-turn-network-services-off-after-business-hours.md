@@ -452,7 +452,7 @@ This example is going to use Portainer as the `app requiring authentication` bef
 
 - In this example, `Sorry, Business Hours Only (8am - 5pm)`
 
-![New Policy Name for the Expression Policy created for an Application on Authentik](turnoffservices--authentik-08.png)
+![New Policy Name for the Expression Policy created for an Application on Authentik](/assets/img/posts/turnoffservices--authentik-08.png)
 
 
 - Under `Policy-specific settings` is where you can enter your python
@@ -1268,3 +1268,4 @@ dhclient $WAN_INTERFACE |& logger -t [SPOOFWANMAC]
 # valid MAC address. Check your router and IP for confirmation.
 
 ```
+
