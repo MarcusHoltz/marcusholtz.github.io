@@ -575,3 +575,12 @@ Feature comparison of Magic Wormhole, Piping Server, and [Transfer.sh](https://g
 | **When to Choose This**           | When you need strong, automatic encryption with NAT traversal and just want to type a short code.                                                                      | When you need a no-frills, scriptable, one-time HTTP "pipe" (e.g., automated tasks, CI/CD pipelines, ad-hoc signaling) and you don't need built-in encryption.           | When you need simple, reliable file sharing with longer retention periods, multiple downloads, or integration with existing storage infrastructure. Good for teams/automation. |
 
 * * *
+
+
+## Bonus
+
+Curl over Tor:
+
+```bash
+curl --socks5-hostname <ip_of_machine_running_tor_proxy>:9050 payrufvs23seiudsfaac53rhtu4rbdz3g42qekkarc7aadadedydwdyd.onion
+```
