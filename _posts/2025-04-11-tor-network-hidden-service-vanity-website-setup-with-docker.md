@@ -161,6 +161,13 @@ You need sudo privs for:
 
 * * *
 
+#### Automatic .gitignore addition
+
+Just a heads up, this script automatically creates or appends to `.gitignore` to prevent any accidental key exposure to version control. So if you see that file and you dont use git, you may remove it.
+
+
+* * *
+
 ## Vanity Name Creation
 
 A [vanity address](https://community.torproject.org/onion-services/advanced/vanity-addresses/){:target="_blank"} is an onion address that starts with a pre-chosen number of characters, usually a meaningful name related to a specific Onion Service. 
@@ -516,6 +523,12 @@ Want to know more about the [1-up-tor-onion-address.sh](https://github.com/Marcu
 └──────────┬────────────┘
            ▼
 ┌───────────────────────┐
+│  create_gitignore()   │
+│  - Protect keys       │
+│  - Prevent commits    │
+└──────────┬────────────┘
+           ▼
+┌───────────────────────┐
 │get_network_settings() │
 │  - Collect:           │
 │    • HOST_IP          │
@@ -532,6 +545,7 @@ Want to know more about the [1-up-tor-onion-address.sh](https://github.com/Marcu
 │  Generate New Address │      │  Use Existing Keys    │
 │  - mkp224o Docker     │      │  - Validate dir       │
 │  - vanity name input  │      │  - Verify key files   │
+│  - Time estimates     │      │                       │
 └──────────┬────────────┘      └──────────┬────────────┘
            ▼                              ▼
 ┌───────────────────────┐      ┌───────────────────────┐
@@ -558,6 +572,7 @@ Want to know more about the [1-up-tor-onion-address.sh](https://github.com/Marcu
 │   create_torrc()      │
 │  - HiddenServicePort  │
 │  - DataDirectory      │
+│  - DoS/PoW config     │
 └──────────┬────────────┘
            ▼
 ┌───────────────────────┐
@@ -875,6 +890,7 @@ https://web.archive.org/web/20211101210839/https://matt.traudt.xyz/posts/creatin
 https://community.torproject.org/onion-services/advanced/client-auth/
 
 https://github.com/torproject/torspec/blob/main/rend-spec-v3.txt#L2569
+
 
 
 
