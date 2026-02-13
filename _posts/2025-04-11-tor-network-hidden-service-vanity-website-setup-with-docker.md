@@ -123,6 +123,19 @@ You will then need docker installed to generate a vanity address and run the `do
 The [1-up-tor-onion-address.sh](https://github.com/MarcusHoltz/tor-hidden-service/blob/main/1-up-tor-onion-address.sh) script is only intended to prepare the environment we're using with Docker.
 
 
+* * *
+
+### Unattended Mode (Optional)
+
+The script supports automated execution for CI/CD pipelines and reproducible deployments. Instead of answering prompts interactively, you can pre-configure all settings using environment variables.
+
+An `env.example` file is included as a template showing all available configuration options. Copy it to `.env` and set your values:
+
+```bash
+cp env.example .env
+nano .env
+./1-up-tor-onion-address.sh
+```
 
 
 * * *
@@ -890,6 +903,7 @@ https://web.archive.org/web/20211101210839/https://matt.traudt.xyz/posts/creatin
 https://community.torproject.org/onion-services/advanced/client-auth/
 
 https://github.com/torproject/torspec/blob/main/rend-spec-v3.txt#L2569
+
 
 
 
