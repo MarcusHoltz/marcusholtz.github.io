@@ -85,7 +85,7 @@ You can use this to quickly share a service to a friend, client, or even your fu
 > This service is only available through the Tor network
 {: .prompt-info }
 
-This is intended as a demonstration. I hope you're able to learn and enjoy using.
+This is intended as a demonstration. I hope you're able to learn and enjoy using. Please use the link below to find the source material.
 
 - SOURCE: [github.com/marcusholtz/tor-hidden-service](https://github.com/MarcusHoltz/tor-hidden-service/){:target="_blank"}
 
@@ -121,7 +121,7 @@ The [1-up-tor-onion-address.sh](https://github.com/MarcusHoltz/tor-hidden-servic
 
 ### Changes the Script makes
 
-The [1-up-tor-onion-address.sh](https://github.com/MarcusHoltz/tor-hidden-service/blob/main/1-up-tor-onion-address.sh) script sets up two directories, a file, and optionally a vanity address.
+The [1-up-tor-onion-address.sh](https://github.com/MarcusHoltz/tor-hidden-service/blob/main/1-up-tor-onion-address.sh) script sets up two directories, a file, and optionally a vanity address or client authentication.
 
 
 
@@ -129,14 +129,15 @@ The [1-up-tor-onion-address.sh](https://github.com/MarcusHoltz/tor-hidden-servic
 
 You need sudo privs for:
 
-- tor_config/vanity_keys/
-
-and
+- tor_config/
+  - vanity_keys/
+  - client_credentials/ (if authentication enabled)
 
 - tor_data/
+  - hidden_service/
+    - authorized_clients/ (if authentication enabled)
 
-> Those directories store the keys that are used for your .onion address. Kept safe from any normal user.
-
+> These directories store the keys for your .onion address and client authentication credentials. Kept safe from any normal user.
 
 
 #### A file: torrc
@@ -346,6 +347,60 @@ sudo cat tor_data/hidden_service/hostname
 
 * * *
 
+## Client Authentication (Optional)
+
+The script includes client authentication to make your .onion service private. And this is basically the best.
+
+
+* * *
+
+### How Client Authentication Works
+
+If you selected 'y', the script will:
+
+- Prompt for the number of authorized clients (generate as many users as you may need)
+
+- Generate unique X25519 key pairs for each client
+
+- Create `.auth` files in `tor_data/hidden_service/authorized_clients/`
+
+- Generate instruction files for each client in `tor_config/client_credentials/`
+
+
+* * *
+
+#### What are these Authorized Clients
+
+Each client is a key tied to a name:
+
+- A private key to add to their Tor configuration
+
+- Instructions for connecting to your service
+
+
+* * *
+
+### Revoking Client Access
+
+To revoke a client's tor secret address access:
+```bash
+sudo rm tor_data/hidden_service/authorized_clients/client_name.auth
+docker compose restart
+```
+
+
+* * *
+
+### Important Notes
+
+- Keep private keys secure
+- Share keys through encrypted channels only
+- Back up client credential files
+- Test access before distributing keys
+
+
+* * *
+
 ## What Service to put on Tor
 
 You will also need a service to provide to the .onion address. 
@@ -367,7 +422,7 @@ You will just need to give The [1-up-tor-onion-address.sh](https://github.com/Ma
 
 ### Sample Service
 
-If you really dont have anything to use as a service, you can create a quick HTTP server with bash:
+If you really dont have anything to use as a service, you can send an HTTP response header with bash:
 
 - Creates an HTTP server using `netcat`
 
@@ -409,9 +464,9 @@ The Tor user (not root) must own all these files inside the container
 
 ## Browsers that find an onion service
 
-- Use [Brave Browser](https://support.brave.com/hc/en-us/articles/360018121491-What-is-a-Private-Window-with-Tor-Connectivity){:target="_blank"}
+- Use [Brave Browser](https://support.brave.com/hc/en-us/articles/360018121491-What-is-a-Private-Window-with-Tor-Connectivity){:target="_blank"} for day-to-day and occasional Tor services.
 
-- Use [Tor Browser](https://support.torproject.org/){:target="_blank"}
+- Use [Tor Browser](https://support.torproject.org/){:target="_blank"} if you need easy client authentication to a Tor network.
 
 
 * * *
@@ -475,6 +530,13 @@ Want to know more about the [1-up-tor-onion-address.sh](https://github.com/Marcu
 │  - Create hidden_service/               │
 │  - Set 700 permissions                  │
 └──────────┬──────────────────────────────┘
+           ▼
+┌───────────────────────┐
+│  client_auth_setup()  │
+│  - Optional           │
+│  - Generate keys      │
+│  - Create .auth files │
+└──────────┬────────────┘
            ▼
 ┌───────────────────────┐
 │   create_torrc()      │
@@ -760,6 +822,7 @@ https://web.archive.org/web/20211101210839/https://matt.traudt.xyz/posts/creatin
 https://community.torproject.org/onion-services/advanced/client-auth/
 
 https://github.com/torproject/torspec/blob/main/rend-spec-v3.txt#L2569
+
 
 
 
