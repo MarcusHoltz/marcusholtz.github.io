@@ -795,6 +795,8 @@ generate_keys
 ```
 
 
+* * *
+
 ## Tor - share with a button
 
 If this is all just too much, and you need a quick - almost one button press - look into [OnionShare](https://en.wikipedia.org/wiki/OnionShare){:target="_blank"}.
@@ -815,6 +817,41 @@ If this is all just too much, and you need a quick - almost one button press - l
 
 * * *
 
+## Tor Alternatives
+
+This section is for collecting other means. Tor isnt the only method, here are a few alternatives:
+
+
+* * *
+
+### Tor as a tunnel
+
+Tor alternatives for tunneling services (not just browsing), like hidden services or onion routing:
+
+- **I2P** (anonymous eepsites, peer-to-peer)
+
+- **Yggdrasil** (mesh networking, IPv6-based)
+
+Find out more tunneling services you can use: [awesome-tunneling](https://github.com/anderspitman/awesome-tunneling) list
+
+
+* * *
+
+### Tor as a proxy
+
+Alternatives to Tor for browsing on the open web:
+
+- **VPNs** - VPNs like Mullvad or ProtonVPN encrypt all traffic and hide your IP via dedicated servers. They excel on the clearnet but require trusting the provider and lack Tor's decentralized relays.
+
+- **Shadowsocks/V2Ray/XRAY** - Fast, evades censorship, needs a server (public or self-hosted), less anonymous than Tor.
+
+- **Lokinet** - Anonymous, low-latency, can browse open web via exit nodes (like Tor).
+
+Find out more services you can run over Tor: [awesome-tor](https://github.com/Polycarbohydrate/awesome-tor) list
+
+
+* * *
+
 ## Sources for OPNsense Onion Hidden Service Tor Clients
 
 https://web.archive.org/web/20211101210839/https://matt.traudt.xyz/posts/creating-private-v3-FgbdRTFr/
@@ -822,18 +859,5 @@ https://web.archive.org/web/20211101210839/https://matt.traudt.xyz/posts/creatin
 https://community.torproject.org/onion-services/advanced/client-auth/
 
 https://github.com/torproject/torspec/blob/main/rend-spec-v3.txt#L2569
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
