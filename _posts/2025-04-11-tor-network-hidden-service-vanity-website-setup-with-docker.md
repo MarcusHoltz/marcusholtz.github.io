@@ -21,6 +21,8 @@ image:
 - [Tor: Hidden Service Intelligence Extraction](https://rp.os3.nl/2017-2018/p98/report.pdf){:target="_blank"}
 
 
+* * *
+
 ### Hidden Service Discovery
 
 If you were to create a brand-new Tor v3 address, its address is not inherently public, but you might have little time before you're discovered:
@@ -32,6 +34,7 @@ If you were to create a brand-new Tor v3 address, its address is not inherently 
 This is just an estimate, and the actual time can vary based on scanning frequency, network traffic, and how indexed your .onion address becomes.
 
 
+* * *
 
 ## Tor to host an .onion service
 
@@ -44,14 +47,15 @@ You can use this to quickly share a service to a friend, client, or even your fu
 > A Tor hidden service does not need your server to have open ports or port forwarding - because it does not accept direct inbound connections from the public internet. Instead, both the client and the hidden service connect outbound to the Tor network, establishing circuits to special relays called introduction and rendezvous points. All communication is routed through these Tor relays, so as long as your server can make outbound connections to the Tor network, it can host a hidden service!
 {: .prompt-tip }
 
+
 * * *
 
 ## Tor Hidden Service Tutorial
 
 
-1. [This Intro](#tor-to-export-a-service-to-the-internet)
+1. [This Intro](#tor-is-not-hidden)
 
-2. [1-up Tor Script](#1-up-tor-script)
+2. [1-up-tor-onion-address script](#1-up-tor-onion-address-script)
 
    1. [Changes the Script makes](#changes-the-script-makes)
 
@@ -63,17 +67,21 @@ You can use this to quickly share a service to a friend, client, or even your fu
 
    3. [How is the vanity generated](#how-is-the-vanity-generated)
 
-4. [What Service to put on Tor](#what-service-to-put-on-tor)
+4. [Client Authentication](#client-authentication-optional)
 
-5. [Torrc is important](#torrc-is-important)
+5. [Start up Tor with Docker Compose](#start-up-tor-with-docker-compose)
 
-6. [The 1-up Tor Script uses two directories](#the-1-up-tor-script-uses-two-directories)
+6. [What Service to put on Tor](#what-service-to-put-on-tor)
 
-7. [Browsers that find an onion service](#browsers-that-find-an-onion-service)
+7. [Tor configuration explained](#torrc-is-important)
 
-8. [Want to know more?](#want-to-know-more)
+   1. [The 1-up-tor-onion-address.sh script uses two directories](#the-1-up-tor-onion-addresssh-script-uses-two-directories)
 
-9. [Uninstall](#uninstall)
+8. [Browsers that find an onion service](#browsers-that-find-an-onion-service)
+
+9. [Want to know more?](#want-to-know-more)
+
+10. [Uninstall](#uninstall)
 
 
 * * *
@@ -391,12 +399,20 @@ docker compose restart
 
 * * *
 
-### Important Notes
+## Start up Tor with Docker Compose
 
-- Keep private keys secure
-- Share keys through encrypted channels only
-- Back up client credential files
-- Test access before distributing keys
+I have included a [docker-compose.yml](https://github.com/MarcusHoltz/tor-hidden-service/blob/main/docker-compose.yml) to get the tor service up and running.
+
+> It setups up the image, installs tor, and configures the directories.
+
+
+* * *
+
+It is basically a Dockerfile inside of a docker-compose.yml file. 
+
+I wanted to make this as simple as possible, so if you want, you can just take the commands out of the docker-compose.yml file and use them on your system - without the need of docker.
+
+Anyway, to get the generated files you made working with Tor be sure you have the [docker-compose.yml](https://github.com/MarcusHoltz/tor-hidden-service/blob/main/docker-compose.yml) in your directory with the script you just ran and  ---> run: `docker compose up -d`
 
 
 * * *
@@ -859,5 +875,6 @@ https://web.archive.org/web/20211101210839/https://matt.traudt.xyz/posts/creatin
 https://community.torproject.org/onion-services/advanced/client-auth/
 
 https://github.com/torproject/torspec/blob/main/rend-spec-v3.txt#L2569
+
 
 
