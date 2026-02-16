@@ -2020,7 +2020,7 @@ Good luck & have fun!
 ```json
 {% raw %}
 {
-  "name": "Telegram Bot - Start on Publish - Check Group Messages Every 5 Seconds",
+  "name": "Telegram Bot - Start on Publish - Check Messages Every 5 Seconds",
   "nodes": [
     {
       "parameters": {
@@ -2038,7 +2038,13 @@ Good luck & have fun!
             }
           ]
         },
-        "options": {}
+        "options": {
+          "retry": {
+            "maxRetries": 3,
+            "retryInterval": 1000
+          },
+          "timeout": 35000
+        }
       },
       "id": "5016396d-6949-4f93-ab65-5cbe29087cee",
       "name": "2. Get Updates",
@@ -2216,7 +2222,12 @@ Good luck & have fun!
             }
           ]
         },
-        "options": {}
+        "options": {
+          "retry": {
+            "maxRetries": 2,
+            "retryInterval": 500
+          }
+        }
       },
       "id": "0988e1d3-0d34-4901-a870-e16b8ef781d3",
       "name": "8. Confirm Read Telegram Message",
@@ -2243,7 +2254,12 @@ Good luck & have fun!
             }
           ]
         },
-        "options": {}
+        "options": {
+          "retry": {
+            "maxRetries": 3,
+            "retryInterval": 1000
+          }
+        }
       },
       "id": "a5e9555a-f719-4b31-b233-c95ddf0b008e",
       "name": "7. Send AI Reply",
