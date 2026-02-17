@@ -519,80 +519,80 @@ Want to know more about the [1-up-tor-onion-address.sh](https://github.com/Marcu
 ```text
 
 ┌───────────────────────┐
-│    check_sudo()       │
-│  - Verify privileges  │
+│    check_sudo()         │
+│  - Verify privileges    │
 └──────────┬────────────┘
-           ▼
+            ▼
 ┌───────────────────────┐
-│ create_directories()  │
-│  - tor_config/        │
-│  - tor_data/          │
+│ create_directories()    │
+│  - tor_config/          │
+│  - tor_data/            │
 └──────────┬────────────┘
-           ▼
+            ▼
 ┌───────────────────────┐
-│  set_permissions()    │
-│  - 755 config         │
-│  - 700 data           │
+│  set_permissions()      │
+│  - 755 config           │
+│  - 700 data             │
 └──────────┬────────────┘
-           ▼
+            ▼
 ┌───────────────────────┐
-│  create_gitignore()   │
-│  - Protect keys       │
-│  - Prevent commits    │
+│  create_gitignore()     │
+│  - Protect keys         │
+│  - Prevent commits      │
 └──────────┬────────────┘
-           ▼
+            ▼
 ┌───────────────────────┐
-│get_network_settings() │
-│  - Collect:           │
-│    • HOST_IP          │
-│    • HOST_PORT        │
-│    • VIRTUAL_PORT     │
+│get_network_settings()   │
+│  - Collect:             │
+│    • HOST_IP            │
+│    • HOST_PORT          │
+│    • VIRTUAL_PORT       │
 └──────────┬────────────┘
-           ▼
+            ▼
 ┌───────────────────────┐
-│setup_vanity_address() │
+│setup_vanity_address()   │
 └──────────┬────────────┘
-           ├────────────────────────────┐
-           ▼                            ▼
-┌───────────────────────┐      ┌───────────────────────┐
-│  Generate New Address │      │  Use Existing Keys    │
-│  - mkp224o Docker     │      │  - Validate dir       │
-│  - vanity name input  │      │  - Verify key files   │
-│  - Time estimates     │      │                       │
-└──────────┬────────────┘      └──────────┬────────────┘
-           ▼                              ▼
-┌───────────────────────┐      ┌───────────────────────┐
-│  Select From Generated│      │ Copy Existing Keys    │
-│  - Display options    │      │  - hostname           │
-│  - Validate selection │      │  - secret_key         │
-└──────────┬────────────┘      └──────────┬────────────┘
-           └────────────┬─────────────────┘
-                        ▼
+           ├───────────────────────────┐
+           ▼                             ▼
+┌───────────────────────┐    ┌───────────────────────┐
+│  Generate New Address   │    │  Use Existing Keys      │
+│  - mkp224o Docker       │    │  - Validate dir         │
+│  - vanity name input    │    │  - Verify key files     │
+│  - Time estimates       │    │                         │
+└──────────┬────────────┘    └──────────┬────────────┘
+            ▼                              ▼
+┌───────────────────────┐    ┌───────────────────────┐
+│  Select From Generated  │    │ Copy Existing Keys      │
+│  - Display options      │    │  - hostname             │
+│  - Validate selection   │    │  - secret_key           │
+└──────────┬────────────┘    └─────────┬─────────────┘
+            └────────────┬──────────────┘
+                          ▼
 ┌─────────────────────────────────────────┐
-│      setup_hidden_service_dir()         │
-│  - Create hidden_service/               │
-│  - Set 700 permissions                  │
+│      setup_hidden_service_dir()             │
+│  - Create hidden_service/                   │
+│  - Set 700 permissions                      │
 └──────────┬──────────────────────────────┘
-           ▼
+            ▼
 ┌───────────────────────┐
-│  client_auth_setup()  │
-│  - Optional           │
-│  - Generate keys      │
-│  - Create .auth files │
+│  client_auth_setup()    │
+│  - Optional             │
+│  - Generate keys        │
+│  - Create .auth files   │
 └──────────┬────────────┘
-           ▼
+            ▼
 ┌───────────────────────┐
-│   create_torrc()      │
-│  - HiddenServicePort  │
-│  - DataDirectory      │
-│  - DoS/PoW config     │
+│   create_torrc()        │
+│  - HiddenServicePort    │
+│  - DataDirectory        │
+│  - DoS/PoW config       │
 └──────────┬────────────┘
-           ▼
+            ▼
 ┌───────────────────────┐
-│  finalize_setup()     │
-│  - Set file perms     │
-│  - Display hostname   │
-│  - Run instructions   │
+│  finalize_setup()       │
+│  - Set file perms       │
+│  - Display hostname     │
+│  - Run instructions     │
 └───────────────────────┘
 
 ```
@@ -903,6 +903,7 @@ https://web.archive.org/web/20211101210839/https://matt.traudt.xyz/posts/creatin
 https://community.torproject.org/onion-services/advanced/client-auth/
 
 https://github.com/torproject/torspec/blob/main/rend-spec-v3.txt#L2569
+
 
 
 
