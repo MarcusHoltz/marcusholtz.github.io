@@ -113,8 +113,8 @@ I admit we're mixing a lot of technology, so let me demonstrate with some ASCII:
                │          │   Ollama     │
                │          │ (Port 11434) │
                │          │              │
-               │          │ qwen2.5-     │
-               │          │ coder:7b     │
+               │          │ your-model   │
+               │          │ here:8b     │
                │          └────┬─────────┘
                │               │
                │◄──────────────┘
@@ -211,7 +211,7 @@ DOCKER CONTAINERS
 │  │ Port: 5678         │     │ Port: 11434          │       │
 │  │                    │     │                      │       │
 │  │ - Workflow engine  │     │ - AI model runner    │       │
-│  │ - Orchestration    │     │ - qwen2.5-coder:7b   │       │
+│  │ - Orchestration    │     │ - your-model-here:7b │       │
 │  │ - Telegram sender  │     │ - Local inference    │       │
 │  └────────────────────┘     └──────────────────────┘       │
 │                                                              │
@@ -530,7 +530,7 @@ docker ps | grep -E 'n8n|ollama'
 
 Ollama needs language models to analyze jobs. 
 
-- The 7B model in this guide uses about 4-5GB of disk space and runs well on systems with 8GB+ RAM
+- The 8B model in this guide uses about 4-5GB of disk space and runs well on systems with 8GB+ RAM
 
 >  This uses less RAM than Chrome with 20 tabs open.
 
@@ -546,16 +546,16 @@ docker exec -it ollama /bin/bash
 ollama list
 
 # Pull recommended model for job analysis
-ollama pull qwen2.5-coder:7b
+ollama pull granite3.3:8b
 ```
 
 **Model recommendations:**
 
-- `qwen2.5-coder:7b`: Best balance of quality and speed (recommended, ~4.7GB)
-- `qwen2.5-coder:1.5b`: Faster, less RAM, briefer replies, runs on my GTX950 (~1GB)
-- `qwen2.5:14b`: Highest quality, requires most resources (~8.5GB)
+- `[granite3.3:8b](https://ollama.com/library/granite3.3:8b)`: Best balance of quality and speed (recommended, ~4.9GB)
+- `[qwen2.5-coder:1.5b](https://ollama.com/library/qwen2.5-coder:1.5b)`: Faster, less RAM, briefer replies, runs on my GTX950 (~1GB)
+- `[qwen3:14b](https://ollama.com/library/qwen3)`: Highest quality, requires most resources (~9.5GB)
 
-**Note:** These are the current model names as of January 2026. Check `ollama.com/library` for the latest available models.
+**Note:** These are the current model names as of February 2026. Check `ollama.com/library` for the latest available models.
 
 The 7B model works well for analyzing job postings and runs on no-gpu systems with 8GB+ RAM.
 
@@ -1059,7 +1059,7 @@ This must match what you configured in ChangeDetection's notification URLs.
 Click the **"AI Analysis"** node:
 
 **Ollama Settings:**
-- **Model**: `qwen2.5-coder:7b` (or whichever model you downloaded)
+- **Model**: `granite3.3:8b` (or whichever model you downloaded)
 - **Credentials**: Click "Create New" and set:
   - **Base URL**: `http://ollama:11434` (if containers share a Docker network) or `http://10.236.224.XX:11434` (replace XX with your Ollama container's IP if using custom networking) or `http://localhost:11434` (if running on same host with port forwarding)
 
@@ -1175,7 +1175,7 @@ You can use the Python test server from the next section to generate sample job 
 
 * * *
 
-## Testing with a Web Server
+## Testing changedetection.io with a local Python Web Server
 
 Before relying on real job boards, test your setup with a controlled environment using a simple Python web server.
 
@@ -1193,6 +1193,8 @@ Before relying on real job boards, test your setup with a controlled environment
 * * *
 
 ### Create the Test Server
+
+If you dont already have changedetection.io setup with some URLS, you can test this out with your own webserver below:
 
 Save this as `test-job-server.py`:
 
@@ -1291,6 +1293,34 @@ You should see: `Serving text at http://10.236.99.88:3333 (Ctrl+C to stop)`
 - Confirm the AI scoring makes sense for the test job
 
 
+* * *
+
+## Test the n8n Workflow with Curl Commands
+
+If changedetection.io is being too difficult or you just need to test something. I have included a stickynote in the n8n workflow with some curl examples.
+
+
+* * *
+
+### Curl Example 1
+
+Here is a curl command to pass the parse webhook node, just replace `YOUR_WEBHOOK_URL_HERE`.
+
+You can find 3 additional examples inside the n8n workflow file for further testing.
+
+```bash
+curl -X POST "YOUR_WEBHOOK_URL_HERE" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  --data-urlencode "version=1.0" \
+  --data-urlencode "title=Cattle Ranch Jobs" \
+  --data-urlencode "message=(into) Entry-Level Ranch Hand – Cow/Calf Operation
+(added) Location: Eastern Colorado, USA
+(added) Housing: Small bunkhouse provided, shared kitchen
+(added) Duties: riding fence, checking water, feeding cattle, cleaning pens, general ranch chores
+(added) Requirements: confident horseback rider, willing to learn roping and low-stress cattle handling
+(added) Nice to have: prior haying or equipment experience (tractors, skid steer)" \
+  --data-urlencode "type=info"
+```
 
 * * *
 
@@ -1342,7 +1372,7 @@ TIME: 00:00:25  Send webhook to n8n
 │         │                                          │
 │         │ ┌──────────────────────────────┐       │
 │         │ │ Ollama processes request      │       │
-│         │ │ Model: qwen2.5-coder:7b       │       │
+│         │ │ Model: your-model-here:8b     │       │
 │         │ │ Time: 5-30 seconds            │       │
 │         │ │ (depends on job length)       │       │
 │         │ └──────────────────────────────┘       │
@@ -1660,7 +1690,7 @@ You can download this as file, or just paste it into a newly created workflow in
 ```json
 {% raw %}
 {
-  "name": "Cowboy Job Search - Telegram - Must Use Single Job",
+  "name": "Cowboy Job Search - changedetection.io - Must Use Single Job",
   "nodes": [
     {
       "parameters": {
@@ -1672,9 +1702,9 @@ You can download this as file, or just paste it into a newly created workflow in
       "typeVersion": 2.1,
       "position": [
         -960,
-        32
+        48
       ],
-      "id": "cc3d86b6-7be8-49d4-ab9a-a882cb5e36ba",
+      "id": "e6ad60c1-d0ba-4441-9b58-f2c50abe220b",
       "name": "Webhook"
     },
     {
@@ -1745,13 +1775,13 @@ You can download this as file, or just paste it into a newly created workflow in
         },
         "options": {}
       },
-      "id": "45d83eee-b514-4660-bac6-9f3d20814139",
+      "id": "6a1bb569-6403-45ab-9cdf-1fa2aa4b7735",
       "name": "User Config",
       "type": "n8n-nodes-base.set",
       "typeVersion": 2,
       "position": [
         -752,
-        32
+        48
       ]
     },
     {
@@ -1762,18 +1792,18 @@ You can download this as file, or just paste it into a newly created workflow in
       "typeVersion": 2,
       "position": [
         -560,
-        32
+        48
       ],
-      "id": "4e0b044c-d844-401f-8bdb-8c06dc6388f9",
+      "id": "76e3c7e5-a8f4-4c3a-bfb7-8f53b5263b62",
       "name": "Parse Webhook Jobs"
     },
     {
       "parameters": {
         "modelId": {
           "__rl": true,
-          "value": "qwen2.5-coder:7b",
+          "value": "granite3.3:8b",
           "mode": "list",
-          "cachedResultName": "qwen2.5-coder:7b"
+          "cachedResultName": "granite3.3:8b"
         },
         "messages": {
           "values": [
@@ -1788,9 +1818,9 @@ You can download this as file, or just paste it into a newly created workflow in
       "typeVersion": 1,
       "position": [
         -416,
-        32
+        48
       ],
-      "id": "5f4f8a29-3b38-4d95-b2c9-2538f3575e3f",
+      "id": "11376c52-60d7-41d4-a605-1e16d6779507",
       "name": "AI Analysis"
     },
     {
@@ -1801,9 +1831,9 @@ You can download this as file, or just paste it into a newly created workflow in
       "typeVersion": 2,
       "position": [
         -144,
-        32
+        48
       ],
-      "id": "e28d17e6-2cb4-4672-9603-0813d421189b",
+      "id": "7856e19b-ce45-463c-9473-119cffc084fb",
       "name": "Clean Response"
     },
     {
@@ -1837,9 +1867,9 @@ You can download this as file, or just paste it into a newly created workflow in
       "typeVersion": 2,
       "position": [
         64,
-        32
+        48
       ],
-      "id": "f0a7bba4-08c5-4624-8a01-d38cd16304b1",
+      "id": "a5e7eaf9-7f81-4e5d-9448-7a0cec8eb2e2",
       "name": "Check Recommendation"
     },
     {
@@ -1852,9 +1882,9 @@ You can download this as file, or just paste it into a newly created workflow in
       "typeVersion": 1.2,
       "position": [
         240,
-        144
+        160
       ],
-      "id": "d9994740-e86d-4bec-b069-f64de2e06e41",
+      "id": "1be57d07-479b-41d6-88ee-74a360ba416d",
       "name": "Send to Telegram - Apply Jobs"
     },
     {
@@ -1867,10 +1897,25 @@ You can download this as file, or just paste it into a newly created workflow in
       "typeVersion": 1.2,
       "position": [
         240,
-        -96
+        -80
       ],
-      "id": "750a6ec4-ddd4-4784-8e7f-6db279edd3c1",
+      "id": "8e5a983d-2857-4557-b10a-2378b174a4f3",
       "name": "Send to Telegram - Rejected Jobs"
+    },
+    {
+      "parameters": {
+        "content": "Here are several ready-to-paste `curl` examples that will hit your webhook and produce messages your Node code can parse. Each one sets `body.message` and uses `(into)` / `(added)` tags exactly as changedetection.io sends over when the following are checked:\n- Added lines\n- Replaced/changed lines\n\nIn all of them, replace `YOUR_WEBHOOK_URL_HERE` with your actual URL.\n\nWebhook used on this page:  \n`http://YOUR_N8N_SERVER:5678/webhook/job-posting`\n\n\n\n## Category 1: Cattle Ranch Jobs\n\n### Example 1 – Entry-level ranch hand\n\n```bash\ncurl -X POST \"YOUR_WEBHOOK_URL_HERE\" \\\n  -H \"Content-Type: application/x-www-form-urlencoded\" \\\n  --data-urlencode \"version=1.0\" \\\n  --data-urlencode \"title=Cattle Ranch Jobs\" \\\n  --data-urlencode \"message=(into) Entry-Level Ranch Hand – Cow/Calf Operation\n(added) Location: Eastern Colorado, USA\n(added) Housing: Small bunkhouse provided, shared kitchen\n(added) Duties: riding fence, checking water, feeding cattle, cleaning pens, general ranch chores\n(added) Requirements: confident horseback rider, willing to learn roping and low-stress cattle handling\n(added) Nice to have: prior haying or equipment experience (tractors, skid steer)\" \\\n  --data-urlencode \"type=info\"\n```\n\n\n\n### Example 2 – Range rider / cowboy\n\n```bash\ncurl -X POST \"YOUR_WEBHOOK_URL_HERE\" \\\n  -H \"Content-Type: application/x-www-form-urlencoded\" \\\n  --data-urlencode \"version=1.0\" \\\n  --data-urlencode \"title=Cattle Ranch Jobs\" \\\n  --data-urlencode \"message=(into) Range Rider / Working Cowboy – Yearling Operation\n(added) Location: Sandhills of Nebraska\n(added) Housing: Ranch house with utilities included\n(added) Duties: daily horseback checks on yearlings, doctoring sick cattle, moving herds, salt & mineral placement\n(added) Requirements: solid roping skills, comfortable riding long days in rough country, basic stockmanship\n(added) Bonus: experience with rotational grazing and pasture monitoring\" \\\n  --data-urlencode \"type=info\"\n```\n\n\n\n### Example 3 – Feedlot / pen rider\n\n```bash\ncurl -X POST \"YOUR_WEBHOOK_URL_HERE\" \\\n  -H \"Content-Type: application/x-www-form-urlencoded\" \\\n  --data-urlencode \"version=1.0\" \\\n  --data-urlencode \"title=Cattle Ranch Jobs\" \\\n  --data-urlencode \"message=(into) Pen Rider – Family Feedlot\n(added) Location: Western Kansas\n(added) Housing: Stipend toward local housing\n(added) Duties: ride pens daily, pull and doctor sick cattle, monitor feed intake and behavior\n(added) Requirements: able to spot subtle signs of sickness, handle a horse in tight spaces, basic record keeping\n(added) Nice to have: prior feedlot experience, comfort using tablets or simple software for health records\" \\\n  --data-urlencode \"type=info\"\n```\n\n\n\n### Example 4 – Cow/calf ranch hand with some mechanic work\n\n```bash\ncurl -X POST \"YOUR_WEBHOOK_URL_HERE\" \\\n  -H \"Content-Type: application/x-www-form-urlencoded\" \\\n  --data-urlencode \"version=1.0\" \\\n  --data-urlencode \"title=Cattle Ranch Jobs\" \\\n  --data-urlencode \"message=(into) Ranch Hand – Cow/Calf & Hay Operation\n(added) Location: Central Wyoming\n(added) Housing: On-ranch housing, beef provided\n(added) Duties: calving season checks, branding and weaning, irrigating hay fields, running tractors and balers\n(added) Requirements: comfortable with long days during calving and haying, basic equipment maintenance\n(added) Bonus: welding skills, ability to operate loaders and trailers safely\" \\\n  --data-urlencode \"type=info\"\n```\n\n\n\n## Category 2: Ranch Cowboy / Working Ranch Jobs\n\n### Example 5 – Working cowboy on large outfit\n\n```bash\ncurl -X POST \"YOUR_WEBHOOK_URL_HERE\" \\\n  -H \"Content-Type: application/x-www-form-urlencoded\" \\\n  --data-urlencode \"version=1.0\" \\\n  --data-urlencode \"title=Ranch Cowboy Jobs\" \\\n  --data-urlencode \"message=(into) Working Cowboy – Large Commercial Outfit\n(added) Location: Northern New Mexico high country\n(added) Housing: Bunkhouse with meals during busy seasons\n(added) Duties: gather and ship cattle, brandings, shipping, riding rough country, fence repair\n(added) Requirements: strong riding and roping skills, own usable saddle and gear, ability to work in a crew\n(added) Nice to have: experience with young horses and colts, low-stress cattle handling mindset\" \\\n  --data-urlencode \"type=info\"\n```\n\n\n\n### Example 6 – Cowboy / ranch hand on mixed cattle & guest ranch\n\n```bash\ncurl -X POST \"YOUR_WEBHOOK_URL_HERE\" \\\n  -H \"Content-Type: application/x-www-form-urlencoded\" \\\n  --data-urlencode \"version=1.0\" \\\n  --data-urlencode \"title=Ranch Cowboy Jobs\" \\\n  --data-urlencode \"message=(into) Cowboy / Ranch Hand – Cattle & Guest Ranch\n(added) Location: Southwestern Colorado\n(added) Housing: On-site cabin, some meals during guest season\n(added) Duties: normal cattle work (checking pairs, moving herds), plus occasional guest rides and basic hospitality\n(added) Requirements: solid stockmanship, good with people, willing to help where needed (horses, guests, chores)\n(added) Bonus: experience guiding trail rides, basic first aid, comfortable talking with non-ranch folks\" \\\n  --data-urlencode \"type=info\"\n```",
+        "height": 1744,
+        "width": 496
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1520,
+        -192
+      ],
+      "id": "a5aae85c-29ee-4649-9688-c22ce8a18a05",
+      "name": "Sticky Note"
     }
   ],
   "pinData": {},
@@ -2150,7 +2195,7 @@ Good luck & have fun!
     },
     {
       "parameters": {
-        "model": "qwen2.5-coder:7b",
+        "model": "granite3.3:8b",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
@@ -2339,7 +2384,7 @@ Good luck & have fun!
     },
     {
       "parameters": {
-        "content": "##    📨 Telegram LLM Bot 🤖\n\n### 📋 Setup Instructions:\n\n1. **Get Bot Token:**\n   - Chat with @BotFather on Telegram\n   - Send `/newbot` and follow instructions\n   - Copy your bot token\n\n2. **Configure Workflow:**\n   - Open \"Set Bot Token\" node\n   - Replace `YOUR_BOT_TOKEN_HERE`\n\n3. **Configure LLM:**\n   - Default: Ollama (qwen2.5-coder:7b)\n   - Or swap to OpenAI/Anthropic/etc\n\n4. **Activate:**\n   - Click \"Activate\" button\n   - Send message to your bot\n   - Get AI response!\n\n\n* * *\n\n### 🔧 Technical Details:\n\n**Offset Management:**\n- Telegram stores updates for 24h\n- We confirm processed updates\n- Prevents re-processing on restart\n\n**Long Polling:**\n- 30s timeout per request\n- Efficient, no missed messages\n- Better than webhooks for simple bots\n\n### ✅ Proper Offset Management\nThis workflow correctly handles Telegram updates to prevent duplicate processing.\n\n**How it works:**\n1. **Poll** - Gets new updates every 5s\n2. **Confirm** - Marks updates as read on Telegram's server\n3. **Process** - Handles each message\n4. **Respond** - Sends LLM reply back\n\n**Key Features:**\n✓ No duplicate messages\n✓ Production-ready\n✓ Efficient polling\n✓ Proper error handling\n\n\n```\nFetch Updates\n   ↓\n   Has messages?\n   ├─ NO → Wait 5s → Loop back\n   └─ YES → Process → LLM → Reply → Loop back\n```",
+        "content": "##    📨 Telegram LLM Bot 🤖\n\n### 📋 Setup Instructions:\n\n1. **Get Bot Token:**\n   - Chat with @BotFather on Telegram\n   - Send `/newbot` and follow instructions\n   - Copy your bot token\n\n2. **Configure Workflow:**\n   - Open \"Set Bot Token\" node\n   - Replace `YOUR_BOT_TOKEN_HERE`\n\n3. **Configure LLM:**\n   - Default: Ollama (granite3.3:8b)\n   - Or swap to OpenAI/Anthropic/etc\n\n4. **Activate:**\n   - Click \"Activate\" button\n   - Send message to your bot\n   - Get AI response!\n\n\n* * *\n\n### 🔧 Technical Details:\n\n**Offset Management:**\n- Telegram stores updates for 24h\n- We confirm processed updates\n- Prevents re-processing on restart\n\n**Long Polling:**\n- 30s timeout per request\n- Efficient, no missed messages\n- Better than webhooks for simple bots\n\n### ✅ Proper Offset Management\nThis workflow correctly handles Telegram updates to prevent duplicate processing.\n\n**How it works:**\n1. **Poll** - Gets new updates every 5s\n2. **Confirm** - Marks updates as read on Telegram's server\n3. **Process** - Handles each message\n4. **Respond** - Sends LLM reply back\n\n**Key Features:**\n✓ No duplicate messages\n✓ Production-ready\n✓ Efficient polling\n✓ Proper error handling\n\n\n```\nFetch Updates\n   ↓\n   Has messages?\n   ├─ NO → Wait 5s → Loop back\n   └─ YES → Process → LLM → Reply → Loop back\n```",
         "height": 1280,
         "width": 320,
         "color": 4
