@@ -2048,13 +2048,16 @@ If you need a persistant memory to a chatbot you can access over a messenging pl
 
 * * *
 
-### Telegram LLM Bot - 1 shot reply
+### Telegram LLM Bot
 
 Instructions are included in the n8n workflow.
 
 - Once you publish it, it runs non-stop in a loop
 - Checking for new messages every 5 seconds
 - Messages are marked as read after the AI generates a response
+- Message history is maintained, default is 6 messages
+- Messages expire/auto clear after 7 days
+- (Optional) Restrict Access: User ID and Message Amount
 - If the bot is in a group, it will mark any message from that group it gets as read
 - If the bot is in a group, it will only reply if `!what` begins the message: "!what how many days are in a week?"
 
@@ -2065,8 +2068,68 @@ Good luck & have fun!
 ```json
 {% raw %}
 {
-  "name": "Telegram Bot - Start on Publish - Check Messages Every 5 Seconds",
+  "name": "Telegram Bot - Start on Publish - Simple Memory",
   "nodes": [
+    {
+      "parameters": {
+        "model": "granite3.3:latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        416
+      ],
+      "id": "10000000-0000-0000-0000-000000000001",
+      "name": "Ollama Chat Model"
+    },
+    {
+      "parameters": {
+        "events": [
+          "update",
+          "activate",
+          "init"
+        ]
+      },
+      "type": "n8n-nodes-base.n8nTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1360,
+        400
+      ],
+      "id": "10000000-0000-0000-0000-000000000010",
+      "name": "n8n Trigger"
+    },
+    {
+      "parameters": {
+        "content": "##    📨 Telegram LLM Bot 🤖\n\n### 📋 Setup Instructions:\n\n1. **Get Bot Token:**\n   - Chat with @BotFather on Telegram\n   - Send `/newbot` and follow instructions\n   - Copy your bot token\n\n2. **Configure Workflow:**\n   - Open the **Initialize** node\n   - Replace `YOUR_BOT_TOKEN_HERE` with your token\n\n3. **Pick the Model to Use**\n   - Open: **Send to LLM**\n   - Default: Ollama (granite3.3:8b)\n   - Or swap to OpenAI / Anthropic / etc.\n\n4. **(Optional) Restrict Access:**\n   - Open the **Initialize** node\n   - Add Telegram user IDs to `ALLOWED_USER_IDS`\n   - Leave the array empty `[]` to allow everyone\n\n5. **Activate:**\n   - Click the **Activate** button\n   - Send a message to your bot\n   - Get an AI response!\n",
+        "height": 600,
+        "width": 320,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1696,
+        96
+      ],
+      "id": "10000000-0000-0000-0000-000000000011",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\n\n// ============================================================\n// CONFIGURATION\n// ============================================================\n\n// REQUIRED: Replace with your Telegram bot token from @BotFather.\n// Never share or commit this value publicly.\nconst BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';\n\n// OPTIONAL: Restrict the bot to specific Telegram user IDs.\n// Find your user ID by messaging @userinfobot on Telegram.\n// Leave as an empty array [] to allow all users (open access).\nconst ALLOWED_USER_IDS = [];\n\n// Maximum number of back-and-forth exchanges remembered per user.\n// One pair = one user message + one assistant reply.\n// Lower this if the model starts giving inconsistent responses.\nconst MAX_HISTORY_PAIRS = 6;\n\n// How long (in milliseconds) before a user's memory is cleared due to\n// inactivity. Default: 7 days. Set to 0 to disable expiry.\nconst MEMORY_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000;\n\n// Simple rate limit: maximum messages allowed per user per time window.\nconst RATE_LIMIT_MAX    = 20;\nconst RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour in milliseconds\n\n// ============================================================\n\nif (!BOT_TOKEN || BOT_TOKEN === 'YOUR_BOT_TOKEN_HERE') {\n  throw new Error('Bot token is not set. Open the Initialize node and replace YOUR_BOT_TOKEN_HERE.');\n}\n\nreturn [{\n  json: {\n    bot_token:         BOT_TOKEN,\n    allowed_user_ids:  ALLOWED_USER_IDS,\n    max_history_pairs: MAX_HISTORY_PAIRS,\n    memory_expiry_ms:  MEMORY_EXPIRY_MS,\n    rate_limit_max:    RATE_LIMIT_MAX,\n    rate_limit_window: RATE_LIMIT_WINDOW,\n    offset:            staticData.offset || 0\n  }\n}];\n"
+      },
+      "id": "10000000-0000-0000-0000-000000000100",
+      "name": "Initialize",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1136,
+        400
+      ]
+    },
     {
       "parameters": {
         "url": "=https://api.telegram.org/bot{{ $json.bot_token }}/getUpdates",
@@ -2091,27 +2154,27 @@ Good luck & have fun!
           "timeout": 35000
         }
       },
-      "id": "5016396d-6949-4f93-ab65-5cbe29087cee",
-      "name": "2. Get Updates",
+      "id": "10000000-0000-0000-0000-000000000101",
+      "name": "Poll Telegram",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        784,
-        380
+        -912,
+        320
       ],
       "continueOnFail": true
     },
     {
       "parameters": {
-        "jsCode": "try {\n  // Get the Telegram API response\n  const telegramResponse = items[0]?.json;  // Safely access the json field\n\n  // If no response, return early with an empty result\n  if (!telegramResponse) {\n    throw new Error('No response from Telegram API.');\n  }\n\n  // Find the highest update_id from ALL messages (before filtering)\n  let highestUpdateId = 0;\n  if (telegramResponse.result && Array.isArray(telegramResponse.result) && telegramResponse.result.length > 0) {\n    highestUpdateId = Math.max(...telegramResponse.result.map(u => u.update_id));\n  }\n\n  // Ensure result is an array and filter the result array to only include processable messages\n  const filteredResults = Array.isArray(telegramResponse.result) ? telegramResponse.result.filter(update => {\n    // Must have a message object\n    if (!update.message) {\n      return false;\n    }\n\n    // Must have text\n    if (!update.message.text) {\n      return false;\n    }\n\n    const chatType = update.message.chat.type;\n    const messageText = update.message.text;\n\n    // Private chats: always include\n    if (chatType === 'private') {\n      return true;\n    }\n\n    // Groups/channels: only include if starts with !what\n    if (chatType === 'group' || chatType === 'supergroup' || chatType === 'channel') {\n      return messageText.startsWith('!what');\n    }\n\n    // Unknown chat type: don't include\n    return false;\n  }) : [];\n\n  // Return the response with filtered results + highest update_id\n  return [{\n    json: {\n      ok: telegramResponse.ok,\n      result: filteredResults,\n      _highest_update_id: highestUpdateId  // Track for marking all as read\n    }\n  }];\n  \n} catch (error) {\n  // Handle error (e.g., no internet or bad connection)\n  return [{\n    json: {\n      ok: false,\n      result: [],\n      error: error.message  // Provide error message for debugging\n    }\n  }];\n}\n"
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\nif (!staticData.chatMemory)  staticData.chatMemory  = {};\nif (!staticData.rateLimits)  staticData.rateLimits  = {};\n\nconst config  = $('Initialize').first().json;\nconst updates = $input.first().json.result || [];\n\n// Acknowledge all received updates by advancing the offset.\nif (updates.length > 0) {\n  staticData.offset = Math.max(...updates.map(u => u.update_id)) + 1;\n}\n\n// --- Memory expiry: prune stale user records ---\nif (config.memory_expiry_ms > 0) {\n  const cutoff = Date.now() - config.memory_expiry_ms;\n  for (const uid of Object.keys(staticData.chatMemory)) {\n    if ((staticData.chatMemory[uid].lastSeen || 0) < cutoff) {\n      delete staticData.chatMemory[uid];\n    }\n  }\n  // Prune rate-limit records older than one full window.\n  // Note: the rate limit resets itself on the next message regardless;\n  // this is only memory cleanup.\n  const rlCutoff = Date.now() - config.rate_limit_window;\n  for (const uid of Object.keys(staticData.rateLimits)) {\n    if ((staticData.rateLimits[uid].windowStart || 0) < rlCutoff) {\n      delete staticData.rateLimits[uid];\n    }\n  }\n}\n\n// Find the first message this bot should respond to.\n// Private chats: always. Groups: only messages prefixed with !what.\nconst target = updates.find(update => {\n  if (!update.message?.text) return false;\n  const { type } = update.message.chat;\n  if (type === 'private') return true;\n  if (['group', 'supergroup', 'channel'].includes(type)) {\n    return update.message.text.startsWith('!what');\n  }\n  return false;\n});\n\nif (!target) {\n  return [{ json: { hasMessage: false } }];\n}\n\n// Stable user identity: Telegram account ID (from.id), not chat ID.\n// chat.id changes across groups; from.id is always the same person.\nconst userId = String(target.message.from?.id || target.message.chat.id);\n\n// --- Allowlist check ---\nif (config.allowed_user_ids.length > 0 && !config.allowed_user_ids.includes(Number(userId))) {\n  // Silently ignore messages from users not on the allowlist.\n  return [{ json: { hasMessage: false } }];\n}\n\n// --- Rate limiting ---\nconst now   = Date.now();\nconst rl    = staticData.rateLimits[userId] || { count: 0, windowStart: now };\nif (now - rl.windowStart > config.rate_limit_window) {\n  // Reset window\n  rl.count = 0;\n  rl.windowStart = now;\n}\nrl.count++;\nstaticData.rateLimits[userId] = rl;\n\nif (rl.count > config.rate_limit_max) {\n  // Rate limit exceeded. The message is silently ignored — no reply is sent.\n  // The user's Telegram offset is still advanced, so the message will not be\n  // reprocessed on the next poll.\n  return [{ json: { hasMessage: false } }];\n}\n\n// --- Build conversation history ---\nconst userRecord = staticData.chatMemory[userId] || { history: [], lastSeen: 0 };\nconst history    = userRecord.history || [];\n\nconst historyText = history\n  .map(t => (t.role === 'user' ? 'User' : 'Assistant') + ': ' + t.content)\n  .join('\\n');\n\n// Update lastSeen so memory expiry works correctly.\nuserRecord.lastSeen = now;\nstaticData.chatMemory[userId] = userRecord;\n\nreturn [{\n  json: {\n    hasMessage:  true,\n    userId,\n    chatId:      target.message.chat.id,\n    messageText: target.message.text,\n    historyText\n  }\n}];\n"
       },
-      "id": "8bd383d4-edef-4aa6-ad99-81a6d39c57ad",
-      "name": "2a. Filter Valid Messages",
+      "id": "10000000-0000-0000-0000-000000000110",
+      "name": "Handle Response",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1008,
-        380
+        -688,
+        320
       ]
     },
     {
@@ -2125,12 +2188,12 @@ Good luck & have fun!
           },
           "conditions": [
             {
-              "id": "check-msg",
-              "leftValue": "={{ $json.result.length }}",
-              "rightValue": 0,
+              "id": "check-has-message",
+              "leftValue": "={{ $json.hasMessage }}",
+              "rightValue": true,
               "operator": {
-                "type": "number",
-                "operation": "gt"
+                "type": "boolean",
+                "operation": "equals"
               }
             }
           ],
@@ -2138,154 +2201,48 @@ Good luck & have fun!
         },
         "options": {}
       },
-      "id": "50129502-1b58-41a3-beb2-4b91ecdd4a92",
-      "name": "3. Has Message?",
+      "id": "10000000-0000-0000-0000-000000000111",
+      "name": "Has Message?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        1232,
-        380
+        -464,
+        320
       ]
     },
     {
       "parameters": {
         "promptType": "define",
-        "text": "={{ $json.message.text }}",
+        "text": "={{ $json.messageText }}",
         "options": {
-          "systemMessage": "You are a helpful AI assistant, and you understand the person messaging you has very little screen space for text, and even less little time to read you reply."
+          "systemMessage": "=You are a helpful AI assistant. The person messaging you has very little screen space and time, so be concise.{{ $json.historyText ? '\\n\\nConversation so far:\\n' + $json.historyText : '' }}"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.8,
       "position": [
-        1680,
-        128
+        -240,
+        192
       ],
-      "id": "78e34795-42f5-45dc-a122-13d7c536a1e2",
-      "name": "5. Send to LLM"
+      "id": "10000000-0000-0000-0001-000000000000",
+      "name": "Send to LLM"
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "new-offset",
-              "name": "offset",
-              "value": "={{ $('6. Prepare Response + Message Offset').item.json.offset }}",
-              "type": "number"
-            },
-            {
-              "id": "keep-token",
-              "name": "bot_token",
-              "value": "={{ $('1. Set Telegram Token').item.json.bot_token }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\nif (!staticData.chatMemory) staticData.chatMemory = {};\n\nconst config      = $('Initialize').first().json;\nconst llmResponse = $input.first().json.output;\nconst source      = $('Handle Response').first().json;\n\n// Append this exchange to the user's history, then trim to the cap.\nconst userRecord = staticData.chatMemory[source.userId] || { history: [], lastSeen: Date.now() };\nconst history    = userRecord.history || [];\n\nhistory.push({ role: 'user',      content: source.messageText });\nhistory.push({ role: 'assistant', content: llmResponse        });\n\nuserRecord.history = history.length > config.max_history_pairs * 2\n  ? history.slice(-(config.max_history_pairs * 2))\n  : history;\n\nstaticData.chatMemory[source.userId] = userRecord;\n\nreturn [{\n  json: {\n    chat_id:      source.chatId,\n    llm_response: llmResponse\n  }\n}];\n"
       },
-      "id": "82195896-96dd-4e04-826a-333a306ab236",
-      "name": "9. Update Offset Var",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        2704,
-        232
-      ]
-    },
-    {
-      "parameters": {
-        "model": "granite3.3:8b",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
-      "typeVersion": 1,
-      "position": [
-        1752,
-        352
-      ],
-      "id": "a18057f9-f7c9-4f8e-8882-3ca8fd9f1e0d",
-      "name": "Ollama Chat Model",
-      "credentials": {
-        "ollamaApi": {
-          "id": "YOUR_OLLAMA_API_ID_HERE",
-          "name": "Ollama account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "token",
-              "name": "bot_token",
-              "value": "YOUR_BOT_TOKEN_HERE",
-              "type": "string"
-            },
-            {
-              "id": "offset",
-              "name": "offset",
-              "value": "={{ $json.offset || 0 }}",
-              "type": "number"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "c46cf6e7-8d80-470d-ac4d-c3f60c62bf13",
-      "name": "1. Set Telegram Token",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        560,
-        672
-      ]
-    },
-    {
-      "parameters": {
-        "jsCode": "// Messages are already filtered by node 2a\n// Just extract the latest text message\nconst messages = items[0].json.result;\n\nif (messages.length > 0) {\n  // Return the latest message\n  return [{ json: messages[messages.length - 1] }];\n}\n\n// No messages (shouldn't happen since Has Message? already checked)\nreturn [];"
-      },
-      "id": "36f5fda9-67ba-4b82-9785-15db131ee93b",
-      "name": "4a. Extract Message",
+      "id": "10000000-0000-0000-0001-000000000001",
+      "name": "Finalize",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1456,
-        232
+        112,
+        192
       ]
     },
     {
       "parameters": {
-        "url": "=https://api.telegram.org/bot{{ $('1. Set Telegram Token').item.json.bot_token }}/getUpdates",
-        "sendQuery": true,
-        "queryParameters": {
-          "parameters": [
-            {
-              "name": "offset",
-              "value": "={{ $('6. Prepare Response + Message Offset').item.json.offset }}"
-            }
-          ]
-        },
-        "options": {
-          "retry": {
-            "maxRetries": 2,
-            "retryInterval": 500
-          }
-        }
-      },
-      "id": "0988e1d3-0d34-4901-a870-e16b8ef781d3",
-      "name": "8. Confirm Read Telegram Message",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        2480,
-        232
-      ]
-    },
-    {
-      "parameters": {
-        "url": "=https://api.telegram.org/bot{{ $('1. Set Telegram Token').item.json.bot_token }}/sendMessage",
+        "url": "=https://api.telegram.org/bot{{ $('Initialize').item.json.bot_token }}/sendMessage",
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
@@ -2306,157 +2263,166 @@ Good luck & have fun!
           }
         }
       },
-      "id": "a5e9555a-f719-4b31-b233-c95ddf0b008e",
-      "name": "7. Send AI Reply",
+      "id": "10000000-0000-0000-0001-000000000010",
+      "name": "Send Reply",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2256,
-        232
-      ]
-    },
-    {
-      "parameters": {
-        "jsCode": "// Get the AI response\nconst llmOutput = $input.first().json.output;\n\n// Get the original message data from Node 4\nconst messageNode = $('4a. Extract Message').first().json;\nconst chatId = messageNode.message.chat.id;\n\n// Get the highest update_id from the filter node (includes ALL messages, even filtered ones)\nconst filterNode = $('2a. Filter Valid Messages').first().json;\nconst highestUpdateId = filterNode._highest_update_id || messageNode.update_id;\n\n// Prepare clean data for the API call\nreturn [{\n  json: {\n    chat_id: chatId,\n    llm_response: typeof llmOutput === 'object' ? llmOutput.text : llmOutput,\n    offset: highestUpdateId + 1,  // Mark ALL messages as read\n    bot_token: $('1. Set Telegram Token').first().json.bot_token\n  }\n}];"
-      },
-      "id": "0f409a08-9b6e-4427-828d-ccaa97828eaa",
-      "name": "6. Prepare Response + Message Offset",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        2032,
-        232
-      ]
-    },
-    {
-      "parameters": {
-        "events": [
-          "update",
-          "activate",
-          "init"
-        ]
-      },
-      "type": "n8n-nodes-base.n8nTrigger",
-      "typeVersion": 1,
-      "position": [
         336,
-        672
-      ],
-      "id": "495a4346-ee75-4886-bc24-64b019f67a2f",
-      "name": "n8n Trigger"
-    },
-    {
-      "parameters": {},
-      "id": "08a87261-a2a2-4635-b20f-3bd49ae9f987",
-      "name": "11. Wait 5 Seconds",
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        2928,
-        452
-      ],
-      "webhookId": "1809e752-3ac4-426e-bd4e-7e59fa42ed1e"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        1744,
-        528
-      ],
-      "id": "fb2b8821-d541-42c1-903f-bc13523dacc6",
-      "name": "4b. Wait 5 seconds before checking for messages",
-      "webhookId": "dd7f73e2-c049-40cb-b7ff-014508bcdb44"
-    },
-    {
-      "parameters": {
-        "jsCode": "// Check if there were ANY messages that got filtered\nconst filterNode = $('2a. Filter Valid Messages').first().json;\nconst highestUpdateId = filterNode._highest_update_id;\n\n// Prepare data for next loop\nreturn [{\n  json: {\n    offset: highestUpdateId > 0 ? highestUpdateId + 1 : 0,\n    bot_token: $('1. Set Telegram Token').first().json.bot_token\n  }\n}];"
-      },
-      "id": "70d0d6f2-e0a2-4727-9b26-b08a3f1e72d2",
-      "name": "4c. Mark Filtered as Read",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1456,
-        528
+        192
       ]
     },
     {
+      "parameters": {},
+      "id": "10000000-0000-0000-0001-000000000011",
+      "name": "Wait 5s",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        512,
+        416
+      ],
+      "webhookId": "00000000-0000-0000-0000-000000000000"
+    },
+    {
       "parameters": {
-        "content": "##    📨 Telegram LLM Bot 🤖\n\n### 📋 Setup Instructions:\n\n1. **Get Bot Token:**\n   - Chat with @BotFather on Telegram\n   - Send `/newbot` and follow instructions\n   - Copy your bot token\n\n2. **Configure Workflow:**\n   - Open \"Set Bot Token\" node\n   - Replace `YOUR_BOT_TOKEN_HERE`\n\n3. **Configure LLM:**\n   - Default: Ollama (granite3.3:8b)\n   - Or swap to OpenAI/Anthropic/etc\n\n4. **Activate:**\n   - Click \"Activate\" button\n   - Send message to your bot\n   - Get AI response!\n\n\n* * *\n\n### 🔧 Technical Details:\n\n**Offset Management:**\n- Telegram stores updates for 24h\n- We confirm processed updates\n- Prevents re-processing on restart\n\n**Long Polling:**\n- 30s timeout per request\n- Efficient, no missed messages\n- Better than webhooks for simple bots\n\n### ✅ Proper Offset Management\nThis workflow correctly handles Telegram updates to prevent duplicate processing.\n\n**How it works:**\n1. **Poll** - Gets new updates every 5s\n2. **Confirm** - Marks updates as read on Telegram's server\n3. **Process** - Handles each message\n4. **Respond** - Sends LLM reply back\n\n**Key Features:**\n✓ No duplicate messages\n✓ Production-ready\n✓ Efficient polling\n✓ Proper error handling\n\n\n```\nFetch Updates\n   ↓\n   Has messages?\n   ├─ NO → Wait 5s → Loop back\n   └─ YES → Process → LLM → Reply → Loop back\n```",
-        "height": 1280,
-        "width": 320,
-        "color": 4
+        "content": "## 🔧 Configuration:\nAll settings are in the **Initialize** node at the top:\n\n- `BOT_TOKEN` — your Telegram bot token\n- `ALLOWED_USER_IDS` — restrict to specific users (empty = open)\n- `MAX_HISTORY_PAIRS` — exchanges remembered per user\n- `MEMORY_EXPIRY_MS` — auto-clear idle users (default 7 days)\n- `RATE_LIMIT_MAX` — max messages per user per hour\n",
+        "height": 480,
+        "width": 320
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        0,
-        0
+        -1248,
+        96
       ],
-      "id": "17b4c17d-a9f1-489e-a6b2-a7b883640634",
-      "name": "Sticky Note"
+      "id": "10000000-0000-0000-0001-000000000100",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "\n```\nFetch Updates\n   ↓\n   Has messages?\n   ├─ NO → Wait 5s → Loop back\n   └─ YES → Allowlist? → Rate limit? → Process → LLM → Save History → Reply → Loop back\n```",
+        "height": 128,
+        "width": 768,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1008,
+        464
+      ],
+      "id": "10000000-0000-0000-0001-000000000101",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "###    📨 Telegram Polling:\n\n- 5s wait per request\n\n- Efficient, no missed messages\n\n- Telegram stores updates for 24h\n\n- Better than webhooks for text-only bots\n",
+        "height": 400,
+        "width": 304,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        464,
+        144
+      ],
+      "id": "10000000-0000-0000-0001-000000000110",
+      "name": "Sticky Note3"
     }
   ],
   "pinData": {},
   "connections": {
-    "2. Get Updates": {
+    "n8n Trigger": {
       "main": [
         [
           {
-            "node": "2a. Filter Valid Messages",
+            "node": "Initialize",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "2a. Filter Valid Messages": {
+    "Initialize": {
       "main": [
         [
           {
-            "node": "3. Has Message?",
+            "node": "Poll Telegram",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "3. Has Message?": {
+    "Poll Telegram": {
       "main": [
         [
           {
-            "node": "4a. Extract Message",
+            "node": "Handle Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Handle Response": {
+      "main": [
+        [
+          {
+            "node": "Has Message?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Message?": {
+      "main": [
+        [
+          {
+            "node": "Send to LLM",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "4c. Mark Filtered as Read",
+            "node": "Wait 5s",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "5. Send to LLM": {
+    "Send to LLM": {
       "main": [
         [
           {
-            "node": "6. Prepare Response + Message Offset",
+            "node": "Finalize",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "9. Update Offset Var": {
+    "Finalize": {
       "main": [
         [
           {
-            "node": "11. Wait 5 Seconds",
+            "node": "Send Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Reply": {
+      "main": [
+        [
+          {
+            "node": "Wait 5s",
             "type": "main",
             "index": 0
           }
@@ -2467,106 +2433,18 @@ Good luck & have fun!
       "ai_languageModel": [
         [
           {
-            "node": "5. Send to LLM",
+            "node": "Send to LLM",
             "type": "ai_languageModel",
             "index": 0
           }
         ]
       ]
     },
-    "1. Set Telegram Token": {
+    "Wait 5s": {
       "main": [
         [
           {
-            "node": "2. Get Updates",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "4a. Extract Message": {
-      "main": [
-        [
-          {
-            "node": "5. Send to LLM",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "4c. Mark Filtered as Read": {
-      "main": [
-        [
-          {
-            "node": "4b. Wait 5 seconds before checking for messages",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "8. Confirm Read Telegram Message": {
-      "main": [
-        [
-          {
-            "node": "9. Update Offset Var",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "7. Send AI Reply": {
-      "main": [
-        [
-          {
-            "node": "8. Confirm Read Telegram Message",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "6. Prepare Response + Message Offset": {
-      "main": [
-        [
-          {
-            "node": "7. Send AI Reply",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "n8n Trigger": {
-      "main": [
-        [
-          {
-            "node": "1. Set Telegram Token",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "11. Wait 5 Seconds": {
-      "main": [
-        [
-          {
-            "node": "1. Set Telegram Token",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "4b. Wait 5 seconds before checking for messages": {
-      "main": [
-        [
-          {
-            "node": "1. Set Telegram Token",
+            "node": "Initialize",
             "type": "main",
             "index": 0
           }
@@ -2577,13 +2455,14 @@ Good luck & have fun!
   "active": false,
   "settings": {
     "executionOrder": "v1",
+    "binaryMode": "separate",
     "availableInMCP": false
   },
-  "versionId": "0aa2957a-bd7c-40fb-9420-bffe9cb35b21",
+  "versionId": "00000000-0000-0000-0000-000000000000",
   "meta": {
-    "instanceId": "5b190c49174778d107cc5d364d3fb35d408aac3422ee5fa91a0e094276d7388f"
+    "instanceId": "0000000000000000000000000000000000000000000000000000000000000000"
   },
-  "id": "830yGV7i3BM4y-AGhwOa2",
+  "id": "000000000000000",
   "tags": []
 }
 {% endraw %}
