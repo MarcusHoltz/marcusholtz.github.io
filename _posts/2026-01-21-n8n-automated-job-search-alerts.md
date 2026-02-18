@@ -2065,8 +2065,8 @@ Instructions are included in the n8n workflow.
 
 Good luck & have fun!
 
-```json
 {% raw %}
+```json
 {
   "name": "Telegram Bot - Start on Publish - Simple Memory",
   "nodes": [
@@ -2112,14 +2112,14 @@ Good luck & have fun!
       "typeVersion": 1,
       "position": [
         -1696,
-        96
+        26
       ],
       "id": "10000000-0000-0000-0000-000000000011",
       "name": "Sticky Note"
     },
     {
       "parameters": {
-        "jsCode": "const staticData = $getWorkflowStaticData('global');\n\n// ============================================================\n// CONFIGURATION\n// ============================================================\n\n// REQUIRED: Replace with your Telegram bot token from @BotFather.\n// Never share or commit this value publicly.\nconst BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';\n\n// OPTIONAL: Restrict the bot to specific Telegram user IDs.\n// Find your user ID by messaging @userinfobot on Telegram.\n// Leave as an empty array [] to allow all users (open access).\nconst ALLOWED_USER_IDS = [];\n\n// Maximum number of back-and-forth exchanges remembered per user.\n// One pair = one user message + one assistant reply.\n// Lower this if the model starts giving inconsistent responses.\nconst MAX_HISTORY_PAIRS = 6;\n\n// How long (in milliseconds) before a user's memory is cleared due to\n// inactivity. Default: 7 days. Set to 0 to disable expiry.\nconst MEMORY_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000;\n\n// Simple rate limit: maximum messages allowed per user per time window.\nconst RATE_LIMIT_MAX    = 20;\nconst RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour in milliseconds\n\n// ============================================================\n\nif (!BOT_TOKEN || BOT_TOKEN === 'YOUR_BOT_TOKEN_HERE') {\n  throw new Error('Bot token is not set. Open the Initialize node and replace YOUR_BOT_TOKEN_HERE.');\n}\n\nreturn [{\n  json: {\n    bot_token:         BOT_TOKEN,\n    allowed_user_ids:  ALLOWED_USER_IDS,\n    max_history_pairs: MAX_HISTORY_PAIRS,\n    memory_expiry_ms:  MEMORY_EXPIRY_MS,\n    rate_limit_max:    RATE_LIMIT_MAX,\n    rate_limit_window: RATE_LIMIT_WINDOW,\n    offset:            staticData.offset || 0\n  }\n}];\n"
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\n\n// ============================================================\n// CONFIGURATION\n// ============================================================\n\n// REQUIRED: Replace with your Telegram bot token from @BotFather.\n// Never share or commit this value publicly.\nconst BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';\n\n// OPTIONAL: Restrict the bot to specific Telegram user IDs.\n// Find your user ID by messaging @userinfobot on Telegram.\n// Leave as an empty array [] to allow all users (open access).\nconst ALLOWED_USER_IDS = [];\n\n// Maximum number of back-and-forth exchanges remembered per user.\n// One pair = one user message + one assistant reply.\n// Lower this if the model starts giving inconsistent responses.\nconst MAX_HISTORY_PAIRS = 6;\n\n// How long (in milliseconds) before a user's memory is cleared due to\n// inactivity. Default: 7 days. Set to 0 to disable expiry.\nconst MEMORY_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000;\n\n// Prefix required to trigger the bot in group/supergroup/channel chats.\n// Private chats always respond regardless of this value.\nconst GROUP_TRIGGER_PREFIX = '!what';\n\n// Simple rate limit: maximum messages allowed per user per time window.\nconst RATE_LIMIT_MAX    = 20;\nconst RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour in milliseconds\n\n// ============================================================\n\nif (!BOT_TOKEN || BOT_TOKEN === 'YOUR_BOT_TOKEN_HERE') {\n  throw new Error('Bot token is not set. Open the Initialize node and replace YOUR_BOT_TOKEN_HERE.');\n}\n\nreturn [{\n  json: {\n    bot_token:            BOT_TOKEN,\n    allowed_user_ids:     ALLOWED_USER_IDS,\n    max_history_pairs:    MAX_HISTORY_PAIRS,\n    memory_expiry_ms:     MEMORY_EXPIRY_MS,\n    group_trigger_prefix: GROUP_TRIGGER_PREFIX,\n    rate_limit_max:       RATE_LIMIT_MAX,\n    rate_limit_window:    RATE_LIMIT_WINDOW,\n    offset:               staticData.offset || 0\n  }\n}];\n"
       },
       "id": "10000000-0000-0000-0000-000000000100",
       "name": "Initialize",
@@ -2166,7 +2166,7 @@ Good luck & have fun!
     },
     {
       "parameters": {
-        "jsCode": "const staticData = $getWorkflowStaticData('global');\nif (!staticData.chatMemory)  staticData.chatMemory  = {};\nif (!staticData.rateLimits)  staticData.rateLimits  = {};\n\nconst config  = $('Initialize').first().json;\nconst updates = $input.first().json.result || [];\n\n// Acknowledge all received updates by advancing the offset.\nif (updates.length > 0) {\n  staticData.offset = Math.max(...updates.map(u => u.update_id)) + 1;\n}\n\n// --- Memory expiry: prune stale user records ---\nif (config.memory_expiry_ms > 0) {\n  const cutoff = Date.now() - config.memory_expiry_ms;\n  for (const uid of Object.keys(staticData.chatMemory)) {\n    if ((staticData.chatMemory[uid].lastSeen || 0) < cutoff) {\n      delete staticData.chatMemory[uid];\n    }\n  }\n  // Prune rate-limit records older than one full window.\n  // Note: the rate limit resets itself on the next message regardless;\n  // this is only memory cleanup.\n  const rlCutoff = Date.now() - config.rate_limit_window;\n  for (const uid of Object.keys(staticData.rateLimits)) {\n    if ((staticData.rateLimits[uid].windowStart || 0) < rlCutoff) {\n      delete staticData.rateLimits[uid];\n    }\n  }\n}\n\n// Find the first message this bot should respond to.\n// Private chats: always. Groups: only messages prefixed with !what.\nconst target = updates.find(update => {\n  if (!update.message?.text) return false;\n  const { type } = update.message.chat;\n  if (type === 'private') return true;\n  if (['group', 'supergroup', 'channel'].includes(type)) {\n    return update.message.text.startsWith('!what');\n  }\n  return false;\n});\n\nif (!target) {\n  return [{ json: { hasMessage: false } }];\n}\n\n// Stable user identity: Telegram account ID (from.id), not chat ID.\n// chat.id changes across groups; from.id is always the same person.\nconst userId = String(target.message.from?.id || target.message.chat.id);\n\n// --- Allowlist check ---\nif (config.allowed_user_ids.length > 0 && !config.allowed_user_ids.includes(Number(userId))) {\n  // Silently ignore messages from users not on the allowlist.\n  return [{ json: { hasMessage: false } }];\n}\n\n// --- Rate limiting ---\nconst now   = Date.now();\nconst rl    = staticData.rateLimits[userId] || { count: 0, windowStart: now };\nif (now - rl.windowStart > config.rate_limit_window) {\n  // Reset window\n  rl.count = 0;\n  rl.windowStart = now;\n}\nrl.count++;\nstaticData.rateLimits[userId] = rl;\n\nif (rl.count > config.rate_limit_max) {\n  // Rate limit exceeded. The message is silently ignored — no reply is sent.\n  // The user's Telegram offset is still advanced, so the message will not be\n  // reprocessed on the next poll.\n  return [{ json: { hasMessage: false } }];\n}\n\n// --- Build conversation history ---\nconst userRecord = staticData.chatMemory[userId] || { history: [], lastSeen: 0 };\nconst history    = userRecord.history || [];\n\nconst historyText = history\n  .map(t => (t.role === 'user' ? 'User' : 'Assistant') + ': ' + t.content)\n  .join('\\n');\n\n// Update lastSeen so memory expiry works correctly.\nuserRecord.lastSeen = now;\nstaticData.chatMemory[userId] = userRecord;\n\nreturn [{\n  json: {\n    hasMessage:  true,\n    userId,\n    chatId:      target.message.chat.id,\n    messageText: target.message.text,\n    historyText\n  }\n}];\n"
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\nif (!staticData.chatMemory)  staticData.chatMemory  = {};\nif (!staticData.rateLimits)  staticData.rateLimits  = {};\n\nconst config  = $('Initialize').first().json;\nconst updates = $input.first().json.result || [];\n\n// Acknowledge all received updates by advancing the offset.\nif (updates.length > 0) {\n  staticData.offset = Math.max(...updates.map(u => u.update_id)) + 1;\n}\n\n// --- Memory expiry: prune stale user records ---\nif (config.memory_expiry_ms > 0) {\n  const cutoff = Date.now() - config.memory_expiry_ms;\n  for (const uid of Object.keys(staticData.chatMemory)) {\n    if ((staticData.chatMemory[uid].lastSeen || 0) < cutoff) {\n      delete staticData.chatMemory[uid];\n    }\n  }\n  // Prune rate-limit records older than one full window.\n  // Note: the rate limit resets itself on the next message regardless;\n  // this is only memory cleanup.\n  const rlCutoff = Date.now() - config.rate_limit_window;\n  for (const uid of Object.keys(staticData.rateLimits)) {\n    if ((staticData.rateLimits[uid].windowStart || 0) < rlCutoff) {\n      delete staticData.rateLimits[uid];\n    }\n  }\n}\n\n// Find the first message this bot should respond to.\n// Private chats: always. Groups: only messages starting with GROUP_TRIGGER_PREFIX.\nconst target = updates.find(update => {\n  if (!update.message?.text) return false;\n  const { type } = update.message.chat;\n  if (type === 'private') return true;\n  if (['group', 'supergroup', 'channel'].includes(type)) {\n    return update.message.text.startsWith(config.group_trigger_prefix);\n  }\n  return false;\n});\n\nif (!target) {\n  return [{ json: { hasMessage: false } }];\n}\n\n// Stable user identity: Telegram account ID (from.id), not chat ID.\n// chat.id changes across groups; from.id is always the same person.\nconst userId = String(target.message.from?.id || target.message.chat.id);\n\n// --- Allowlist check ---\nif (config.allowed_user_ids.length > 0 && !config.allowed_user_ids.includes(Number(userId))) {\n  // Silently ignore messages from users not on the allowlist.\n  return [{ json: { hasMessage: false } }];\n}\n\n// --- Rate limiting ---\nconst now   = Date.now();\nconst rl    = staticData.rateLimits[userId] || { count: 0, windowStart: now };\nif (now - rl.windowStart > config.rate_limit_window) {\n  // Reset window\n  rl.count = 0;\n  rl.windowStart = now;\n}\nrl.count++;\nstaticData.rateLimits[userId] = rl;\n\nif (rl.count > config.rate_limit_max) {\n  // Rate limit exceeded. The message is silently ignored — no reply is sent.\n  // The user's Telegram offset is still advanced, so the message will not be\n  // reprocessed on the next poll.\n  return [{ json: { hasMessage: false } }];\n}\n\n// --- Build conversation history ---\nconst userRecord = staticData.chatMemory[userId] || { history: [], lastSeen: 0 };\nconst history    = userRecord.history || [];\n\nconst historyText = history\n  .map(t => (t.role === 'user' ? 'User' : 'Assistant') + ': ' + t.content)\n  .join('\\n');\n\n// Update lastSeen so memory expiry works correctly.\nuserRecord.lastSeen = now;\nstaticData.chatMemory[userId] = userRecord;\n\nreturn [{\n  json: {\n    hasMessage:  true,\n    userId,\n    chatId:      target.message.chat.id,\n    messageText: target.message.text,\n    historyText\n  }\n}];\n"
       },
       "id": "10000000-0000-0000-0000-000000000110",
       "name": "Handle Response",
@@ -2286,7 +2286,7 @@ Good luck & have fun!
     },
     {
       "parameters": {
-        "content": "## 🔧 Configuration:\nAll settings are in the **Initialize** node at the top:\n\n- `BOT_TOKEN` — your Telegram bot token\n- `ALLOWED_USER_IDS` — restrict to specific users (empty = open)\n- `MAX_HISTORY_PAIRS` — exchanges remembered per user\n- `MEMORY_EXPIRY_MS` — auto-clear idle users (default 7 days)\n- `RATE_LIMIT_MAX` — max messages per user per hour\n",
+        "content": "## 🔧 Configuration:\nAll settings are in the **Initialize** node at the top:\n\n- `BOT_TOKEN` — your Telegram bot token\n- `ALLOWED_USER_IDS` — restrict to specific users (empty = open)\n- `MAX_HISTORY_PAIRS` — exchanges remembered per user\n- `MEMORY_EXPIRY_MS` — auto-clear idle users (default 7 days)\n- `RATE_LIMIT_MAX` — max messages per user per hour\n - `GROUP_TRIGGER_PREFIX` — only respond in group messages if this prefix is present\n",
         "height": 480,
         "width": 320
       },
@@ -2294,7 +2294,7 @@ Good luck & have fun!
       "typeVersion": 1,
       "position": [
         -1248,
-        96
+        46
       ],
       "id": "10000000-0000-0000-0001-000000000100",
       "name": "Sticky Note1"
@@ -2465,9 +2465,8 @@ Good luck & have fun!
   "id": "000000000000000",
   "tags": []
 }
-{% endraw %}
 ```
-
+{% endraw %}
 
 * * *
 
