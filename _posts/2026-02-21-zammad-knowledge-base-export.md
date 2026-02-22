@@ -29,8 +29,8 @@ A self-contained Docker tool that exports a Zammad Knowledge Base in its entiret
 
 The tool below gives you a clean, portable copy of everything in markdown.
 
-> If you intead need Zammad's knowledge base exported to Excel: 
-> > ```[Sirhexalot](https://n8n.io/creators/sirhexalot) has created an [n8n workflow to Export Zammad objects (users, roles, groups, organizations) to Excel](https://n8n.io/workflows/2596-export-zammad-objects-users-roles-groups-organizations-to-excel) also available on [GitHub](https://github.com/Sirhexalot/n8n-Export-Zammad-Objects-Users-Roles-Groups-and-Organizations-to-Excel)```
+> If you - instead - need Zammad's knowledge base exported to Excel: 
+> > [Sirhexalot](https://n8n.io/creators/sirhexalot) has created an [n8n workflow to Export Zammad objects (users, roles, groups, organizations) to Excel](https://n8n.io/workflows/2596-export-zammad-objects-users-roles-groups-organizations-to-excel) also available on [GitHub](https://github.com/Sirhexalot/n8n-Export-Zammad-Objects-Users-Roles-Groups-and-Organizations-to-Excel)
 
 
 * * *
