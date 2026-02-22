@@ -77,11 +77,17 @@ Configuration is entirely in `docker-compose.yml`
 
 ## Setup
 
-Edit `docker-compose.yml` — fill in your URL and token:
+1. Edit `docker-compose.yml` — fill in your URL and token:
 
 - Get a token at: **Your Profile → Token Access → Create**
 
 - The token needs **Knowledge Base** read permission.
+
+2. **Run it:**
+
+   ```bash
+   docker compose run --rm zammad-kb-export
+   ```
 
 
 * * *
