@@ -10,7 +10,7 @@ image:
   path: /assets/img/header/header--zammad--knowledge-base-export-to-markdown-static-site.jpg
   alt: Zammad Ticketing and Helpdesk has a Knowledge Base in PostgreSQL - Export this to a Mkdocs Static Site
 ---
-# Zammad Helpdesk Knowledge Base Export To Static Site like Docsify or Mkdocs
+# Backup Zammad Knowledge Base and Export to Static Site Generator like Docsify or Mkdocs
 
 ## Introduction
 
@@ -224,7 +224,7 @@ MkDocs is probably the easiest to demonstrate. MkDocs Material will processes th
 docker compose -f docker-compose.mkdocs.yml up
 ```
 
-Open [http://<your_ip_here>:8000](http://<your_ip_here>:8000).
+Open [http://your_ip_here:8000](http://your_ip_here:8000).
 
 > MkDocs watches the `./output/` directory for changes and live-reloads the browser automatically when the exporter runs.
 
@@ -248,7 +248,7 @@ An alternative to MkDocs that I have included is Docsify. It is a single-page ap
 docker compose -f docker-compose.docsify.yml up
 ```
 
-Open [http://<your_ip_here>:3000](http://<your_ip_here>:3000).
+Open [http://your_ip_here:3000](http://your_ip_here:3000).
 
 > With the new site up, you can use the search bar to find articles, or navigate directly by URL: `http://<your_ip_here>:3000/#/category/article-slug`
 
