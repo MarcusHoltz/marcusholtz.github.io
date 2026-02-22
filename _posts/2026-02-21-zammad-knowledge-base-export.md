@@ -27,7 +27,9 @@ Can I export into some markdown, and use Docusaurus, MkDocs, Docsify, Hugo, Jeky
 
 A self-contained Docker tool that exports a Zammad Knowledge Base in its entirety to a directory tree of Markdown files that can then be served as HTML files.
 
-The [Zammad-Knowledge-Base-Export-to-Static-Site](https://github.com/MarcusHoltz/Zammad-Knowledge-Base-Export-to-Static-Site/) tool gives you a clean, portable copy of everything in markdown.
+Please use the [Zammad-Knowledge-Base-Export-to-Static-Site](https://github.com/MarcusHoltz/Zammad-Knowledge-Base-Export-to-Static-Site/) repo that goes along with this article.
+
+It gives you a clean, portable copy of everything in markdown.
 
 > If you - instead - need Zammad's knowledge base exported to Excel: 
 > > [Sirhexalot](https://n8n.io/creators/sirhexalot) has created an [n8n workflow to Export Zammad objects (users, roles, groups, organizations) to Excel](https://n8n.io/workflows/2596-export-zammad-objects-users-roles-groups-organizations-to-excel) also available on [GitHub](https://github.com/Sirhexalot/n8n-Export-Zammad-Objects-Users-Roles-Groups-and-Organizations-to-Excel)
@@ -329,5 +331,4 @@ Zammad is a capable support platform and its Knowledge Base is genuinely useful 
 
 That content, along with the organizational structure that surrounds it, should not be trapped inside any single system.
 
-I hope this was able to help you resolve that concern or motivate you to cross-host it!
-
+I hope my [Zammad-Knowledge-Base-Export-to-Static-Site](https://github.com/MarcusHoltz/Zammad-Knowledge-Base-Export-to-Static-Site) repo was able to help you resolve that concern or motivate you to cross-host it!
