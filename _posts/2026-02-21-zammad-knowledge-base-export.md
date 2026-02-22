@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Zammad Helpdesk Knowledge Base Export To Static Site
+title: Backup Zammad Helpdesk's Knowledge Base To a Static Site
 description: Take your current Zammad knowledge base and export to a static site.
 date: 2026-02-21 11:33:00 -0700
 categories: [DevOps, Support]
@@ -27,11 +27,9 @@ Can I export into some markdown, and use Docusaurus, MkDocs, Docsify, Hugo, Jeky
 
 A self-contained Docker tool that exports a Zammad Knowledge Base in its entirety to a directory tree of Markdown files that can then be served as HTML files.
 
-The tool below gives you a clean, portable copy of everything in markdown — if you intead need Zammad's knowledge base exported to Excel: [Sirhexalot](https://n8n.io/creators/sirhexalot) has created an [n8n workflow to Export Zammad objects (users, roles, groups, organizations) to Excel](https://n8n.io/workflows/2596-export-zammad-objects-users-roles-groups-organizations-to-excel) | [GitHub](https://github.com/Sirhexalot/n8n-Export-Zammad-Objects-Users-Roles-Groups-and-Organizations-to-Excel)
+> The tool below gives you a clean, portable copy of everything in markdown — if you intead need Zammad's knowledge base exported to Excel: 
+[Sirhexalot](https://n8n.io/creators/sirhexalot) has created an [n8n workflow to Export Zammad objects (users, roles, groups, organizations) to Excel](https://n8n.io/workflows/2596-export-zammad-objects-users-roles-groups-organizations-to-excel) | [GitHub](https://github.com/Sirhexalot/n8n-Export-Zammad-Objects-Users-Roles-Groups-and-Organizations-to-Excel)
 
-<!--
-<REPO LINK HERE> FIXME BUG FIX NEEDED HELP
--->
 
 * * *
 
@@ -77,7 +75,7 @@ Configuration is entirely in `docker-compose.yml`
 
 ## Setup
 
-To Edit `docker-compose.yml`** — fill in your URL and token:
+Edit `docker-compose.yml` — fill in your URL and token:
 
 - Get a token at: **Your Profile → Token Access → Create**
 
@@ -108,7 +106,9 @@ To create an API token, go to your Zammad profile, open Token Access, and create
 
 ### Token permissions
 
-Go to **Admin → Accounts → Token Access**, find your token (or create a new one), and ensure it has **both** of the following permissions:
+If you are having difficulty generating your token or with your tokens permissions:
+
+Be sure to go to **Admin → Accounts → Token Access**, find your token (or create a new one), and ensure it has **both** of the following permissions:
 
 | Permission              | What it unlocks                                             |
 |-------------------------|-------------------------------------------------------------|
@@ -129,7 +129,7 @@ Go to **Admin → Accounts → Token Access**, find your token (or create a new 
 
 ## Output structure
 
-The following example shows what a full export looks like for a moderately complex Knowledge Base. The subject matter is a pirate fleet operations manual — chosen to illustrate the full range of features: nested categories, subcategories, answers in every possible state, embedded images, users with group access levels, and multi-organization membership.
+Here is an example Zammad KB output for a 1680's logicstics company:
 
 ```
 output/
@@ -190,11 +190,13 @@ output/
 ```
 
 
+* * *
+
 ## Using the output with a static site generator
 
 That's right, the point of this was to demonstrate exporting Zammad's KB into a new KB. I have included two static site generators for markdown documentation.
 
-My recommendation is to use MkDocs.
+My recommendation is to use `MkDocs`.
 
 > Two ready-made compose files are included. Run either one after exporting your KB to markdown — they both read from the same `./output/` directory. 
 
@@ -209,7 +211,7 @@ MkDocs is probably the easiest to demonstrate. MkDocs Material will processes th
 docker compose -f docker-compose.mkdocs.yml up
 ```
 
-Open **http://<your_ip_here>:8000**. 
+Open [http://<your_ip_here>:8000](http://<your_ip_here>:8000).
 
 > MkDocs watches the `./output/` directory for changes and live-reloads the browser automatically when the exporter runs.
 
@@ -233,7 +235,7 @@ An alternative to MkDocs that I have included is Docsify. It is a single-page ap
 docker compose -f docker-compose.docsify.yml up
 ```
 
-Open **http://<your_ip_here>:3000**. 
+Open [http://<your_ip_here>:3000](http://<your_ip_here>:3000).
 
 > With the new site up, you can use the search bar to find articles, or navigate directly by URL: `http://<your_ip_here>:3000/#/category/article-slug`
 
