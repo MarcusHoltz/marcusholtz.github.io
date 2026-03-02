@@ -969,7 +969,18 @@ const CONFIG = {
     "crypto giveaway", "win a free car", "prince nigeria", "you could have already won", "dont think make money fast"
   ],
   
-  // The rules before are checked in order, first match wins
+  // Rules are checked in order; first match wins.
+  //
+  // Gmail plus tags (e.g. yourname+shopping@gmail.com) are supported.
+  // Gmail delivers plus-tagged addresses to the base inbox, and
+  // you can then filter on `to:yourname+shopping@gmail.com` in Gmail.
+  //
+  // IMPORTANT: Every address listed in `recipients` must be individually
+  // verified as a Destination Address in the Cloudflare Email Routing
+  // dashboard before the worker can forward to it. 
+  // This includes plus-tagged variants — each one must be verified separately!
+  // See: https://developers.cloudflare.com/email-routing/setup/email-routing-addresses/
+
   routingRules: [
     {
       // Route specific email address to specific recipient
@@ -978,25 +989,37 @@ const CONFIG = {
       description: "Shopping accounts"
     },
     {
-      // Multiple recipients example
+      // Multiple inbound aliases, share one recipient and rule
+      to: [
+        "pandanewsletter1@yourdomain.com",
+        "pandsanewsletter2@yourdomain.com"
+      ],
+      recipients: ["yourname+pandatuff@example.com"],
+      description: "Shopping accounts"
+    },
+    {
+      // Multiple recipients sent the same email
       to: "important@yourdomain.com",
       recipients: [
-        "your-main-email@example.com",
-        "your-backup-email@example.com"
+        "yourname+important@example.com",
+        "yourbackup+important@example.com"
       ],
-      description: "Important - send to multiple addresses"
+      description: "Important - send to multiple tagged inboxes"
     },
     {
       // Block specific keywords for this address
       to: "newsletter@yourdomain.com",
-      recipients: ["your-newsletters@example.com"],
+      recipients: ["yourname+newsletter@example.com"],
       blockKeywords: ["unsubscribe failed", "re-subscribe"],
       description: "Newsletters - block resubscribe attempts"
     },
     {
       // Forward only if subject contains specific keywords
       to: "school@yourdomain.com",
-      recipients: ["parent1@gmail.com", "parent2@gmail.com"],
+      recipients: [
+        "parent1+school@example.com",
+        "parent2+school@example.com"
+      ],
       forwardKeywords: ["urgent", "emergency", "sick", "incident", "pickup"],
       description: "School - urgent messages to both parents"
     },
@@ -1021,7 +1044,8 @@ export default {
     const startTime = Date.now();
     
     try {
-      // Extract email details with fallbacks
+      // Extract email details with fallbacks.
+      // message.to is always a string (SMTP envelope RCPT TO)
       const from = message.from || "unknown@sender.com";
       const to = message.to || "";
       const subject = message.headers.get("subject") || "(no subject)";
@@ -1124,7 +1148,7 @@ export default {
         from, to, subject, recipients
       });
       
-      // Forward to all recipients
+      // Cloudflare requires one forward() call per address (string only)
       for (const recipient of recipients) {
         if (!recipient || !recipient.includes("@")) {
           console.error(`Invalid recipient address: ${recipient}`);
@@ -1153,28 +1177,46 @@ export default {
   }
 };
 
-// Helper function to find matching routing rule
+// ============================================
+// MATCHING FUNCTION
+//
+// rule.to may be a string or an array of strings.
+// All address comparisons are case-insensitive.
+// message.to (and therefore the `to` parameter here) is always a string —
+// it is the SMTP envelope RCPT TO value from the Cloudflare runtime.
+// ============================================
+
 function findMatchingRule(message, from, to, subject) {
   const subjectLower = subject.toLowerCase();
-  
+  const toLower = to.toLowerCase();
+  const fromLower = from.toLowerCase();
+
   for (const rule of CONFIG.routingRules) {
     let matches = true;
-    
-    // Check 'to' field (recipient address)
-    if (rule.to && to !== rule.to) {
-      matches = false;
+
+    // Check 'to' field — supports a single string or an array of strings
+    if (rule.to) {
+      if (Array.isArray(rule.to)) {
+        if (!rule.to.map(addr => addr.toLowerCase()).includes(toLower)) {
+          matches = false;
+        }
+      } else {
+        if (toLower !== rule.to.toLowerCase()) {
+          matches = false;
+        }
+      }
     }
     
     // Check 'from' field (can be partial match with @domain.com)
     if (rule.from) {
       if (rule.from.startsWith("@")) {
         // Domain match
-        if (!from.toLowerCase().endsWith(rule.from.toLowerCase())) {
+        if (!fromLower.endsWith(rule.from.toLowerCase())) {
           matches = false;
         }
       } else {
         // Exact match
-        if (from.toLowerCase() !== rule.from.toLowerCase()) {
+        if (fromLower !== rule.from.toLowerCase()) {
           matches = false;
         }
       }
