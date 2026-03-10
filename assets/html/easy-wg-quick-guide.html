@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>easy-wg-quick // Zero → Hero</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c10;
+    --panel: #0d1117;
+    --border: #1e2d40;
+    --green: #39ff8c;
+    --green-dim: #1a6640;
+    --cyan: #00d4ff;
+    --orange: #ff7b2c;
+    --red: #ff3c5a;
+    --muted: #4a6070;
+    --text: #c9d8e8;
+    --white: #eaf4ff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* HEADER */
+  header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding: 40px 0 32px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .header-badge {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--green);
+    text-transform: uppercase;
+    border: 1px solid var(--green-dim);
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+    background: rgba(57,255,140,0.05);
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 6vw, 52px);
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+
+  h1 span.accent { color: var(--green); }
+  h1 span.slash { color: var(--muted); margin: 0 8px; }
+
+  .subtitle {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+
+  /* PROGRESS BAR */
+  .progress-track {
+    margin: 32px 0 40px;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green), var(--cyan));
+    border-radius: 2px;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: 0 0 12px rgba(57,255,140,0.5);
+  }
+
+  .step-counter {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  /* STEPS */
+  .steps { display: flex; flex-direction: column; gap: 16px; }
+
+  .step {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .step.active {
+    border-color: var(--cyan);
+    box-shadow: 0 0 24px rgba(0,212,255,0.08), inset 0 0 0 1px rgba(0,212,255,0.05);
+  }
+
+  .step.done {
+    border-color: var(--green-dim);
+    opacity: 0.75;
+  }
+
+  .step.locked { opacity: 0.4; pointer-events: none; }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+
+  .step-header:hover { background: rgba(255,255,255,0.02); }
+
+  .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--muted);
+    transition: all 0.3s;
+  }
+
+  .step.active .step-num {
+    border-color: var(--cyan);
+    color: var(--cyan);
+    background: rgba(0,212,255,0.08);
+    box-shadow: 0 0 12px rgba(0,212,255,0.2);
+  }
+
+  .step.done .step-num {
+    border-color: var(--green);
+    color: var(--green);
+    background: rgba(57,255,140,0.08);
+  }
+
+  .step-title {
+    flex: 1;
+  }
+
+  .step-title h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.3px;
+  }
+
+  .step.done .step-title h3 { color: var(--muted); }
+
+  .step-title p {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+  }
+
+  .chevron {
+    color: var(--muted);
+    font-size: 18px;
+    transition: transform 0.3s;
+    line-height: 1;
+  }
+
+  .step.open .chevron { transform: rotate(180deg); }
+
+  .step-body {
+    display: none;
+    padding: 0 20px 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .step.open .step-body { display: block; }
+
+  .step-body p {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text);
+    margin: 16px 0 12px;
+  }
+
+  .step-body p strong { color: var(--white); font-weight: 600; }
+  .step-body p a { color: var(--cyan); text-decoration: none; }
+  .step-body p a:hover { text-decoration: underline; }
+
+
+
+
+
+
+  /* ALERT STYLES */
+  .proxy-alert {
+    border: 2px solid var(--red);
+    background: rgba(255, 60, 90, 0.05);
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+    text-align: center;
+    animation: pulse-red 2s infinite ease-in-out;
+  }
+
+  @keyframes pulse-red {
+    0% { border-color: var(--red); box-shadow: 0 0 0px var(--red); }
+    50% { border-color: #ff8a9b; box-shadow: 0 0 15px rgba(255, 60, 90, 0.4); }
+    100% { border-color: var(--red); box-shadow: 0 0 0px var(--red); }
+  }
+
+  .proxy-alert h4 {
+    color: var(--red);
+    font-family: 'Syne', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-weight: 800;
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .proxy-alert p {
+    color: var(--white);
+    font-weight: 600;
+    margin: 0 !important;
+  }
+
+  .proxy-alert .highlight-box {
+    display: inline-block;
+    background: var(--red);
+    color: var(--bg);
+    padding: 2px 8px;
+    margin: 0 4px;
+    font-weight: 800;
+  }
+
+
+
+
+  /* TABS */
+
+
+  /* TABLE STYLES */
+  .table-wrapper {
+    overflow-x: auto;
+    margin: 20px 0;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: rgba(0,0,0,0.2);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    text-align: left;
+  }
+
+  th {
+    background: rgba(255,255,255,0.03);
+    color: var(--cyan);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(30, 45, 64, 0.5);
+    color: var(--text);
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  code.file-name {
+    color: var(--orange);
+    font-weight: 600;
+    background: rgba(255,123,44,0.1);
+    padding: 2px 4px;
+    border-radius: 3px;
+  }
+
+
+
+  .os-tabs {
+    display: flex;
+    gap: 4px;
+    margin: 16px 0 12px;
+    flex-wrap: wrap;
+  }
+
+  .os-tab {
+    padding: 6px 14px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    transition: all 0.2s;
+  }
+
+  .os-tab:hover { color: var(--text); border-color: var(--muted); }
+
+  .os-tab.active {
+    background: rgba(0,212,255,0.1);
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+
+  .os-content { display: none; }
+  .os-content.active { display: block; }
+
+  /* CODE BLOCKS */
+  .code-block {
+    background: #060a0e;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin: 10px 0;
+    overflow: hidden;
+  }
+
+  .code-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 14px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+  }
+
+  .code-label span {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .copy-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 3px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+
+  .copy-btn:hover { color: var(--green); border-color: var(--green-dim); }
+  .copy-btn.copied { color: var(--green); border-color: var(--green); }
+
+  pre {
+    padding: 16px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  pre .cmd { color: var(--white); }
+  pre .comment { color: var(--muted); }
+  pre .highlight { color: var(--green); }
+  pre .path { color: var(--orange); }
+  pre .flag { color: var(--cyan); }
+
+  /* INFO BOXES */
+  .info-box {
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 12px;
+    line-height: 1.6;
+    border-left: 3px solid;
+  }
+
+  .info-box.tip {
+    background: rgba(57,255,140,0.05);
+    border-color: var(--green);
+    color: #a0d8b8;
+  }
+
+  .info-box.warn {
+    background: rgba(255,123,44,0.05);
+    border-color: var(--orange);
+    color: #d8b890;
+  }
+
+  .info-box.note {
+    background: rgba(0,212,255,0.05);
+    border-color: var(--cyan);
+    color: #90c8d8;
+  }
+
+  .info-box strong {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 10px;
+    display: block;
+    margin-bottom: 4px;
+    opacity: 0.8;
+  }
+
+  /* MARK DONE BUTTON */
+  .done-btn {
+    margin-top: 20px;
+    padding: 11px 24px;
+    background: transparent;
+    border: 1px solid var(--green-dim);
+    color: var(--green);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .done-btn:hover {
+    background: rgba(57,255,140,0.08);
+    border-color: var(--green);
+    box-shadow: 0 0 16px rgba(57,255,140,0.15);
+  }
+
+  /* COMPLETE STATE */
+  .complete-banner {
+    display: none;
+    text-align: center;
+    padding: 48px 24px;
+    border: 1px solid var(--green-dim);
+    border-radius: 6px;
+    background: rgba(57,255,140,0.03);
+    margin-top: 32px;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .complete-banner.show { display: block; }
+
+  .complete-banner .big-check {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 16px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  .complete-banner h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+
+  .complete-banner p {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+  /* DONE CHECK */
+  .done-check { display: none; }
+  .step.done .done-check { display: inline; }
+  .step.done .step-num-num { display: none; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <div class="header-badge">WireGuard VPN Setup</div>
+    <h1>easy-wg-quick<span class="slash">//</span><span class="accent">quick→setup</span></h1>
+    <p class="subtitle">Hub + peer config in minutes // burghardt/easy-wg-quick</p>
+  </header>
+
+  <div class="step-counter" id="stepCounter">STEP 0 / 7 COMPLETE</div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+
+  <div class="steps" id="steps">
+
+    <!-- STEP 1 -->
+    <div class="step active open" data-step="1">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-num">
+          <span class="step-num-num">1</span>
+          <span class="done-check">✓</span>
+        </div>
+        <div class="step-title">
+          <h3>Install WireGuard Tools</h3>
+          <p>Kernel module + wg CLI on your hub server</p>
+        </div>
+        <span class="chevron">⌄</span>
+      </div>
+      <div class="step-body">
+        <p>WireGuard must be installed on the hub. Choose your OS below. <strong>Peers (clients) also need WireGuard installed</strong> — Android & iOS apps are available on their respective stores.</p>
+
+        <div class="os-tabs">
+          <button class="os-tab active" onclick="switchTab(this,'s1','debian')">Debian / Ubuntu</button>
+          <button class="os-tab" onclick="switchTab(this,'s1','fedora')">Fedora / RHEL</button>
+          <button class="os-tab" onclick="switchTab(this,'s1','freebsd')">FreeBSD</button>
+          <button class="os-tab" onclick="switchTab(this,'s1','arch')">Arch</button>
+        </div>
+
+        <div id="s1-debian" class="os-content active">
+          <div class="code-block">
+            <div class="code-label"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="cmd">sudo apt update && sudo apt install -y wireguard wireguard-tools qrencode</span></pre>
+          </div>
+        </div>
+        <div id="s1-fedora" class="os-content">
+          <div class="code-block">
+            <div class="code-label"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="cmd">sudo dnf install -y wireguard-tools qrencode</span>
+<span class="comment"># Kernel module included since Linux 5.6+</span></pre>
+          </div>
+        </div>
+        <div id="s1-freebsd" class="os-content">
+          <div class="code-block">
+            <div class="code-label"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="cmd">pkg install wireguard py38-qrencode</span>
+<span class="cmd">kldload if_wg</span>
+<span class="comment"># Add if_wg_load="YES" to /boot/loader.conf for persistence</span></pre>
+          </div>
+        </div>
+        <div id="s1-arch" class="os-content">
+          <div class="code-block">
+            <div class="code-label"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="cmd">sudo pacman -S wireguard-tools qrencode</span></pre>
+          </div>
+        </div>
+
+        <div class="info-box tip">
+          <strong>✦ tip</strong>
+          Full WireGuard install docs: <a href="https://www.wireguard.com/install/" target="_blank">wireguard.com/install</a>
+        </div>
+
+        <button class="done-btn" onclick="markDone(1)">✓ &nbsp;Done — Next Step</button>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step locked" data-step="2">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-num">
+          <span class="step-num-num">2</span>
+          <span class="done-check">✓</span>
+        </div>
+        <div class="step-title">
+          <h3>Download easy-wg-quick</h3>
+          <p>Grab the script, make it executable</p>
+        </div>
+        <span class="chevron">⌄</span>
+      </div>
+      <div class="step-body">
+        <div class="code-block">
+          <div class="code-label"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="cmd">wget https://raw.githubusercontent.com/burghardt/easy-wg-quick/master/easy-wg-quick</span>
+<span class="cmd">chmod <span class="flag">+x</span> easy-wg-quick</span></pre>
+        </div>
+        <div class="info-box note">
+          <strong>ℹ note</strong>
+          The script requires only standard tools (wg, ip/route, awk). No other dependencies needed.
+        </div>
+
+        <button class="done-btn" onclick="markDone(2)">✓ &nbsp;Done — Next Step</button>
+      </div>
+    </div>
+
+
+
+    <!-- STEP 3 -->
+    <div class="step locked" data-step="3">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-num"><span class="step-num-num">3</span><span class="done-check">✓</span></div>
+        <div class="step-title">
+          <h3>Overview of Configuration Files</h3>
+          <p>Set your requirements before generating the Hub</p>
+        </div>
+        <span class="chevron">⌄</span>
+      </div>
+      <div class="step-body">
+        <p>The <code>easy-wg-quick</code> script uses multiple <code>.txt</code> files to configure settings. Edit them beforehand to customize your VPN setup.</p>
+
+        <div class="proxy-alert">
+          <h4>!! REVERSE PROXY ALERT !!</h4>
+          <p>If you are behind a reverse proxy/NAT, you <span class="highlight-box">MUST</span> set <code style="color:var(--white)">extnetip.txt</code> to the <span class="highlight-box">LOCAL ADDRESS</span> of your WireGuard server (e.g. 192.168.1.50), not the public IP.</p>
+        </div>
+
+        <h4 style="color:var(--cyan); font-size: 11px; margin-top:20px;">NETWORK CONFIGURATION</h4>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr><th>File</th><th>Purpose</th><th>Default</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code class="file-name">extnetif.txt</code></td><td>External interface name</td><td>Auto-detected</td></tr>
+              <tr><td><code class="file-name">extnetip.txt</code></td><td>External IP of hub</td><td>Auto-detected</td></tr>
+              <tr><td><code class="file-name">intnetaddress.txt</code></td><td>Internal IPv4 network prefix</td><td>Random <code>10.x.x.</code></td></tr>
+              <tr><td><code class="file-name">intnetmask.txt</code></td><td>Internal IPv4 subnet mask</td><td><code>/24</code></td></tr>
+              <tr><td><code class="file-name">intnetdns.txt</code></td><td>IPv4 DNS for clients</td><td><code>1.1.1.1</code></td></tr>
+              <tr><td><code class="file-name">intnetmtu.txt</code></td><td>Interface MTU size (1280-1420)</td><td><code>1280</code></td></tr>
+              <tr><td><code class="file-name">intnetallowedips.txt</code></td><td>Client traffic routing</td><td><code>0.0.0.0/0, ::/0</code></td></tr>
+              <tr><td><code class="file-name">portno.txt</code></td><td>WireGuard listening port</td><td>Random 1025-65535</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 style="color:var(--cyan); font-size: 11px; margin-top:20px;">IPV6 CONFIGURATION</h4>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr><th>File</th><th>Purpose</th><th>Default</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code class="file-name">forceipv6.txt</code></td><td>Force IPv6 enablement</td><td>Not created</td></tr>
+              <tr><td><code class="file-name">ipv6mode.txt</code></td><td>IPv6 routing mode (NAT vs NDP)</td><td><code>masquerade</code></td></tr>
+              <tr><td><code class="file-name">intnet6address.txt</code></td><td>Internal IPv6 prefix</td><td>Random <code>fd**::</code></td></tr>
+              <tr><td><code class="file-name">intnet6mask.txt</code></td><td>Internal IPv6 subnet mask</td><td><code>/64</code></td></tr>
+              <tr><td><code class="file-name">intnet6dns.txt</code></td><td>IPv6 DNS for clients</td><td><code>2606:4700:4700::1111</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 style="color:var(--cyan); font-size: 11px; margin-top:20px;">SYSTEM CONFIGURATION</h4>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr><th>File</th><th>Purpose</th><th>Default</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code class="file-name">fwtype.txt</code></td><td>Firewall backend</td><td>OS-dependent</td></tr>
+              <tr><td><code class="file-name">sysctltype.txt</code></td><td>IP forwarding control</td><td>OS-dependent</td></tr>
+              <tr><td><code class="file-name">seqno.txt</code></td><td>Client sequence number</td><td><code>10</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="info-box tip">
+          <strong>✦ setup tip</strong>
+          Example: <code>echo "51820" > portno.txt</code> to set Wireguard on a static port number.
+        </div>
+        <button class="done-btn" onclick="markDone(3)">✓ &nbsp;Configuration Set — Next Step</button>
+      </div>
+    </div>
+
+
+
+
+    <!-- STEP 4 -->
+    <div class="step locked" data-step="4">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-num">
+          <span class="step-num-num">4</span>
+          <span class="done-check">✓</span>
+
+        </div>
+        <div class="step-title">
+          <h3>Generate Hub + First Peer</h3>
+          <p>Run the script — zero arguments needed</p>
+        </div>
+        <span class="chevron">⌄</span>
+      </div>
+      <div class="step-body">
+        <p>Just run the script. On first run it creates <code style="color:var(--orange)">wghub.conf</code> (your server config) and <code style="color:var(--orange)">wgclient_1.conf</code> (first peer). Each subsequent run adds a new peer.</p>
+
+        <div class="code-block">
+          <div class="code-label"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="cmd">./easy-wg-quick</span>
+<span class="comment">
+# Files created:
+#   wghub.conf        ← hub/server config
+#   wgclient_1.conf   ← peer 1 config
+#   wgclient_1.png    ← QR code image
+#
+# Run again to add more peers:
+</span><span class="cmd">./easy-wg-quick</span>    <span class="comment"># → wgclient_2.conf</span>
+<span class="cmd">./easy-wg-quick</span>    <span class="comment"># → wgclient_3.conf</span></pre>
+        </div>
+
+        <div class="info-box tip">
+          <strong>✦ named peers</strong>
+          Pass a name argument to label peers: <code style="color:var(--green)">./easy-wg-quick laptop</code> → creates <code style="color:var(--green)">wgclient_laptop.conf</code>
+        </div>
+
+        <button class="done-btn" onclick="markDone(4)">✓ &nbsp;Done — Next Step</button>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="step locked" data-step="5">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-num">
+          <span class="step-num-num">5</span>
+          <span class="done-check">✓</span>
+        </div>
+        <div class="step-title">
+          <h3>Activate Hub with wg-quick</h3>
+          <p>Bring up the VPN interface on the server</p>
+        </div>
+        <span class="chevron">⌄</span>
+      </div>
+      <div class="step-body">
+        <p>Copy the generated hub config to WireGuard's config directory, then enable and start it with systemd.</p>
+
+        <div class="code-block">
+          <div class="code-label"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="comment"># Copy config</span>
+<span class="cmd">sudo cp <span class="path">wghub.conf</span> /etc/wireguard/wghub.conf</span>
+
+<span class="comment"># Enable & start on boot</span>
+<span class="cmd">sudo systemctl enable wg-quick@wghub</span>
+<span class="cmd">sudo systemctl start  wg-quick@wghub</span>
+
+<span class="comment"># Check status</span>
+<span class="cmd">systemctl status wg-quick@wghub</span></pre>
+        </div>
+
+        <div class="info-box note">
+          <strong>ℹ no systemd?</strong>
+          Use <code style="color:var(--cyan)">sudo wg-quick up wghub</code> to bring up manually. Down: <code style="color:var(--cyan)">sudo wg-quick down wghub</code>
+        </div>
+
+        <button class="done-btn" onclick="markDone(5)">✓ &nbsp;Done — Next Step</button>
+      </div>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="step locked" data-step="6">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-num">
+          <span class="step-num-num">6</span>
+          <span class="done-check">✓</span>
+        </div>
+        <div class="step-title">
+          <h3>Connect Your Peer(s)</h3>
+          <p>QR code for mobile / copy conf for desktop</p>
+        </div>
+        <span class="chevron">⌄</span>
+      </div>
+      <div class="step-body">
+        <p>Each peer gets its own <code style="color:var(--orange)">.conf</code> file and a scannable QR code. Use whichever method fits the device.</p>
+
+        <div class="os-tabs">
+          <button class="os-tab active" onclick="switchTab(this,'s5','mobile')">Mobile (QR)</button>
+          <button class="os-tab" onclick="switchTab(this,'s5','desktop')">Desktop / Linux</button>
+          <button class="os-tab" onclick="switchTab(this,'s5','openwrt')">OpenWRT Router</button>
+        </div>
+
+        <div id="s5-mobile" class="os-content active">
+          <p>Display the QR code directly in terminal and scan with the WireGuard app (Android/iOS):</p>
+          <div class="code-block">
+            <div class="code-label"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="comment"># Display QR in terminal</span>
+<span class="cmd">qrencode -t ansiutf8 &lt; wgclient_1.conf</span>
+
+<span class="comment"># Or display a saved QR image</span>
+<span class="cmd">cat wgclient_1.png | display</span></pre>
+          </div>
+          <div class="info-box tip">
+            <strong>✦ re-display qr</strong>
+            You can regenerate the QR any time with: <code style="color:var(--green)">qrencode -t ansiutf8 &lt; wgclient_N.conf</code>
+          </div>
+        </div>
+
+        <div id="s5-desktop" class="os-content">
+          <p>Copy the peer config to WireGuard on the client machine and bring it up:</p>
+          <div class="code-block">
+            <div class="code-label"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="comment"># On the peer machine — copy config</span>
+<span class="cmd">sudo cp <span class="path">wgclient_1.conf</span> /etc/wireguard/wgclient_1.conf</span>
+<span class="cmd">sudo systemctl enable wg-quick@wgclient_1</span>
+<span class="cmd">sudo systemctl start  wg-quick@wgclient_1</span></pre>
+          </div>
+        </div>
+
+        <div id="s5-openwrt" class="os-content">
+          <p>A UCI fragment is generated alongside each peer config. Append it to your router's network config:</p>
+          <div class="code-block">
+            <div class="code-label"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="comment"># On the OpenWRT router</span>
+<span class="cmd">cat wgclient_1_uci.conf >> /etc/config/network</span>
+<span class="cmd">/etc/init.d/network reload</span></pre>
+          </div>
+        </div>
+
+        <button class="done-btn" onclick="markDone(6)">✓ &nbsp;Done — Next Step</button>
+      </div>
+    </div>
+
+    <!-- STEP 7 -->
+    <div class="step locked" data-step="7">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-num">
+          <span class="step-num-num">7</span>
+          <span class="done-check">✓</span>
+        </div>
+        <div class="step-title">
+          <h3>Verify & Manage</h3>
+          <p>Confirm tunnels are up, add future peers</p>
+        </div>
+        <span class="chevron">⌄</span>
+      </div>
+      <div class="step-body">
+        <p>Check that the hub sees connected peers and monitor traffic with <code style="color:var(--orange)">wg show</code>.</p>
+
+        <div class="code-block">
+          <div class="code-label"><span>bash — hub</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="cmd">sudo wg show</span>
+<span class="comment">
+# Expected output:
+# interface: wghub
+#   public key: kbaG3Hx...
+#   listening port: 51820
+#
+# peer: th8qYu0...
+#   endpoint: 10.x.x.x:PORT
+#   allowed ips: 10.127.0.10/32
+#   latest handshake: X seconds ago
+#   transfer: 12 MiB received, 40 MiB sent
+</span>
+<span class="comment"># Add more peers anytime:</span>
+<span class="cmd">./easy-wg-quick phone</span>    <span class="comment"># → wgclient_phone.conf</span>
+<span class="cmd">./easy-wg-quick tablet</span>   <span class="comment"># → wgclient_tablet.conf</span>
+
+<span class="comment"># Self-upgrade the script:</span>
+<span class="cmd">./easy-wg-quick <span class="flag">--upgrade</span></span></pre>
+        </div>
+
+        <div class="info-box note">
+          <strong>ℹ firewall / ports</strong>
+          Open <strong>UDP 51820</strong> inbound on your hub server (or whatever port is in <code>portno.txt</code>).
+        </div>
+
+        <button class="done-btn" onclick="markDone(7)">✓ &nbsp;All Done!</button>
+      </div>
+    </div>
+
+  </div><!-- /steps -->
+
+  <div class="complete-banner" id="completeBanner">
+    <span class="big-check">▣</span>
+    <h2>VPN is Live.</h2>
+    <p>Hub configured · Peers connected · Traffic tunneled<br><br>
+    Run <code style="color:var(--green)">./easy-wg-quick &lt;name&gt;</code> any time to add more peers.</p>
+  </div>
+
+</div><!-- /container -->
+
+
+<script>
+  let completed = 0;
+  const total = 7;
+
+  function updateProgress() {
+    document.getElementById('progressFill').style.width = (completed / total * 100) + '%';
+    document.getElementById('stepCounter').textContent = `STEP ${completed} / ${total} COMPLETE`;
+  }
+
+  function toggleStep(header) {
+    const step = header.parentElement;
+    if (step.classList.contains('locked')) return;
+    step.classList.toggle('open');
+  }
+
+  function switchTab(btn, stepId, tabId) {
+    const parent = btn.closest('.step-body');
+    parent.querySelectorAll('.os-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    const prefix = stepId + '-';
+    parent.querySelectorAll('.os-content').forEach(c => {
+      c.classList.remove('active');
+      if (c.id === prefix + tabId) c.classList.add('active');
+    });
+  }
+
+  function markDone(num) {
+    const steps = document.querySelectorAll('.step');
+    const current = document.querySelector(`.step[data-step="${num}"]`);
+    current.classList.add('done');
+    current.classList.remove('active', 'open');
+    completed++;
+    updateProgress();
+
+    if (num < total) {
+      const next = document.querySelector(`.step[data-step="${num + 1}"]`);
+      next.classList.remove('locked');
+      next.classList.add('active', 'open');
+      next.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+      document.getElementById('completeBanner').classList.add('show');
+      document.getElementById('completeBanner').scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  function copyCode(btn) {
+    const pre = btn.closest('.code-block').querySelector('pre');
+    const text = pre.innerText.replace(/^#.*\n?/gm, '').trim();
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1800);
+    });
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>
