@@ -332,3 +332,60 @@ Zammad is a capable support platform and its Knowledge Base is genuinely useful 
 That content, along with the organizational structure that surrounds it, should not be trapped inside any single system.
 
 I hope my [Zammad-Knowledge-Base-Export-to-Static-Site](https://github.com/MarcusHoltz/Zammad-Knowledge-Base-Export-to-Static-Site) repo was able to help you resolve that concern or motivate you to cross-host it!
+
+
+* * *
+
+## BONUS
+
+Not enough control over your Zammad instance? Need more poweruser tooling? Try [Zammad Time Tracker Browser Addon](https://github.com/MarcusHoltz/zammad-time-tracker-browser-extensions)!
+
+> [Chrome](https://chromewebstore.google.com/detail/gocmjpkkdjfgbakcjahehcogmgpopjdk) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/zammad-time-tracker/) add-ons to track and submit time to Zammad tickets.
+
+* * * 
+
+### Zammad Time Tracker
+
+Log and submit time to Zammad tickets directly from your browser. Supports per-ticket timers, edits, notes, types, and more!
+
+
+* * *
+
+#### Configure - Zammad Time Tracker
+
+Click the extension icon → **right-click → Options**
+
+| Field | What to put |
+|---|---|
+| Base URL | Your Zammad URL, e.g. `https://support.yourcompany.com` |
+| API Token | Profile → Token Access → **Create** (needs `ticket.agent` permission) |
+| Note Signature | Optional. Appended to every time note, e.g. `Logged via browser` |
+| Include time in note | Adds `time submitted: X min` to the note body |
+| Dark mode | ✓ |
+| Enable Activity Type | Allows time to be tracked with an activity type (e.g. `Billable`). |
+
+Hit **Save**. Done.
+
+
+* * *
+
+#### Using - Zammad Time Tracker
+
+| Step | Action |
+|---|---|
+| 1 | Type a ticket ID → **Load** |
+| 2 | Current time entries are displayed. | 
+| 2 | **Start** → work → **Pause** |
+| 3 | Forgot to pause? Click the time field, type the correct value (`01:30:00`) |
+| 4 | Add a note (optional) → **Submit Time** |
+| 5 | Edit a time entry → **Save**. 
+| 6 | Remove a time entry → red **-** button
+
+---
+
+#### Requirements - Zammad Time Tracker
+
+- Browser
+- Zammad 6.x
+- API token with `ticket.agent` permission
+- (optional) Time Accounting enabled in your Zammad admin settings (`Admin → Time Accounting`)
