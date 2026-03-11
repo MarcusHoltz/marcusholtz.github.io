@@ -70,71 +70,71 @@ I admit we're mixing a lot of technology, so let me demonstrate with some ASCII:
 
 ```ascii
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                         JOB SEARCH AUTOMATION SYSTEM                           │
+│                         JOB SEARCH AUTOMATION SYSTEM                    │
 └─────────────────────────────────────────────────────────────────────────┘
 
      ┌──────────────────┐
-     │   JOB BOARDS      │
-     │  (hiring.cafe)    │
-     │  Indeed, LinkedIn │
-     └───────┬─────────┘
+     │  JOB BOARDS      │
+     │ (hiring.cafe)    │
+     │ Indeed, LinkedIn │
+     └────────┬─────────┘
               │
               │ Monitors every 15min
               │
      ┌────────▼─────────┐
-     │ ChangeDetection    │◄─────┐
-     │   + Browser        │       │ JavaScript
-     │  (Port 5000)       │       │ Rendering
-     └───────┬──────────┘       │
-              │                   │
-              │ Webhook POST      │
-              │ (new jobs)  ┌────┴─────────┐
-              │             │ Browserless   │
-     ┌────────▼─────────┐ │ Chrome        │
-     │                    │ │ (Port 3000)   │
-     │   n8n Workflow     │ └──────────────┘
+     │ ChangeDetection  │◄───────┐
+     │   + Browser      │        │ JavaScript
+     │  (Port 5000)     │        │ Rendering
+     └───────┬──────────┘        │
+             │                   │
+             │ Webhook POST      │
+             │ (new jobs)    ┌───┴─────────┐
+             │               │ Browserless │
+     ┌───────▼────────────┐  │ Chrome      │
+     │                    │  │ (Port 3000) │
+     │   n8n Workflow     │  └─────────────┘
      │   (Port 5678)      │
      │                    │
-     │  ┌─────────────┐  │
-     │  │ User Config  │  │ ◄── Your profile, skills,
-     │  └──────┬──────┘  │     preferences, scoring
-     │          │         │
-     │  ┌──────▼──────┐  │
-     │  │Parse Webhook │  │ ◄── Clean job text
-     │  └──────┬──────┘  │
-     │          │         │
-     │  ┌──────▼──────┐  │
-     │  │AI Analysis   │  │──────┐
-     │  └──────┬──────┘  │      │
-     │          │         │      │ Ollama API
-     └─────────┼────────┘      │ Call
-                │               │
-                │         ┌────▼─────────┐
-                │         │   Ollama      │
-                │         │ (Port 11434)  │
-                │         │               │
-                │         │ your-model    │
-                │         │ here:8b       │
-                │         └────┬─────────┘
-                │              │
-                │◄───────────┘
-                │ AI Response:
-                │ FIT SCORE: 8/10
-                │ RECOMMENDATION: Apply
-                │
+     │  ┌─────────────┐   │
+     │  │ User Config │   │ ◄── Your profile, skills,
+     │  └──────┬──────┘   │     preferences, scoring
+     │         │          │
+     │  ┌──────▼──────┐   │
+     │  │Parse Webhook│   │ ◄── Clean job text
+     │  └──────┬──────┘   │
+     │         │          │
+     │  ┌──────▼──────┐   │
+     │  │AI Analysis  │   │─────┐
+     │  └──────┬──────┘   │     │
+     │         │          │     │ Ollama API
+     └─────────┼──────────┘     │ Call
+               │                │
+               │         ┌──────▼────────┐
+               │         │   Ollama      │
+               │         │ (Port 11434)  │
+               │         │               │
+               │         │ your-model    │
+               │         │ here:8b       │
+               │         └────┬──────────┘
+               │              │
+               │◄─────────────┘
+               │ AI Response:
+               │ FIT SCORE: 8/10
+               │ RECOMMENDATION: Apply
+               │
      ┌─────────▼─────────┐
-     │ Check               │
-     │ Recommendation      │
+     │ Check             │
+     │ Recommendation    │
      └─────┬────────┬────┘
-            │        │
-    Skip    │        │   Apply/Maybe
-            │        │
+           │        │
+    Skip   │        │   Apply/Maybe
+           │        │
   ┌────────▼────┐ ┌─▼───────────┐
-  │ Telegram     │ │  Telegram    │
-  │ (Rejected)   │ │  (Apply)     │
-  │  Channel     │ │   DMs        │
-  └────────────┘ └──────────────┘
-       │                │
+  │ Telegram    │ │  Telegram   │
+  │ (Rejected)  │ │  (Apply)    │
+  │  Channel    │ │   DMs       │
+  └─────────────┘ └─────────────┘
+          │          │
    Low priority    High priority
    notifications   notifications
 ```
@@ -190,11 +190,11 @@ Docker containers? Oh yeah! I have an ASCII picture for that too!!!
 DOCKER CONTAINERS
 ═════════════════
 
-┌─────────────────────────────────────────────────────────────┐
-│  Docker Network: br1.224 (10.236.224.0/24)                        │
-│                                                                   │
-│  ┌────────────────────┐     ┌──────────────────────┐          │
-│  │ changedetection    │────▶│ changedetection-     │       │
+┌────────────────────────────────────────────────────────────┐
+│  Docker Network: br1.224 (10.236.224.0/24)                 │
+│                                                            │
+│  ┌────────────────────┐     ┌──────────────────────┐       │
+│  │ changedetection    │────▶│ changedetection-    │       │
 │  │ IP: 10.236.224.29  │     │ browser              │       │
 │  │ Port: 5000         │     │ IP: 10.236.224.30    │       │
 │  │                    │     │ Port: 3000           │       │
@@ -202,20 +202,20 @@ DOCKER CONTAINERS
 │  │ - Sends webhooks   │     │ - Headless Chrome    │       │
 │  │ - Stores state     │     │ - Renders JS sites   │       │
 │  └────────┬───────────┘     └──────────────────────┘       │
-│           │                                                  │
-│           │ Webhook POST                                    │
-│           │                                                  │
+│           │                                                │
+│           │ Webhook POST                                   │
+│           │                                                │
 │  ┌────────▼───────────┐     ┌──────────────────────┐       │
-│  │ n8n                │────▶│ ollama               │       │
+│  │ n8n                │────▶│ ollama              │       │
 │  │ IP: 10.236.224.26  │     │ IP: 10.236.224.XX    │       │
 │  │ Port: 5678         │     │ Port: 11434          │       │
 │  │                    │     │                      │       │
 │  │ - Workflow engine  │     │ - AI model runner    │       │
 │  │ - Orchestration    │     │ - your-model-here:7b │       │
 │  │ - Telegram sender  │     │ - Local inference    │       │
-│  └────────────────────┘     └──────────────────────┘          │
-│                                                                   │
-└─────────────────────────────────────────────────────────────┘
+│  └────────────────────┘     └──────────────────────┘       │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
                               │
                               │ Internet
                               │
@@ -831,18 +831,18 @@ Oh wait, here's one right here!
 NEW JOB POSTED ON WEBSITE
          │
          ▼
-┌─────────────────────┐
-│ ChangeDetection       │  Playwright Browser
-│ detects new text      │  renders JavaScript
-└──────────┬──────────┘
+┌──────────────────────┐
+│ ChangeDetection      │  Playwright Browser
+│ detects new text     │  renders JavaScript
+└───────────┬──────────┘
             │
             │ Webhook POST with job text
             │ URL: http://n8n:5678/webhook/job-posting
             │
             ▼
-┌─────────────────────────────────────────────────────────┐
-│              n8n WORKFLOW EXECUTION                          │
-├─────────────────────────────────────────────────────────┤
+┌───────────────────────────────────────────────────────┐
+│              n8n WORKFLOW EXECUTION                   │
+├───────────────────────────────────────────────────────┤
 │                                                       │
 │  1. WEBHOOK RECEIVES:                                 │
 │     {                                                 │
@@ -862,30 +862,30 @@ NEW JOB POSTED ON WEBSITE
 │                                                       │
 │  4. AI ANALYSIS:                                      │
 │     Send to Ollama with full profile context          │
-│     ┌──────────────────────────┐                   │
-│     │ Ollama processes:          │                   │
-│     │ - Job description          │                   │
-│     │ - User profile             │                   │
-│     │ - Scoring rules            │                   │
-│     │ Returns: Analysis + Score  │                   │
-│     └──────────────────────────┘                  │
-│                                                      │
-│  5. CLEAN RESPONSE:                                  │
-│     Remove ```markdown``` formatting                 │
-│                                                      │
-│  6. CHECK RECOMMENDATION:                            │
-│     IF contains "RECOMMENDATION: Skip"               │
-│        → Route to Rejected channel                   │
-│     ELSE                                             │
-│        → Route to Apply channel                      │
-│                                                      │
-└────────────┬──────────────┬──────────────────────┘
-               │              │
-               ▼              ▼
+│     ┌────────────────────────────┐                    │
+│     │ Ollama processes:          │                    │
+│     │ - Job description          │                    │
+│     │ - User profile             │                    │
+│     │ - Scoring rules            │                    │
+│     │ Returns: Analysis + Score  │                    │
+│     └────────────────────────────┘                    │
+│                                                       │
+│  5. CLEAN RESPONSE:                                   │
+│     Remove ```markdown``` formatting                  │
+│                                                       │
+│  6. CHECK RECOMMENDATION:                             │
+│     IF contains "RECOMMENDATION: Skip"                │
+│        → Route to Rejected channel                    │
+│     ELSE                                              │
+│        → Route to Apply channel                       │
+│                                                       │
+└────────────┬──────────────┬───────────────────────────┘
+             │              │
+             ▼              ▼
     ┌──────────────┐   ┌─────────────┐
-    │  Telegram     │   │  Telegram    │
-    │  -100123...   │   │  123456789   │
-    │  (Group)      │   │  (DM)        │
+    │  Telegram    │   │  Telegram   │
+    │  -100123...  │   │  123456789  │
+    │  (Group)     │   │  (DM)       │
     └──────────────┘   └─────────────┘
 ```
 
@@ -1356,9 +1356,9 @@ TIME: 00:00:20  Wait for JavaScript to load (20 seconds)
 TIME: 00:00:25  Send webhook to n8n
          │
          │
-┌────────▼──────────────────────────────────────────┐
+┌────────▼───────────────────────────────────────────────┐
 │ n8n WORKFLOW STARTS                                    │
-├───────────────────────────────────────────────────┤
+├────────────────────────────────────────────────────────┤
 │ TIME: 00:00:25  [Webhook] Receive data                 │
 │         │                                              │
 │         ▼                                              │
@@ -1370,12 +1370,12 @@ TIME: 00:00:25  Send webhook to n8n
 │         ▼                                              │
 │ TIME: 00:00:28  [AI Analysis] Call Ollama              │
 │         │                                              │
-│         │ ┌──────────────────────────────┐          │
+│         │ ┌─────────────────────────────────┐          │
 │         │ │ Ollama processes request        │          │
 │         │ │ Model: your-model-here:8b       │          │
 │         │ │ Time: 5-30 seconds              │          │
 │         │ │ (depends on job length)         │          │
-│         │ └──────────────────────────────┘          │
+│         │ └─────────────────────────────────┘          │
 │         │                                              │
 │ TIME: 00:00:45  [AI Analysis] Receive response         │
 │         │                                              │
@@ -1385,13 +1385,13 @@ TIME: 00:00:25  Send webhook to n8n
 │         ▼                                              │
 │ TIME: 00:00:47  [Check] Route by recommendation        │
 │         │                                              │
-│         ├─────▶ Skip? ──▶ [Telegram: Rejected]        │
+│         ├─────▶ Skip? ──▶ [Telegram: Rejected]       │
 │         │                                              │
-│         └─────▶ Apply? ──▶ [Telegram: Apply]          │
+│         └─────▶ Apply? ──▶ [Telegram: Apply]         │
 │                                                        │
 │ TIME: 00:00:50  [Telegram] Send notification           │
 │                                                        │
-└────────────────────────────────────────────────────┘
+└────────────────────────────────────────────────────────┘
          │
          ▼
 TIME: 00:00:51  Notification arrives on your phone 
@@ -2039,11 +2039,10 @@ Sorry about the massive queue of opportunities infront of you now.
 
 ## BONUS
 
-I also wanted to include a simple message and reply - 1 shot.
+I also wanted to include a simple message and reply.
 
 A simple bot to demonstrate quick replies to simple answers. 
 
-If you need a persistant memory to a chatbot you can access over a messenging platform, you can use [Clawdbot](https://github.com/moltbot/moltbot).
 
 
 * * *
