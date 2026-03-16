@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Holtzweb - easy-wg-quick guide</title>
+<title>Holtzweb - easy-wg-quick setup</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -477,6 +477,51 @@
     box-shadow: 0 0 16px rgba(57,255,140,0.15);
   }
 
+  /* BONUS SECTION */
+  .bonus-section {
+    margin-top: 56px;
+    border: 1px solid var(--orange);
+    border-radius: 6px;
+    overflow: hidden;
+    background: rgba(255,123,44,0.03);
+    box-shadow: 0 0 32px rgba(255,123,44,0.06);
+  }
+
+  .bonus-header {
+    padding: 28px 28px 0;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+  }
+
+  .bonus-body {
+    padding: 24px 28px 28px;
+  }
+
+  .bonus-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-top: 4px;
+  }
+
+  .bonus-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .bonus-card-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
   /* COMPLETE STATE */
   .complete-banner {
     display: none;
@@ -538,9 +583,9 @@
 <div class="container">
 
   <header>
-    <div class="header-badge">WireGuard VPN Setup</div>
-    <h1>Holtzweb<span class="slash">//</span><span class="accent">easy-wg-quick</span></h1>
-    <p class="subtitle">Hub + peer config in minutes // burghardt/easy-wg-quick</p>
+    <div class="header-badge">easy-wg-quick</div>
+    <h1>Holtzweb<span class="slash">//</span><span class="accent">setup</span></h1>
+    <p class="subtitle">Guide for: burghardt/easy-wg-quick</p>
   </header>
 
   <div class="step-counter" id="stepCounter">STEP 0 / 7 COMPLETE</div>
@@ -914,6 +959,53 @@
     <h2>VPN is Live.</h2>
     <p>Hub configured · Peers connected · Traffic tunneled<br><br>
     Run <code style="color:var(--green)">./easy-wg-quick &lt;name&gt;</code> any time to add more peers.</p>
+  </div>
+
+  <!-- BONUS SECTION -->
+  <div class="bonus-section" id="bonusSection">
+    <div class="bonus-header">
+      <div class="header-badge" style="border-color: var(--orange); color: var(--orange); background: rgba(255,123,44,0.05);">★ &nbsp;bonus</div>
+      <h2 style="font-family:'Syne',sans-serif; font-size: clamp(22px,4vw,36px); font-weight:800; color:var(--white); letter-spacing:-0.5px; margin-top:10px;">
+        Alternative: <span style="color:var(--orange)">wg-easy</span>
+      </h2>
+      <p style="color:var(--muted); font-size:12px; letter-spacing:1px; margin-top:8px;">A notable GUI-based alternative — no CLI required</p>
+    </div>
+
+    <div class="bonus-body">
+      <p style="font-size:13px; line-height:1.7; color:var(--text); margin:0 0 20px;">
+        <strong style="color:var(--white);">wg-easy</strong> is a self-hosted WireGuard manager that swaps the command-line workflow above for a browser-based web UI. It's not part of this guide's stack, but it's a popular and capable alternative worth knowing about — especially if you prefer point-and-click over terminal.
+      </p>
+
+      <!-- Card row -->
+      <div class="bonus-cards">
+        <div class="bonus-card">
+          <div class="bonus-card-label" style="color:var(--cyan);">▸ &nbsp;Web UI</div>
+          <p>Runs a dashboard on <strong style="color:var(--white);">port 51821</strong> — manage all peers from any browser. No config files to edit by hand.</p>
+        </div>
+        <div class="bonus-card">
+          <div class="bonus-card-label" style="color:var(--green);">▸ &nbsp;VPN Tunnel</div>
+          <p>The actual WireGuard tunnel still runs on <strong style="color:var(--white);">UDP 51820</strong> — same protocol, just a friendlier front-end.</p>
+        </div>
+        <div class="bonus-card">
+          <div class="bonus-card-label" style="color:var(--orange);">▸ &nbsp;Docker Deploy</div>
+          <p>Runs as a single Docker container on your server. One <code style="color:var(--orange)">docker run</code> command and it's live.</p>
+        </div>
+      </div>
+
+      <div class="info-box tip" style="margin-top:20px;">
+        <strong>✦ what you get in the UI</strong>
+        Add / remove / enable / disable peers, download <code style="color:var(--cyan)">.conf</code> files, scan QR codes with the WireGuard app, and monitor per-peer traffic stats (Tx/Rx) — all from a single browser tab.
+      </div>
+
+      <div class="info-box warn">
+        <strong>⚠ security note</strong>
+        Port <strong>51820 UDP</strong> must be open for clients to connect. Port <strong>51821</strong> (the web UI) should be firewalled to trusted IPs only — it has no built-in TLS by default.
+      </div>
+
+      <div style="margin-top:20px;">
+        <a href="https://github.com/wg-easy/wg-easy" target="_blank" style="display:inline-block; padding:10px 22px; border:1px solid var(--orange); color:var(--orange); font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase; border-radius:3px; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.background='rgba(255,123,44,0.08)';this.style.boxShadow='0 0 16px rgba(255,123,44,0.15)'" onmouseout="this.style.background='transparent';this.style.boxShadow='none'">↗ &nbsp;wg-easy on GitHub</a>
+      </div>
+    </div>
   </div>
 
 </div><!-- /container -->
