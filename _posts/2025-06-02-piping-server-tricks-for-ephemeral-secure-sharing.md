@@ -243,6 +243,39 @@ No accounts needed.
 
 * * *
 
+## 🔒 Using Basic Auth Infront of Piping Server
+
+Basic auth in your web server / reverse proxy to provide a username & password to connect.
+
+
+* * *
+
+### 🪿 Send information with Basic Auth
+
+```bash
+curl -u username:password -d "my message here" http://my_server:8080/secret/url/abc123
+```
+
+The `-u` flag is curl's `--user` basic authentication credential sender.
+
+> The username and password are encoded in Base64 and concatenated with a single colon ":".
+
+
+* * *
+
+### 🐶 Receive information with Basic Auth
+
+```bash
+curl -u username:password http://my_server:8080/secret/url/abc123
+```
+
+The curl -u command is used to authorize a user using the HTTP basic authentication scheme that is built into the HTTP protocol. 
+
+> The user's credentials must be provided directly after the `-u` command line switch. 
+
+
+* * *
+
 ## 🍋 Piping a Reverse Shell Over HTTP
 
 We can extend Piping with bash!
