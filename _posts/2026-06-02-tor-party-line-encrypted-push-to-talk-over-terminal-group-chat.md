@@ -2,7 +2,7 @@
 layout: post
 title: Tor Party Line - Encrypted Push-to-Talk Calls With No Phone Number
 description: Encrypted push-to-talk voice over Tor hidden services, with a one-button auto-dial walkie-talkie on your Android homescreen.
-date: 2026-07-01 11:33:00 -0700
+date: 2026-06-02 11:33:00 -0700
 categories: [Privacy, Tor]
 tags: [tor, opensource, privacy, onion, security, script, android, termux, voice, encryption, pushtotalk, walkietalkie, selfhosted, guide]
 pin: false
@@ -179,10 +179,10 @@ THEN you can download **Script Runner for Termux**. We will do that in Step 2, T
 
 Install [Termux](https://f-droid.org/en/packages/com.termux/) and [Termux:API](https://f-droid.org/en/packages/com.termux.api/) from F-Droid. Termux:API has no icon of its own and nothing to open, it is a plugin that sits quietly until Termux needs the microphone. Open Termux.
 
-![Open Termux](/assets/img/posts/tor-party-line-1-open-termux.png){: h="450" }
+![Open Termux](/assets/img/posts/tor-party-line-1-open-termux.png){: style="max-height: 450px; width: auto;" }
 *The Termux icon on your homescreen*
 
-![Termux opens to a shell](/assets/img/posts/tor-party-line-2-termux-opens.png){: h="450" }
+![Termux opens to a shell](/assets/img/posts/tor-party-line-2-termux-opens.png){: style="max-height: 450px; width: auto;" }
 
 Update the package lists and upgrade whatever is stale:
 
@@ -191,34 +191,34 @@ pkg update
 pkg upgrade
 ```
 
-![Update Termux package lists](/assets/img/posts/tor-party-line-3-update-termux-package-lists.png){: h="450" }
+![Update Termux package lists](/assets/img/posts/tor-party-line-3-update-termux-package-lists.png){: style="max-height: 450px; width: auto;" }
 
-![Package lists updating](/assets/img/posts/tor-party-line-4-updating-termux-package-lists.png){: h="450" }
+![Package lists updating](/assets/img/posts/tor-party-line-4-updating-termux-package-lists.png){: style="max-height: 450px; width: auto;" }
 
-![Upgrade Termux packages](/assets/img/posts/tor-party-line-5-upgrade-termux-packages.png){: h="450" }
+![Upgrade Termux packages](/assets/img/posts/tor-party-line-5-upgrade-termux-packages.png){: style="max-height: 450px; width: auto;" }
 
-![Upgrade starts](/assets/img/posts/tor-party-line-6-upgrade-of-termux-packages-starts.png){: h="450" }
+![Upgrade starts](/assets/img/posts/tor-party-line-6-upgrade-of-termux-packages-starts.png){: style="max-height: 450px; width: auto;" }
 
 If the upgrade asks about config files, the default answer is fine, just keep hitting Enter.
 
-![Package update prompts](/assets/img/posts/tor-party-line-7-termux-package-update-prompts.png){: h="450" }
+![Package update prompts](/assets/img/posts/tor-party-line-7-termux-package-update-prompts.png){: style="max-height: 450px; width: auto;" }
 
-![More package update prompts](/assets/img/posts/tor-party-line-8-termux-package-update-prompts2.png){: h="450" }
+![More package update prompts](/assets/img/posts/tor-party-line-8-termux-package-update-prompts2.png){: style="max-height: 450px; width: auto;" }
 
 Done here for now. Type `exit` and hit Enter to close the session cleanly.
 
-![Exit Termux](/assets/img/posts/tor-party-line-9-to-exit-termux-type-exit-hit-enter.png){: h="450" }
+![Exit Termux](/assets/img/posts/tor-party-line-9-to-exit-termux-type-exit-hit-enter.png){: style="max-height: 450px; width: auto;" }
 
 ### Step 2: Install Script Runner for Termux
 
 With the [IzzyOnDroid repo](https://apt.izzysoft.de/fdroid/) enabled (via F-Droid's repository settings or [Droid-ify](https://droidify.app/), see above), search for and install [Script Runner for Termux](https://apt.izzysoft.de/fdroid/index/apk/com.wilixx.termuxscriptrunner). It is a GPL-3.0 bridge app that manages scripts, runs them through Termux, and pins them to your homescreen. If search comes up empty, the repo index has not refreshed yet: pull down to refresh and try again.
 
-![Install Script Runner for Termux from IzzyOnDroid](/assets/img/posts/tor-party-line-10-install-script-runner-for-termux.png){: h="450" }
+![Install Script Runner for Termux from IzzyOnDroid](/assets/img/posts/tor-party-line-10-install-script-runner-for-termux.png){: style="max-height: 450px; width: auto;" }
 *Script Runner for Termux, served from the IzzyOnDroid repo*
 
-![Open Script Runner for Termux](/assets/img/posts/tor-party-line-11-open-scriptrunner-for-termux.png){: h="450" }
+![Open Script Runner for Termux](/assets/img/posts/tor-party-line-11-open-scriptrunner-for-termux.png){: style="max-height: 450px; width: auto;" }
 
-![Welcome screen](/assets/img/posts/tor-party-line-12-script-runner-for-termux-welcome-screen.png){: h="450" }
+![Welcome screen](/assets/img/posts/tor-party-line-12-script-runner-for-termux-welcome-screen.png){: style="max-height: 450px; width: auto;" }
 
 The setup wizard hands you two commands to run inside Termux. The first grants storage access, the second lets external apps (Script Runner) start Termux commands. Copy the first one:
 
@@ -226,47 +226,47 @@ The setup wizard hands you two commands to run inside Termux. The first grants s
 termux-setup-storage
 ```
 
-![Copy the first setup command](/assets/img/posts/tor-party-line-13-copy-paste-setup-script-runner-for-termux-setup.png){: h="450" }
+![Copy the first setup command](/assets/img/posts/tor-party-line-13-copy-paste-setup-script-runner-for-termux-setup.png){: style="max-height: 450px; width: auto;" }
 
 Switch back to Termux and paste it in:
 
-![Switch back to Termux](/assets/img/posts/tor-party-line-13-copy-paste-setup-script-runner-for-termux-switch-back-to-termux.png){: h="450" }
+![Switch back to Termux](/assets/img/posts/tor-party-line-13-copy-paste-setup-script-runner-for-termux-switch-back-to-termux.png){: style="max-height: 450px; width: auto;" }
 
-![Paste the first command into Termux](/assets/img/posts/tor-party-line-14-paste-script-runner-for-termux-text-to-termux.png){: h="450" }
+![Paste the first command into Termux](/assets/img/posts/tor-party-line-14-paste-script-runner-for-termux-text-to-termux.png){: style="max-height: 450px; width: auto;" }
 
-![Run it](/assets/img/posts/tor-party-line-15-paste-script-runner-for-termux-text-to-termux2.png){: h="450" }
+![Run it](/assets/img/posts/tor-party-line-15-paste-script-runner-for-termux-text-to-termux2.png){: style="max-height: 450px; width: auto;" }
 
 Now back to Script Runner for the second command:
 
-![Switch back to Script Runner](/assets/img/posts/tor-party-line-16-switch-back-to-script-runner-for-termux.png){: h="450" }
+![Switch back to Script Runner](/assets/img/posts/tor-party-line-16-switch-back-to-script-runner-for-termux.png){: style="max-height: 450px; width: auto;" }
 
 ```bash
 mkdir -p ~/.termux && echo 'allow-external-apps=true' >> ~/.termux/termux.properties && termux-reload-settings
 ```
 
-![Copy the second setup command](/assets/img/posts/tor-party-line-17-copy-second-setup-script-runner-for-termux.png){: h="450" }
+![Copy the second setup command](/assets/img/posts/tor-party-line-17-copy-second-setup-script-runner-for-termux.png){: style="max-height: 450px; width: auto;" }
 
-![Paste it into Termux](/assets/img/posts/tor-party-line-18-paste-script-runner-for-termux-setup-to-termux.png){: h="450" }
+![Paste it into Termux](/assets/img/posts/tor-party-line-18-paste-script-runner-for-termux-setup-to-termux.png){: style="max-height: 450px; width: auto;" }
 
 Finish the wizard:
 
-![Exit the setup wizard](/assets/img/posts/tor-party-line-19-exit-script-runner-for-termux-setup.png){: h="450" }
+![Exit the setup wizard](/assets/img/posts/tor-party-line-19-exit-script-runner-for-termux-setup.png){: style="max-height: 450px; width: auto;" }
 
 Android will ask you to bless the connection between the two apps. Allow both the Termux permission and the Android-level one:
 
-![Grant the Termux permission](/assets/img/posts/tor-party-line-20-script-runner-for-termux-termux-permissions.png){: h="450" }
+![Grant the Termux permission](/assets/img/posts/tor-party-line-20-script-runner-for-termux-termux-permissions.png){: style="max-height: 450px; width: auto;" }
 *Tap Allow so Script Runner can drive Termux*
 
-![Grant the Android permission](/assets/img/posts/tor-party-line-21-script-runner-for-termux-android-permissions.png){: h="450" }
+![Grant the Android permission](/assets/img/posts/tor-party-line-21-script-runner-for-termux-android-permissions.png){: style="max-height: 450px; width: auto;" }
 *Then grant the Android-level permission*
 
-![Script Runner is installed](/assets/img/posts/tor-party-line-22-script-runner-for-termux-is-installed.png){: h="450" }
+![Script Runner is installed](/assets/img/posts/tor-party-line-22-script-runner-for-termux-is-installed.png){: style="max-height: 450px; width: auto;" }
 
 ### Step 3: Get partyline.sh onto the phone
 
 In Script Runner, create a new script:
 
-![Create a new script](/assets/img/posts/tor-party-line-23-script-runner-for-termux-new-script.png){: h="450" }
+![Create a new script](/assets/img/posts/tor-party-line-23-script-runner-for-termux-new-script.png){: style="max-height: 450px; width: auto;" }
 
 Open the raw script in your phone's browser, straight from the repo:
 
@@ -276,63 +276,63 @@ https://gitlab.com/marcusholtz/tor-party-line/-/raw/main/partyline.sh
 
 Select all, copy:
 
-![Open the raw script in the browser](/assets/img/posts/tor-party-line-24-get-the-script-on-your-phone.png){: h="450" }
+![Open the raw script in the browser](/assets/img/posts/tor-party-line-24-get-the-script-on-your-phone.png){: style="max-height: 450px; width: auto;" }
 
-![Select all and copy the script](/assets/img/posts/tor-party-line-25-copy-the-script-on-your-phone.png){: h="450" }
+![Select all and copy the script](/assets/img/posts/tor-party-line-25-copy-the-script-on-your-phone.png){: style="max-height: 450px; width: auto;" }
 
 Paste the whole thing into Script Runner's editor and name it `partyline.sh`:
 
-![Paste the script into Script Runner](/assets/img/posts/tor-party-line-26-paste-in-the-copied-script-to-script-runner-for-termux.png){: h="450" }
+![Paste the script into Script Runner](/assets/img/posts/tor-party-line-26-paste-in-the-copied-script-to-script-runner-for-termux.png){: style="max-height: 450px; width: auto;" }
 
-![The script is saved](/assets/img/posts/tor-party-line-27-script-is-now-in-script-runner-for-termux.png){: h="450" }
+![The script is saved](/assets/img/posts/tor-party-line-27-script-is-now-in-script-runner-for-termux.png){: style="max-height: 450px; width: auto;" }
 
-![Verify it was created](/assets/img/posts/tor-party-line-28-verify-creation-in-script-runner-for-termux.png){: h="450" }
+![Verify it was created](/assets/img/posts/tor-party-line-28-verify-creation-in-script-runner-for-termux.png){: style="max-height: 450px; width: auto;" }
 
 ### Step 4: First run, install dependencies, set the secret
 
 Open the script's configuration. Set the Interaction Mode to **None (Instant)** and leave **Background Execution** and **Interactive Session** toggled off. The script draws its own menus inside the Termux session, so it does not need Script Runner to hold the terminal open afterward.
 
-![Edit the partyline.sh entry](/assets/img/posts/tor-party-line-29-script-runner-for-termux-edit-new-partyline.sh.png){: h="450" }
+![Edit the partyline.sh entry](/assets/img/posts/tor-party-line-29-script-runner-for-termux-edit-new-partyline.sh.png){: style="max-height: 450px; width: auto;" }
 
-![Interaction mode and toggles](/assets/img/posts/tor-party-line-30-turn-off-script-runner-for-termux-interactive-session.png){: h="450" }
+![Interaction mode and toggles](/assets/img/posts/tor-party-line-30-turn-off-script-runner-for-termux-interactive-session.png){: style="max-height: 450px; width: auto;" }
 *Interaction Mode: None (Instant); leave Background Execution and Interactive Session off*
 
 Hit the play button:
 
-![Press play on partyline.sh](/assets/img/posts/tor-party-line-31-use-play-button-on-partyline.sh-in-script-runner-for-termux.png){: h="450" }
+![Press play on partyline.sh](/assets/img/posts/tor-party-line-31-use-play-button-on-partyline.sh-in-script-runner-for-termux.png){: style="max-height: 450px; width: auto;" }
 *The play button that launches partyline.sh*
 
-![Script Runner has started partyline.sh](/assets/img/posts/tor-party-line-34-script-runner-for-termux-has-started-partyline.sh.png){: h="450" }
+![Script Runner has started partyline.sh](/assets/img/posts/tor-party-line-34-script-runner-for-termux-has-started-partyline.sh.png){: style="max-height: 450px; width: auto;" }
 
 First launch detects what is missing and offers to install it. Say yes and let it work:
 
-![Dependency check](/assets/img/posts/tor-party-line-35-partyline.sh-dependencies.png){: h="450" }
+![Dependency check](/assets/img/posts/tor-party-line-35-partyline.sh-dependencies.png){: style="max-height: 450px; width: auto;" }
 
-![Dependencies installing](/assets/img/posts/tor-party-line-36-partyline.sh-dependencies-are-installing.png){: h="450" }
+![Dependencies installing](/assets/img/posts/tor-party-line-36-partyline.sh-dependencies-are-installing.png){: style="max-height: 450px; width: auto;" }
 
 Then the main screen appears, Tor bootstraps, and your permanent `.onion` address is printed at the top. That address is your phone number now, write it down or share the QR code from menu option `3`.
 
-![The Tor Party Line main screen](/assets/img/posts/tor-party-line-37-partyline.sh-mainscreen.png){: h="450" }
+![The Tor Party Line main screen](/assets/img/posts/tor-party-line-37-partyline.sh-mainscreen.png){: style="max-height: 450px; width: auto;" }
 *Your permanent .onion address prints at the top of the main screen*
 
 Press `1` and set the shared secret. Both parties must use the same one.
 
-![Set the shared secret](/assets/img/posts/tor-party-line-38-partyline.sh-setup-shared-secret-now.png){: h="450" }
+![Set the shared secret](/assets/img/posts/tor-party-line-38-partyline.sh-setup-shared-secret-now.png){: style="max-height: 450px; width: auto;" }
 *Press 1 to set the shared secret, both sides must match*
 
-![Ready for action](/assets/img/posts/tor-party-line-39-partyline.sh-ready-for-action.png){: h="450" }
+![Ready for action](/assets/img/posts/tor-party-line-39-partyline.sh-ready-for-action.png){: style="max-height: 450px; width: auto;" }
 
 That is the one-time setup done. Press `0` to exit cleanly.
 
-![Type 0 to exit](/assets/img/posts/tor-party-line-39-partyline.sh-type-0-to-exit.png){: h="450" }
+![Type 0 to exit](/assets/img/posts/tor-party-line-39-partyline.sh-type-0-to-exit.png){: style="max-height: 450px; width: auto;" }
 
-![Clean shutdown](/assets/img/posts/tor-party-line-40-partyline.sh-exit-quit-completed.png){: h="450" }
+![Clean shutdown](/assets/img/posts/tor-party-line-40-partyline.sh-exit-quit-completed.png){: style="max-height: 450px; width: auto;" }
 
 ### Step 5: The auto-dial button
 
 Now we turn a menu-driven app into a one-press speed dial. Edit the `partyline.sh` entry in Script Runner again:
 
-![Edit partyline.sh in Script Runner](/assets/img/posts/tor-party-line-41-open-script-runner-for-termux-and-edit-partyline.sh.png){: h="450" }
+![Edit partyline.sh in Script Runner](/assets/img/posts/tor-party-line-41-open-script-runner-for-termux-and-edit-partyline.sh.png){: style="max-height: 450px; width: auto;" }
 
 In the **Arguments** field, tell the script to skip the menu and dial straight out to your party line:
 
@@ -342,24 +342,24 @@ call --address youronionaddresshere.onion
 
 The secret you saved in Step 4 is loaded from disk automatically, so the arguments stay clean and nothing sensitive lands in a launcher shortcut.
 
-![Set the auto-dial arguments](/assets/img/posts/tor-party-line-42-setup-auto-dial-arguments-for-script-runner-for-termux-partyline.sh.png){: h="450" }
+![Set the auto-dial arguments](/assets/img/posts/tor-party-line-42-setup-auto-dial-arguments-for-script-runner-for-termux-partyline.sh.png){: style="max-height: 450px; width: auto;" }
 *The Arguments field, set to dial straight to your onion address*
 
 Long-press Script Runner's icon (or use its share/pin option) to drop a widget for `partyline.sh` on the homescreen:
 
-![Pin the script to the desktop](/assets/img/posts/tor-party-line-43-pin-script-runner-for-termux-to-desktop-for-1-button-press-access.png){: h="450" }
+![Pin the script to the desktop](/assets/img/posts/tor-party-line-43-pin-script-runner-for-termux-to-desktop-for-1-button-press-access.png){: style="max-height: 450px; width: auto;" }
 *Long-press to pin partyline.sh to the homescreen*
 
-![Add to home screen](/assets/img/posts/tor-party-line-44-pin-script-runner-for-termux-to-homescreen.png){: h="450" }
+![Add to home screen](/assets/img/posts/tor-party-line-44-pin-script-runner-for-termux-to-homescreen.png){: style="max-height: 450px; width: auto;" }
 
-![The new button on the homescreen](/assets/img/posts/tor-party-line-45-new-button-added-to-homescreen.png){: h="450" }
+![The new button on the homescreen](/assets/img/posts/tor-party-line-45-new-button-added-to-homescreen.png){: style="max-height: 450px; width: auto;" }
 *The one-button walkie-talkie, now on your homescreen*
 
 And that is it. Press the button: Tor comes up, the hidden service goes active, and the script dials the onion address with your stored secret.
 
-![Auto-connecting to the onion address](/assets/img/posts/tor-party-line-46-auto-connecting-to-onion-address-with-stored-secret-partyline.sh.png){: h="450" }
+![Auto-connecting to the onion address](/assets/img/posts/tor-party-line-46-auto-connecting-to-onion-address-with-stored-secret-partyline.sh.png){: style="max-height: 450px; width: auto;" }
 
-![Connected to the Tor Party Line](/assets/img/posts/tor-party-line-47-partyline.sh-connected-to-torpartyline.png){: h="450" }
+![Connected to the Tor Party Line](/assets/img/posts/tor-party-line-47-partyline.sh-connected-to-torpartyline.png){: style="max-height: 450px; width: auto;" }
 
 On Termux, push-to-talk is always tap-to-toggle: tap SPACE to start recording, tap again to send. `T` sends encrypted text, `Q` hangs up.
 
@@ -371,12 +371,12 @@ Android loves killing background processes, and a dead Termux session is a dead 
 2. When Android asks whether Termux can always run in the background, allow it.
 3. In Android Settings -> Apps -> Termux -> Battery, set **Unrestricted**. Script Runner's config screen even nags you about this one.
 
-![Allow background access for an always-on walkie-talkie](/assets/img/posts/tor-party-line-48-termux-api-and-background-access-for-always-on-mobile-walkie-talkie.png){: h="450" }
+![Allow background access for an always-on walkie-talkie](/assets/img/posts/tor-party-line-48-termux-api-and-background-access-for-always-on-mobile-walkie-talkie.png){: style="max-height: 450px; width: auto;" }
 *Allow Termux to always run in the background*
 
 Worried about the battery and data cost of an always-on Tor voice line? Opus at 16 kbps is tiny. A 10 second message is around 20 KB on the wire. Here is the actual data usage after setup and testing:
 
-![Termux data use with partyline.sh installed](/assets/img/posts/tor-party-line-49-termux-data-use-with-partyline.sh-installed.png){: h="450" }
+![Termux data use with partyline.sh installed](/assets/img/posts/tor-party-line-49-termux-data-use-with-partyline.sh-installed.png){: style="max-height: 450px; width: auto;" }
 *Real data use after setup and testing: barely a blip*
 
 If you want to see it moving, there are two short clips in the repo: a [terminal capture of the script in action](/assets/img/posts/tor-party-line-50-terminal-thumbail-of-script-in-action.mp4) and a [shakycam recording of a live call](/assets/img/posts/tor-party-line-51-shakycam-recording-of-partyline.sh.mp4).
