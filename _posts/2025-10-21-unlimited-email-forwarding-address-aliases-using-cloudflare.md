@@ -943,6 +943,37 @@ routingRules: [
 
 * * *
 
+## New Feature: Emoji/Foreign-Language Spam Blocker
+
+Stop wierd spam subjects with a Unicode filter.
+
+Also snuck in three new blocking rules while I was in there. Free upgrade.
+
+### New Features Added
+
+**Sender Allowlist** - list trusted senders/domains that skip every filter below and go straight through. Good for a mailing list or a contact who keeps tripping the other rules.
+
+```javascript
+senderAllowlist: [
+  "@mybank.com",
+  "boss@company.com",
+],
+```
+
+**Reply-To Mismatch Block** - blocks the #1 phishing trick: "From" looks legit but "Reply-To" quietly points somewhere else. On by default, nothing to configure.
+
+**Excessive Caps Block** - blocks "CLAIM YOUR FREE GIFT NOW" style subjects and addresses that arrive ALL CAPS (a sign of a scraped spam list). Tune how strict with:
+
+```javascript
+capsBlock: {
+  enabled: true,
+  subjectMaxCapsPercent: 60,
+  blockAllCapsToAddress: true,
+},
+```
+
+* * *
+
 ## The Script That Needs Edited
 
 Here is the code to place in your Email Routing Worker you created, be sure to edit the configuration section first before you deploy it.
@@ -957,19 +988,72 @@ const CONFIG = {
   // Default forwarding address (fallback)
   // CHANGE THIS TO YOUR REAL EMAIL ADDRESS
   defaultRecipient: "your-main-email@example.com",
-  
+
   // Enable/disable logging to console (visible in Cloudflare dashboard)
   enableLogging: true,
-  
+
   // Log every email (true) or only blocked/errors (false)
   logAllEmails: true,
-  
+
+  // ── SENDER ALLOWLIST ─────────────────────────────────────────────────────
+  // These senders bypass ALL checks below and route straight through.
+  // Exact address: "person@company.com"
+  // Entire domain: "@paypal.com"
+  // Useful for: trusted contacts who might trigger the Reply-To or caps checks.
+  senderAllowlist: [
+    // "@mybank.com",
+    // "boss@company.com",
+  ],
+
   // Global subject keywords that will BLOCK emails
   globalBlockKeywords: [
     "crypto giveaway", "win a free car", "prince nigeria", "you could have already won", "dont think make money fast"
   ],
-  
+
+  // ── NON-ENGLISH / UNICODE BLOCK ──────────────────────────────────────────
+  // Blocks emails that contain characters outside plain ASCII (A-Z, 0-9,
+  // punctuation, spaces). Catches Unicode spam, Cyrillic, CJK, emoji, etc.
+  // The subject is automatically decoded first (see decodeMimeHeader below)
+  // so this works on the real text, not the raw MIME-encoded header.
+  nonEnglishBlock: {
+    enabled: true,
+
+    // What parts of the email to scan:
+    checkSubject: true,   // scan the subject line
+    checkFrom:    true,   // scan the sender address / display name
+
+    // How many non-ASCII characters to tolerate before blocking.
+    // Counted per Unicode code point (each emoji counts as 1, even ones
+    // stored as a surrogate pair), not per UTF-16 code unit.
+    //   0  = zero tolerance (block on the very first weird character)
+    //   2  = lets through 1-2 emoji/accented chars, e.g. "José" or "André"
+    //   10 = more lenient, still catches heavy Unicode spam
+    maxNonAsciiChars: 2,
+  },
+
+  // ── REPLY-TO MISMATCH ────────────────────────────────────────────────────
+  // Catches the #1 phishing trick: From looks legit (support@paypal.com) but
+  // Reply-To quietly points somewhere else (harvester@gmail.com).
+  // If the two domains don't match, the email is blocked.
+  // To allow a trusted sender who legitimately uses a different Reply-To
+  // (e.g. a mailing list), add them to senderAllowlist above.
+  replyToMismatch: {
+    enabled: true,
+  },
+
+  // ── EXCESSIVE CAPS ───────────────────────────────────────────────────────
+  capsBlock: {
+    enabled: true,
+    // Block subjects where more than this % of letters are uppercase.
+    // 60 catches "CLAIM YOUR FREE GIFT NOW" but passes "Re: Hello" or "NASA update".
+    subjectMaxCapsPercent: 60,
+    // Block emails arriving at an ALL-CAPS local address (e.g. CONTACT@yourdomain.com).
+    // Legitimate mail servers normalise addresses; spambots use them as-scraped.
+    blockAllCapsToAddress: true,
+  },
+
   // Rules are checked in order; first match wins.
+  // Each rule can have: from, to, subject, recipients, block, blockKeywords, forwardKeywords
   //
   // Gmail plus tags (e.g. yourname+shopping@gmail.com) are supported.
   // Gmail delivers plus-tagged addresses to the base inbox, and
@@ -977,8 +1061,8 @@ const CONFIG = {
   //
   // IMPORTANT: Every address listed in `recipients` must be individually
   // verified as a Destination Address in the Cloudflare Email Routing
-  // dashboard before the worker can forward to it. 
-  // This includes plus-tagged variants — each one must be verified separately!
+  // dashboard before the worker can forward to it.
+  // This includes plus-tagged variants - each one must be verified separately!
   // See: https://developers.cloudflare.com/email-routing/setup/email-routing-addresses/
 
   routingRules: [
@@ -1042,78 +1126,193 @@ const CONFIG = {
 export default {
   async email(message, env, ctx) {
     const startTime = Date.now();
-    
+
     try {
       // Extract email details with fallbacks.
       // message.to is always a string (SMTP envelope RCPT TO)
       const from = message.from || "unknown@sender.com";
       const to = message.to || "";
-      const subject = message.headers.get("subject") || "(no subject)";
-      
+      // Decoded because senders MIME-encode any non-ASCII subject (RFC 2047);
+      // the raw header would otherwise be ASCII base64/quoted-printable text
+      // and silently bypass every filter below that inspects the subject.
+      const subject = decodeMimeHeader(message.headers.get("subject") || "(no subject)");
+      const subjectLower = subject.toLowerCase();
+      // Used to correlate related log lines (e.g. incoming -> blocked/forwarded) in the Cloudflare dashboard.
+      const messageId = message.headers.get("message-id") || "unknown";
+
       // Validate we have required fields
       if (!to) {
         console.error("Missing 'to' address in email");
         message.setReject("Missing recipient address");
         return;
       }
-      
+
       // Log incoming email
       if (CONFIG.enableLogging && CONFIG.logAllEmails) {
         console.log(`[${new Date().toISOString()}] Incoming email:`, {
           from,
           to,
           subject,
+          messageId,
           size: message.rawSize
         });
       }
-      
-      // Check global block keywords in subject
-      const subjectLower = subject.toLowerCase();
+
+      // ── ALLOWLIST CHECK ────────────────────────────────────────────────────
+      // If the sender is trusted, skip every block check and go straight to
+      // routing. Nothing below this block runs for allowlisted senders.
+      const senderAllowlisted = isAllowlisted(from, CONFIG.senderAllowlist);
+      if (senderAllowlisted) {
+        logAction("ALLOWED", "Sender on allowlist, skipping all checks", {
+          from, to, subject, messageId
+        });
+      }
+      // ─────────────────────────────────────────────────────────────────────
+
+      if (!senderAllowlisted) {
+
+        // ── GLOBAL KEYWORD CHECK ─────────────────────────────────────────────
       for (const keyword of CONFIG.globalBlockKeywords) {
         if (subjectLower.includes(keyword.toLowerCase())) {
           logAction("BLOCKED", "Global keyword match", {
-            from, to, subject, keyword
+            from, to, subject, messageId, keyword
           });
           message.setReject(`Blocked by keyword filter: ${keyword}`);
           return;
         }
       }
-      
-      // Find matching routing rule
-      const matchedRule = findMatchingRule(message, from, to, subject);
-      
+
+      // ── NON-ENGLISH / UNICODE CHECK ────────────────────────────────────────
+      // Matches any character outside printable ASCII (codes 32-126) plus
+      // normal whitespace. Everything else (Cyrillic, CJK, Arabic, emoji,
+      // lookalike Unicode, zero-width chars) counts against the limit.
+      // The 'u' flag is required so the character class matches whole Unicode
+      // code points; without it, each emoji outside the BMP is stored as a
+      // surrogate pair and gets counted twice.
+      if (CONFIG.nonEnglishBlock.enabled) {
+        const nonAsciiPattern = /[^\x20-\x7E\t\n\r]/gu;
+
+        const fieldsToCheck = [];
+        if (CONFIG.nonEnglishBlock.checkSubject) {
+          fieldsToCheck.push({ name: "subject", value: subject });
+        }
+        if (CONFIG.nonEnglishBlock.checkFrom) {
+          fieldsToCheck.push({ name: "from", value: from });
+        }
+
+        for (const field of fieldsToCheck) {
+          const hits = field.value.match(nonAsciiPattern) || [];
+          if (hits.length > CONFIG.nonEnglishBlock.maxNonAsciiChars) {
+            logAction("BLOCKED", `Non-ASCII characters in ${field.name}`, {
+              from, to, subject, messageId,
+              field: field.name,
+              nonAsciiCount: hits.length,
+              sample: hits.slice(0, 8).join(""),   // first 8 offending chars
+            });
+            message.setReject("Non-English content blocked");
+            return;
+          }
+        }
+      }
+
+        // ── REPLY-TO MISMATCH CHECK ──────────────────────────────────────────
+        // Extracts the domain from the Reply-To header and compares it to the
+        // From domain. A mismatch is the single most reliable phishing signal.
+        if (CONFIG.replyToMismatch.enabled) {
+          const replyToRaw = message.headers.get("reply-to") || "";
+          if (replyToRaw) {
+            // Handle both plain "user@domain.com" and "Name <user@domain.com>"
+            const replyToMatch = replyToRaw.match(/<([^>]+)>/);
+            const replyToEmail = replyToMatch ? replyToMatch[1] : replyToRaw.trim();
+            const replyToDomain = extractDomain(replyToEmail);
+            const fromDomain    = extractDomain(from);
+
+            if (replyToDomain && fromDomain && replyToDomain !== fromDomain) {
+              logAction("BLOCKED", "Reply-To domain mismatch (phishing signal)", {
+                from, to, subject, messageId,
+                fromDomain,
+                replyToDomain,
+              });
+              message.setReject("Blocked: Reply-To domain does not match sender domain");
+              return;
+            }
+          }
+        }
+
+        // ── EXCESSIVE CAPS CHECK ─────────────────────────────────────────────
+        if (CONFIG.capsBlock.enabled) {
+
+          // 1. Subject line caps ratio
+          const letters = subject.replace(/[^a-zA-Z]/g, "");
+          if (letters.length > 0) {
+            const upperCount  = (subject.match(/[A-Z]/g) || []).length;
+            const capsPercent = (upperCount / letters.length) * 100;
+            if (capsPercent > CONFIG.capsBlock.subjectMaxCapsPercent) {
+              logAction("BLOCKED", "Excessive caps in subject", {
+                from, to, subject, messageId,
+                capsPercent: Math.round(capsPercent),
+              });
+              message.setReject("Blocked: excessive caps in subject line");
+              return;
+            }
+          }
+
+          // 2. All-caps local address (e.g. CONTACT@yourdomain.com)
+          if (CONFIG.capsBlock.blockAllCapsToAddress) {
+            const localPart   = to.split("@")[0];
+            const localLetters = localPart.replace(/[^a-zA-Z]/g, "");
+            // Needs at least 2 letters so single-char addresses don't trip it
+            if (localLetters.length >= 2 && localLetters === localLetters.toUpperCase()) {
+              logAction("BLOCKED", "All-caps recipient address", {
+                from, to, subject, messageId,
+              });
+              message.setReject("Blocked: all-caps recipient address");
+              return;
+            }
+          }
+        }
+
+      } // end !senderAllowlisted
+
+      // ── ROUTING ───────────────────────────────────────────────────────────
+      // Runs for every email, whether allowlisted or not.
+      const matchedRule  = findMatchingRule(message, from, to, subject);
+
       if (!matchedRule) {
         // No rule matched, use default recipient
         logAction("FORWARDED", "Default routing", {
-          from, to, subject, 
-          recipients: [CONFIG.defaultRecipient]
+          from, to, subject, messageId,
+          recipients: [CONFIG.defaultRecipient],
+          processingTimeMs: Date.now() - startTime,
         });
         await message.forward(CONFIG.defaultRecipient);
         return;
       }
-      
+
       // Check if rule blocks this email
       if (matchedRule.block) {
         logAction("BLOCKED", `Rule: ${matchedRule.description}`, {
-          from, to, subject
+          from, to, subject, messageId,
+          processingTimeMs: Date.now() - startTime,
         });
         message.setReject("Blocked by routing rule");
         return;
       }
-      
+
       // Check rule-specific block keywords
       if (matchedRule.blockKeywords) {
         for (const keyword of matchedRule.blockKeywords) {
           if (subjectLower.includes(keyword.toLowerCase())) {
             logAction("BLOCKED", `Keyword in rule: ${matchedRule.description}`, {
-              from, to, subject, keyword
+              from, to, subject, messageId, keyword,
+              processingTimeMs: Date.now() - startTime,
             });
             message.setReject(`Blocked by rule keyword: ${keyword}`);
             return;
           }
         }
       }
-      
+
       // Check rule-specific forward keywords (only forward if keyword present)
       if (matchedRule.forwardKeywords && matchedRule.forwardKeywords.length > 0) {
         let hasKeyword = false;
@@ -1123,59 +1322,130 @@ export default {
             break;
           }
         }
-        
+
         if (!hasKeyword) {
           logAction("DROPPED", `No forward keyword match: ${matchedRule.description}`, {
-            from, to, subject,
-            requiredKeywords: matchedRule.forwardKeywords
+            from, to, subject, messageId,
+            requiredKeywords: matchedRule.forwardKeywords,
+            processingTimeMs: Date.now() - startTime,
           });
           message.setReject("Does not match forward keyword criteria");
           return;
         }
       }
-      
+
       // Forward to recipient(s)
       const recipients = matchedRule.recipients || [CONFIG.defaultRecipient];
-      
+
       // Validate recipients
       if (!recipients || recipients.length === 0) {
         console.error("No valid recipients found");
         message.setReject("No recipients configured");
         return;
       }
-      
-      logAction("FORWARDED", `Rule: ${matchedRule.description}`, {
-        from, to, subject, recipients
-      });
-      
-      // Cloudflare requires one forward() call per address (string only)
+
+      // Forward to all recipients
+      const forwardedTo = [];
       for (const recipient of recipients) {
         if (!recipient || !recipient.includes("@")) {
           console.error(`Invalid recipient address: ${recipient}`);
           continue;
         }
         await message.forward(recipient);
+        forwardedTo.push(recipient);
       }
-      
-      const processingTime = Date.now() - startTime;
-      if (CONFIG.enableLogging) {
-        console.log(`Processing completed in ${processingTime}ms`);
-      }
-      
+
+      logAction("FORWARDED", `Rule: ${matchedRule.description}`, {
+        from, to, subject, messageId,
+        recipients: forwardedTo,
+        processingTimeMs: Date.now() - startTime,
+      });
+
     } catch (error) {
       // Log errors
       console.error(`[${new Date().toISOString()}] ERROR:`, {
         error: error.message,
         stack: error.stack,
         from: message.from,
-        to: message.to
+        to: message.to,
+        processingTimeMs: Date.now() - startTime,
       });
-      
+
       // Reject the message on error (prevents silent failures)
       message.setReject("Internal processing error");
     }
   }
 };
+
+// ── HELPERS ──────────────────────────────────────────────────────────────────
+
+// Returns true if the sender matches any entry in the allowlist.
+// Supports exact addresses ("user@domain.com") and domains ("@domain.com").
+function isAllowlisted(from, allowlist) {
+  if (!allowlist || allowlist.length === 0) return false;
+  const fromLower = from.toLowerCase();
+  for (const entry of allowlist) {
+    const entryLower = entry.toLowerCase();
+    if (entryLower.startsWith("@")) {
+      if (fromLower.endsWith(entryLower)) return true;
+    } else {
+      if (fromLower === entryLower) return true;
+    }
+  }
+  return false;
+}
+
+// Extracts the domain portion from an email address.
+// Returns null if the address has no @ sign.
+function extractDomain(email) {
+  const atIndex = email.lastIndexOf("@");
+  if (atIndex === -1) return null;
+  return email.slice(atIndex + 1).toLowerCase().trim();
+}
+
+// Decodes RFC 2047 "encoded word" headers, e.g.
+//   =?UTF-8?B?8J+YhQ==?=              (Base64)
+//   =?UTF-8?Q?Caf=C3=A9?=             (Quoted-printable)
+// Any mail client will encode a non-ASCII header (accented names, emoji,
+// non-Latin scripts) this way before sending. That means the raw header
+// value is plain ASCII, so without this decode step every filter below that
+// inspects the subject would be comparing against base64/quoted-printable
+// gibberish instead of the real text, and would never match anything.
+// Safe by design: length-capped (skips decoding past 1000 chars, so a sender
+// can't force wasted CPU time with a huge header) and every token is decoded
+// inside its own try/catch, so a malformed header just falls back to its
+// original raw text instead of throwing.
+function decodeMimeHeader(text) {
+  if (!text || text.length > 1000) return text;
+
+  // Whitespace strictly between two adjacent encoded words is header folding,
+  // not real content, so it is dropped per RFC 2047.
+  const collapsed = text.replace(/\?=\s+=\?/g, "?==?");
+
+  return collapsed.replace(/=\?([^?]+)\?([BbQq])\?([^?]*)\?=/g, (match, charset, encoding, data) => {
+    try {
+      let bytes;
+      if (encoding.toUpperCase() === "B") {
+        bytes = Uint8Array.from(atob(data), (c) => c.charCodeAt(0));
+      } else {
+        const withSpaces = data.replace(/_/g, " ");
+        const byteValues = [];
+        for (let i = 0; i < withSpaces.length; i++) {
+          if (withSpaces[i] === "=" && i + 2 < withSpaces.length) {
+            byteValues.push(parseInt(withSpaces.slice(i + 1, i + 3), 16));
+            i += 2;
+          } else {
+            byteValues.push(withSpaces.charCodeAt(i));
+          }
+        }
+        bytes = Uint8Array.from(byteValues);
+      }
+      return new TextDecoder(charset.toLowerCase()).decode(bytes);
+    } catch (e) {
+      return match;
+    }
+  });
+}
 
 // ============================================
 // MATCHING FUNCTION
@@ -1206,7 +1476,7 @@ function findMatchingRule(message, from, to, subject) {
         }
       }
     }
-    
+
     // Check 'from' field (can be partial match with @domain.com)
     if (rule.from) {
       if (rule.from.startsWith("@")) {
@@ -1221,28 +1491,28 @@ function findMatchingRule(message, from, to, subject) {
         }
       }
     }
-    
+
     // Check 'subject' field (partial match)
     if (rule.subject) {
       if (!subjectLower.includes(rule.subject.toLowerCase())) {
         matches = false;
       }
     }
-    
+
     if (matches) {
       return rule;
     }
   }
-  
+
   return null;
 }
 
 // Helper function for consistent logging
 function logAction(action, reason, details) {
   if (!CONFIG.enableLogging) return;
-  
-  // Always log blocks and errors, optionally log forwards
-  if (action === "BLOCKED" || action === "ERROR" || CONFIG.logAllEmails) {
+
+  // Always log rejections (blocked/dropped) and errors, optionally log allowed/forwarded
+  if (action === "BLOCKED" || action === "DROPPED" || action === "ERROR" || CONFIG.logAllEmails) {
     console.log(`[${new Date().toISOString()}] ${action}: ${reason}`, details);
   }
 }
