@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 240" width="340" height="240">
-    <title>FINAL.svg</title>
+    <title>party-line-pager--tor-i2p-rns-call-pager.svg</title>
     <defs>
         <filter id="insetBlur" x="-15%" y="-15%" width="130%" height="130%">
             <feGaussianBlur stdDeviation="2.5"/>
@@ -118,7 +118,7 @@
         <rect x="61" y="48" width="218" height="110" fill="url(#vign)"/>
         <!-- Recess inset shadow -->
         <rect x="58.5" y="45.5" width="223" height="115" rx="12" fill="none" stroke="#050215" stroke-opacity="0.6" stroke-width="6" filter="url(#insetBlur)"/>
-        <!-- Glass glare polygons (from added-texture) -->
+        <!-- Glass glare polygons (reduced to almost nothing) -->
         <polygon points="128,48 196,48 104,158 61,158 61,128" fill="#C2C1C6" opacity="0.01"/>
         <polygon points="212,48 234,48 152,158 132,158" fill="#C2C1C6" opacity="0.01"/>
     </g>
