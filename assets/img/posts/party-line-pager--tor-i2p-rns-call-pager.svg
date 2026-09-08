@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 240" width="340" height="240">
+    <title>FINAL.svg</title>
+    <defs>
+        <filter id="insetBlur" x="-15%" y="-15%" width="130%" height="130%">
+            <feGaussianBlur stdDeviation="2.5"/>
+        </filter>
+
+        <filter id="softBlur" x="-60%" y="-250%" width="220%" height="600%">
+            <feGaussianBlur stdDeviation="7"/>
+        </filter>
+
+        <!-- Deep Contrast Molded-Plastic Grain -->
+        <filter id="grainTexture" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch" result="t"/>
+            <feColorMatrix in="t" type="matrix" values="0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0 0 0 0 1" result="grayNoise"/>
+            <feComponentTransfer in="grayNoise" result="contrastNoise">
+                <feFuncR type="linear" slope="1.6" intercept="-0.3"/>
+                <feFuncG type="linear" slope="1.6" intercept="-0.3"/>
+                <feFuncB type="linear" slope="1.6" intercept="-0.3"/>
+            </feComponentTransfer>
+            <feBlend in="contrastNoise" in2="SourceGraphic" mode="overlay" result="blended"/>
+            <feComposite in="blended" in2="SourceGraphic" operator="in"/>
+        </filter>
+
+        <!-- ===== Gradients (light source: top-right) ===== -->
+        <linearGradient id="bodyGrad" x1="0.95" y1="0.05" x2="0.12" y2="0.88">
+            <stop offset="0%"  stop-color="#4A4458"/>
+            <stop offset="28%" stop-color="#2A2438"/>
+            <stop offset="70%" stop-color="#15111F"/>
+            <stop offset="100%" stop-color="#0A0810"/>
+        </linearGradient>
+
+        <linearGradient id="rimGrad" x1="0.9" y1="0.05" x2="0.1" y2="0.95">
+            <stop offset="0%"   stop-color="#FFFFFF" stop-opacity="0.75"/>
+            <stop offset="22%"  stop-color="#FFFFFF" stop-opacity="0.14"/>
+            <stop offset="48%"  stop-color="#FFFFFF" stop-opacity="0"/>
+            <stop offset="62%"  stop-color="#000000" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#4A3A8C" stop-opacity="0.55"/>
+        </linearGradient>
+
+        <linearGradient id="sheenGrad" x1="0.9" y1="0" x2="0.25" y2="1">
+            <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.12"/>
+            <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+        </linearGradient>
+
+        <linearGradient id="bezelGrad" x1="0.5" y1="0" x2="0.5" y2="1">
+            <stop offset="0%" stop-color="#000000"/>
+            <stop offset="100%" stop-color="#322A4E"/>
+        </linearGradient>
+
+        <!-- Screen Gradients: Deep blue base, cyan hotspot, and vignette -->
+        <radialGradient id="screenGrad" cx="0.72" cy="0.18" r="1.15">
+            <stop offset="0%"  stop-color="#3A2D9E"/>
+            <stop offset="45%" stop-color="#241A75"/>
+            <stop offset="100%" stop-color="#100B3E"/>
+        </radialGradient>
+
+        <radialGradient id="cyanHot" cx="0.8" cy="0.1" r="0.55">
+            <stop offset="0%"  stop-color="#6FE3FF" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#6FE3FF" stop-opacity="0"/>
+        </radialGradient>
+
+        <radialGradient id="vign" cx="0.5" cy="0.45" r="0.8">
+            <stop offset="55%" stop-color="#000000" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#000010" stop-opacity="0.5"/>
+        </radialGradient>
+
+        <radialGradient id="btnGrad" cx="0.68" cy="0.24" r="1">
+            <stop offset="0%"  stop-color="#AC9EF8"/>
+            <stop offset="40%" stop-color="#4A38A6"/>
+            <stop offset="100%" stop-color="#1C1548"/>
+        </radialGradient>
+
+        <linearGradient id="btnRim" x1="0.8" y1="0.1" x2="0.2" y2="0.9">
+            <stop offset="0%"  stop-color="#FFFFFF" stop-opacity="0.55"/>
+            <stop offset="55%" stop-color="#FFFFFF" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#000000" stop-opacity="0.6"/>
+        </linearGradient>
+
+        <pattern id="scan" width="4" height="3" patternUnits="userSpaceOnUse">
+            <rect width="4" height="1" fill="#0A0620"/>
+        </pattern>
+
+        <clipPath id="screenClip">
+            <rect x="61" y="48" width="218" height="110" rx="10"/>
+        </clipPath>
+    </defs>
+
+    <!-- Body with Deep Contrast Texture Applied Directly -->
+    <rect x="25" y="14" width="290" height="212" rx="46" fill="url(#bodyGrad)" filter="url(#grainTexture)"/>
+
+    <!-- Top sheen, rim, and inner line applied cleanly over the textured body -->
+    <rect x="29" y="17" width="282" height="104" rx="42" fill="url(#sheenGrad)"/>
+    <rect x="25" y="14" width="290" height="212" rx="46" fill="none" stroke="url(#rimGrad)" stroke-width="2.5"/>
+    <rect x="30" y="19" width="280" height="202" rx="42" fill="none" stroke="#FFFFFF" stroke-opacity="0.05"/>
+
+    <!-- Top strip: speaker slit only -->
+    <rect x="150" y="29" width="40" height="6" rx="3" fill="#05030C" stroke="#2A2342" stroke-width="1"/>
+    <g stroke="#241D3E" stroke-width="1">
+        <line x1="157" y1="30.5" x2="157" y2="33.5"/>
+        <line x1="163" y1="30.5" x2="163" y2="33.5"/>
+        <line x1="169" y1="30.5" x2="169" y2="33.5"/>
+        <line x1="175" y1="30.5" x2="175" y2="33.5"/>
+        <line x1="183" y1="30.5" x2="183" y2="33.5"/>
+    </g>
+
+    <!-- Screen light leak behind bezel -->
+    <rect x="55" y="42" width="230" height="122" rx="16" fill="#5A48C8" opacity="0.35" filter="url(#softBlur)"/>
+
+    <!-- Screen recess (bezel) -->
+    <rect x="57" y="44" width="226" height="118" rx="14" fill="url(#bezelGrad)" stroke="#05030A" stroke-width="1"/>
+
+    <!-- Screen: Rich LCD environment with depth, glare, and texture -->
+    <g clip-path="url(#screenClip)">
+        <rect x="61" y="48" width="218" height="110" rx="10" fill="url(#screenGrad)"/>
+        <rect x="61" y="48" width="218" height="110" fill="url(#cyanHot)"/>
+        <rect x="61" y="48" width="218" height="110" fill="url(#scan)" opacity="0.15"/>
+        <rect x="61" y="48" width="218" height="110" fill="url(#vign)"/>
+        <!-- Recess inset shadow -->
+        <rect x="58.5" y="45.5" width="223" height="115" rx="12" fill="none" stroke="#050215" stroke-opacity="0.6" stroke-width="6" filter="url(#insetBlur)"/>
+        <!-- Glass glare polygons (from added-texture) -->
+        <polygon points="128,48 196,48 104,158 61,158 61,128" fill="#C2C1C6" opacity="0.01"/>
+        <polygon points="212,48 234,48 152,158 132,158" fill="#C2C1C6" opacity="0.01"/>
+    </g>
+
+    <!-- Text: Solid, high-contrast fills rendered ON TOP of the screen environment -->
+    <text x="170" y="100" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="900" letter-spacing="1" textLength="208" lengthAdjust="spacingAndGlyphs" fill="#FFFFFF">PARTYLINE</text>
+    <text x="170" y="131" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" letter-spacing="3" fill="#81CA73">Pager</text>
+
+    <!-- Buttons: simple shapes only, no white line glyphs -->
+    <polygon points="76,199 94,187 94,211" fill="url(#btnGrad)" stroke="url(#btnRim)" stroke-width="1.5" stroke-linejoin="round"/>
+    <circle cx="152" cy="199" r="11" fill="url(#btnGrad)" stroke="url(#btnRim)" stroke-width="1.5"/>
+    <circle cx="188" cy="199" r="11" fill="url(#btnGrad)" stroke="url(#btnRim)" stroke-width="1.5"/>
+    <polygon points="264,199 246,187 246,211" fill="url(#btnGrad)" stroke="url(#btnRim)" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>
