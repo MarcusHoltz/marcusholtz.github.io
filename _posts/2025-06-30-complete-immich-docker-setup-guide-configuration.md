@@ -103,7 +103,7 @@ This is the start of the entire process. How will you store your photos?
 
 I will be importing into the system Immich uses to organize files. The folder structure can be changed in the future and Immich can re-folder your files.
 
-- `My meme folders` - not in Immich. (use [Meme-search](https://github.com/neonwatty/meme-search){:target="_blank"})
+- `My meme folders` - not in Immich. (use [Meme-search](https://github.com/meme-search/meme-search){:target="_blank"})
 
 - `All of my documentation screen shots` - not in Immich. (use [Holtzweb Blog](https://blog.holtzweb.com/){:target="_blank"})
 
